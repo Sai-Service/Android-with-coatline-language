@@ -1,0 +1,16 @@
+<!-- res/drawable/edittext_rounded.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Solid background color for simplicity -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Rounded corners for a smooth, modern look -->
+    <corners android:radius="12dp" />
+
+    <!-- Slightly thicker outline to make it stand out -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/white" /> <!-- Use a soft gray for elegance -->
+
+    <!-- Shadow to add depth and make it more attractive -->
+    <padding android:left="12dp" android:right="12dp" android:top="8dp" android:bottom="8dp" />
+</shape>

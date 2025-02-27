@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/apkicon"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ApiNew"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+<!--        <service-->
+<!--            android:name=".VinDataService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true"></service>-->
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy" />
+
+        <meta-data
+            android:name="build_time"
+            android:value="${BUILD_TIME}" />
+
+        <activity
+            android:name=".GenerateLogins"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".UpdateLoginInfo"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".DashboardActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".AllotedNotInvoice"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+
+        <activity
+            android:name=".IndActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".StockTransferNew"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".IntransitVehicle"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".StkTrfIntransit"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".StockController"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".CountWiseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".UninvoiceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".SecurityVehicleTrack"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".PendingVehicleList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".PhysicallyInActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".UploadImage"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".VehicleEntry"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".ViewReportsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".StockTaking"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".Forgotp"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".ChassisActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".Controller"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".CameraActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".QrScanner"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".SummaryLocationWise"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+                            <!--TRUE VALUE-->
+
+        <activity
+            android:name=".TrueValVehicleEnquiry"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStk"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStockTaking"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStockTransferReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValuePendingVehicle"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueUploadImage"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStockReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStockReports"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueStockTaking2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueReportModelWise"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueDeliveredReports"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrueValueReportLocationWise"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+                                <!--SERVICE-->
+
+        <activity
+            android:name=".WorkshopStockTransfer"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopStockTaking"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopPendingVehicle"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopViewReports"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkShopChassisEnquiry"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopUploadImage"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopStockReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".WorkshopStkIntransitReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkShopStockTransferWithImages"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkShopStockReceiveWithImages"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopViewTrfRecImages"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopVehicleHistory"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".WorkshopDeliveredVehicleReports"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".WorkshopLocationWiseReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopStockTransferReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkshopTestDriveReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+
+        <activity android:name=".WorkshopGatepassKmEnquiry"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+            <activity android:name=".WorkShopGatepass2"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="false"/>
+
+        <activity android:name=".WorkshopTestDriveVehicleHistory"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

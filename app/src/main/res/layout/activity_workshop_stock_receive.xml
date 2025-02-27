@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/harshbg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/amazonImage"
+            android:layout_width="267dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/saiservicelogocp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.308"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_bg"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amazonImage">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USERNAME: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="#0429F6"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="LOCATION: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/locIdTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#0429F6"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_bg"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1">
+
+            <TextView
+                android:id="@+id/deptTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="DEPARTMENT: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/deptIntent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#0429F6"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/edittext_rounded"
+                android:text="STOCK TRANSFER RECEIVE"
+                android:textStyle="bold"
+                android:textColor="#04080E"
+                android:textSize="20sp" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/viewPendingVehicles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/modern_button_background"
+                android:text="PENDING VEHICLES"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <Button
+                    android:id="@+id/byjobCardNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/modern_button_background"
+                    android:text="ENTER JBC NO"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <Button
+                    android:id="@+id/byVehicleNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/modern_button_background"
+                    android:text="ENTER REG NO"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vehNoLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/vehNoInputField"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Vehicle Number"
+                    android:inputType="textCapCharacters"
+                    android:padding="12dp"
+                    android:background="@drawable/edittext_rounded"
+                    android:elevation="2dp"
+                    android:layout_marginBottom="20dp" />
+
+                <ImageButton
+                    android:id="@+id/searchVehButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/search"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/jobCardLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/jobCardInputField"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Job Card Number"
+                    android:inputType="textCapCharacters"
+                    android:padding="12dp"
+                    android:background="@drawable/edittext_rounded"
+                    android:elevation="2dp"
+                    android:layout_marginBottom="20dp" />
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/search"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/jCDetails"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#0D47A1"
+                android:textSize="16sp" />
+
+
+            <HorizontalScrollView
+                android:id="@+id/tableScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="23dp">
+
+                <TableLayout
+                    android:id="@+id/tableLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1" />
+
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:id="@+id/currentKmsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Captuer or Enter Current KMS"
+                android:textColor="#0D47A1"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/captureToKm"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/camera"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/currentKmsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentKmsText"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/currentKms"
+                    android:background="@drawable/edittext_rounded"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/remarkText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentKmsLayout"
+                android:text="Enter Remarks About Vehicle"
+                android:layout_marginTop="16dp"
+                android:textColor="#0D47A1"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/remarksLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/remarkText"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Remarks"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/edittext_rounded"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/imageUploadTitle"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp"
+                android:text="Upload Images"
+                android:textColor="#0D47A1"
+                android:textStyle="bold" />
+
+            <!--            <Button-->
+            <!--                android:id="@+id/addImageButton"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:text="Add Image"-->
+            <!--                android:backgroundTint="@color/primary_color"-->
+            <!--                android:textColor="@android:color/white" />-->
+
+            <GridLayout
+                android:id="@+id/imageGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:columnCount="2"
+                android:rowCount="7"
+                android:padding="8dp">
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder1"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Right Front Three Quarter"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout12"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder12"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay12"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Right Side View"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder2"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Right Rear Three Quarter"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder3"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Rear View"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder4"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Left Rear Three Quarter"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder5"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout5"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Left Side View"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder6"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout6"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Left Front Three Quarter"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder7"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout7"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Front View"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder8"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout8"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Dashboard"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder9"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout9"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder9"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay9"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Steering Wheel"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder10"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout10"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Front Row Seats"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder11"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout11"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Second Row Seats"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder12"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder13"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+                <FrameLayout
+                    android:id="@+id/frameLayout13"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <!-- ImageView for the background -->
+                    <ImageView
+                        android:id="@+id/imagePlaceholder13"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay13"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Bootspace"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imagePlaceholder14"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_margin="8dp"-->
+                <!--                    android:background="@drawable/uploadimgstk"-->
+                <!--                    android:scaleType="centerCrop" />-->
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout14"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp">
+
+                    <ImageView
+                        android:id="@+id/imagePlaceholder14"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/uploadimgstk"
+                        android:scaleType="centerCrop" />
+
+                    <!-- TextView overlaying the ImageView -->
+                    <TextView
+                        android:id="@+id/textOverlay14"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Front Logo"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:background="#80000000"
+                        android:padding="8dp" />
+
+                </FrameLayout>
+
+
+            </GridLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <Button
+                    android:id="@+id/saveData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/modern_button_background"
+                    android:text="VEHICLE RECEIVE"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <Button
+                    android:id="@+id/refreshData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/modern_button_background"
+                    android:text="REFRESH"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/redirectImages"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:background="@drawable/modern_button_background"
+                android:text="VIEW IMAGES"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

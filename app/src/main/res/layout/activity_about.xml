@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/harshbg"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/amazonImage"
+        android:layout_width="267dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="50dp"
+        android:src="@drawable/saiservicelogocp"/>
+
+    <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="360dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="Version -  "
+        android:background="@drawable/rounded_bg"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvBuildDateTime"
+        android:layout_width="360dp"
+        android:background="@drawable/rounded_bg"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Build Date &amp; Time -  "
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tvDeptName"
+        android:layout_width="360dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="Department -  "
+        android:background="@drawable/rounded_bg"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+</LinearLayout>

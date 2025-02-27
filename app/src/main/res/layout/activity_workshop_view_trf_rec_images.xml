@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@drawable/harshbg">
+
+    <TextView
+        android:id="@+id/vehNoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginEnd="104dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/edittext"
+        android:hint="Vehicle Number:-" />
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/vehNoTxt"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnTransferred"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Transferred Images"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnReceived"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Received Images"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+
+
+
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonLayout">
+
+    <GridLayout
+        android:id="@+id/imageGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="1"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE2"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE3"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE4"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE5"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE6"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE7"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE8"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE9"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE10"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE11"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE12"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE13"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/VEH_IMAGE14"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/uploadimgstk"
+            android:scaleType="centerCrop" />
+
+
+
+    </GridLayout>
+
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

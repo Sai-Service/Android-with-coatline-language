@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Chassis Enquiry</string>
+    <string name="submit_button">Submit</string>
+    <string-array name="stock_report_options">
+        <item>Detail Report of stock</item>
+        <item>Summary Report model description count wise</item>
+        <item>Summary Report unInvoice</item>
+        <item>vehicle ready for delivery but physically In</item>
+    </string-array>
+</resources>
+

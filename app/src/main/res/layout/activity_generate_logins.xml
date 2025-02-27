@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/harshbg"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/background_rounded">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create User Login"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etLoginName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Login Name"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_user"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_password"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etDepartment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Department"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_department"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+
+        <EditText
+            android:id="@+id/etCreationDate"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Creation Date"
+            android:inputType="none"
+            android:focusable="false"
+            android:visibility="gone"
+            android:drawableStart="@drawable/ic_calendar"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etLastUpdateDate"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Last Update Date"
+            android:inputType="none"
+            android:visibility="gone"
+            android:focusable="false"
+            android:drawableStart="@drawable/ic_calendar"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+
+        <Spinner
+            android:id="@+id/multipleBatchNameSpinner"
+            android:layout_width="320dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/modern_spinner_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Spinner
+            android:id="@+id/ouLocSpinner"
+            android:layout_width="320dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/modern_spinner_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+            android:id="@+id/etLocationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location Name(e.g.Borivali(E))"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_location"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+
+        <EditText
+            android:id="@+id/etOUID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="OUID"
+            android:inputType="number"
+            android:drawableStart="@drawable/ic_id"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etLocId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="LOC ID"
+            android:inputType="number"
+            android:drawableStart="@drawable/ic_id"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location(e.g.11MU.207)"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_location"
+            android:padding="12dp"
+            android:background="@drawable/edittext_rounded"
+            android:layout_marginTop="8dp"/>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnPost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Post"
+                android:backgroundTint="@color/teal_700"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Clear"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:layout_marginStart="8dp" />
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Update"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

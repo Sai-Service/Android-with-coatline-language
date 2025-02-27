@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/harshbg"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/scanQrBtn"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/attributeTextView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="81dp"
+            android:layout_marginEnd="195dp"
+            android:background="@drawable/modern_button_background"
+            android:text="BY QR CODE" />
+
+        <Button
+            android:id="@+id/showDetailsButton"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/attributeTextView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="197dp"
+            android:layout_marginTop="82dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/modern_button_background"
+            android:text="BY CHASSIS" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/chassisInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/showDetailsButton"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="48dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chassis_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Chassis No."
+                        android:textAlignment="center" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/fetchChassisDataButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/showDetailsButton"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@id/chassisInputLayout"
+                    android:layout_alignBottom="@id/chassisInputLayout"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/search"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Search" />
+
+
+        <Spinner
+            android:id="@+id/vintypeSpinner"
+            android:layout_width="264dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/chassisInputLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="111dp"
+            android:textAlignment="center"
+            android:background="@drawable/modern_spinner_background" />
+
+        <TextView
+            android:id="@+id/VinDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vintypeSpinner"
+            android:layout_marginTop="60dp"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:text="Details By Vin Number"/>
+
+        <HorizontalScrollView
+            android:id="@+id/tableScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/VinDetails"
+            android:layout_marginTop="10dp">
+
+            <TableLayout
+                android:id="@+id/tableLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+            </TableLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/detailsByVin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tableScrollView"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/qrResultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detailsByVin"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/rounded_textview"
+            android:padding="16dp"
+            android:text="QR Data "
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/VinQr"
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrResultTextView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="53dp"
+            android:background="@drawable/edittext_border"
+            android:hint="Vin number"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/attributeTextView"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="119dp"
+            android:layout_marginTop="77dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/logoutButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            app:srcCompat="@drawable/logout" />
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/location1"
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="109dp"
+            android:layout_marginEnd="33dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="239dp"
+            android:layout_height="55dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="57dp"
+            android:background="@drawable/saiservicelogo" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="99dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="263dp"
+            android:text="Username : "
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="111dp"
+            android:layout_marginEnd="261dp"
+            android:text="Location : "
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/VinQr"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="0dp">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:id="@+id/transferTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:stretchColumns="1">
+
+                </TableLayout>
+
+            </ScrollView>
+
+        </HorizontalScrollView>
+
+
+        <Spinner
+            android:id="@+id/vehStatusSpinner"
+            android:layout_width="373dp"
+            android:layout_height="34dp"
+            android:layout_below="@+id/horizontalScrollView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/modern_spinner_background" />
+
+        <TextView
+            android:id="@+id/currentKmsText"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vehStatusSpinner"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="11dp"
+            android:text="TO KMS"
+            android:textAlignment="center" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/currentKmsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/currentKmsText"
+                    android:layout_marginTop="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/currentKms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/currentKmsText"
+                        android:hint="Enter To Km"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/postBtn"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/currentKmsLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="37dp"
+            android:background="@drawable/modern_button_background"
+            android:text="Submit" />
+
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/currentKmsLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="227dp"
+            android:background="@drawable/modern_button_background"
+            android:onClick="refreshData"
+            android:text="Refresh" />
+
+
+        <Button
+            android:id="@+id/vehicleIn"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/refreshButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="20dp"
+            android:text="PENDING VEHICLE LIST"
+            android:background="@drawable/modern_button_background" />
+
+        <ImageButton
+            android:id="@+id/homePage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="327dp"
+            android:background="@drawable/home" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="240dp"
+            android:layout_height="29dp"
+            android:layout_below="@id/location1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="51dp"
+            android:layout_marginBottom="547dp"
+            android:text="VEHICLE TRACKING"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/fetchVinData2"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/modern_button_background"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="316dp"
+            android:layout_marginEnd="6dp"
+            android:text="Find" />
+    </RelativeLayout>
+</ScrollView>
+
+
+
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:padding="16dp"-->
+<!--    android:background="@drawable/harshbg"-->
+<!--    tools:context=".MainActivity">-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/headerCard"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            app:cardCornerRadius="8dp"-->
+<!--            app:cardElevation="4dp">-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="16dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView"-->
+<!--                    android:layout_width="239dp"-->
+<!--                    android:layout_height="55dp"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:background="@drawable/saiservicelogo" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView11"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/imageView"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:text="VEHICLE TRACKING"-->
+<!--                    android:textSize="24sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/primary_text_color" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/textView11"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:text="Username : "-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/secondary_text_color" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/attributeTextView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/textView11"-->
+<!--                    android:layout_toEndOf="@id/textView2"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/primary_text_color" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView3"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/textView2"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:text="Location : "-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/secondary_text_color" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/location1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/textView2"-->
+<!--                    android:layout_toEndOf="@id/textView3"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/primary_text_color" />-->
+
+<!--            </RelativeLayout>-->
+<!--        </androidx.cardview.widget.CardView>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/buttonContainer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/headerCard"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/scanQrBtn"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:background="@drawable/modern_button_background"-->
+<!--                android:text="BY QR CODE"-->
+<!--                android:textColor="@android:color/white" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/showDetailsButton"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:background="@drawable/modern_button_background"-->
+<!--                android:text="BY CHASSIS"-->
+<!--                android:textColor="@android:color/white" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/chassisInputLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/buttonContainer"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="48dp"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/chassis_no"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Enter Chassis No."-->
+<!--                android:textAlignment="center" />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/fetchChassisDataButton"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_below="@id/buttonContainer"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignTop="@id/chassisInputLayout"-->
+<!--            android:layout_alignBottom="@id/chassisInputLayout"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:background="@drawable/search"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:contentDescription="Search" />-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/vintypeSpinner"-->
+<!--            android:layout_width="202dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/chassisInputLayout"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@drawable/modern_spinner_background" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/VinDetails"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/vintypeSpinner"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Details By Vin Number"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/primary_text_color" />-->
+
+<!--        <HorizontalScrollView-->
+<!--            android:id="@+id/tableScrollView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/VinDetails"-->
+<!--            android:layout_marginTop="8dp">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:stretchColumns="1">-->
+<!--            </TableLayout>-->
+
+<!--        </HorizontalScrollView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/detailsByVin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/tableScrollView"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textAlignment="center"-->
+<!--            android:visibility="invisible"-->
+<!--            android:textColor="@color/primary_text_color"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/qrResultTextView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/detailsByVin"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@drawable/rounded_textview"-->
+<!--            android:padding="16dp"-->
+<!--            android:text="QR Data "-->
+<!--            android:visibility="gone"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/primary_text_color"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/vinQrLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/qrResultTextView"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:visibility="invisible">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/VinQr"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Vin number"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textStyle="bold" />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/vehText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/vinQrLayout"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:visibility="gone"-->
+<!--            android:text="Select Vehicle Entry Status"-->
+<!--            android:textColor="@color/secondary_text_color"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/vehStatusSpinner"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/vehText"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="@drawable/modern_spinner_background" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/currentKmsText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/vehStatusSpinner"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="TO KMS"-->
+<!--            android:textColor="@color/secondary_text_color"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/currentKmsLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/currentKmsText"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:visibility="invisible"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/currentKms"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Enter To Km"-->
+<!--                android:inputType="number" />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/refreshButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/currentKmsLayout"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="@drawable/modern_button_background"-->
+<!--            android:onClick="refreshData"-->
+<!--            android:text="Refresh"-->
+<!--            android:textColor="@android:color/white" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/postBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/currentKmsLayout"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_toEndOf="@id/refreshButton"-->
+<!--            android:background="@drawable/modern_button_background"-->
+<!--            android:text="Submit"-->
+<!--            android:textColor="@android:color/white" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/vehicleIn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/postBtn"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:text="PENDING VEHICLE LIST"-->
+<!--            android:background="@drawable/modern_button_background"-->
+<!--            android:textColor="@android:color/white" />-->
+
+<!--        <androidx.camera.view.PreviewView-->
+<!--            android:id="@+id/previewView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="gone" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/logoutButton"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            app:srcCompat="@drawable/logout" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/homePage"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:background="@drawable/home" />-->
+
+<!--        <HorizontalScrollView-->
+<!--            android:id="@+id/horizontalScrollView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/vehicleIn"-->
+<!--            android:layout_marginTop="20dp">-->
+
+<!--            <ScrollView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <TableLayout-->
+<!--                    android:id="@+id/transferTable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:stretchColumns="1"-->
+<!--                    android:layout_margin="10dp">-->
+<!--                </TableLayout>-->
+
+<!--            </ScrollView>-->
+
+<!--        </HorizontalScrollView>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fetchVinData2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/fetchChassisDataButton"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="56dp"-->
+<!--            android:background="@drawable/modern_button_background"-->
+<!--            android:text="Find"-->
+<!--            android:textColor="@android:color/white" />-->
+
+<!--    </RelativeLayout>-->
+<!--</ScrollView>-->

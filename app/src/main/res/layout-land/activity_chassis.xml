@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dashboard"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DMS Chassis Enquiry Form"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"/>
+
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/logout"
+        android:padding="0dp" />
+
+    <ScrollView
+        android:layout_width="395dp"
+        android:layout_height="480dp"
+        android:layout_above="@id/button_layout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginBottom="35dp"
+        >
+
+        <GridLayout
+            android:layout_width="380dp"
+            android:layout_height="300dp"
+            android:columnCount="2"
+            android:rowCount="30">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Chassis No : "/>
+
+<!--            <EditText-->
+<!--                android:id="@+id/CHASSIS_NO"-->
+<!--                android:layout_width="160dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:background="@android:drawable/editbox_background"-->
+<!--                android:hint="Enter chassis number !"-->
+<!--                android:inputType="text"-->
+<!--                android:padding="8dp"-->
+<!--                android:textColor="@color/black" />-->
+
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/CHASSIS_NO"
+                    android:layout_width="160dp"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Enter chassis no.!"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/fetchChassisDataButton"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignTop="@id/CHASSIS_NO"
+                    android:layout_alignBottom="@id/CHASSIS_NO"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@id/CHASSIS_NO"
+                    android:background="@drawable/search"
+                    android:textColor="@android:color/black" />
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Model Description : " />
+
+            <EditText
+                android:id="@+id/MODEL_DESC"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Colour : " />
+
+            <EditText
+                android:id="@+id/COLOUR"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Vin : " />
+
+            <EditText
+                android:id="@+id/VIN"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Fuel Description : " />
+
+            <EditText
+                android:id="@+id/FUEL_DESC"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Mul Inv No : " />
+
+            <EditText
+                android:id="@+id/MUL_INV_NO"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Grn No : " />
+
+            <EditText
+                android:id="@+id/GRN_NO"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="GRN recd Date : " />
+
+            <EditText
+                android:id="@+id/GRN_RECD_DATE"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Vehicle  Status : " />
+
+            <EditText
+                android:id="@+id/VEH_STATUS"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Order No : " />
+
+            <EditText
+                android:id="@+id/ORDER_NUMBER"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Customer Code : " />
+
+            <EditText
+                android:id="@+id/CUSTOMER_CODE"
+                android:layout_width="240dp"
+                android:layout_height="48dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Dse Name : " />
+
+            <EditText
+                android:id="@+id/DSE_NAME"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:focusable="false"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="STOCK TRF NO : " />
+
+            <EditText
+                android:id="@+id/STOCK_TRF_NO"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:focusable="false"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Remarks : " />
+
+            <HorizontalScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/STK_REMARK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:drawable/editbox_background"
+                    android:singleLine="true"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:ellipsize="none"
+                    android:padding="8dp"/>
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Variant Desc : " />
+
+            <HorizontalScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/VARIANT_DESC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:drawable/editbox_background"
+                    android:singleLine="true"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:ellipsize="none"
+                    android:padding="8dp"/>
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Engine No : " />
+
+            <EditText
+                android:id="@+id/ENGINE_NO"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Dealer Location : " />
+
+            <HorizontalScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/DEALER_LOCATION"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:drawable/editbox_background"
+                    android:singleLine="true"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:ellipsize="none"
+                    android:padding="8dp"/>
+            </HorizontalScrollView>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Mul Inv Dt : " />
+
+            <EditText
+                android:id="@+id/MUL_INV_DT"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:focusable="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Grn Date : " />
+
+            <EditText
+                android:id="@+id/GRN_DATE"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:textSize="13sp"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="DMS Loc : " />
+
+            <EditText
+                android:id="@+id/AGEING"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Allotment No : " />
+
+            <EditText
+                android:id="@+id/ALLOTMENT_NO"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:focusable="false"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Allotment Date : " />
+
+            <EditText
+                android:id="@+id/ALLOTMENT_DT"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Customer Name : " />
+
+            <EditText
+                android:id="@+id/CUSTOMER_NAME"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Location : " />
+
+            <EditText
+                android:id="@+id/LOCATION"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="false"
+                android:textSize="13sp"
+                android:focusable="false"
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:contentDescription="Image"/>
+
+
+        </GridLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+
+<!--        <Button-->
+<!--            android:id="@+id/fetchChassisDataButton"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:background="@drawable/search"-->
+<!--            android:layout_margin="30dp"/>-->
+
+
+        <Button
+            android:id="@+id/camera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/camera"
+            android:textColor="@android:color/black"
+            android:layout_margin="30dp"/>
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/back"
+            android:textColor="@android:color/black"
+            android:layout_margin="30dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
