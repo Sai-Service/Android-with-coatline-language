@@ -14,9 +14,9 @@ object ApiClient {
 //    private const val BASE_URL ="http://115.242.10.85:7485/"// production new2
 
 
-//    private const val BASE_URL ="http://115.242.10.86:6101/"
+    private const val BASE_URL ="http://115.242.10.86:6101/"
 
-    private const val BASE_URL ="http://203.115.117.157:6101/"// Temporary Clone
+//    private const val BASE_URL ="http://203.115.117.157:6101/"// Temporary Clone
 
 
     // ALSO CHANGE THE IP FROM network_security_config.xml file
