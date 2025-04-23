@@ -239,12 +239,13 @@ class MainActivity : AppCompatActivity() {
                         val locId = loginResponse.locId
                         val location_name=loginResponse.location_name
                         val deptName=loginResponse.deptName
+                        val emailId=loginResponse.emailId
                         Log.d("LoginResponse", "Success: $loginResponse")
 
                         Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_LONG)
                             .show()
                         if (attribute1 != null && ouId != null &&location!=null&&locId!=null&&location_name!=null&&deptName!=null) {
-                            navigateToHomeActivity(attribute1, ouId,login_name,location,locId,location_name,deptName)
+                            navigateToHomeActivity(attribute1, ouId,login_name,location,locId,location_name,deptName,emailId)
 //                            navigateToHomeActivity(attribute1, ouId,login_name)
                         } else {
                             Toast.makeText(
@@ -288,7 +289,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun navigateToHomeActivity(attribute1: String, ouId: Int,login_name:String,location:String,locId:Int,location_name:String,deptName:String) {
+    private fun navigateToHomeActivity(attribute1: String, ouId: Int,login_name:String,location:String,locId:Int,location_name:String,deptName:String,emailId:String?=null) {
 //        private fun navigateToHomeActivity(attribute1: String, ouId: Int,login_name:String) {
             Log.d(
             "MainActivity",
@@ -301,6 +302,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("locId", locId)
         intent.putExtra("location_name", location_name)
         intent.putExtra("deptName", deptName)
+        intent.putExtra("emailId",emailId)
 
 
         startActivity(intent)

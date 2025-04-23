@@ -1,28 +1,38 @@
 package com.example.apinew
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,6 +44,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -51,11 +62,11 @@ class WorkShopGatepass2 : AppCompatActivity() {
     private lateinit var locIdTxt:TextView
     private lateinit var deptIntent:TextView
     private lateinit var vehHistoryLL:View
-    private lateinit var newVehOutLL:View
+//    private lateinit var newVehOutLL:View
     private lateinit var newVehLL:View
     private lateinit var captureVehNumberIn:View
-    private lateinit var captureVehNumberOut:View
-    private lateinit var newVehOutEditText:EditText
+//    private lateinit var captureVehNumberOut:View
+//    private lateinit var newVehOutEditText:EditText
     private lateinit var newVehEditText:EditText
     private lateinit var newVehInButton:ImageButton
     private lateinit var forTestDriveOut:TextView
@@ -70,9 +81,9 @@ class WorkShopGatepass2 : AppCompatActivity() {
     private lateinit var remarksField:EditText
     private lateinit var vehicleOutForTestDrive:Button
     private lateinit var vehicleInAfterTestDrive:Button
-    private lateinit var newVehicleInPremises:Button
-    private lateinit var newVehicleOutPremises:Button
-    private lateinit var refreshButton:Button
+    private lateinit var newVehicleInPremises:TextView
+    private lateinit var newVehicleOutPremises:TextView
+    private lateinit var refreshButton:TextView
     private lateinit var forNewVehicleOut:TextView
     private lateinit var newVehOutButton:ImageButton
     private lateinit var regNo:String
@@ -90,8 +101,30 @@ class WorkShopGatepass2 : AppCompatActivity() {
     private var photoUri: Uri? = null
     private var photoFile: File? = null
     private lateinit var captureRegNoCameraIn:ImageButton
-    private lateinit var captureRegNoCameraOut:ImageButton
+//    private lateinit var captureRegNoCameraOut:ImageButton
     private lateinit var bestResult2:String
+    private lateinit var reasonCodeLov:Spinner
+    private lateinit var gateNoLov:Spinner
+    private lateinit var reasonCodeTxtView:TextView
+    private lateinit var gateNumberTxtView:TextView
+    private lateinit var gateTypeLov:Spinner
+    private lateinit var gateTypeTxtView:TextView
+    private lateinit var transferLocationTxtView:TextView
+    private lateinit var transferLocationLov:Spinner
+    private lateinit var parkingEditText:EditText
+    private lateinit var attribute5:String
+    private lateinit var parkingEditTextTextView:TextView
+    private lateinit var gateNumber:String
+    private lateinit var gateType:String
+
+
+    private lateinit var physicallyOutLL:View
+    private lateinit var physicallyOutButton:TextView
+    private lateinit var physicallyOutLLTxt:View
+    private lateinit var physicallyOutVehEditText:EditText
+    private lateinit var physicallyOutVehButton:ImageButton
+    private lateinit var physicallyOutVehicleSave:TextView
+
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -101,8 +134,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         private val recognizer = TextRecognition.getClient(TextRecognizerOptions.Builder().setExecutor(
             Executors.newSingleThreadExecutor()).build())
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,8 +154,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         driverNameField=findViewById(R.id.driverNameField)
         remarksTxt=findViewById(R.id.remarksTxt)
         remarksField=findViewById(R.id.remarksField)
-        vehicleOutForTestDrive=findViewById(R.id.vehicleOutForTestDrive)
-        vehicleInAfterTestDrive=findViewById(R.id.vehicleInAfterTestDrive)
         vehicleHistory=findViewById(R.id.vehicleHistory)
         captureToKm=findViewById(R.id.captureToKm)
         vehHistoryLL=findViewById(R.id.vehHistoryLL)
@@ -134,16 +163,42 @@ class WorkShopGatepass2 : AppCompatActivity() {
         newVehInButton=findViewById(R.id.newVehInButton)
         newVehicleInPremises=findViewById(R.id.newVehicleInPremises)
         forNewVehicleOut=findViewById(R.id.forNewVehicleOut)
-        newVehOutLL=findViewById(R.id.newVehOutLL)
-        newVehOutEditText=findViewById(R.id.newVehOutEditText)
-        newVehOutButton=findViewById(R.id.newVehOutButton)
         newVehicleOutPremises=findViewById(R.id.newVehicleOutPremises)
         refreshButton=findViewById(R.id.refreshButton)
         captureVehNumberIn=findViewById(R.id.captureVehNumberIn)
         captureRegNoCameraIn=findViewById(R.id.captureRegNoCameraIn)
-        captureVehNumberOut=findViewById(R.id.captureVehNumberOut)
-        captureRegNoCameraOut=findViewById(R.id.captureRegNoCameraOut)
+//        captureVehNumberOut=findViewById(R.id.captureVehNumberOut)
+//        captureRegNoCameraOut=findViewById(R.id.captureRegNoCameraOut)
+//        newVehOutLL=findViewById(R.id.newVehOutLL)
+//        newVehOutEditText=findViewById(R.id.newVehOutEditText)
+        newVehOutButton=findViewById(R.id.newVehOutButton)
 
+        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
+            if (source.any { it.isWhitespace() }) "" else null
+        }
+
+        val newVehEditText = findViewById<EditText>(R.id.newVehEditText)
+        newVehEditText.filters = arrayOf(noSpaceFilter)
+
+
+
+        reasonCodeLov=findViewById(R.id.reasonCodeLov)
+        gateNoLov=findViewById(R.id.gateNoLov)
+        gateTypeLov=findViewById(R.id.gateTypeLov)
+        gateTypeTxtView=findViewById(R.id.gateTypeTxtView)
+        reasonCodeTxtView=findViewById(R.id.reasonCodeTxtView)
+        gateNumberTxtView=findViewById(R.id.gateNumberTxtView)
+        transferLocationTxtView=findViewById(R.id.transferLocationTxtView)
+        transferLocationLov=findViewById(R.id.transferLocationLov)
+        parkingEditText=findViewById(R.id.parkingEditText)
+        parkingEditTextTextView=findViewById(R.id.parkingEditTextTextView)
+
+        physicallyOutLL=findViewById(R.id.physicallyOutLL)
+        physicallyOutButton=findViewById(R.id.physicallyOutButton)
+        physicallyOutLLTxt=findViewById(R.id.physicallyOutLLTxt)
+        physicallyOutVehEditText=findViewById(R.id.physicallyOutVehEditText)
+        physicallyOutVehButton=findViewById(R.id.physicallyOutVehButton)
+        physicallyOutVehicleSave=findViewById(R.id.physicallyOutVehicleSave)
 
         kmTxt.visibility=View.GONE
         currentKMSField.visibility=View.GONE
@@ -153,12 +208,23 @@ class WorkShopGatepass2 : AppCompatActivity() {
         driverNameField.visibility=View.GONE
         remarksTxt.visibility=View.GONE
         remarksField.visibility=View.GONE
-        vehicleOutForTestDrive.visibility=View.GONE
-        vehicleInAfterTestDrive.visibility=View.GONE
         newVehicleInPremises.visibility=View.GONE
         newVehicleOutPremises.visibility=View.GONE
         refreshButton.visibility=View.GONE
+        reasonCodeLov.visibility=View.GONE
+        gateNoLov.visibility=View.GONE
+        gateTypeLov.visibility=View.GONE
+        reasonCodeTxtView.visibility=View.GONE
+        gateNumberTxtView.visibility=View.GONE
+        gateTypeTxtView.visibility=View.GONE
 
+        transferLocationTxtView.visibility=View.GONE
+        transferLocationLov.visibility=View.GONE
+        parkingEditText.visibility=View.GONE
+        parkingEditTextTextView.visibility=View.GONE
+
+        physicallyOutVehicleSave.visibility=View.GONE
+        physicallyOutLLTxt.visibility=View.GONE
 
 
         locId = intent.getIntExtra("locId", 0)
@@ -172,27 +238,27 @@ class WorkShopGatepass2 : AppCompatActivity() {
         locIdTxt.text= location_name
         deptIntent.text=deptName
         newVehLL.visibility=View.GONE
-        newVehOutLL.visibility=View.GONE
         captureVehNumberIn.visibility=View.GONE
-        captureVehNumberOut.visibility=View.GONE
 
 
         forNewVehicleIn.setOnClickListener {
             newVehLL.visibility=View.VISIBLE
             captureVehNumberIn.visibility=View.VISIBLE
-            newVehOutLL.visibility=View.GONE
-            newVehOutEditText.setText("")
             newVehEditText.setText("")
-            captureVehNumberOut.visibility=View.GONE
+            physicallyOutVehEditText.setText("")
+            physicallyOutLLTxt.visibility=View.GONE
+            newVehInButton.visibility=View.VISIBLE
+            newVehOutButton.visibility=View.GONE
         }
 
         forNewVehicleOut.setOnClickListener {
-            newVehOutLL.visibility=View.VISIBLE
-            captureVehNumberOut.visibility=View.VISIBLE
-            captureVehNumberIn.visibility=View.GONE
-            newVehLL.visibility=View.GONE
+            newVehLL.visibility=View.VISIBLE
+            captureVehNumberIn.visibility=View.VISIBLE
             newVehEditText.setText("")
-            newVehOutEditText.setText("")
+            physicallyOutVehEditText.setText("")
+            physicallyOutLLTxt.visibility=View.GONE
+            newVehInButton.visibility=View.GONE
+            newVehOutButton.visibility=View.VISIBLE
         }
 
         newVehInButton.setOnClickListener { detailsForVehicleInFirstTime() }
@@ -205,22 +271,84 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
         refreshButton.setOnClickListener { resetFields() }
 
+        physicallyOutVehButton.setOnClickListener { detailsForPhysicallyOutVehicle() }
+
+        physicallyOutVehicleSave.setOnClickListener { vehiclePhysicallyOut() }
+
+        physicallyOutButton.setOnClickListener {
+            physicallyOutLLTxt.visibility=View.VISIBLE
+            newVehLL.visibility=View.GONE
+            newVehEditText.setText("")
+        }
+
+
         captureToKm.setOnClickListener {
             clickedPlaceholder = captureToKm
             openCamera()
         }
 
+        fetchCityData()
+        fetchGateNo()
+
+        gateNoLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                fetchGateType()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
+        reasonCodeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if(reasonCodeLov.selectedItem.toString()=="LOCATION-TRANSFER PARKING"){
+                    transferLocationTxtView.visibility=View.VISIBLE
+                    transferLocationLov.visibility=View.VISIBLE
+                    fetchOrgIds()
+                    parkingEditText.visibility=View.GONE
+                    parkingEditTextTextView.visibility=View.GONE
+                } else if(reasonCodeLov.selectedItem.toString()=="PARKING"){
+                    parkingEditTextTextView.visibility=View.VISIBLE
+                    parkingEditText.visibility=View.VISIBLE
+                    transferLocationLov.visibility=View.GONE
+                    transferLocationTxtView.visibility=View.GONE
+                    attribute5=parkingEditText.text.toString()
+                } else if(reasonCodeLov.selectedItem.toString()=="TRIAL"){
+                    transferLocationTxtView.visibility=View.GONE
+                    transferLocationLov.visibility=View.GONE
+                    resetSpinner2()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
+
+//        captureRegNoCameraIn.setOnClickListener {
+//            clickedPlaceholder = captureRegNoCameraIn
+//            openCamera(CAMERA_REQUEST_CODE_2)
+//        }
+
 
         captureRegNoCameraIn.setOnClickListener {
-            clickedPlaceholder = captureRegNoCameraIn
-            openCamera(CAMERA_REQUEST_CODE_2)
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openCamera(CAMERA_REQUEST_CODE_2)
+            } else {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE
+                )
+            }
         }
-
-        captureRegNoCameraOut.setOnClickListener {
-            clickedPlaceholder = captureRegNoCameraOut
-            openCamera(CAMERA_REQUEST_CODE_3)
-        }
-
+//        captureRegNoCameraOut.setOnClickListener {
+//            clickedPlaceholder = captureRegNoCameraOut
+//            openCamera(CAMERA_REQUEST_CODE_3)
+//        }
 
         vehicleHistory.setOnClickListener { workShopTestDriveVehHistory()  }
 
@@ -250,92 +378,46 @@ class WorkShopGatepass2 : AppCompatActivity() {
     }
 
     private fun openCamera(requestCode: Int) {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val photoFile = createImageFile()
-        photoFile?.also {
-            photoUri =
-                FileProvider.getUriForFile(this, "${applicationContext.packageName}.provider", it)
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            startActivityForResult(takePictureIntent, requestCode)
-        }
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, requestCode)
     }
-
-    private fun createImageFile(): File? {
-        val storageDir: File? = externalCacheDir
-        return File.createTempFile("JPEG_${System.currentTimeMillis()}_", ".jpg", storageDir).apply {
-            photoFile = this
-        }
-    }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 101 && resultCode == RESULT_OK) {
-//            val bitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-//            if (clickedPlaceholder == captureToKm) {
-//                processImageForText(bitmap)
-//            }
-//
-//        }
-//    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK) {
-//            val bitmap =
-//                BitmapFactory.decodeFile(if (photoFile != null) photoFile!!.absolutePath else null)
-            val bitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-            if (bitmap != null) {
-                if (requestCode == CAMERA_REQUEST_CODE) {
-                    if (clickedPlaceholder === captureToKm) {
-                        processImageForText(bitmap)
+            when (requestCode) {
+                CAMERA_REQUEST_CODE -> {
+                    if (photoFile != null && photoFile!!.exists()) {
+                        val bitmap = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                        if (bitmap != null) {
+                            if (clickedPlaceholder === captureToKm) {
+                                processImageForText(bitmap)
+                            }
+                        } else {
+                            Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
                     }
-                } else if (requestCode == CAMERA_REQUEST_CODE_2) {
-                    // For captureRegNoCameraIn button
-                    processImageWithMultipleAttempts(bitmap, newVehEditText)
-                } else if (requestCode == CAMERA_REQUEST_CODE_3) {
-                    // For captureRegNoCameraOut button
-                    processImageWithMultipleAttempts(bitmap, newVehOutEditText)
+                }
+                CAMERA_REQUEST_CODE_2, CAMERA_REQUEST_CODE_3 -> {
+                    val imageBitmap = data?.extras?.get("data") as? Bitmap
+                    if (imageBitmap != null) {
+                        processImageWithMultipleAttempts(imageBitmap, newVehEditText)
+                        processImageWithMultipleAttempts(imageBitmap,physicallyOutVehEditText)
+                    } else {
+                        Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
 
-    private fun processImageForText(bitmap: Bitmap) {
-        val image = InputImage.fromBitmap(bitmap, 0)
-        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-
-        recognizer.process(image)
-            .addOnSuccessListener { visionText ->
-                handleExtractedText(visionText)
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to extract text: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun handleExtractedText(result:com.google.mlkit.vision.text.Text) {
-        val recognizedText = result.text
-        if (recognizedText.isNotEmpty()) {
-            val regex = Regex("(\\d+)\\s*(?=km)", RegexOption.IGNORE_CASE)
-            val matchResult = regex.find(recognizedText)
-
-            if (matchResult != null) {
-                val numericText = matchResult.value.trim()
-                currentKMSField.setText(numericText)
-            } else {
-                Toast.makeText(this, "No valid reading found", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(this, "No text found", Toast.LENGTH_SHORT).show()
-        }
-    }
 
 
-    private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: TextView) {
+    private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: EditText) {
         val attempts = listOf(
             { preprocessImage(originalBitmap) },
             { preprocessImage(resizeImage(originalBitmap)) },
@@ -364,7 +446,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
-    private fun displayBestResult(results: List<String>, resultTextView: TextView) {
+    private fun displayBestResult(results: List<String>, resultTextView: EditText) {
         bestResult2 = results.maxByOrNull { it.length }
             ?.replace(" ", "")
             ?.replace(".", "")
@@ -417,7 +499,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 7) && char == 'O' -> '0'
                     (index == 2 || index == 3 || index >= 7) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 7) && char == 'S' -> '5'
-                    (index == 4 || index == 5|| index == 6) && char == '0' -> 'D'
+                    (index == 4 || index == 5 || index == 6) && char == '0' -> 'D'
                     else -> char
                 }
             }.joinToString("")
@@ -430,34 +512,33 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
-                resultTextView.text = modifiedString
+                resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                newVehOutEditText.setText(modifiedString)
+                physicallyOutVehEditText.setText(modifiedString)
                 Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
-                resultTextView.text = modifiedString
+                resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                newVehOutEditText.setText(modifiedString)
+                physicallyOutVehEditText.setText(modifiedString)
                 Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
-                resultTextView.text = modifiedString
+                resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                newVehOutEditText.setText(modifiedString)
+                physicallyOutVehEditText.setText(modifiedString)
                 Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
                 runOnUiThread {
-                    Toast.makeText(this, "Invalid format", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Cant able to read Vehicle Number", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-
 
 
     private fun preprocessImage(bitmap: Bitmap): Bitmap {
@@ -465,7 +546,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val height = bitmap.height
         val processedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-        // Convert to grayscale and increase contrast
         for (y in 0 until height) {
             for (x in 0 until width) {
                 val pixel = bitmap.getPixel(x, y)
@@ -489,6 +569,244 @@ class WorkShopGatepass2 : AppCompatActivity() {
         return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
     }
 
+    private fun createImageFile(): File? {
+        val storageDir: File? = externalCacheDir
+        return File.createTempFile("JPEG_${System.currentTimeMillis()}_", ".jpg", storageDir).apply {
+            photoFile = this
+        }
+    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 101 && resultCode == RESULT_OK) {
+//            val bitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
+//            if (clickedPlaceholder == captureToKm) {
+//                processImageForText(bitmap)
+//            }
+//
+//        }
+//    }
+
+
+
+
+
+
+
+    private fun processImageForText(bitmap: Bitmap) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                handleExtractedText(visionText)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to extract text: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun handleExtractedText(result:com.google.mlkit.vision.text.Text) {
+        val recognizedText = result.text
+        if (recognizedText.isNotEmpty()) {
+            val regex = Regex("(\\d+)\\s*(?=km)", RegexOption.IGNORE_CASE)
+            val matchResult = regex.find(recognizedText)
+
+            if (matchResult != null) {
+                val numericText = matchResult.value.trim()
+                currentKMSField.setText(numericText)
+            } else {
+                Toast.makeText(this, "No valid reading found", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "No text found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun fetchCityData() {
+        val cmnType="TESTDRIVE"
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("${ApiFile.APP_URL}/fndcom/testDriveType?cmnType=$cmnType")
+            .build()
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+                jsonData?.let {
+                    val cities = parseCities(it)
+                    runOnUiThread {
+                        val adapter = ArrayAdapter(this@WorkShopGatepass2, android.R.layout.simple_spinner_item, cities
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        reasonCodeLov.adapter = adapter
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun parseCities(jsonData: String): List<String> {
+        val cities = mutableListOf<String>()
+        try {
+            val jsonObject = JSONObject(jsonData)
+            val jsonArray = jsonObject.getJSONArray("obj")
+            cities.add("Select Test Drive Reason")
+            for (i in 0 until jsonArray.length()) {
+                val city = jsonArray.getJSONObject(i)
+                val desc = city.getString("CMNDESC")
+                cities.add(desc)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return cities
+    }
+
+
+    private fun fetchGateNo() {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("${ApiFile.APP_URL}/gateTypeMaster/gateDetailsByLocId?locId=$locId")
+            .build()
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                Log.d("Gate No->",response.toString())
+                val jsonData = response.body?.string()
+                jsonData?.let {
+                    val cities = parseGateNo(it)
+                    runOnUiThread {
+                        val adapter = ArrayAdapter(this@WorkShopGatepass2, android.R.layout.simple_spinner_item, cities
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        gateNoLov.adapter = adapter
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun parseGateNo(jsonData: String): List<String> {
+        val cities = mutableListOf<String>()
+        try {
+            val jsonObject = JSONObject(jsonData)
+            val jsonArray = jsonObject.getJSONArray("obj")
+            cities.add("Select Gate Number")
+            for (i in 0 until jsonArray.length()) {
+                val city = jsonArray.getJSONObject(i)
+                val gateTpe = city.getString("GATE_TYPE")
+                val gateNo = city.getString("GATE_NO")
+                gateNumber=city.getString("GATE_NO")
+                gateType=city.getString("GATE_TYPE")
+                cities.add("$gateNo-$gateTpe")
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return cities
+    }
+
+
+    private fun fetchGateType() {
+        val client = OkHttpClient()
+        val gateNo = gateNoLov.selectedItem.toString()
+        if (gateNo == "Select Gate Number") {
+//            Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
+            return
+        } else {
+        val request = Request.Builder()
+            .url("${ApiFile.APP_URL}/gateTypeMaster/gateTypeByLocIdAndGateNo?locId=$locId&gateNo=$gateNo")
+            .build()
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+                jsonData?.let {
+                    val cities = parseGateType(it)
+                    runOnUiThread {
+                        val adapter = ArrayAdapter(
+                            this@WorkShopGatepass2, android.R.layout.simple_spinner_item, cities
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        gateTypeLov.adapter = adapter
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    }
+
+    private fun parseGateType(jsonData: String): List<String> {
+        val cities = mutableListOf<String>()
+        try {
+            val jsonObject = JSONObject(jsonData)
+            val jsonArray = jsonObject.getJSONArray("obj")
+            cities.add("Select Gate Type")
+            for (i in 0 until jsonArray.length()) {
+                val city = jsonArray.getJSONObject(i)
+                val gateTpe = city.getString("GATE_TYPE")
+//                val gateNo = city.getString("GATE_NO")
+                cities.add(gateTpe)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return cities
+    }
+
+
+    private fun fetchOrgIds() {
+        val client = OkHttpClient()
+            val request = Request.Builder()
+                .url("${ApiFile.APP_URL}/orgDef/getLocation?operating_unit=$ouId")
+                .build()
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val response = client.newCall(request).execute()
+                    val jsonData = response.body?.string()
+                    jsonData?.let {
+                        val cities = parseOrgIds(it)
+                        runOnUiThread {
+                            val adapter = ArrayAdapter(
+                                this@WorkShopGatepass2, android.R.layout.simple_spinner_item, cities
+                            )
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            transferLocationLov.adapter = adapter
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+    }
+
+    private fun parseOrgIds(jsonData: String): List<String> {
+        val cities = mutableListOf<String>()
+        try {
+            val jsonObject = JSONObject(jsonData)
+            val jsonArray = jsonObject.getJSONArray("obj")
+            cities.add("Select Transfer Location")
+            for (i in 0 until jsonArray.length()) {
+                val city = jsonArray.getJSONObject(i)
+                val location = city.getString("LOCATIONNAME")
+                cities.add(location)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return cities
+    }
+
+
+
 
     private fun populateFieldsAfterInSearch() {
         kmTxt.visibility=View.VISIBLE
@@ -501,6 +819,11 @@ class WorkShopGatepass2 : AppCompatActivity() {
         driverTxt.visibility=View.VISIBLE
         driverNameField.visibility=View.VISIBLE
         refreshButton.visibility=View.VISIBLE
+//        reasonCodeLov.visibility=View.VISIBLE
+        gateNumberTxtView.visibility=View.VISIBLE
+        gateNoLov.visibility=View.VISIBLE
+        gateTypeLov.visibility=View.GONE
+        gateTypeTxtView.visibility=View.GONE
     }
 
     private fun populateFieldsAfterOutSearch() {
@@ -514,11 +837,47 @@ class WorkShopGatepass2 : AppCompatActivity() {
         driverTxt.visibility=View.VISIBLE
         driverNameField.visibility=View.VISIBLE
         refreshButton.visibility=View.VISIBLE
+        reasonCodeLov.visibility=View.VISIBLE
+        gateNoLov.visibility=View.VISIBLE
+        reasonCodeTxtView.visibility=View.VISIBLE
+        gateNumberTxtView.visibility=View.VISIBLE
+        gateTypeTxtView.visibility=View.GONE
+        gateTypeLov.visibility=View.GONE
+    }
+
+
+    private fun populateFieldsForPhysicallyOutSearch() {
+        kmTxt.visibility=View.VISIBLE
+        currentKMSField.visibility=View.VISIBLE
+        captureToKm.visibility=View.VISIBLE
+        regNoDetails.visibility=View.VISIBLE
+        physicallyOutVehicleSave.visibility=View.VISIBLE
+        refreshButton.visibility=View.VISIBLE
+    }
+
+    private fun resetFieldsAfterPhysicallyOut(){
+        physicallyOutLLTxt.visibility=View.GONE
+        physicallyOutVehEditText.setText("")
+        regNoDetails.visibility=View.GONE
+        val tableLayout = findViewById<TableLayout>(R.id.tableLayout2)
+        tableLayout.removeAllViews()
+        kmTxt.visibility=View.GONE
+        captureToKm.visibility=View.GONE
+        currentKMSField.setText("")
+        currentKMSField.visibility=View.GONE
+        physicallyOutVehicleSave.visibility=View.GONE
+        regNo=""
+        testDriveNo=""
+        refreshButton.visibility=View.GONE
     }
 
     private fun detailsForVehicleInFirstTime() {
         val client = OkHttpClient()
         val vehNo = newVehEditText.text.toString()
+        if(vehNo.isEmpty()){
+            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
+            return
+        }
         val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
 
         Log.d("URL:", url)
@@ -567,7 +926,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
                         LOCATION = stockItem.optString("LOCATION"),
                         //In after test Drive
                         OUT_KM = stockItem.optString("OUT_KM"),
-                        OUT_TIME = stockItem.optString("OUT_TIME")
+                        OUT_TIME = stockItem.optString("OUT_TIME"),
+                        SERVICE_ADVISOR=stockItem.optString("SERVICE_ADVISOR")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -643,7 +1003,11 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
     private fun detailsForVehicleOut() {
         val client = OkHttpClient()
-        val vehNo = newVehOutEditText.text.toString()
+        val vehNo = newVehEditText.text.toString()
+        if(vehNo.isEmpty()){
+            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
+            return
+        }
         val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveOut?regNo=$vehNo"
 
         Log.d("URL:", url)
@@ -692,7 +1056,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
                         LOCATION = stockItem.optString("LOCATION"),
                         //In after test Drive
                         OUT_KM = stockItem.optString("OUT_KM"),
-                        OUT_TIME = stockItem.optString("OUT_TIME")
+                        OUT_TIME = stockItem.optString("OUT_TIME"),
+                        SERVICE_ADVISOR=stockItem.optString("SERVICE_ADVISOR")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -766,11 +1131,106 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
+
+
+    private fun detailsForPhysicallyOutVehicle() {
+        val client = OkHttpClient()
+        val vehNo = physicallyOutVehEditText.text.toString()
+        if(vehNo.isEmpty()){
+            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
+            return
+        }
+        val url = ApiFile.APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
+
+        Log.d("URL:", url)
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    Log.d("Data", jsonObject.toString())
+
+                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+
+                    val jcData3 = physicallyOutData(
+                        REG_NO = stockItem.optString("REG_NO"),
+                        IN_TIME = stockItem.optString("IN_TIME"),
+                        IN_KM = stockItem.optString("IN_KM"),
+                        TEST_DRIVE_NO =stockItem.optString("TEST_DRIVE_NO")
+                    )
+
+                    val responseMessage = jsonObject.getString("message")
+
+                    when (responseMessage) {
+                        "Details Found Successfully" -> {
+                            runOnUiThread {
+                                populateFieldsForPhysicallyOutVehicle(jcData3)
+                               populateFieldsForPhysicallyOutSearch()
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Details Found Successfully for Vehicle No: $vehNo\nYou can out vehicle physically.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        "Details not found" -> {
+                            runOnUiThread {
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Vehicle is not delivered yet.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        else -> {
+                            runOnUiThread {
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Unexpected response for Vehicle No: $vehNo",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(
+                        this@WorkShopGatepass2,
+                        "Failed to fetch details for vehicle No: $vehNo",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
 //Post Data For vehicle in at location and in after test drive
     private fun vehicleIn() {
         val driverName = driverNameField.text.toString()
         val currentKms = currentKMSField.text.toString()
         val remarks = remarksField.text.toString()
+//        val gateNo=gateNoLov.selectedItem.toString()
+        val gateNo=gateNumber
+//        val gateType=gateTypeLov.selectedItem.toString()
+        val gateType=gateType
+
+    if(gateNo=="Select Gate Number"){
+            Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if(gateType=="Select Gate Type"){
+            Toast.makeText(this,"Please select the Gate Type.",Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (currentKMSField.text.toString().isEmpty()) {
             Toast.makeText(this, "Current Kilometers are required", Toast.LENGTH_SHORT).show()
@@ -779,11 +1239,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
         if (driverName.isEmpty()) {
             Toast.makeText(this, "Driver Name is required", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (remarks.isEmpty()) {
-            Toast.makeText(this, "Remarks required", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -820,14 +1275,26 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     put("engineNo", engineNo)
                 }
             }
+
             put("locCode", locId.toString())
             put("driverName", driverName)
             put("inKm", currentKms)
             put("ou", ouId.toString())
             put("dept", deptName)
-            put("remarks", remarks)
             put("createdBy", login_name)
             put("location", location_name)
+            put("attribute3",gateNo)
+            put("attribute4",gateType)
+//            if(attribute5.isEmpty()) {
+//                put("attribute5", "-")
+//            } else {
+//                put("attribute5", attribute5)
+//            }
+            if(remarks.isEmpty()) {
+                put("remarks", "-")
+            } else {
+                put("remarks", remarks)
+            }
             put("authorisedBy", login_name)
             put("updatedBy", login_name)
             if (::custName.isInitialized) {
@@ -835,6 +1302,13 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     put("attribute1", custName)
                 }
             }
+//            if (::attribute5.isInitialized) {
+//                if(attribute5.isNotEmpty() ) {
+//                    put("attribute5", attribute5)
+//                } else {
+//                    put("attribute5", "-")
+//                }
+//            }
         }
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
@@ -920,6 +1394,54 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val currentKilometersInt=currentKms.toInt()
         val remarks=remarksField.text.toString()
         val driverName=driverNameField.text.toString()
+        val reasonCode=reasonCodeLov.selectedItem.toString()
+
+    val adapter = transferLocationLov.adapter
+    if (adapter != null && adapter.count > 1) {
+        Log.d("adapter->Length", adapter.count.toString())
+    }
+        if (adapter != null && adapter.count > 1) {
+            if(reasonCode=="Select Transfer Location"){
+                Toast.makeText(this, "Please select Transfer location", Toast.LENGTH_SHORT).show()
+                return
+            } else if(transferLocationLov.selectedItem.toString()!="Select Transfer Location"){
+                attribute5=transferLocationLov.selectedItem.toString()
+            }
+        } else if (reasonCode=="PARKING"){
+            attribute5=parkingEditText.text.toString()
+        }
+//        else if(reasonCode=="TRIAL"){
+//            transferLocationTxtView.visibility=View.GONE
+//            transferLocationLov.visibility=View.GONE
+//            resetSpinner2()
+//        }
+
+        else {
+//            attribute5=parkingEditText.text.toString()
+        }
+
+//        if(attribute5=="Select Transfer Location"){
+//            Toast.makeText(this, "Please select Transfer location", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+
+        if(reasonCode=="Select Test Drive Reason"){
+                Toast.makeText(this,"Please select the reason of Test Drive.",Toast.LENGTH_SHORT).show()
+                return
+            }
+
+        val gateNo=gateNoLov.selectedItem.toString()
+        if(gateNo=="Select Gate Number"){
+            Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+//        val gateType=gateTypeLov.selectedItem.toString()
+//        if(gateType=="Select Gate Type"){
+//            Toast.makeText(this,"Please select the Gate Type.",Toast.LENGTH_SHORT).show()
+//            return
+//        }
+
 
         if(currentKMSField.text.toString().isEmpty()){
             Toast.makeText(this,"Please enter the Current Kilometers",Toast.LENGTH_SHORT).show()
@@ -942,6 +1464,26 @@ class WorkShopGatepass2 : AppCompatActivity() {
             put("outKm", currentKms)
             put("dept",deptName)
             put("location",location_name)
+            put("attribute2",reasonCode)
+//            put("attribute3",gateNo)
+            if (::gateNumber.isInitialized) {
+                if(gateNumber.isNotEmpty() ) {
+                    put("attribute3", gateNumber)
+                }
+            }
+//            put("attribute4",gateType)
+            if (::gateType.isInitialized) {
+                if(gateType.isNotEmpty() ) {
+                    put("attribute4", gateType)
+                }
+            }
+            if (::attribute5.isInitialized) {
+                if(attribute5.isNotEmpty() ) {
+                    put("attribute5", attribute5)
+                } else {
+                    put("attribute5", "-")
+                }
+            }
             if (::jobCardNo.isInitialized) {
                 if(jobCardNo.isNotEmpty() ) {
                     put("jobCardNo", jobCardNo)
@@ -998,26 +1540,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     Toast.makeText(this@WorkShopGatepass2, "Failed to update vehicle", Toast.LENGTH_SHORT).show()
                 }
             }
-//            override fun onResponse(call: Call, response: Response) {
-//                response.use {
-//                    if (it.isSuccessful) {
-//                        runOnUiThread {
-//                            Toast.makeText(this@WorkShopGatepass2, "Vehicle out", Toast.LENGTH_SHORT).show()
-//                            resetFields()
-//                        }
-//                    } else {
-//                        val responseBody = it.body?.string() ?: ""
-//                        val errorMessage = if (responseBody.contains("Invalid VIN")) {
-//                            "Invalid VIN"
-//                        } else {
-//                            "Unexpected code ${it.code}"
-//                        }
-//                        runOnUiThread {
-//                            Toast.makeText(this@WorkShopGatepass2, errorMessage, Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//            }
         override fun onResponse(call: Call, response: Response) {
             response.use {
                 val responseBody = it.body?.string() ?: ""
@@ -1062,6 +1584,79 @@ class WorkShopGatepass2 : AppCompatActivity() {
     }
 
 
+    private fun vehiclePhysicallyOut() {
+        val currentKms=currentKMSField.text.toString()
+        val currentKmsInt=currentKms.toInt()
+
+        if(currentKMSField.text.toString().isEmpty()){
+            Toast.makeText(this,"Please enter the Current Kilometers",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val url = "${ApiFile.APP_URL}/service/wsVehTdDeliver"
+        val json = JSONObject().apply {
+            put("updatedBy", login_name)
+            put("regNo",regNo)
+            put("outKm", currentKmsInt)
+            put("testDriveNo",testDriveNo)
+
+        }
+        Log.d("URL:", url)
+
+        val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+        Log.d("URL FOR UPDATE:", json.toString())
+        val request = Request.Builder()
+            .url(url)
+            .put(requestBody)
+            .addHeader("Content-Type", "application/json")
+            .build()
+
+        val client = OkHttpClient()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(this@WorkShopGatepass2, "Failed to update vehicle", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val responseBody = it.body?.string() ?: ""
+
+                    runOnUiThread {
+                        when {
+                            responseBody.contains("Out Km Must Be Greater Than Last In Km", ignoreCase = true) -> {
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Out Km Must Be Greater Than Last In Km",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            it.isSuccessful -> {
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Vehicle physically out successfully!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                resetFieldsAfterPhysicallyOut()
+                            }
+                            else -> {
+                                Toast.makeText(
+                                    this@WorkShopGatepass2,
+                                    "Failed to update vehicle. Error code: ${it.code}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+
     private fun populateFieldsDuringInStockVehicle(jcData:allData) {
         val table = findViewById<TableLayout>(R.id.tableLayout2)
         table.removeAllViews()
@@ -1075,12 +1670,13 @@ class WorkShopGatepass2 : AppCompatActivity() {
             "VARIANT_CODE" to jcData.VARIANT_CODE,
             "MODEL_DESC" to jcData.MODEL_DESC,
             "IN KM" to jcData.IN_KM,
-            "DEPT." to jcData.DEPT,
-            "CONTACTNO" to jcData.CONTACTNO,
-            "ERPACCTNO" to jcData.ERPACCTNO,
-            "CUSTNAME" to jcData.CUSTNAME
+//            "DEPT." to jcData.DEPT,
+//            "CONTACTNO" to jcData.CONTACTNO,
+//            "ERPACCTNO" to jcData.ERPACCTNO,
+//            "CUSTNAME" to jcData.CUSTNAME
         )
 
+        driverNameField.setText(jcData.SERVICE_ADVISOR)
         regNo=jcData.REGNO
         jobCardNo=jcData.JOBCARDNO
         engineNo=jcData.ENGINENO
@@ -1114,21 +1710,22 @@ class WorkShopGatepass2 : AppCompatActivity() {
         table.removeAllViews()
 
         val detailsMap = mutableMapOf(
-            "REGNO" to jcData.INSTANCE_NUMBER,
-            "CHASSIS_NO" to jcData.CHASSIS_NO,
-            "ENGINENO" to jcData.ENGINE_NO,
-            "ADDRESS" to jcData.ADDRESS,
-            "REGISTRATION_DATE" to jcData.REGISTRATION_DATE,
-            "EMAIL_ADDRESS" to jcData.EMAIL_ADDRESS,
-            "ACCOUNT_NUMBER" to jcData.ACCOUNT_NUMBER,
-            "CUST_NAME" to jcData.CUST_NAME,
-            "PRIMARY_PHONE_NUMBER" to jcData.PRIMARY_PHONE_NUMBER
+            "REG NO" to jcData.INSTANCE_NUMBER,
+            "CHASSIS NO" to jcData.CHASSIS_NO,
+            "ENGINE NO" to jcData.ENGINE_NO,
+//            "ADDRESS" to jcData.ADDRESS,
+//            "REGISTRATION_DATE" to jcData.REGISTRATION_DATE,
+//            "EMAIL_ADDRESS" to jcData.EMAIL_ADDRESS,
+//            "ACCOUNT_NUMBER" to jcData.ACCOUNT_NUMBER,
+//            "DRIVER" to jcData.CUST_NAME,
+//            "PRIMARY_PHONE_NUMBER" to jcData.PRIMARY_PHONE_NUMBER
         )
 
         regNo=jcData.INSTANCE_NUMBER
         engineNo=jcData.ENGINE_NO
         chassisNo=jcData.CHASSIS_NO
         custName=jcData.CUST_NAME
+        driverNameField.setText(jcData.CUST_NAME)
 
         for ((label, value) in detailsMap) {
             val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1153,7 +1750,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         table.removeAllViews()
 
         val detailsMap = mutableMapOf(
-            "REGNO" to jcData.REGNO,
+            "REG NO" to jcData.REGNO,
             "MESSAGE" to "This is a new vehicle"
         )
         regNo=jcData.REGNO
@@ -1181,12 +1778,12 @@ class WorkShopGatepass2 : AppCompatActivity() {
         table.removeAllViews()
 
         val detailsMap = mutableMapOf(
-            "REGNO" to jcData.REG_NO,
-            "JOBCARDNO" to jcData.JOBCARDNO,
+            "REG NO" to jcData.REG_NO,
+            "JOBCARD NO" to jcData.JOBCARDNO,
             "VIN" to jcData.VIN,
-            "CHASSIS_NO" to jcData.CHASSIS_NO,
-            "ENGINENO" to jcData.ENGINE_NO,
-            "DEPT." to jcData.DEPT,
+            "CHASSIS NO" to jcData.CHASSIS_NO,
+            "ENGINE NO" to jcData.ENGINE_NO,
+//            "DEPT." to jcData.DEPT,
             "LOCATION" to jcData.LOCATION,
             "TEST DRIVE NO" to jcData.TEST_DRIVE_NO,
             "IN KM" to jcData.IN_KM,
@@ -1230,9 +1827,9 @@ class WorkShopGatepass2 : AppCompatActivity() {
             "VIN" to jcData.VIN,
             "CHASSIS_NO" to jcData.CHASSIS_NO,
             "ENGINENO" to jcData.ENGINE_NO,
-            "DEPT." to jcData.DEPT,
+//            "DEPT." to jcData.DEPT,
             "LOCATION" to jcData.LOCATION,
-            "CUSTNAME" to jcData.CUSTNAME,
+//            "CUSTNAME" to jcData.CUSTNAME,
             "TEST DRIVE NO" to jcData.TEST_DRIVE_NO,
             "OUT KM" to jcData.OUT_KM,
             "OUT TIME" to jcData.OUT_TIME,
@@ -1266,6 +1863,37 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
+
+    private fun populateFieldsForPhysicallyOutVehicle(jcData:physicallyOutData) {
+        val table = findViewById<TableLayout>(R.id.tableLayout2)
+        table.removeAllViews()
+
+        val detailsMap = mutableMapOf(
+            "REG NO" to jcData.REG_NO,
+            "FIRST IN KM" to jcData.IN_KM,
+            "FIRST IN TIME" to jcData.IN_TIME
+        )
+        regNo=jcData.REG_NO
+        testDriveNo=jcData.TEST_DRIVE_NO
+
+        for ((label, value) in detailsMap) {
+            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+            val labelTextView = row.findViewById<TextView>(R.id.label)
+            val valueTextView = row.findViewById<TextView>(R.id.value)
+
+            labelTextView.text = label
+            valueTextView.text = value
+
+            table.addView(row)
+        }
+
+        if (table.childCount > 0) {
+            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+        }
+    }
+
     private fun resetFields(){
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout2)
         tableLayout.removeAllViews()
@@ -1278,14 +1906,14 @@ class WorkShopGatepass2 : AppCompatActivity() {
         driverNameField.visibility=View.GONE
         driverNameField.setText("")
         captureVehNumberIn.visibility=View.GONE
-        captureVehNumberOut.visibility=View.GONE
+//        captureVehNumberOut.visibility=View.GONE
         remarksTxt.visibility=View.GONE
         remarksField.visibility=View.GONE
         remarksField.setText("")
-        vehicleOutForTestDrive.visibility=View.GONE
-        vehicleInAfterTestDrive.visibility=View.GONE
-        newVehOutEditText.setText("")
-        newVehOutLL.visibility=View.GONE
+//        vehicleOutForTestDrive.visibility=View.GONE
+//        vehicleInAfterTestDrive.visibility=View.GONE
+//        newVehOutEditText.setText("")
+//        newVehOutLL.visibility=View.GONE
         newVehicleOutPremises.visibility=View.GONE
         newVehLL.visibility=View.GONE
         newVehEditText.setText("")
@@ -1300,6 +1928,39 @@ class WorkShopGatepass2 : AppCompatActivity() {
         custName=""
         outKm=""
         inKmNewVeh=""
+        attribute5=""
+        reasonCodeLov.setSelection(0)
+        gateNoLov.setSelection(0)
+//        gateTypeLov.setSelection(0)
+        gateTypeLov.visibility=View.GONE
+        reasonCodeLov.visibility=View.GONE
+        gateNoLov.visibility=View.GONE
+        reasonCodeTxtView.visibility=View.GONE
+        gateNumberTxtView.visibility=View.GONE
+        gateTypeTxtView.visibility=View.GONE
+        transferLocationTxtView.visibility=View.GONE
+        transferLocationLov.visibility=View.GONE
+        transferLocationLov.setSelection(0)
+        resetSpinner2()
+        parkingEditText.setText("")
+        parkingEditText.visibility=View.GONE
+        parkingEditTextTextView.visibility=View.GONE
+        gateNumber=""
+        gateType=""
+        physicallyOutLLTxt.visibility=View.GONE
+        physicallyOutVehEditText.setText("")
+        physicallyOutVehicleSave.visibility=View.GONE
+
+    }
+
+    fun resetSpinner2() {
+        val adapter2 = transferLocationLov.adapter as? ArrayAdapter<String>
+        if (adapter2 != null) {
+            adapter2.clear()
+            adapter2.addAll(emptyList())
+            adapter2.notifyDataSetChanged()
+        }
+        transferLocationLov.setSelection(0)
     }
 
     data class allData(
@@ -1336,7 +1997,16 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
         //In after test Drive
         val OUT_KM:String,
-        val OUT_TIME:String
+        val OUT_TIME:String,
+
+        val SERVICE_ADVISOR:String
+    )
+
+    data class physicallyOutData(
+        val REG_NO:String,
+        val IN_KM:String,
+        val IN_TIME:String,
+        val TEST_DRIVE_NO:String
     )
 
 }

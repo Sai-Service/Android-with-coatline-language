@@ -38,7 +38,7 @@ class WorkshopVehicleHistory : AppCompatActivity() {
     private lateinit var tableLayout: TableLayout
     private lateinit var location_name: String
     private lateinit var intransitBtn: Button
-    private lateinit var stktrfIntrBtn: Button
+    private lateinit var stktrfIntrBtn: TextView
     private lateinit var vin_no: String
     private lateinit var textView13: TextView
     private lateinit var textViewStatus: EditText

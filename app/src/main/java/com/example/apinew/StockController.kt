@@ -42,6 +42,8 @@ class StockController : AppCompatActivity() {
     private lateinit var serviceStkIntransitReport:ImageButton
     private lateinit var serviceStockTransferReport:ImageButton
     private lateinit var serviceTestDriveReport:ImageButton
+    private lateinit var serviceWashingReport:ImageButton
+    private lateinit var serviceDemoVehicleReport:ImageButton
     private lateinit var row1:View
     private lateinit var row2:View
     private lateinit var row3:View
@@ -62,6 +64,10 @@ class StockController : AppCompatActivity() {
     private lateinit var row18:View
     private lateinit var row19:View
     private lateinit var row20:View
+    private lateinit var row21:View
+    private lateinit var row22:View
+
+    private lateinit var emailId:String
 
 
 
@@ -78,6 +84,8 @@ class StockController : AppCompatActivity() {
         location_name = intent.getStringExtra("location_name") ?: ""
         location = intent.getStringExtra("location") ?: ""
         deptName = intent.getStringExtra("deptName") ?: ""
+        emailId = intent.getStringExtra("emailId") ?: ""
+
 
         CityReport=findViewById(R.id.CityReport)
         SummaryReport=findViewById(R.id.SummaryReport)
@@ -100,6 +108,9 @@ class StockController : AppCompatActivity() {
         serviceStkIntransitReport=findViewById(R.id.serviceStkIntransitReport)
         serviceStockTransferReport=findViewById(R.id.serviceStockTransferReport)
         serviceTestDriveReport=findViewById(R.id.serviceTestDriveReport)
+        serviceWashingReport=findViewById(R.id.serviceWashingReport)
+        serviceDemoVehicleReport=findViewById(R.id.serviceDemoVehicleReport)
+
 
 
         row1=findViewById(R.id.row1)
@@ -122,6 +133,8 @@ class StockController : AppCompatActivity() {
         row18=findViewById(R.id.row18)
         row19=findViewById(R.id.row19)
         row20=findViewById(R.id.row20)
+        row21=findViewById(R.id.row21)
+        row22=findViewById(R.id.row22)
 
 
 
@@ -147,6 +160,8 @@ class StockController : AppCompatActivity() {
                 row18.visibility=View.GONE
                 row19.visibility=View.GONE
                 row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
             }
 
             "TVSUPERADMIN" -> {
@@ -170,6 +185,10 @@ class StockController : AppCompatActivity() {
                 row18.visibility=View.GONE
                 row19.visibility=View.GONE
                 row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+
+
 
             }
 
@@ -194,7 +213,8 @@ class StockController : AppCompatActivity() {
                 row18.visibility=View.GONE
                 row19.visibility=View.GONE
                 row20.visibility=View.GONE
-
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
             }
 
             "SERACCOUNTS"->{
@@ -217,7 +237,11 @@ class StockController : AppCompatActivity() {
                 row17.visibility=View.VISIBLE
                 row18.visibility=View.VISIBLE
                 row19.visibility=View.VISIBLE
-                row20.visibility=View.VISIBLE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+
+
             }
 
             "SERVICE"->{
@@ -240,7 +264,10 @@ class StockController : AppCompatActivity() {
                 row17.visibility=View.VISIBLE
                 row18.visibility=View.VISIBLE
                 row19.visibility=View.VISIBLE
-                row20.visibility=View.VISIBLE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+
             }
 
             "DP"->{
@@ -263,7 +290,85 @@ class StockController : AppCompatActivity() {
                 row17.visibility=View.VISIBLE
                 row18.visibility=View.VISIBLE
                 row19.visibility=View.VISIBLE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+            }
+
+            "SECURITYTD"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
                 row20.visibility=View.VISIBLE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+            }
+
+            "SALES DEMO"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.VISIBLE
+            }
+
+            "WASHING"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.VISIBLE
+                row22.visibility=View.GONE
+
             }
 
 
@@ -288,6 +393,8 @@ class StockController : AppCompatActivity() {
                 row18.visibility=View.GONE
                 row19.visibility=View.GONE
                 row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
             }
         }
 
@@ -365,6 +472,12 @@ class StockController : AppCompatActivity() {
         }
         trueValueReportDelivered.setOnClickListener {
             trueValueVehicleDelivered()
+        }
+        serviceWashingReport.setOnClickListener {
+            serviceWashingReport()
+        }
+        serviceDemoVehicleReport.setOnClickListener {
+            serviceDemoVehicleReport()
         }
 
     }
@@ -602,6 +715,31 @@ class StockController : AppCompatActivity() {
 
     private fun serviceTestDriveReport() {
         val intent = Intent(this@StockController, WorkshopTestDriveReport::class.java)
+        intent.putExtra("attribute1", attribute1)
+        intent.putExtra("login_name", login_name)
+        intent.putExtra("ouId", ouId)
+        intent.putExtra("location", location)
+        intent.putExtra("locId", locId)
+        intent.putExtra("location_name", location_name)
+        intent.putExtra("deptName", deptName)
+        startActivity(intent)
+    }
+
+    private fun serviceWashingReport() {
+        val intent = Intent(this@StockController, WorkshopWashingReport::class.java)
+        intent.putExtra("attribute1", attribute1)
+        intent.putExtra("login_name", login_name)
+        intent.putExtra("ouId", ouId)
+        intent.putExtra("location", location)
+        intent.putExtra("locId", locId)
+        intent.putExtra("location_name", location_name)
+        intent.putExtra("deptName", deptName)
+        intent.putExtra("emailId",emailId)
+        startActivity(intent)
+    }
+
+    private fun serviceDemoVehicleReport() {
+        val intent = Intent(this@StockController, WorkshopDemoVehicleReport::class.java)
         intent.putExtra("attribute1", attribute1)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/harshbg">
+    android:background="@drawable/gradient_background">
 
     <ImageView
         android:id="@+id/imageView9"
@@ -21,7 +21,7 @@
         android:layout_width="307dp"
         android:layout_height="33dp"
         android:layout_marginTop="8dp"
-        android:text="TEST DRIVE VEHICLE HISTORY"
+        android:text="VEHICLE IN-OUT HISTORY"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -100,13 +100,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/stktrfIntrBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
-        android:background="@drawable/modern_button_background"
-        android:text="VIEW HISTORY OF VEHICLE"
+        android:background="@drawable/gatepass_textview"
+        android:textStyle="bold"
+        android:textColor="#F5F6F8"
+        android:textSize="17dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Show Vehicle In-Out History"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

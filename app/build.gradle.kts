@@ -1,7 +1,4 @@
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Properties
-import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)

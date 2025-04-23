@@ -22,13 +22,14 @@ class LoginResponseDeserializer : JsonDeserializer<LoginResponse> {
             val locId=obj.locId
             val location_name=obj.location_name
             val deptName=obj.deptName
+            val emailId=obj.emailId
 
-            LoginResponse(code, obj, attribute1, ouId,loginName,location,locId,location_name,deptName)
+            LoginResponse(code, obj, attribute1, ouId,loginName,location,locId,location_name,deptName,emailId)
 //            LoginResponse(code, obj, attribute1, ouId,loginName)
 
         } else {
             val obj = objElement.asString
-            LoginResponse(code, obj, null, null, null.toString(), null,null,null,null)
+            LoginResponse(code, obj, null, null, null.toString(), null,null,null,null,null)
 //            LoginResponse(code, obj, null, null, null.toString())
 
         }

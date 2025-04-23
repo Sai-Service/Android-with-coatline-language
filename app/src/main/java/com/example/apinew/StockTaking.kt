@@ -1149,7 +1149,7 @@ class StockTaking : AppCompatActivity() {
         jsonObject.put("createdBy", login_name)
         jsonObject.put("batchStatus", "open")
         jsonObject.put("creationDate", formattedDate)
-//        if (batchStatus == "Closed" && dateTimeToSend != null) {
+//        if (batchStatus == "Closed" && dateTimecToSend != null) {
 //            jsonObject.put("batchCreationDate", dateTimeToSend)
 //        }
         if(jsonBatchStatus.toInt()==0){

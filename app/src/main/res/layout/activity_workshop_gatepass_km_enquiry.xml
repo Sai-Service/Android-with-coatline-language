@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/harshbg"
+    android:background="@drawable/gradient_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_bg"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="username"
-                android:textColor="#0429F6"
+                android:textColor="#FF5722"
                 android:textStyle="bold" />
 
             <TextView
@@ -66,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="locId"
-                android:textColor="#0429F6"
+                android:textColor="#FF5722"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -76,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_bg"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="locId"
-                android:textColor="#0429F6"
+                android:textColor="#FF5722"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -124,21 +122,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="TEST DRIVE OF VEHICLE"
-                android:textColor="#0429F6"
+                android:textColor="#0A0A0B"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/edittext"
-                android:textColor="@color/red"
-                android:text="SELECT OPTION"
-                android:textSize="13dp"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/vehicleHistory"
@@ -146,13 +133,13 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/gatepass_textview"
-                android:textSize="17dp"
-                android:text="Vehicle History"
-                android:clickable="true"
-                android:focusable="true"
+                android:text="Vehicle In-Out History"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
@@ -164,39 +151,69 @@
             android:padding="16dp">
 
             <View
-                android:layout_width="30dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/forNewVehicleOut"
+                android:layout_width="109dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gatepass_textview"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Vehicle Out"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="wrap_content" />
+
 
             <TextView
                 android:id="@+id/forNewVehicleIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vehicle In"
+                android:background="@drawable/gatepass_textview"
                 android:textStyle="bold"
                 android:textColor="#F5F6F8"
-                android:background="@drawable/gatepass_textview"
                 android:textSize="17dp"
                 android:clickable="true"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <View
-                android:layout_width="50dp"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/forNewVehicleOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="#F5F6F8"
-                android:background="@drawable/gatepass_textview"
-                android:textSize="17dp"
-                android:text="Vehicle Out"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/physicallyOutLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/physicallyOutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gatepass_textview"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="Vehicle Out Physically"
+                    android:textColor="#F5F6F8"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/captureVehNumberIn"
@@ -210,7 +227,8 @@
                     android:layout_height="wrap_content"
                     android:text="Caputure VEH NO - "
                     android:layout_marginTop="9dp"
-                    android:textColor="@color/purple_700"
+                    android:layout_marginStart="50dp"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18dp" />
 
@@ -228,34 +246,35 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/captureVehNumberOut"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/captureVehNumberOut"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="75dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="16dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Caputure VEH NO - "
-                    android:layout_marginTop="9dp"
-                    android:textColor="@color/purple_700"
-                    android:textStyle="bold"
-                    android:textSize="18dp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Caputure VEH NO - "-->
+<!--                    android:layout_marginTop="9dp"-->
+<!--                    android:layout_marginStart="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="18dp" />-->
 
-                <ImageButton
-                    android:id="@+id/captureRegNoCameraOut"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/camera"
-                    android:elevation="4dp"
-                    android:padding="12dp"
-                    android:textStyle="bold" />
+<!--                <ImageButton-->
+<!--                    android:id="@+id/captureRegNoCameraOut"-->
+<!--                    android:layout_width="45dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:background="@drawable/camera"-->
+<!--                    android:elevation="4dp"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:textStyle="bold" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
 
         <LinearLayout
@@ -333,28 +352,6 @@
                     android:layout_marginBottom="20dp"
                     android:elevation="4dp" />
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/newVehOutLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:padding="16dp">
-
-                <EditText
-                    android:id="@+id/newVehOutEditText"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Vehicle Number"
-                    android:inputType="textCapCharacters"
-                    android:padding="12dp"
-                    android:background="@drawable/edittext_rounded"
-                    android:elevation="2dp"
-                    android:layout_marginBottom="20dp" />
-
                 <ImageButton
                     android:id="@+id/newVehOutButton"
                     android:layout_width="45dp"
@@ -368,6 +365,71 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/physicallyOutLLTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/physicallyOutVehEditText"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Vehicle Number"
+                    android:inputType="textCapCharacters"
+                    android:padding="12dp"
+                    android:background="@drawable/edittext_rounded"
+                    android:elevation="2dp"
+                    android:layout_marginBottom="20dp" />
+
+                <ImageButton
+                    android:id="@+id/physicallyOutVehButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/search"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/newVehOutLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:padding="16dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/newVehOutEditText"-->
+<!--                    android:layout_width="240dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Vehicle Number"-->
+<!--                    android:inputType="textCapCharacters"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:background="@drawable/edittext_rounded"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:layout_marginBottom="20dp" />-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/newVehOutButton"-->
+<!--                    android:layout_width="45dp"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:background="@drawable/search"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:elevation="4dp" />-->
+
+<!--            </LinearLayout>-->
+
 
             <TextView
                 android:id="@+id/regNoDetails"
@@ -377,7 +439,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="Details By Vehicle Number"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="#0D47A1"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
 
@@ -471,53 +533,162 @@
                 android:elevation="2dp"
                 android:layout_marginBottom="20dp" />
 
-            <Button
-                android:id="@+id/vehicleOutForTestDrive"
+            <TextView
+                android:id="@+id/reasonCodeTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/modern_button_background"
-                android:text="Vehicle Out"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="Select the Reason of Test Drive"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/vehicleInAfterTestDrive"
+            <Spinner
+                android:id="@+id/reasonCodeLov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/modern_spinner_background"/>
+
+            <TextView
+                android:id="@+id/transferLocationTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/modern_button_background"
-                android:text="Vehicle In"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="Select the Transfer Location"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
 
-            <Button
+
+
+            <Spinner
+                android:id="@+id/transferLocationLov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/modern_spinner_background"/>
+
+            <TextView
+                android:id="@+id/parkingEditTextTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select the Transfer Location"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/parkingEditText"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="Enter Parking"
+                android:layout_gravity="center"
+                android:inputType="textCapCharacters"
+                android:padding="12dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_rounded"
+                android:elevation="2dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/gateNumberTxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Gate Number"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/gateNoLov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/modern_spinner_background"/>
+
+
+            <TextView
+                android:id="@+id/gateTypeTxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Gate Type"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/gateTypeLov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/modern_spinner_background"/>
+
+
+
+            <TextView
                 android:id="@+id/newVehicleInPremises"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/modern_button_background"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/gatepass_textview"
                 android:text="Vehicle In"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <Button
+            <TextView
                 android:id="@+id/newVehicleOutPremises"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/modern_button_background"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/gatepass_textview"
                 android:text="Vehicle Out"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <TextView
+                android:id="@+id/physicallyOutVehicleSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/gatepass_textview"
+                android:text="Vehicle Out Physically"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <Button
+
+            <TextView
                 android:id="@+id/refreshButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/modern_button_background"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/gatepass_textview"
                 android:text="REFRESH FIELDS"
                 app:layout_constraintEnd_toEndOf="parent" />
-
 
         </LinearLayout>
 

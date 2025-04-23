@@ -22,6 +22,7 @@ class Controller : AppCompatActivity() {
     private lateinit var location: String
     private lateinit var logoutButton:ImageView
     private lateinit var deptName:String
+    private lateinit var emailId:String
     private lateinit var reports:View
     private lateinit var security:View
     private lateinit var vehTrack:View
@@ -42,6 +43,8 @@ class Controller : AppCompatActivity() {
     private lateinit var row15:View
     private lateinit var row16:View
     private lateinit var row17:View
+    private lateinit var row18:View
+    private lateinit var row19:View
 
 
 
@@ -76,6 +79,7 @@ class Controller : AppCompatActivity() {
         location_name = intent.getStringExtra("location_name") ?: ""
         location = intent.getStringExtra("location") ?: ""
         deptName = intent.getStringExtra("deptName") ?: ""
+        emailId = intent.getStringExtra("emailId") ?: ""
         row1 = findViewById(R.id.row1)
         row2 = findViewById(R.id.row2)
         row3 = findViewById(R.id.row3)
@@ -93,12 +97,16 @@ class Controller : AppCompatActivity() {
         row15=findViewById(R.id.row15)
         row16=findViewById(R.id.row16)
         row17=findViewById(R.id.row17)
+        row18=findViewById(R.id.row18)
+        row19=findViewById(R.id.row19)
 
         reports = findViewById(R.id.reports)
 
         locIdTxt.text = "$location_name"
         username.text = "$login_name"
         deptIntent.text=deptName
+
+        Log.d("EmailId====+++++====",emailId)
 
 
         logoutButton.setOnClickListener {
@@ -128,6 +136,8 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
             }
 
             "SECURITY" -> {
@@ -148,6 +158,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "SALES" -> {
@@ -168,6 +181,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "SUPERADMIN" -> {
@@ -188,6 +204,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "TRUEVALUE" -> {
@@ -208,6 +227,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "TVSUPERADMIN" -> {
@@ -228,6 +250,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "TVACCOUNTS" -> {
@@ -248,6 +273,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "SERVICE" -> {
@@ -267,7 +295,10 @@ class Controller : AppCompatActivity() {
                 row14.visibility=View.VISIBLE
                 row15.visibility=View.VISIBLE
                 row16.visibility=View.VISIBLE
-                row17.visibility=View.VISIBLE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "DP" -> {
@@ -287,7 +318,10 @@ class Controller : AppCompatActivity() {
                 row14.visibility=View.VISIBLE
                 row15.visibility=View.VISIBLE
                 row16.visibility=View.VISIBLE
-                row17.visibility=View.VISIBLE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "SERACCOUNTS" -> {
@@ -308,6 +342,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "SALES-SHOWROOM" -> {
@@ -328,6 +365,9 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
             }
 
             "ADMINISTRATOR" -> {
@@ -348,6 +388,76 @@ class Controller : AppCompatActivity() {
                 row15.visibility=View.GONE
                 row16.visibility=View.GONE
                 row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
+            }
+            "SECURITYTD" ->{
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+                row5.visibility = View.GONE
+                row6.visibility = View.GONE
+                row7.visibility = View.GONE
+                row8.visibility = View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.VISIBLE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+
+            }
+
+            "SALES DEMO" ->{
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+                row5.visibility = View.GONE
+                row6.visibility = View.GONE
+                row7.visibility = View.GONE
+                row8.visibility = View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.VISIBLE
+
+            }
+
+            "WASHING" ->{
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+                row5.visibility = View.GONE
+                row6.visibility = View.GONE
+                row7.visibility = View.GONE
+                row8.visibility = View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.VISIBLE
+                row19.visibility=View.GONE
             }
         }
     }
@@ -360,6 +470,7 @@ class Controller : AppCompatActivity() {
         intent.putExtra("locId", locId)
         intent.putExtra("location_name",location_name)
         intent.putExtra("deptName",deptName)
+        intent.putExtra("emailId",emailId)
         startActivity(intent)
     }
 
@@ -542,6 +653,30 @@ class Controller : AppCompatActivity() {
     fun workshopGatePassEntry(view: View) {
 //        val intent = Intent(this@Controller, WorkshopGatepassKmEnquiry::class.java)
         val intent = Intent(this@Controller, WorkShopGatepass2::class.java)
+        intent.putExtra("attribute1", attribute1)
+        intent.putExtra("login_name", login_name)
+        intent.putExtra("ouId", ouId)
+        intent.putExtra("location", location)
+        intent.putExtra("locId", locId)
+        intent.putExtra("location_name",location_name)
+        intent.putExtra("deptName",deptName)
+        startActivity(intent)
+    }
+
+    fun workshopWashingModule(view: View) {
+        val intent = Intent(this@Controller, WorkshopWashingModule::class.java)
+        intent.putExtra("attribute1", attribute1)
+        intent.putExtra("login_name", login_name)
+        intent.putExtra("ouId", ouId)
+        intent.putExtra("location", location)
+        intent.putExtra("locId", locId)
+        intent.putExtra("location_name",location_name)
+        intent.putExtra("deptName",deptName)
+        startActivity(intent)
+    }
+
+    fun workshopDemoVehicle(view: View) {
+        val intent = Intent(this@Controller, WorkshopDemoVehicle::class.java)
         intent.putExtra("attribute1", attribute1)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)

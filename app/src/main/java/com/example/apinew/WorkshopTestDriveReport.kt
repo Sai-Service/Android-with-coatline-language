@@ -267,9 +267,9 @@ class WorkshopTestDriveReport : AppCompatActivity() {
             val incrementedToDate = getIncrementedDate(toDate)
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/srAccounts/testDriveDetailsByOu?ou=$selectedCityCode&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.APP_URL + "/srAccounts/testDriveDetailsByOu?ou=$selectedCityCode&locId=$locId&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
             } else {
-                ApiFile.APP_URL + "/srAccounts/testDriveDetailsByOu?ou=$ouId&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.APP_URL + "/srAccounts/testDriveDetailsByOu?ou=$ouId&locId=$locId&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
             }
 
             val request = Request.Builder()

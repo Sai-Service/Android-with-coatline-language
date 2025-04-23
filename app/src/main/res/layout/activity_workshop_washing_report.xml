@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/harshbg">
+
+    <LinearLayout
+        android:id="@+id/lineralay"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/saiservicelogo"
+            android:contentDescription="Logo"
+            android:scaleType="fitStart" />
+
+        <ImageView
+            android:id="@+id/logoutBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/logout"
+            android:padding="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/spinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineralay">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WASHING REPORT"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#333333"
+            android:background="#FFFFFF"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="12dp" />
+
+        <Spinner
+            android:id="@+id/citySpinner"
+            android:layout_width="280dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/modern_spinner_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="280dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:background="@drawable/modern_spinner_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerLayout">
+
+        <Button
+            android:id="@+id/fromDatePicker"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="FROM DATE"
+            android:textSize="14sp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/toDatePicker"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="TO DATE"
+            android:textSize="14sp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:padding="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/textViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonLayout">
+
+        <TextView
+            android:id="@+id/fromDateLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:background="@drawable/edittext"
+            android:hint="FROM DATE"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#757575"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/fetchData"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="52dp"
+            android:text="VIEW REPORT"
+            android:textSize="14sp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/toDateLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/edittext"
+            android:hint="TO DATE"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#757575" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/viewReportLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewLayout">
+
+        <TextView
+            android:id="@+id/rowCountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Row Count"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#E8F5E9"
+            android:textColor="#000000"
+            android:textColorHint="#616161"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/sendReportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Report To Mail"
+            android:layout_marginStart="16dp"
+            android:textSize="14sp"
+            android:backgroundTint="#FF5722"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/headerHorizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/viewReportLayout">
+
+        <TableLayout
+            android:id="@+id/headerTableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#E0E0E0"
+            android:stretchColumns="*">
+        </TableLayout>
+    </HorizontalScrollView>
+
+    <RelativeLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/TextProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBar"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:text="Data is loading....."
+            android:textColor="#000000"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/dataHorizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="true"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerHorizontalScrollView">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:stretchColumns="*">
+            </TableLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

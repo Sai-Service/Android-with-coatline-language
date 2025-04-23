@@ -43,7 +43,8 @@ data class LoginResponse(
     val location:String?=null,
     val locId: Int?=null,
     val location_name:String?=null,
-    val deptName:String?=null
+    val deptName:String?=null,
+    val emailId: String?=null,
 )
 
 data class LoginResponseObject(

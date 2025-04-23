@@ -918,7 +918,7 @@
                             android:layout_marginTop="10dp"
                             android:textAlignment="center"
                             android:fontFamily="@font/poppins_semibold"
-                            android:text="VEHICLE ENTRY CAPTURE"
+                            android:text="TEST DRIVE"
                             android:textColor="@android:color/black"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -930,6 +930,111 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
                             android:src="@drawable/gears" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row18"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/workshopGWashingModule"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/workshopGWashingModule2"
+                        android:layout_width="match_parent"
+                        android:layout_height="136dp"
+                        android:onClick="workshopWashingModule">
+
+                        <TextView
+                            android:id="@+id/workshopGWashingModule3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/workshopGWashingModule4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="WASHING CONTROL"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/workshopGWashingModule4"
+                            android:layout_width="80dp"
+                            android:layout_height="78dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/vehicletrack" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/row19"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/workshopDemoehicle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/workshopDemoehicle2"
+                        android:layout_width="match_parent"
+                        android:layout_height="136dp"
+                        android:onClick="workshopDemoVehicle">
+
+                        <TextView
+                            android:id="@+id/workshopDemoehicle3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/workshopDemoehicle4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="Demo Vehicle test drive"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/workshopDemoehicle4"
+                            android:layout_width="80dp"
+                            android:layout_height="78dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/vehicletrack" />
 
                     </RelativeLayout>
 
