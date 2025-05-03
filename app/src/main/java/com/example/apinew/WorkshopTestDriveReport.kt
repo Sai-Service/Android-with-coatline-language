@@ -280,22 +280,18 @@ class WorkshopTestDriveReport : AppCompatActivity() {
                 .build()
             progressBar.visibility = View.VISIBLE
             TextProgressBar.visibility = View.VISIBLE
-            Log.d("URL-->",url)
 
             GlobalScope.launch(Dispatchers.IO) {
                 try {
                     val response = client.newCall(request).execute()
 
                     if (!response.isSuccessful) {
-                        Log.e("API Error", "HTTP Error: ${response.code}")
-                        Log.d("API-Failed",url)
                         return@launch
                     }
 
                     val jsonData = response.body?.string()
 
                     jsonData?.let {
-                        Log.d("JSON Response", it)
 
                         val jsonObject = JSONObject(it)
                         if (jsonObject.has("obj")) {
@@ -332,7 +328,6 @@ class WorkshopTestDriveReport : AppCompatActivity() {
 
                             }
                         } else {
-                            Log.e("JSON Response", "Key 'obj' not found in JSON response")
                             runOnUiThread {
                                 progressBar.visibility = View.GONE
                             }

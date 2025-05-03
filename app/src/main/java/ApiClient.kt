@@ -11,7 +11,7 @@ object ApiClient {
 //    private const val BASE_URL ="http://182.73.44.117:8080/"  //production
 //    private const val BASE_URL ="http://182.72.0.216:7485/"  //production new
 //
-//    private const val BASE_URL ="http://115.242.10.85:7485/"// production new2
+//    private const val BASE_URL ="http://115.242.10.85:7485/"  // production new2
 
 //    private const val BASE_URL = "http://115.242.10.85:7485/"   //13-04-2025-prod
 

@@ -203,7 +203,6 @@ class TrueValueReportModelWise : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("json", jsonData.toString())
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
                     val jsonArray = jsonObject.getJSONArray("obj")
@@ -229,7 +228,6 @@ class TrueValueReportModelWise : AppCompatActivity() {
                     val request2 = Request.Builder().url(url2).build()
                     val response2 = client.newCall(request2).execute()
                     val jsonData2 = response2.body?.string()
-                    Log.d("json totalstock", jsonData2.toString())
 
                     var allModelCountData = ""
                     jsonData2?.let {

@@ -170,7 +170,6 @@ class TrueValueUploadImage : AppCompatActivity() {
         uploadingTextView.visibility=View.VISIBLE
 
 
-        Log.d("Url", requestBody.toString())
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -178,7 +177,6 @@ class TrueValueUploadImage : AppCompatActivity() {
                 val responseCode = response.code
                 val responseBody = response.body?.string()
 
-                Log.d("upload image", "Response Code: $responseCode")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -220,7 +218,6 @@ class TrueValueUploadImage : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("Upload image", "Error: ${e.message}")
                 runOnUiThread {
                     progressBar.visibility=View.GONE
                     uploadingTextView.visibility=View.GONE

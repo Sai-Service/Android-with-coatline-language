@@ -175,7 +175,7 @@
                     android:background="@drawable/gatepass_textview"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="Wash Out"
+                    android:text="WASH OUT"
                     android:textColor="#F5F6F8"
                     android:textSize="17dp"
                     android:textStyle="bold"

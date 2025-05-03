@@ -331,12 +331,9 @@ class CameraActivity : AppCompatActivity() {
                 if (responseCode == 200 && jsonData != null) {
                     try {
                         val jsonObject = JSONObject(jsonData)
-                        Log.d("fetch 363 chassis Data-----", jsonData)
                         val objArray = jsonObject.getJSONArray("obj")
-                        Log.d("chassis Array ----",objArray.toString())
                         if (objArray.length() > 0) {
                             val stockItem = objArray.getJSONObject(0)
-                            Log.d("in If len----",objArray.toString())
                             jsonData?.let {
                                 val parseVindataList = parseVindata(jsonData.toString())
                                 runOnUiThread {
@@ -354,7 +351,6 @@ class CameraActivity : AppCompatActivity() {
                                 VIN = stockItem.getString("VIN"),
                                 LOCATION=stockItem.getString("LOCATION")
                             )
-                            Log.d("Vin:", chassisData.VIN)
                             runOnUiThread {
                                 if (chassisData.LOCATION != location_name) {
                                     Toast.makeText(
@@ -401,7 +397,6 @@ class CameraActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Log.d("Error", "Server returned non-200 response: $responseCode")
                     runOnUiThread {
                         Toast.makeText(
                             this@CameraActivity,
@@ -424,18 +419,14 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -517,14 +508,6 @@ class CameraActivity : AppCompatActivity() {
             .build()
 
         val client = OkHttpClient()
-        Log.d("PostDataURL", "URL: $url")
-        Log.d("PostData", "VIN: $vin")
-        Log.d("PostData", "ReasonCode: $reasonCode")
-        Log.d("PostData", "OrganizationID: $organization_id")
-        Log.d("PostData", "CreatedBy: $created_by")
-        Log.d("PostData", "TransferredBy: $transferred_by")
-        Log.d("PostData", "Remarks: $remarks")
-
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -558,14 +541,12 @@ class CameraActivity : AppCompatActivity() {
                         postBtn.visibility=View.GONE
                     } else {
                         Toast.makeText(this@CameraActivity, "Failed to post data: ${response.code}", Toast.LENGTH_SHORT).show()
-                        Log.e("PostDataError", "Failed to post data: ${response.code}, Response: $responseBody")
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(this@CameraActivity, "Failed to post data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("PostDataException", "Exception: ${e.message}")
                 }
             }
         }
@@ -610,12 +591,10 @@ class CameraActivity : AppCompatActivity() {
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -623,7 +602,6 @@ class CameraActivity : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val vinData = vin_data(
                         VARIANT_CD = stockItem.getString("VARIANT_CD"),
@@ -704,14 +682,11 @@ class CameraActivity : AppCompatActivity() {
     private fun fetchVinData2(vin: String) {
         val client = OkHttpClient()
         val vin2=vintypeSpinner.selectedItem.toString()
-        Log.d("vin2--->",vin2)
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -719,7 +694,6 @@ class CameraActivity : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vin_data(
@@ -910,7 +884,6 @@ class CameraActivity : AppCompatActivity() {
                         jsonObject.getJSONArray("obj").toString(),
                         object : TypeToken<List<Organization>>() {}.type
                     )
-                    Log.e("Data", jsonObject.toString())
                     runOnUiThread {
                         populateOrganizationSpinner(organizations)
                     }
@@ -935,7 +908,6 @@ class CameraActivity : AppCompatActivity() {
         organizations.forEach { organization ->
             val key = "${organization.LOCID} - ${organization.LOCATIONNAME}"
             organizationMap[key] = organization.LOCID
-            Log.d("Organization", "Key: $key, ID: ${organization.LOCID}")
         }
 
         val adapter = object : ArrayAdapter<String>(

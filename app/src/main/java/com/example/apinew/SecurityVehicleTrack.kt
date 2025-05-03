@@ -339,7 +339,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                 if (responseCode == 200 && jsonData != null) {
                     try {
                         val jsonObject = JSONObject(jsonData)
-                        Log.d("DataBy Chassis No ---", jsonData)
                         val objArray = jsonObject.getJSONArray("obj")
 
                         if (objArray.length() > 0) {
@@ -363,7 +362,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                                 VIN = stockItem.getString("VIN"),
                                 LOCATION= stockItem.getString("LOCATION")
                             )
-                            Log.d("Vin:", chassisData.VIN)
                             runOnUiThread {
                                 if (chassisData.LOCATION != location_name) {
                                     Toast.makeText(
@@ -410,8 +408,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Log.d("Error", "Server returned non-200 response: $responseCode")
-                    Log.d("Error", "Response: $jsonData")
                     runOnUiThread {
                         Toast.makeText(
                             this@SecurityVehicleTrack,
@@ -434,18 +430,14 @@ class SecurityVehicleTrack : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -454,116 +446,9 @@ class SecurityVehicleTrack : AppCompatActivity() {
         return parseVindataList
     }
 
-//    private fun postData() {
-//        val vin = qrResultTextView.text.toString()
-//        val reasonCode =  "null"
-//        val location = location1.text.toString()
-//        val created_by = attributeTextView.text.toString()
-//        val transferred_by = attributeTextView.text.toString()
-//        val organizationName = location1.text.toString()
-//        val organization_id = locId.toString()
-//        val to_location = locId.toString()
-//        val remarks ="null"
-//        val locIdValue = locId.toString()
-//        val lacation_name = location1.text.toString()
-//        val VEH_STATUS = VEH_STATUS ?: ""
-//
-//        Log.d("PostData", "VIN: $vin")
-//        Log.d("PostData", "ReasonCode: $reasonCode")
-//        Log.d("PostData", "Location: $location")
-//        Log.d("PostData", "CreatedBy: $created_by")
-//        Log.d("PostData", "TransferredBy: $transferred_by")
-//        Log.d("PostData", "OrganizationName: $organizationName")
-//        Log.d("PostData", "OrganizationID: $organization_id")
-//        Log.d("PostData", "Remarks: $remarks")
-//        Log.d("PostData", "LocIdValue: $locIdValue")
-//
-//
-//        val url = ApiFile.APP_URL + "/SecDelv/vehTrackingBySecVin/"
-//        val requestBody = MultipartBody.Builder()
-//            .setType(MultipartBody.FORM)
-//            .addFormDataPart("vin", vin)
-//            .addFormDataPart("reasonCode", reasonCode)
-//            .addFormDataPart("location", location)
-//            .addFormDataPart("veh_status", "")
-//            .addFormDataPart("from_location", locIdValue)
-//            .addFormDataPart("to_location", to_location)
-//            .addFormDataPart("organization_id", organization_id)
-//            .addFormDataPart("transferred_by", transferred_by)
-//            .addFormDataPart("remarks", remarks)
-//            .addFormDataPart("created_by", created_by)
-////            .addFormDataPart("checkboxValue", checkboxValue.toString())
-////            .addFormDataPart("delvYN",delvYN)
-//            .addFormDataPart("model_cd", VEH_STATUS)
-//            .build()
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .post(requestBody)
-//            .build()
-//
-//        val client = OkHttpClient()
-//        Log.d("PostDataURL", "URL: $url")
-//
-//        Log.d("PostData", "VIN: $vin")
-//        Log.d("PostData", "ReasonCode: $reasonCode")
-//        Log.d("PostData", "OrganizationID: $organization_id")
-//        Log.d("PostData", "CreatedBy: $created_by")
-//        Log.d("PostData", "TransferredBy: $transferred_by")
-//        Log.d("PostData", "Remarks: $remarks")
-////        Log.d("PostData", "CheckboxValue: $checkboxValue")
-//        Log.d("VEH_STATUS", "VEH_STATUS: $VEH_STATUS")
-//
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseBody = response.body?.string()
-//
-//                runOnUiThread {
-//                    if (response.isSuccessful) {
-//                        Toast.makeText(this@SecurityVehicleTrack, "Vehicle Delivered Successfully!", Toast.LENGTH_LONG).show()
-//                        chassis_no.setText("")
-//                        Remarks.setText("")
-//                        findViewById<TextView>(R.id.detailsByVin).text = ""
-//                        findViewById<TextView>(R.id.qrResultTextView).text = ""
-//                        findViewById<Spinner>(R.id.vehicleSpinner).setSelection(0)
-//                        findViewById<Spinner>(R.id.organizationSpinner).setSelection(0)
-//                        qrResultTextView.visibility=View.GONE
-//                        fetchChassisDataButton.visibility = View.GONE
-//                        chassis_no.visibility = View.GONE
-//                        vehicleSpinner.visibility = View.GONE
-//                        vehicleSpinner.visibility = View.GONE
-//                        organizationSpinner.visibility = View.GONE
-//                        vehText.visibility=View.GONE
-//                        Remarks.visibility=View.GONE
-//                        remarkText.visibility=View.GONE
-//                        VinDetails.visibility=View.GONE
-//                        orgText.visibility=View.GONE
-//                        checkbox.isChecked = false
-//                        postBtn.visibility=View.GONE
-//                        postText.visibility=View.GONE
-//                        checkbox.visibility=View.GONE
-//                        resetFields()
-//                    } else {
-//                        Toast.makeText(this@SecurityVehicleTrack, "Failed to post data: ${response.code}", Toast.LENGTH_SHORT).show()
-//                        Log.e("PostDataError", "Failed to post data: ${response.code}, Response: $responseBody")
-//                    }
-//                }
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//                runOnUiThread {
-//                    Toast.makeText(this@SecurityVehicleTrack, "Failed to post data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
-//                    Log.e("PostDataException", "Exception: ${e.message}")
-//                }
-//            }
-//        }
-//    }
-
     private fun postData() {
         val vin = qrResultTextView.text.toString()
 
-        Log.d("PostData", "VIN: $vin")
 
         val url = "${ApiFile.APP_URL}/SecDelv/vehTrackingBySecVin?vin=$vin"
 
@@ -573,7 +458,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
             .build()
 
         val client = OkHttpClient()
-        Log.d("PostDataURL", "URL: $url")
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -607,14 +491,12 @@ class SecurityVehicleTrack : AppCompatActivity() {
                         resetFields()
                     } else {
                         Toast.makeText(this@SecurityVehicleTrack, "Failed to update: ${response.code}", Toast.LENGTH_SHORT).show()
-                        Log.e("PostDataError", "Failed to update data: ${response.code}, Response: $responseBody")
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(this@SecurityVehicleTrack, "Failed to update due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("PostDataException", "Exception: ${e.message}")
                 }
             }
         }
@@ -666,12 +548,10 @@ class SecurityVehicleTrack : AppCompatActivity() {
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin"
 //        http://localhost:8081/qrcode/qrDetailsByVinDelv?vin=MA3TFC62SPF246799
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -680,7 +560,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                 val responseCode = response.code
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("QR VIN Data-----", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vin_data(
@@ -704,7 +583,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                     )
                     VEH_STATUS = vinData.VEHSTATUS
                     statusField=vinData.STATUS
-                    Log.d("statusField",statusField)
 
                     runOnUiThread {
                         if (vinData.LOCATION != location_name) {
@@ -760,12 +638,10 @@ class SecurityVehicleTrack : AppCompatActivity() {
         val vin2=vintypeSpinner.selectedItem.toString()
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin2"
 //        http://localhost:8081/qrcode/qrDetailsByVinDelv?vin=MA3TFC62SPF246799
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
@@ -773,7 +649,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                 val responseCode = response.code
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("QR VIN Data-----", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vin_data(
@@ -797,7 +672,6 @@ class SecurityVehicleTrack : AppCompatActivity() {
                     )
                     VEH_STATUS = vinData.VEHSTATUS
                     statusField=vinData.STATUS
-                    Log.d("statusField",statusField)
 
                     runOnUiThread {
                         if (vinData.LOCATION != location_name) {

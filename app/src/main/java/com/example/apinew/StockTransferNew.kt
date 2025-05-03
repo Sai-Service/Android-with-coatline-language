@@ -361,12 +361,9 @@ class StockTransferNew : AppCompatActivity() {
                 if (responseCode == 200 && jsonData != null) {
                     try {
                         val jsonObject = JSONObject(jsonData)
-                        Log.d("fetch 363 chassis Data-----", jsonData)
                         val objArray = jsonObject.getJSONArray("obj")
-                        Log.d("chassis Array ----",objArray.toString())
                         if (objArray.length() > 0) {
                             val stockItem = objArray.getJSONObject(0)
-                            Log.d("in If len----",objArray.toString())
                             jsonData?.let {
                                 val parseVindataList = parseVindata(jsonData.toString())
                                 runOnUiThread {
@@ -384,7 +381,6 @@ class StockTransferNew : AppCompatActivity() {
                                 VIN = stockItem.getString("VIN"),
                                 LOCATION=stockItem.getString("LOCATION")
                             )
-                            Log.d("Vin:", chassisData.VIN)
                             runOnUiThread {
 //                                if (chassisData.LOCATION != location_name) {
 //                                    Toast.makeText(
@@ -441,8 +437,6 @@ class StockTransferNew : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Log.d("Error", "Server returned non-200 response: $responseCode")
-//                    Log.d("Error", "Response: $jsonData")
                     runOnUiThread {
                         Toast.makeText(
                             this@StockTransferNew,
@@ -465,18 +459,14 @@ class StockTransferNew : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -498,18 +488,6 @@ class StockTransferNew : AppCompatActivity() {
             put("location", location_name)
             put("vehStatus",vinData.VEH_STATUS)
         }
-        Log.d("vin_data.FRMKM", vinData.FRMKM)
-        Log.d("vin_data.FRMKM222", FRMKM2)
-        Log.d("vin_data.TOKM", toKm)
-        Log.d("vinData.VIN:",vinData.VIN)
-        Log.d("login_name:",login_name)
-        Log.d("selectedVehStatus:",selectedVehStatus)
-        Log.d("vinData.STKNO:",vinData.STKNO)
-        Log.d("toKm:",toKm)
-        Log.d("location_name:",location_name)
-        Log.d("vinData.VEH_STATUS:",vinData.VEH_STATUS)
-
-
 
         if(vinData.VEH_STATUS!="In-Transit") {
             if (toKm.isEmpty()) {
@@ -540,7 +518,6 @@ class StockTransferNew : AppCompatActivity() {
         }
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPADATE:",json.toString())
         val request = Request.Builder()
             .url(url)
             .put(requestBody)
@@ -627,12 +604,10 @@ class StockTransferNew : AppCompatActivity() {
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -640,7 +615,6 @@ class StockTransferNew : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val vinData = vin_data(
                         VARIANT_CD = stockItem.getString("VARIANT_CD"),
@@ -660,9 +634,6 @@ class StockTransferNew : AppCompatActivity() {
                         TO_LOC =stockItem.getString("TO_LOC")
                     )
                     runOnUiThread {
-//                        if(deptName!="ACCOUNTS") {
-                        Log.d("Vin LOcation------->",vinData.LOCATION)
-                        Log.d("Vin FRMKMMMMM------->",vinData.FRMKM)
 
                         if (vinData.TO_LOC!= location_name && vinData.LOCATION!=location_name) {
                             Toast.makeText(
@@ -707,10 +678,6 @@ class StockTransferNew : AppCompatActivity() {
                                 "Details found Successfully \n for VIN: $vin",
                                 Toast.LENGTH_LONG
                             ).show()
-                            Log.d("Vin LOcation------->",vinData.LOCATION)
-                            Log.d("Vin FRMKMMMMM------->",vinData.FRMKM)
-                            val vin = qrResultTextView.text.toString()
-//                            fetchVehicleStatus(vin)
                             updateSpinnerOptions(vinData)
                         }
                     }
@@ -739,14 +706,11 @@ class StockTransferNew : AppCompatActivity() {
         if (vin2=="Select Vin"){
             Toast.makeText(this@StockTransferNew, "Please select the vin number", Toast.LENGTH_SHORT).show()
         }
-        Log.d("vin2--->",vin2)
         val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -754,7 +718,6 @@ class StockTransferNew : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vin_data(
@@ -775,9 +738,6 @@ class StockTransferNew : AppCompatActivity() {
                         TO_LOC =stockItem.getString("TO_LOC")
                     )
                     runOnUiThread {
-                        Log.d("Vin Location------->",vinData.LOCATION)
-                        Log.d("TO Location------->",vinData.TO_LOC)
-                        Log.d("Vin Location------->",location_name)
 
                         if (vinData.TO_LOC!= location_name && vinData.LOCATION!=location_name) {//vinData.LOCATION
                             Toast.makeText(
@@ -817,10 +777,6 @@ class StockTransferNew : AppCompatActivity() {
                                 "Details found Successfully \n for VIN: $vin2",
                                 Toast.LENGTH_LONG
                             ).show()
-                            Log.d("Vin Location------->",vinData.LOCATION)
-                            Log.d("Vin FRMKMMMMM------->",vinData.FRMKM)
-                            val vin = qrResultTextView.text.toString()
-//                            fetchVehicleStatus(vin)
                             updateSpinnerOptions(vinData)
                         }
                     }

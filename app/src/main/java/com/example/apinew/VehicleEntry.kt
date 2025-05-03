@@ -116,14 +116,12 @@ class VehicleEntry : AppCompatActivity() {
                         Toast.makeText(this@VehicleEntry, "Vehicle details updated successfully!", Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this@VehicleEntry, "Failed to update vehicle details: ${response.code}", Toast.LENGTH_SHORT).show()
-                        Log.e("UpdateVehicleError", "Failed to update vehicle details: ${response.code}")
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(this@VehicleEntry, "Failed to update vehicle details due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("UpdateVehicleException", "Exception: ${e.message}")
                 }
             }
         }

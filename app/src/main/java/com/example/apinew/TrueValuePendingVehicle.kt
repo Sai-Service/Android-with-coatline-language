@@ -46,7 +46,6 @@ class TrueValuePendingVehicle : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_true_value_pending_veh_list)
         location_name = intent.getStringExtra("location_name") ?: ""
-        Log.d("locId", location_name.toString())
 
         ouId = intent.getIntExtra("ouId", 0)
         attribute1 = intent.getStringExtra("attribute1") ?: ""
@@ -175,11 +174,8 @@ class TrueValuePendingVehicle : AppCompatActivity() {
             put("location",location_name)
             put("toLocation",location_name)
         }
-        Log.d("Login:", login_name)
-        Log.d("URL:", url)
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPDATE:", json.toString())
         val request = Request.Builder()
             .url(url)
             .put(requestBody)
@@ -224,10 +220,6 @@ class TrueValuePendingVehicle : AppCompatActivity() {
         val client = OkHttpClient()
         val location=location_name
         val url = "${ApiFile.APP_URL}/trueValue/tvTransferList?to_location=$location"
-
-        Log.d("FetchData", "Request URL: $url")
-        Log.d("location---PEnding", "location: $location")
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -236,7 +228,6 @@ class TrueValuePendingVehicle : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
-                Log.d("FetchDataResponse", "Response: $responseBody")
 
                 if (response.isSuccessful && responseBody != null) {
                     val jsonObject = JSONObject(responseBody)
@@ -261,20 +252,17 @@ class TrueValuePendingVehicle : AppCompatActivity() {
                         )
                         vehicleList.add(vehicle)
                     }
-                    Log.d("FetchDataResponse", "Parsed Vehicles: ${vehicleList.size}")
 
                     runOnUiThread {
                         populateTable(vehicleList)
                     }
                 } else {
-                    Log.e("FetchDataError", "Failed to fetch data: ${response.code}")
                     runOnUiThread {
                         Toast.makeText(this@TrueValuePendingVehicle, "Failed to fetch data", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Log.e("FetchDataException", "Exception: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@TrueValuePendingVehicle, "Failed to fetch data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
                 }

@@ -43,7 +43,6 @@ class WorkshopViewReports : AppCompatActivity() {
         batchNameSpinner = findViewById(R.id.batch_name_spinner)
         login_name = intent.getStringExtra("login_name") ?: ""
         locId = intent.getIntExtra("locId", 0)
-        Log.d("LocId", locId.toString())
 
         viewReportsButton = findViewById(R.id.view_reports_button)
         refreshButton = findViewById(R.id.refresh_button)
@@ -65,7 +64,6 @@ class WorkshopViewReports : AppCompatActivity() {
                 Toast.makeText(this, "Please select a batch name", Toast.LENGTH_SHORT).show()
             } else {
                 fetchReports(batchName)
-                Log.d("locId", locId.toString())
             }
         }
 
@@ -84,10 +82,6 @@ class WorkshopViewReports : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("fetchSpinnerData", "Response: $jsonData")
-                Log.d("URL",url)
-                Log.d("locId",loc)
-
 
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
@@ -101,7 +95,6 @@ class WorkshopViewReports : AppCompatActivity() {
                             if (obj.has("BATCHNAME")) {
                                 val batchName = obj.getString("BATCHNAME")
                                 spinnerItems.add(batchName)
-                                Log.d("BATCHNAME---->",batchName)
                             }
                         }
                         runOnUiThread {
@@ -141,14 +134,11 @@ class WorkshopViewReports : AppCompatActivity() {
     private fun fetchReports(batchName: String) {
         val url = ApiFile.APP_URL + "/srAccounts/srVehDetailsByBatchName?batchName=$batchName"
         val request = Request.Builder().url(url).build()
-        Log.d("batchName", batchName)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
-                Log.d("Response", response.toString())
                 val jsonData = response.body?.string()
-                Log.d("jsonData", jsonData.toString())
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
                     val objArray = jsonObject.getJSONArray("obj")

@@ -143,7 +143,6 @@ class WorkShopChassisEnquiry : Activity() {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("${ApiFile.APP_URL}/service/srDetailsByRegNo?regNo=$vehicleNo")
-//            .url("http://10.0.2.2:8081/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
             .build()
         camera.visibility = View.VISIBLE
 
@@ -153,7 +152,6 @@ class WorkShopChassisEnquiry : Activity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val chassisData = ChassisData3(
                         CHASSISNO = stockItem.getString("CHASSISNO"),
@@ -211,7 +209,6 @@ class WorkShopChassisEnquiry : Activity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val chassisData = ChassisData3(
                         CHASSISNO = stockItem.getString("CHASSISNO"),

@@ -3,7 +3,7 @@ package com.example.apinew
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
+import android.text.InputFilter
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -56,7 +56,37 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             fetchTransferListData()
         }
 
+        val alphaNumericFilter = InputFilter { source, _, _, _, _, _ ->
+            if (source.all { it.isLetterOrDigit() }) null else ""
+        }
+
+        val lengthFilter = InputFilter.LengthFilter(10)
+
+
+        val textViewStatus = findViewById<EditText>(R.id.textViewStatus)
+        textViewStatus.filters = arrayOf(alphaNumericFilter,lengthFilter)
+
     }
+
+//    private fun setupTableHeader(headers: Array<String>) {
+//        val tableHeader = TableRow(this)
+//        tableHeader.layoutParams = TableRow.LayoutParams(
+//            TableRow.LayoutParams.MATCH_PARENT,
+//            TableRow.LayoutParams.WRAP_CONTENT
+//        )
+//
+//        headers.forEach { header ->
+//            val textView = TextView(this)
+//            textView.text = header
+//            textView.setPadding(16, 16, 16, 16)
+//            textView.setTypeface(null, Typeface.BOLD)
+//            textView.setBackgroundColor(Color.parseColor("#83BEF8"))
+//            tableHeader.addView(textView)
+//        }
+//
+//        tableLayout.addView(tableHeader)
+//    }
+
 
     private fun setupTableHeader(headers: Array<String>) {
         val tableHeader = TableRow(this)
@@ -70,12 +100,15 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             textView.text = header
             textView.setPadding(16, 16, 16, 16)
             textView.setTypeface(null, Typeface.BOLD)
-            textView.setBackgroundColor(Color.parseColor("#83BEF8"))
+            textView.setBackgroundColor(Color.parseColor("#FFD700"))
+            textView.setBackgroundResource(R.drawable.table_cell_header_border_washing)
+            textView.setTextColor(Color.BLUE)
             tableHeader.addView(textView)
         }
 
         tableLayout.addView(tableHeader)
     }
+
 
     private fun populateTable(vehicleList: List<RegPending>) {
         tableLayout.removeAllViews()
@@ -83,7 +116,9 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             tableLayout.visibility = View.GONE
         } else {
             tableLayout.visibility = View.VISIBLE
-            setupTableHeader(arrayOf("ID","VEHICLE NO","CHASSIS NO","MODEL","SERVICE ADVISOR","WASH SUPER VISOR","LOC ID","IN TIME","OUT TIME"))
+            setupTableHeader(arrayOf("SR NO","VEHICLE NO","CHASSIS NO","MODEL","SERVICE ADVISOR","WASH SUPER VISOR","LOC ID","1ST STAGE IN TIME",
+                "AIR BLOW STATION","UNDERBODY STATION","ENGINE ROOM STATION","1ST STAGE OUT TIME","2ND STAGE IN TIME","LOOSE ITEM STATION","VEHICLE INTERIOR STATION",
+                "3 RD STAGE IN TIME","VEHICLE EXTERIOR STATION","GLASS POLISH STATION","3RD STAGE OUT TIME"))
             vehicleList.forEachIndexed { index, vehicle ->
                 addDataRow(index + 1, vehicle)
             }
@@ -105,8 +140,18 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             vehicle.SERVICE_ADVISOR,
             vehicle.WASHING_SUPERVISOR,
             vehicle.LOC_ID,
-            vehicle.IN_TIME,
-            vehicle.OUT_TIME
+            vehicle.FS_IN_TIME,
+            vehicle.AIR_BLOW_STN,
+            vehicle.UNDERBODY_STN,
+            vehicle.ENGINE_ROOM_STN,
+            vehicle.FS_OUT_TIME,
+            vehicle.SS_IN_TIME,
+            vehicle.LOOSE_ITEMS_STN,
+            vehicle.VEH_INTERIOR_STN,
+            vehicle.DS_IN_TIME,
+            vehicle.VEH_EXTERIOR_STN,
+            vehicle.GLASS_POLISH_STN,
+            vehicle.DS_OUT_TIME
         )
         values.forEach { value ->
             val textView = TextView(this)
@@ -121,7 +166,6 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
     private fun formatDateTime(dateTime: String): String {
         return try {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-//            val inputFormat = SimpleDateFormat("dd-MM-yyyy'T'HH:mm", Locale.getDefault())
             val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
             val date = inputFormat.parse(dateTime)
@@ -141,9 +185,8 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingVehicleHistory, "Please enter vehicle number...", Toast.LENGTH_SHORT).show()
             return
         }
-        val url = "${ApiFile.APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
-
-        Log.d("FetchData", "Request URL: $url")
+//        val url = "${ApiFile.APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
+        val url=WorkshopWashingUrlManager.getWashingVehicleHistory(vehNo)
 
         val request = Request.Builder()
             .url(url)
@@ -153,8 +196,6 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
-                Log.d("FetchDataResponse", "Response: $responseBody")
-
                 if (response.isSuccessful && responseBody != null) {
                     val jsonObject = JSONObject(responseBody)
                     val jsonArray = jsonObject.getJSONArray("obj")
@@ -166,37 +207,43 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
                             REG_NO = item.optString("REG_NO"),
                             DS_IN_TIME = item.optString("DS_IN_TIME"),
                             FS_IN_TIME = item.optString("FS_IN_TIME"),
+                            AIR_BLOW_STN=item.optString("AIR_BLOW_STN"),
+                            UNDERBODY_STN=item.optString("UNDERBODY_STN"),
+                            ENGINE_ROOM_STN=item.optString("ENGINE_ROOM_STN"),
                             FS_OUT_TIME = item.optString("FS_OUT_TIME"),
                             LOC_ID = item.optString("LOC_ID"),
                             MODEL = item.optString("MODEL"),
                             PROMISED_TIME = item.optString("PROMISED_TIME"),
                             SERVICE_ADVISOR = item.optString("SERVICE_ADVISOR"),
                             SS_IN_TIME = item.optString("SS_IN_TIME"),
+                            LOOSE_ITEMS_STN=item.optString("LOOSE_ITEMS_STN"),
+                            VEH_INTERIOR_STN=item.optString("VEH_INTERIOR_STN"),
+                            VEH_EXTERIOR_STN=item.optString("VEH_EXTERIOR_STN"),
+                            GLASS_POLISH_STN=item.optString("GLASS_POLISH_STN"),
                             SS_OUT_TIME = item.optString("SS_OUT_TIME"),
                             WASHING_SUPERVISOR = item.optString("WASHING_SUPERVISOR"),
                             IN_TIME = formatDateTime(item.optString("IN_TIME")),
-                            OUT_TIME = formatDateTime(item.optString("OUT_TIME"))
+                            OUT_TIME = formatDateTime(item.optString("OUT_TIME")),
+                            DS_OUT_TIME=item.optString("DS_OUT_TIME")
                         )
                         vehicleList.add(vehicle)
                     }
-                    Log.d("FetchDataResponse", "Parsed Vehicles: ${vehicleList.size}")
 
                     runOnUiThread {
                         if(vehicleList.size<=0){
                             Toast.makeText(this@WorkshopWashingVehicleHistory, "This vehicle has not any transfer history", Toast.LENGTH_LONG).show()
+                            return@runOnUiThread
                         }
                         Toast.makeText(this@WorkshopWashingVehicleHistory, "Details found successfully for Vehicle No.$vehNo", Toast.LENGTH_LONG).show()
                         populateTable(vehicleList)
                     }
                 } else {
-                    Log.e("FetchDataError", "Failed to fetch data: ${response.code}")
                     runOnUiThread {
                         Toast.makeText(this@WorkshopWashingVehicleHistory, "Failed to fetch data", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Log.e("FetchDataException", "Exception: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@WorkshopWashingVehicleHistory, "Failed to fetch data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -218,7 +265,15 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
         val SS_OUT_TIME:String,
         val DS_IN_TIME:String,
         val IN_TIME:String,
-        val OUT_TIME:String
+        val OUT_TIME:String,
+        val AIR_BLOW_STN:String,
+        val UNDERBODY_STN:String,
+        val ENGINE_ROOM_STN:String,
+        val LOOSE_ITEMS_STN:String,
+        val VEH_INTERIOR_STN:String,
+        val VEH_EXTERIOR_STN:String,
+        val GLASS_POLISH_STN:String,
+        val DS_OUT_TIME:String
     )
 }
 

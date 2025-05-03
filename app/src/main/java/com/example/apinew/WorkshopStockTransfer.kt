@@ -294,7 +294,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
             integrator.setBarcodeImageEnabled(true)
             integrator.setOrientationLocked(false)
             integrator.initiateScan()
-            Log.d("currentDate", currentDate)
             Handler(Looper.getMainLooper()).postDelayed({
 //                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
             }, 10000)
@@ -376,81 +375,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         }
     }
 
-//    private fun displayBestResult(results: List<String>, resultTextView: TextView) {
-//        bestResult2 = results.maxByOrNull { it.length }
-//            ?.replace(" ", "")
-//            ?.replace(".", "")
-//            ?.replace("IND","")
-//            ?.replace("IN0","")
-//            ?.replace("UND","")
-//            ?.replace("UN0","")
-//            ?.replace("1ND","")
-//            ?.replace("1N0","")
-//            ?.replace("|","")
-//            ?.replace("-","")
-//            ?.replace(",","")
-//            ?: ""
-//        Toast.makeText(this, "Result:$bestResult2", Toast.LENGTH_SHORT).show()
-//
-//        val regexVehicleNo = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
-//        val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]{1}\\d{4}$")
-//        val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
-//        val regexVehicleNo4 = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}00\\d{2}$")
-//
-//
-//        var modifiedString = bestResult2
-//
-//        modifiedString = modifiedString.mapIndexed { index, char ->
-//            when {
-//                (index == 2 || index == 3 || index >= 6) && char == 'O' -> '0'
-//                (index == 2 || index == 3 || index >= 6) && char == 'Z' -> '4'
-//                (index == 2 || index == 3 || index >= 6) && char == 'S' -> '5'
-//                (index == 0 || index == 1 || (index in 4..5) || (index in 6..8 && modifiedString.length > 8)) && char == '0' -> 'D'
-//                else -> char
-//            }
-//        }.joinToString("")
-//
-//        modifiedString = modifiedString.trim()
-//        Log.d("FinalModifiedString", modifiedString)
-//
-//        when {
-//            regexVehicleNo.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            regexVehicleNo2.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            regexVehicleNo3.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            regexVehicleNo4.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            else -> {
-//                runOnUiThread {
-//                    Toast.makeText(this, "Invalid format", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-
-
     private fun displayBestResult(results: List<String>, resultTextView: TextView) {
         bestResult2 = results.maxByOrNull { it.length }
             ?.replace(" ", "")
@@ -513,28 +437,24 @@ class WorkshopStockTransfer : AppCompatActivity() {
         }
 
         modifiedString = modifiedString.trim()
-        Log.d("FinalModifiedString", modifiedString)
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
@@ -632,8 +552,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         val chassis=chassis_no.text.toString()
         val url =ApiFile.APP_URL+"/service/srDetInByJobCardNo?jobCardNo=$chassis"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -644,7 +562,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -718,8 +635,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         val vehicleNo2=vehNoTextView.text.toString()
         val url =ApiFile.APP_URL+"/service/srDetInByRegNo?regNo=$vehicleNo2"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -730,7 +645,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -804,10 +718,7 @@ class WorkshopStockTransfer : AppCompatActivity() {
 
     private fun fetchVinNoDataByCamera() {
         val client = OkHttpClient()
-//        val vehicleNo2=vehNoTextView.toString()
         val url =ApiFile.APP_URL+"/trueValue/tvDetailsByVin?vin=$bestResult2"
-
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -819,7 +730,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -891,8 +801,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         val vehicleNo=vehNoEditText.text.toString()
         val url =ApiFile.APP_URL+"/service/srDetInByRegNo?regNo=$vehicleNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -903,7 +811,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -984,11 +891,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
             put("toLocation",location_name)
             put("updatedBy",login_name)
         }
-        Log.d("inRegNo-----:",inRegNo)
-        Log.d("inStkTfNo---:",inStkTfNo)
-        Log.d("toKm---:",toKm)
-        Log.d("toKm---:",location_name)
-
         if (toKm.isEmpty()) {
             Toast.makeText(this, "To KM is required", Toast.LENGTH_SHORT).show()
             return
@@ -1001,9 +903,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         }
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPADATE:",json.toString())
-        Log.d("RequestBody",requestBody.toString())
-
         val request = Request.Builder()
             .url(url)
             .put(requestBody)
@@ -1056,8 +955,6 @@ class WorkshopStockTransfer : AppCompatActivity() {
         inRegNo=RegData.REGNO
         inStkTfNo=RegData.STOCK_TRF_NO
         inFrmKm= RegData.FROMKM.toString()
-        Log.d("inStkTfNo-->",inStkTfNo)
-        Log.d("inRegNo-->",inRegNo)
 
         val detailsMap = mutableMapOf(
             "VEHICLE NO" to RegData.REGNO,

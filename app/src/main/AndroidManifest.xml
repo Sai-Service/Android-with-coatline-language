@@ -11,9 +11,11 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+            android:maxSdkVersion="28" />
+
 
     <application
         android:allowBackup="true"
@@ -32,18 +34,18 @@
 <!--            android:enabled="true"-->
 <!--            android:exported="true"></service>-->
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy" />
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy" />-->
 
         <meta-data
             android:name="build_time"
             android:value="${BUILD_TIME}" />
 
-        <activity
-            android:name=".GenerateLogins"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".GenerateLogins"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:exported="false" />-->
 
         <activity
             android:name=".UpdateLoginInfo"
@@ -122,10 +124,11 @@
             android:name=".StockTaking"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false" />
-        <activity
-            android:name=".Forgotp"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
+
+<!--        <activity-->
+<!--            android:name=".Forgotp"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ChassisActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -283,7 +286,7 @@
         <activity
             android:name=".WorkshopDeliveredVehicleReports"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
+            android:exported="false"/>
 
 
         <activity

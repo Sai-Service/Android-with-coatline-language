@@ -465,7 +465,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                         jsonObject.getJSONArray("obj").toString(),
                         object : TypeToken<List<CameraActivity.Organization>>() {}.type
                     )
-                    Log.e("Data", jsonObject.toString())
                     runOnUiThread {
                         populateOrganizationSpinner(organizations)
                     }
@@ -526,8 +525,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                     }
                     toLocation = selectedOrganization?.LOCATIONNAME ?: ""
                     toLocationID = (selectedOrganization?.LOCID ?: "") as Int
-                    Log.d("toLocation", "Selected LOCATIONNAME: $toLocation")
-                    Log.d("toLocationID", "Selected LOCID: $toLocationID")
                 }
             }
 
@@ -572,8 +569,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         val jobCardNo=jobCardInputField.text.toString()
         val url =ApiFile.APP_URL+"/service/wsVehTransDetByJobCardNo?jobCardNo=$jobCardNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -584,7 +579,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val jcData = jobCardDetails(
@@ -666,8 +660,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         val vehNo=vehNoInputField.text.toString()
         val url =ApiFile.APP_URL+"/service/wsVehTransDetByRegNo?regNo=$vehNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -678,7 +670,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val jcData = jobCardDetails(
@@ -754,155 +745,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         }
     }
 
-//    private fun postData() {
-//        val client = OkHttpClient()
-//        val url = ApiFile.APP_URL + "/service/wsVehTransMake"
-//
-//        if(locId==toLocationID){
-//            Toast.makeText(
-//                this@WorkShopStockTransferWithImages,
-//                "Vehicle cannot be transfer from $location_name to $toLocation",
-//                Toast.LENGTH_LONG
-//            ).show()
-//            return
-//        }
-//
-//        val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-//
-//        bodyBuilder.addFormDataPart("chassisNo", chassisNo)
-//        bodyBuilder.addFormDataPart("regNo", regNo)
-//        bodyBuilder.addFormDataPart("jobCardNo", jobCardNo)
-//        bodyBuilder.addFormDataPart("vin", vin)
-//        bodyBuilder.addFormDataPart("madeBy", login_name)
-//        bodyBuilder.addFormDataPart("toLocation", toLocation)
-//        bodyBuilder.addFormDataPart("engineNo", engineNo)
-//        bodyBuilder.addFormDataPart("fromLocation", location_name)
-//        bodyBuilder.addFormDataPart("driverName", driverInput.text.toString())
-//        bodyBuilder.addFormDataPart("authorisedBy", "$login_name-$location_name")
-//        bodyBuilder.addFormDataPart("ou", ouId.toString())
-//        bodyBuilder.addFormDataPart("fromKm", currentKms.text.toString())
-//        bodyBuilder.addFormDataPart("updatedBy", login_name)
-//        bodyBuilder.addFormDataPart("lastUploadedBy", login_name)
-//        bodyBuilder.addFormDataPart("createdBy", login_name)
-//        bodyBuilder.addFormDataPart("dept", deptName)
-//        bodyBuilder.addFormDataPart("fromLocCode", locId.toString())
-//        bodyBuilder.addFormDataPart("toLocCode", toLocationID.toString())
-//
-//        val imageViews = listOf(
-//            findViewById<ImageView>(R.id.imagePlaceholder1),
-//            findViewById<ImageView>(R.id.imagePlaceholder2),
-//            findViewById<ImageView>(R.id.imagePlaceholder3),
-//            findViewById<ImageView>(R.id.imagePlaceholder4),
-//            findViewById<ImageView>(R.id.imagePlaceholder5),
-//            findViewById<ImageView>(R.id.imagePlaceholder6),
-//            findViewById<ImageView>(R.id.imagePlaceholder7),
-//            findViewById<ImageView>(R.id.imagePlaceholder8),
-//            findViewById<ImageView>(R.id.imagePlaceholder9),
-//            findViewById<ImageView>(R.id.imagePlaceholder10),
-//            findViewById<ImageView>(R.id.imagePlaceholder11),
-//            findViewById<ImageView>(R.id.imagePlaceholder12),
-//            findViewById<ImageView>(R.id.imagePlaceholder13),
-//            findViewById<ImageView>(R.id.imagePlaceholder14),
-//        )
-//
-////        for ((index, imageView) in imageViews.withIndex()) {
-////            val drawable = imageView.drawable ?: continue
-////            val bitmap = (drawable as BitmapDrawable).bitmap
-////            val file = File(cacheDir, "image_placeholder_${index + 1}.jpg")
-////            file.outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
-////
-////            val imageBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-////            bodyBuilder.addFormDataPart("images", file.name, imageBody)
-////        }
-//
-//        for ((index, imageView) in imageViews.withIndex()) {
-//            val drawable = imageView.drawable ?: continue
-//
-//            if (drawable.constantState == resources.getDrawable(R.drawable.uploadimgstk).constantState) {
-//                bodyBuilder.addFormDataPart("images", "-")
-//                continue
-//            }
-//
-//            val bitmap = (drawable as BitmapDrawable).bitmap
-//            val compressedFile = File(cacheDir, "compressed_image_${index + 1}.jpg")
-//            compressedFile.outputStream().use {
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, it)
-//            }
-//
-//            val imageBody = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//            bodyBuilder.addFormDataPart("images", compressedFile.name, imageBody)
-//        }
-//
-//        val requestBody = bodyBuilder.build()
-//        Log.d("RequestBody",requestBody.toString())
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .post(requestBody)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseCode = response.code
-//                val responseBody = response.body?.string()
-//                Log.d("RequestBody",responseBody.toString())
-//
-//
-//                Log.d("SaveVinData", "Response Code: $responseCode")
-//                Log.d("SaveVinData", "Response Body: $responseBody")
-//
-//                runOnUiThread {
-//                    if (responseBody != null) {
-//                        val jsonObject = JSONObject(responseBody)
-//                        val message = jsonObject.optString("message", "")
-//
-//                        when {
-//                            message.contains("Registration No already exists for this batchName", ignoreCase = true) -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Stock taking is already completed for this vehicle",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                resetFields()
-//                            }
-//                            responseCode == 200 -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Vehicle Transferred to location $toLocation",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                resetFields()
-//                            }
-//                            else -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Failed to Trnasfer Vehicle. Error code: $responseCode",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    } else {
-//                        Toast.makeText(
-//                            this@WorkShopStockTransferWithImages,
-//                            "No response from server",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Log.e("SaveVinData", "Error: ${e.message}")
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@WorkShopStockTransferWithImages,
-//                        "Error saving data: ${e.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
 
     private fun showProgressDialog(): AlertDialog {
         val builder = AlertDialog.Builder(this)
@@ -915,160 +757,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         dialog.show()
         return dialog
     }
-
-//    private fun postData() {
-//        val progressDialog = showProgressDialog()
-//        if (submittedOnce) {
-//            Toast.makeText(
-//                this@WorkShopStockTransferWithImages,
-//                "This data has already been submitted.",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            return
-//        }
-//
-//        val client = OkHttpClient()
-//        val url = ApiFile.APP_URL + "/service/wsVehTransMake"
-//
-//        if (locId == toLocationID) {
-//            Toast.makeText(
-//                this@WorkShopStockTransferWithImages,
-//                "Vehicle cannot be transferred from $location_name to $toLocation",
-//                Toast.LENGTH_LONG
-//            ).show()
-//            progressDialog.dismiss()
-//            return
-//        }
-//
-//        val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-//        bodyBuilder.addFormDataPart("chassisNo", chassisNo)
-//        bodyBuilder.addFormDataPart("regNo", regNo)
-//        bodyBuilder.addFormDataPart("jobCardNo", jobCardNo)
-//        bodyBuilder.addFormDataPart("vin", vin)
-//        bodyBuilder.addFormDataPart("madeBy", login_name)
-//        bodyBuilder.addFormDataPart("toLocation", toLocation)
-//        bodyBuilder.addFormDataPart("engineNo", engineNo)
-//        bodyBuilder.addFormDataPart("fromLocation", location_name)
-//        bodyBuilder.addFormDataPart("driverName", driverInput.text.toString())
-//        bodyBuilder.addFormDataPart("authorisedBy", "$login_name-$location_name")
-//        bodyBuilder.addFormDataPart("ou", ouId.toString())
-//        bodyBuilder.addFormDataPart("fromKm", currentKms.text.toString())
-//        bodyBuilder.addFormDataPart("updatedBy", login_name)
-//        bodyBuilder.addFormDataPart("lastUploadedBy", login_name)
-//        bodyBuilder.addFormDataPart("createdBy", login_name)
-//        bodyBuilder.addFormDataPart("dept", deptName)
-//        bodyBuilder.addFormDataPart("fromLocCode", locId.toString())
-//        bodyBuilder.addFormDataPart("toLocCode", toLocationID.toString())
-//
-//        val imageViews = listOf(
-//            findViewById<ImageView>(R.id.imagePlaceholder1),
-//            findViewById<ImageView>(R.id.imagePlaceholder2),
-//            findViewById<ImageView>(R.id.imagePlaceholder3),
-//            findViewById<ImageView>(R.id.imagePlaceholder4),
-//            findViewById<ImageView>(R.id.imagePlaceholder5),
-//            findViewById<ImageView>(R.id.imagePlaceholder6),
-//            findViewById<ImageView>(R.id.imagePlaceholder7),
-//            findViewById<ImageView>(R.id.imagePlaceholder8),
-//            findViewById<ImageView>(R.id.imagePlaceholder9),
-//            findViewById<ImageView>(R.id.imagePlaceholder10),
-//            findViewById<ImageView>(R.id.imagePlaceholder11),
-//            findViewById<ImageView>(R.id.imagePlaceholder12),
-//            findViewById<ImageView>(R.id.imagePlaceholder13),
-//            findViewById<ImageView>(R.id.imagePlaceholder14)
-//        )
-//
-//        for ((index, imageView) in imageViews.withIndex()) {
-//            val drawable = imageView.drawable ?: continue
-//
-//            if (drawable.constantState == resources.getDrawable(R.drawable.uploadimgstk).constantState) {
-//                bodyBuilder.addFormDataPart("images", "-")
-//                continue
-//            }
-//
-//            val bitmap = (drawable as BitmapDrawable).bitmap
-//            val compressedFile = File(cacheDir, "compressed_image_${index + 1}.jpg")
-//            compressedFile.outputStream().use {
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, it)
-//            }
-//
-//            val imageBody = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//            bodyBuilder.addFormDataPart("images", compressedFile.name, imageBody)
-//        }
-//
-//        val requestBody = bodyBuilder.build()
-//        Log.d("RequestBody", requestBody.toString())
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .post(requestBody)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseCode = response.code
-//                val responseBody = response.body?.string()
-//                Log.d("SaveVinData", "Response Code: $responseCode")
-//                Log.d("SaveVinData", "Response Body: $responseBody")
-//
-//                runOnUiThread {
-//                    if (responseBody != null) {
-//                        val jsonObject = JSONObject(responseBody)
-//                        val message = jsonObject.optString("message", "")
-//
-//                        when {
-//                            message.contains("Registration No already exists for this batchName", ignoreCase = true) -> {
-//                                submittedOnce = true
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Stock taking is already completed for this vehicle",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                progressDialog.dismiss()
-//                                resetFields()
-//                            }
-//                            responseCode == 200 -> {
-//                                submittedOnce = true
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Vehicle Transferred to location $toLocation",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                resetFields()
-//                                progressDialog.dismiss()
-//                            }
-//                            else -> {
-//                                progressDialog.dismiss()
-//                                Toast.makeText(
-//                                    this@WorkShopStockTransferWithImages,
-//                                    "Failed to Transfer Vehicle. Error code: $responseCode",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    } else {
-//                        progressDialog.dismiss()
-//                        Toast.makeText(
-//                            this@WorkShopStockTransferWithImages,
-//                            "No response from server",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Log.e("SaveVinData", "Error: ${e.message}")
-//                runOnUiThread {
-//                    progressDialog.dismiss()
-//                    Toast.makeText(
-//                        this@WorkShopStockTransferWithImages,
-//                        "Error saving data: ${e.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
 
 
     private fun postData() {

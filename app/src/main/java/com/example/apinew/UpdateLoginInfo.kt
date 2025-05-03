@@ -143,8 +143,6 @@ class UpdateLoginInfo : AppCompatActivity() {
                 val responseCode = response.code
                 val responseBody = response.body?.string()
 
-                Log.d("PostLoginData", "Response Code: $responseCode")
-                Log.d("PostLoginData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -152,13 +150,6 @@ class UpdateLoginInfo : AppCompatActivity() {
                         val message = responseJson.optString("message", "")
 
                         when {
-//                            message.contains("Login Name Already Exists", ignoreCase = true) -> {
-//                                Toast.makeText(
-//                                    this@UpdateLoginInfo,
-//                                    "Login Name Already Exists",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                            }
                             responseCode == 200 -> {
                                 Toast.makeText(
                                     this@UpdateLoginInfo,
@@ -185,7 +176,6 @@ class UpdateLoginInfo : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("PostLoginData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@UpdateLoginInfo,
@@ -222,8 +212,6 @@ class UpdateLoginInfo : AppCompatActivity() {
         val client = OkHttpClient()
         val url =ApiFile.APP_URL+"/admin/detailsByLoginName?loginName=$loginName"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -234,7 +222,6 @@ class UpdateLoginInfo : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData =User(

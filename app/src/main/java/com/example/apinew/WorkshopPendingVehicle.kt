@@ -40,7 +40,6 @@ class WorkshopPendingVehicle : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workshop_pending_vehicle)
         location_name = intent.getStringExtra("location_name") ?: ""
-        Log.d("location-name", location_name)
 
         ouId = intent.getIntExtra("ouId", 0)
         attribute1 = intent.getStringExtra("attribute1") ?: ""
@@ -171,9 +170,6 @@ class WorkshopPendingVehicle : AppCompatActivity() {
         val location=location_name
         val url = "${ApiFile.APP_URL}/service/srTransferList?to_location=$location&dept=$deptName"
 
-        Log.d("FetchData", "Request URL: $url")
-        Log.d("location---Pending", "location: $location")
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -182,8 +178,6 @@ class WorkshopPendingVehicle : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
-                Log.d("FetchDataResponse", "Response: $responseBody")
-
                 if (response.isSuccessful && responseBody != null) {
                     val jsonObject = JSONObject(responseBody)
                     val jsonArray = jsonObject.getJSONArray("obj")
@@ -207,7 +201,6 @@ class WorkshopPendingVehicle : AppCompatActivity() {
                         )
                         vehicleList.add(vehicle)
                     }
-                    Log.d("FetchDataResponse", "Parsed Vehicles: ${vehicleList.size}")
 
                     runOnUiThread {
                         if(vehicleList.size<=0){
@@ -216,14 +209,12 @@ class WorkshopPendingVehicle : AppCompatActivity() {
                         populateTable(vehicleList)
                     }
                 } else {
-                    Log.e("FetchDataError", "Failed to fetch data: ${response.code}")
                     runOnUiThread {
                         Toast.makeText(this@WorkshopPendingVehicle, "Failed to fetch data", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Log.e("FetchDataException", "Exception: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@WorkshopPendingVehicle, "Failed to fetch data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
                 }

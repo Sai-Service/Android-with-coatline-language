@@ -183,7 +183,6 @@ class StkTrfIntransit : AppCompatActivity() {
         rowCountTextView.visibility = View.GONE
         tableLayout.removeAllViews()
         headerTableLayout.removeAllViews()
-        Log.d("ouId", ouId.toString())
         val client = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -197,8 +196,6 @@ class StkTrfIntransit : AppCompatActivity() {
         } else {
             ""
         }
-        Log.d("fetchUninvoice", "Selected City: $selectedCity")
-        Log.d("fetchUninvoice", "Selected City Code: $selectedCityCode")
 
         if (selectedType == "SELECT VEHICLE TYPE") {
             Toast.makeText(
@@ -213,7 +210,6 @@ class StkTrfIntransit : AppCompatActivity() {
             } else {
                 ApiFile.APP_URL + "/accounts/reportStkTrfIntransit?ouId=$ouId&vehType=$selectedType"
             }
-            Log.d("url", url)
 
             progressBar.visibility = View.VISIBLE
             TextProgressBar.visibility = View.VISIBLE

@@ -121,6 +121,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
     private lateinit var gateTypeTxtView:TextView
     private lateinit var gatePassNo:TextView
     private lateinit var gatePassNoNote:TextView
+    private lateinit var salesExecutiveTxt:TextView
+    private lateinit var executiveSpinner:EditText
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -182,6 +184,10 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         gatePassNo=findViewById(R.id.gatePassNo)
         gatePassNoNote=findViewById(R.id.gatePassNoNote)
 
+        salesExecutiveTxt=findViewById(R.id.salesExecutiveTxt)
+        executiveSpinner=findViewById(R.id.executiveSpinner)
+
+
 
         kmTxt.visibility=View.GONE
         currentKMSField.visibility=View.GONE
@@ -206,6 +212,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         gateTypeTxtView.visibility=View.GONE
         gatePassNo.visibility=View.GONE
         gatePassNoNote.visibility=View.GONE
+        salesExecutiveTxt.visibility=View.GONE
+        executiveSpinner.visibility=View.GONE
 
         locId = intent.getIntExtra("locId", 0)
         ouId = intent.getIntExtra("ouId", 0)
@@ -234,11 +242,12 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         forNewVehicleOut.setOnClickListener {
             newVehLL.visibility=View.VISIBLE
-//            captureVehNumberIn.visibility=View.VISIBLE
             newVehEditText.setText("")
             newVehInButton.visibility=View.GONE
             newVehOutButton.visibility=View.VISIBLE
         }
+
+        currentKMSField.isEnabled=false
 
         newVehInButton.setOnClickListener { detailsForVehicleInFirstTime() }
 
@@ -252,20 +261,25 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         refresh.setOnClickListener { resetFieldsAfterGatePassNo() }
 
-        captureToKm.setOnClickListener {
-            clickedPlaceholder = captureToKm
-            openCamera()
-        }
-
-        fetchGateNo()
-
-
-
-//        captureRegNoCameraIn.setOnClickListener {
-//            clickedPlaceholder = captureRegNoCameraIn
-//            openCamera(CAMERA_REQUEST_CODE_2)
+//        captureToKm.setOnClickListener {
+//            clickedPlaceholder = captureToKm
+//            openCamera()
 //        }
 
+        captureToKm.setOnClickListener {
+            clickedPlaceholder = captureToKm
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE
+                )
+            }
+        }
+
+
+        fetchGateNo()
 
         captureRegNoCameraIn.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -281,10 +295,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                 )
             }
         }
-//        captureRegNoCameraOut.setOnClickListener {
-//            clickedPlaceholder = captureRegNoCameraOut
-//            openCamera(CAMERA_REQUEST_CODE_3)
-//        }
 
         vehicleHistory.setOnClickListener { workShopTestDriveVehHistory()  }
 
@@ -443,25 +453,21 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         }
 
         modifiedString = modifiedString.trim()
-        Log.d("FinalModifiedString", modifiedString)
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
@@ -522,9 +528,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
 
 
-
-
-
     private fun processImageForText(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
@@ -549,38 +552,14 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                 currentKMSField.setText(numericText)
             } else {
                 Toast.makeText(this, "No valid reading found", Toast.LENGTH_SHORT).show()
+                currentKMSField.isEnabled=true
             }
         } else {
             Toast.makeText(this, "No text found", Toast.LENGTH_SHORT).show()
+            currentKMSField.isEnabled=true
+
         }
     }
-
-//    private fun fetchGateNo() {
-//        val client = OkHttpClient()
-//        val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/gateTypeMaster/gateDetailsByLocId?locId=$locId")
-//            .build()
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                Log.d("Gate No->",response.toString())
-//                val jsonData = response.body?.string()
-//                jsonData?.let {
-//                    val cities = parseGateNo(it)
-//                    runOnUiThread {
-//                        val adapter = ArrayAdapter(this@WorkshopDemoVehicle, android.R.layout.simple_spinner_item, cities
-//                        )
-//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//                        gateTypeLov.adapter = adapter
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-
-
 
     private fun fetchGateNo() {
         val client = OkHttpClient()
@@ -591,7 +570,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
-                Log.d("Gate No->", response.toString())
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val cities = parseGateNo(it)
@@ -609,7 +587,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                                     if (parts.size == 2) {
                                         gateNumber = parts[0]
                                         gateType = parts[1]
-                                        Log.d("Selected Gate", "Gate Number: $gateNumber, Gate Type: $gateType")
                                     }
                                 }
                             }
@@ -679,6 +656,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         custAddressEditText.visibility=View.VISIBLE
         gateTypeLov.visibility=View.VISIBLE
         gateTypeTxtView.visibility=View.VISIBLE
+        salesExecutiveTxt.visibility=View.VISIBLE
+        executiveSpinner.visibility=View.VISIBLE
     }
 
     private fun detailsForVehicleInFirstTime() {
@@ -690,7 +669,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         }
         val url = ApiFile.APP_URL + "/demoVehicleTrans/getDemoVehInDetailsByRegNo?regNo=$vehNo"
 
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -702,7 +680,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
@@ -766,13 +743,17 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 //    private fun detailsForVehicleOut() {
 //        val client = OkHttpClient()
 //        val vehNo = newVehEditText.text.toString()
-//        if(vehNo.isEmpty()){
-//            Toast.makeText(this@WorkshopDemoVehicle,"Please enter the vehicle number",Toast.LENGTH_SHORT).show()
+//
+//        if (vehNo.isEmpty()) {
+//            Toast.makeText(
+//                this@WorkshopDemoVehicle,
+//                "Please enter the vehicle number",
+//                Toast.LENGTH_SHORT
+//            ).show()
 //            return
 //        }
-//        val url = ApiFile.APP_URL + "/demoVehicleTrans/getDemoVehByRegNo?regNo=$vehNo"
 //
-//        Log.d("URL:", url)
+//        val url = ApiFile.APP_URL + "/demoVehicleTrans/getDemoVehByRegNo?regNo=$vehNo"
 //
 //        val request = Request.Builder()
 //            .url(url)
@@ -782,48 +763,58 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 //            try {
 //                val response = client.newCall(request).execute()
 //                val jsonData = response.body?.string()
+//
 //                jsonData?.let {
 //                    val jsonObject = JSONObject(it)
-//                    Log.d("Data", jsonObject.toString())
 //
-//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
-//
-//                    val jcData3 = allData(
-//                        CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
-//                        VIN = stockItem.optString("VIN"),
-//                        MODEL_DESC = stockItem.optString("MODEL_DESC"),
-//                        ENGINE_NO = stockItem.optString("ENGINE_NO"),
-//                        FUEL_DESC = stockItem.optString("FUEL_DESC"),
-//                        VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-//                        CUST_NAME = stockItem.optString("CUST_NAME"),
-//                        CUST_ADDRESS = stockItem.optString("CUST_ADDRESS"),
-//                        CUST_CONTACT_NO = stockItem.optString("CUST_CONTACT_NO"),
-//                        LOCATION = stockItem.optString("LOCATION"),
-//                        OUT_TIME = stockItem.optString("OUT_TIME"),
-//                        OUT_KM = stockItem.optString("OUT_KM"),
-//                        REMARKS = stockItem.optString("REMARKS"),
-//                        VEHICLE_NO = stockItem.optString("VEHICLE_NO")
-//                    )
-//
+//                    val statusCode = jsonObject.getInt("code")
 //                    val responseMessage = jsonObject.getString("message")
 //
-//                    when (responseMessage) {
-//                        "Details Found Successfully" -> {
-//                            runOnUiThread {
+//                    runOnUiThread {
+//                        when (statusCode) {
+//                            200 -> {
+//                                val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+//
+//                                val jcData3 = allData(
+//                                    CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
+//                                    VIN = stockItem.optString("VIN"),
+//                                    MODEL_DESC = stockItem.optString("MODEL_DESC"),
+//                                    ENGINE_NO = stockItem.optString("ENGINE_NO"),
+//                                    FUEL_DESC = stockItem.optString("FUEL_DESC"),
+//                                    VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+//                                    CUST_NAME = stockItem.optString("CUST_NAME"),
+//                                    CUST_ADDRESS = stockItem.optString("CUST_ADDRESS"),
+//                                    CUST_CONTACT_NO = stockItem.optString("CUST_CONTACT_NO"),
+//                                    LOCATION = stockItem.optString("LOCATION"),
+//                                    OUT_TIME = stockItem.optString("OUT_TIME"),
+//                                    OUT_KM = stockItem.optString("OUT_KM"),
+//                                    REMARKS = stockItem.optString("REMARKS"),
+//                                    VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
+//                                    REG_NO = stockItem.optString("REG_NO")
+//                                )
+//
 //                                populateFieldsOut(jcData3)
 //                                populateFieldsAfterOutSearch()
+//
 //                                Toast.makeText(
 //                                    this@WorkshopDemoVehicle,
 //                                    "Details Found Successfully for vehicle no.: $vehNo",
 //                                    Toast.LENGTH_SHORT
 //                                ).show()
 //                            }
-//                        }
-//                        else -> {
-//                            runOnUiThread {
+//
+//                            400 -> {
 //                                Toast.makeText(
 //                                    this@WorkshopDemoVehicle,
-//                                    "Unexpected response for Vehicle No: $vehNo",
+//                                    responseMessage,
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+//                            }
+//
+//                            else -> {
+//                                Toast.makeText(
+//                                    this@WorkshopDemoVehicle,
+//                                    "Unexpected response: $responseMessage",
 //                                    Toast.LENGTH_SHORT
 //                                ).show()
 //                            }
@@ -844,6 +835,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 //    }
 
 
+
     private fun detailsForVehicleOut() {
         val client = OkHttpClient()
         val vehNo = newVehEditText.text.toString()
@@ -858,7 +850,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         }
 
         val url = ApiFile.APP_URL + "/demoVehicleTrans/getDemoVehByRegNo?regNo=$vehNo"
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -871,7 +862,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val statusCode = jsonObject.getInt("code")
                     val responseMessage = jsonObject.getString("message")
@@ -879,34 +869,43 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                     runOnUiThread {
                         when (statusCode) {
                             200 -> {
-                                val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+                                val objArray = jsonObject.getJSONArray("obj")
+                                if (objArray.length() > 0) {
+                                    val stockItem = objArray.getJSONObject(0)
 
-                                val jcData3 = allData(
-                                    CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
-                                    VIN = stockItem.optString("VIN"),
-                                    MODEL_DESC = stockItem.optString("MODEL_DESC"),
-                                    ENGINE_NO = stockItem.optString("ENGINE_NO"),
-                                    FUEL_DESC = stockItem.optString("FUEL_DESC"),
-                                    VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-                                    CUST_NAME = stockItem.optString("CUST_NAME"),
-                                    CUST_ADDRESS = stockItem.optString("CUST_ADDRESS"),
-                                    CUST_CONTACT_NO = stockItem.optString("CUST_CONTACT_NO"),
-                                    LOCATION = stockItem.optString("LOCATION"),
-                                    OUT_TIME = stockItem.optString("OUT_TIME"),
-                                    OUT_KM = stockItem.optString("OUT_KM"),
-                                    REMARKS = stockItem.optString("REMARKS"),
-                                    VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
-                                    REG_NO = stockItem.optString("REG_NO")
-                                )
+                                    val jcData3 = allData(
+                                        CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
+                                        VIN = stockItem.optString("VIN"),
+                                        MODEL_DESC = stockItem.optString("MODEL_DESC"),
+                                        ENGINE_NO = stockItem.optString("ENGINE_NO"),
+                                        FUEL_DESC = stockItem.optString("FUEL_DESC"),
+                                        VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+                                        CUST_NAME = stockItem.optString("CUST_NAME"),
+                                        CUST_ADDRESS = stockItem.optString("CUST_ADDRESS"),
+                                        CUST_CONTACT_NO = stockItem.optString("CUST_CONTACT_NO"),
+                                        LOCATION = stockItem.optString("LOCATION"),
+                                        OUT_TIME = stockItem.optString("OUT_TIME"),
+                                        OUT_KM = stockItem.optString("OUT_KM"),
+                                        REMARKS = stockItem.optString("REMARKS"),
+                                        VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
+                                        REG_NO = stockItem.optString("REG_NO")
+                                    )
 
-                                populateFieldsOut(jcData3)
-                                populateFieldsAfterOutSearch()
+                                    populateFieldsOut(jcData3)
+                                    populateFieldsAfterOutSearch()
 
-                                Toast.makeText(
-                                    this@WorkshopDemoVehicle,
-                                    "Details Found Successfully for vehicle no.: $vehNo",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    Toast.makeText(
+                                        this@WorkshopDemoVehicle,
+                                        "Details Found Successfully for vehicle no.: $vehNo",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        this@WorkshopDemoVehicle,
+                                        "Vehicle Details not Found",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
 
                             400 -> {
@@ -926,6 +925,12 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                             }
                         }
                     }
+                } ?: runOnUiThread {
+                    Toast.makeText(
+                        this@WorkshopDemoVehicle,
+                        "No response received from server",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -941,6 +946,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
     }
 
 
+
     private fun vehicleOut() {
         val currentKms = currentKMSField.text.toString()
         val remarks = remarksField.text.toString()
@@ -949,6 +955,11 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         val customerName=custNameEditText.text.toString()
         val customerAddress=custAddressEditText.text.toString()
         val customerContact=custContactEditText.text.toString()
+        val salesExecutive=executiveSpinner.text.toString()
+        if(salesExecutive.isEmpty()){
+            Toast.makeText(this@WorkshopDemoVehicle,"Please enter executive name.",Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (customerName.isEmpty()) {
             Toast.makeText(this, "Enter Customer name to proceed.", Toast.LENGTH_SHORT).show()
@@ -1032,6 +1043,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             put("location", location_name)
             put("attribute1",gateNo)
             put("attribute2",gateType)
+            put("attribute3",salesExecutive)
             put("updatedBy", login_name)
             put("outKm",currentKms)
             put("fromLocation",location)
@@ -1053,9 +1065,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("newVehicleIn", "Response Code: $responseCode")
-                Log.d("newVehicleIn", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1080,13 +1089,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                             }
 
                             responseCode == 200 -> {
-//                                val gatePassNoString = jsonResponse.optString("gatePassNo", "")
-//                                Log.d("gatePassNoString",gatePassNoString)
-//                                gatePassNo.text = gatePassNoString
-//                                gatePassNo.visibility=View.VISIBLE
                                 val obj = jsonResponse.optJSONObject("obj")
                                 val gatePassNoString = obj?.optString("gatePassNo", "") ?: ""
-                                Log.d("gatePassNoString", gatePassNoString)
                                 gatePassNo.text = "Gate Pass No:- $gatePassNoString"
                                 gatePassNo.visibility = View.VISIBLE
                                 gatePassNoNote.visibility=View.VISIBLE
@@ -1116,7 +1120,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("newVehicleIn", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@WorkshopDemoVehicle,
@@ -1181,10 +1184,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             put("attribute2",gateType)
 
         }
-        Log.d("URL:", url)
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPDATE:", json.toString())
         val request = Request.Builder()
             .url(url)
             .put(requestBody)
@@ -1237,39 +1238,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         })
     }
-
-
-    private fun populateFieldsDuringInStockVehicle(jcData:allData) {
-        val table = findViewById<TableLayout>(R.id.tableLayout2)
-        table.removeAllViews()
-
-        val detailsMap = mutableMapOf(
-            "VIN" to jcData.VIN,
-            "CHASSIS_NO" to jcData.CHASSIS_NO,
-        )
-
-        vinNo=jcData.VIN
-        chassisNo=jcData.CHASSIS_NO
-
-
-        for ((label, value) in detailsMap) {
-            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-            val labelTextView = row.findViewById<TextView>(R.id.label)
-            val valueTextView = row.findViewById<TextView>(R.id.value)
-
-            labelTextView.text = label
-            valueTextView.text = value
-
-            table.addView(row)
-        }
-
-        if (table.childCount > 0) {
-            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
-            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
-            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
-        }
-    }
-
 
     private fun populateFieldsOut(jcData:allData) {
         val table = findViewById<TableLayout>(R.id.tableLayout2)
@@ -1406,6 +1374,11 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         custNameEditText.setText("")
         custContactEditText.setText("")
         custAddressEditText.setText("")
+        currentKMSField.isEnabled=false
+        salesExecutiveTxt.visibility=View.GONE
+        executiveSpinner.visibility=View.GONE
+        executiveSpinner.setText("")
+
     }
 
 

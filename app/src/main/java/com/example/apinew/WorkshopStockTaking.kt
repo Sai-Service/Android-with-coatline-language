@@ -359,7 +359,6 @@ class WorkshopStockTaking : AppCompatActivity() {
             integrator.setBarcodeImageEnabled(true)
             integrator.setOrientationLocked(false)
             integrator.initiateScan()
-            Log.d("currentDate", currentDate)
             Handler(Looper.getMainLooper()).postDelayed({
 //                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
             }, 10000)
@@ -439,18 +438,14 @@ class WorkshopStockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
-                Log.d("jsonDataCheck", jsonArray.toString())
                 val batStatus = jsonArray.getJSONObject(0)
 //                val status = batStatus.getString("BATCHSTATUS")
                 checkBatchStatus = batStatus.getString("BATCHSTATUS")
 
-                Log.d("status------", checkBatchStatus)
                 runOnUiThread {
                     if (checkBatchStatus.equals("open", ignoreCase = true)) {
-                        Log.d("jsonDataCheckOpenStatus", jsonData.toString())
                         multipleBatchNameSpinner.visibility = View.VISIBLE
                         batchEditText.visibility = View.INVISIBLE
                         fetchBatchData()
@@ -473,48 +468,32 @@ class WorkshopStockTaking : AppCompatActivity() {
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         val batchName = ("$location_name-$currentDate")
         val LocationName = location_name
-        Log.d("LocationName----LocationName", LocationName)
-        Log.d("batchName----batchName", batchName)
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("${ApiFile.APP_URL}/srAccounts/findBatchNameStatus?batchName=$batchName&location=$LocationName")
             .build()
-        Log.d("findBybatchNameStatus",request.toString())
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
 
-                Log.d("jsonData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
                 val batStatus = jsonArray.getJSONObject(0)
                 val batchName2 = batStatus.getString("batchName")
                 val batchStatus = batStatus.getString("batchStatus")
-                Log.d("batchname",batchName2)
-                Log.d("batchStatus",batchStatus)
-                Log.d("jsonDataCheck", jsonArray.toString())
-
-                if (jsonArray.length() == 0){
-                    Log.d("jsonDataCheckIf", jsonData.toString())
+                            if (jsonArray.length() == 0){
                     batchEditText.visibility=View.VISIBLE
                     multipleBatchNameSpinner.visibility= View.INVISIBLE
                 } else{
-                    Log.d("jsonDataCheckelse", jsonData.toString())
                     batchEditText.visibility= View.GONE
                     multipleBatchNameSpinner.visibility=View.VISIBLE
                     fetchBatchData()
                 }
 
-                Log.d("nss---->", batchName)
-                Log.d("nss2--->", batchEditText.text.toString())
                 if(batchName.toString()==batchEditText.text.toString()&&batchStatus.toString()=="Closed"){
                     save_button.visibility=View.INVISIBLE
                     save_button2.visibility=View.INVISIBLE
-
-                    Log.d("nss---->", batchName.toString())
-                    Log.d("nss2.0--->", batchStatus.toString())
-                    Log.d("nss2--->", batchEditText.toString())
                 }
             }
             catch (e: Exception) {
@@ -532,7 +511,6 @@ class WorkshopStockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonDataBatchList", jsonData.toString())
                 jsonData?.let {
                     val batchCodeList = parseCities(it)
                     runOnUiThread {
@@ -566,7 +544,6 @@ class WorkshopStockTaking : AppCompatActivity() {
 
     private fun parseCities(jsonData: String): List<String> {
         val batchCodeList = mutableListOf<String>()
-        Log.d("batchList Checking----",batchCodeList.toString())
         try {
             val jsonObject = JSONObject(jsonData)
             val jsonArray = jsonObject.getJSONArray("obj")
@@ -651,72 +628,6 @@ class WorkshopStockTaking : AppCompatActivity() {
         }
     }
 
-//    private fun displayBestResult(results: List<String>, resultTextView: TextView) {
-//        bestResult2 = results.maxByOrNull { it.length }
-//            ?.replace(" ", "")
-//            ?.replace(".", "")
-//            ?.replace("IND","")
-//            ?.replace("IN0","")
-//            ?.replace("UND","")
-//            ?.replace("UN0","")
-//            ?.replace("1ND","")
-//            ?.replace("1N0","")
-//            ?.replace("|","")
-//            ?.replace("-","")
-//            ?.replace(",","")
-//            ?: ""
-//        Toast.makeText(this, "Result:$bestResult2", Toast.LENGTH_SHORT).show()
-//
-//        val regexVehicleNo = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
-//        val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]{1}\\d{4}$")
-//        val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
-//
-//        var modifiedString = bestResult2
-//
-//        modifiedString = modifiedString.mapIndexed { index, char ->
-//            when {
-//                (index == 2 || index == 3 || index >= 6) && char == 'O' -> '0'
-//                (index == 2 || index == 3 || index >= 6) && char == 'Z' -> '4'
-//                (index == 2 || index == 3 || index >= 6) && char == 'S' -> '5'
-//                (index == 0 || index == 1 || (index in 4..5) || (index in 6..8 && modifiedString.length > 8)) && char == '0' -> 'D'
-//                else -> char
-//            }
-//        }.joinToString("")
-//
-//        modifiedString = modifiedString.trim()
-//        Log.d("FinalModifiedString", modifiedString)
-//
-//        when {
-//            regexVehicleNo.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            regexVehicleNo2.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            regexVehicleNo3.matches(modifiedString) -> {
-//                resultTextView.text = modifiedString
-//                vehNoTextView.text = modifiedString
-//                vinNoTextView.text = modifiedString
-//                Log.d("TextRecognition", "Best result: $modifiedString")
-//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
-//            }
-//            else -> {
-//                runOnUiThread {
-//                    Toast.makeText(this, "Invalid format", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-
-
     private fun displayBestResult(results: List<String>, resultTextView: TextView) {
         bestResult2 = results.maxByOrNull { it.length }
             ?.replace(" ", "")
@@ -780,28 +691,24 @@ class WorkshopStockTaking : AppCompatActivity() {
         }
 
         modifiedString = modifiedString.trim()
-        Log.d("FinalModifiedString", modifiedString)
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
@@ -917,18 +824,14 @@ class WorkshopStockTaking : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -943,8 +846,6 @@ class WorkshopStockTaking : AppCompatActivity() {
         val chassis=chassis_no.text.toString()
         val url =ApiFile.APP_URL+"/srAccounts/srAccDetailsByJobCardNo?jobCardNo=$chassis"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -955,7 +856,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val regData = regNoDataStkTake2(
@@ -1026,8 +926,6 @@ class WorkshopStockTaking : AppCompatActivity() {
         val vehicleNo2=vehNoTextView.text.toString()
         val url =ApiFile.APP_URL+"/srAccounts/srAccDetailsByRegNo?regNo=$vehicleNo2"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -1038,7 +936,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val regData = regNoDataStkTake2(
@@ -1108,9 +1005,6 @@ class WorkshopStockTaking : AppCompatActivity() {
         val vehicleNo=vehNoEditText.text.toString()
         val url =ApiFile.APP_URL+"/srAccounts/srAccDetailsByRegNo?regNo=$vehicleNo"
 
-
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -1121,7 +1015,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val regData = regNoDataStkTake2(
@@ -1206,9 +1099,6 @@ class WorkshopStockTaking : AppCompatActivity() {
     }
 
     private fun saveVinData(regNo: String, batchName: String) {
-        Log.d("BatchName", batchName)
-        Log.d("regNo", regNo)
-
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/srAccounts/srBatchNameScan"
         val jsonObject = JSONObject()
@@ -1216,12 +1106,10 @@ class WorkshopStockTaking : AppCompatActivity() {
         val currentDateTime = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val formattedDate = formatter.format(currentDateTime.time)
-        Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
         val formatterForEndDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val batchCodeEndDate = formatterForEndDate.format(currentDateTime.time)
-        Log.d("batchCodeEndDate", batchCodeEndDate)
 
         jsonObject.put("regNo", regNo)
         jsonObject.put("jobCardNo", JOB_CARD_NO.text.toString().split(": ")[1])
@@ -1239,10 +1127,8 @@ class WorkshopStockTaking : AppCompatActivity() {
         jsonObject.put("batchCreationDate", formattedDate)
         jsonObject.put("batchCodeEndDate", batchCodeEndDate)
         jsonObject.put("updatedBy", login_name)
-        Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1254,9 +1140,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1298,7 +1181,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@WorkshopStockTaking,
@@ -1311,8 +1193,6 @@ class WorkshopStockTaking : AppCompatActivity() {
     }
 
     private fun saveVinData2(regNo: String, batchName: String) {
-        Log.d("BatchName", batchName)
-        Log.d("regNo", regNo)
 
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/srAccounts/srBatchNameManual"
@@ -1321,12 +1201,10 @@ class WorkshopStockTaking : AppCompatActivity() {
         val currentDateTime = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val formattedDate = formatter.format(currentDateTime.time)
-        Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
         val formatterForEndDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val batchCodeEndDate = formatterForEndDate.format(currentDateTime.time)
-        Log.d("batchCodeEndDate", batchCodeEndDate)
 
         jsonObject.put("regNo", regNo)
         jsonObject.put("jobCardNo", JOB_CARD_NO.text.toString().split(": ")[1])
@@ -1344,10 +1222,8 @@ class WorkshopStockTaking : AppCompatActivity() {
         jsonObject.put("batchCreationDate", formattedDate)
         jsonObject.put("batchCodeEndDate", batchCodeEndDate)
         jsonObject.put("updatedBy", login_name)
-        Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1359,9 +1235,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1403,7 +1276,6 @@ class WorkshopStockTaking : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@WorkshopStockTaking,

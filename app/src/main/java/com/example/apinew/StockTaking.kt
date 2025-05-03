@@ -224,7 +224,6 @@ class StockTaking : AppCompatActivity() {
             integrator.setBarcodeImageEnabled(true)
             integrator.setOrientationLocked(false)
             integrator.initiateScan()
-            Log.d("currentDate", currentDate)
             Handler(Looper.getMainLooper()).postDelayed({
 //                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
             }, 10000)
@@ -302,99 +301,9 @@ class StockTaking : AppCompatActivity() {
                 }
             }
         }
-//        buttonChecker.setOnClickListener {
-//            checkBatchCutoff()
-//        }
 
 
     }
-
-
-
-
-//    private fun checkBatchCutoff() {
-//        val cutoffDate: String? = when {
-//            ::toCutOffDateBatchName.isInitialized && toCutOffDateBatchName.isNotEmpty() -> parseCutoffDate(toCutOffDateBatchName)
-//            !batchEditText.text.isNullOrEmpty() -> parseCutoffDate(batchEditText.text.toString())
-//            else -> null
-//        }
-//
-//        if (cutoffDate.isNullOrEmpty()) {
-//            runOnUiThread {
-//                Toast.makeText(this, "Invalid cutoff date", Toast.LENGTH_SHORT).show()
-//            }
-//            return
-//        }
-//
-//        val client = OkHttpClient()
-//        val apiUrl =
-//            "${ApiFile.APP_URL}/accounts/batchCutofDate?ou=$ouId&cutOfDate=$cutoffDate"
-//
-//        val request = Request.Builder()
-//            .url(apiUrl)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseBody = response.body?.string()
-//
-//                responseBody?.let {
-//                    val jsonObject = JSONObject(it)
-//                    val objArray = jsonObject.getJSONArray("obj")
-//                    val count = objArray.getJSONObject(0).getInt("COUNT(*)")
-//
-//                    runOnUiThread {
-//                        if (count > 0) {
-//                            fetchChassisDataButton.isEnabled = true
-//                            scanButton.isEnabled = true
-//                            chassis_no.isEnabled =true
-//                            findByChassis.isEnabled =true
-//                            Log.d("count > 0",apiUrl)
-//                        } else {
-//                            fetchChassisDataButton.isEnabled = false
-//                            scanButton.isEnabled = false
-//                            chassis_no.isEnabled =false
-//                            findByChassis.isEnabled =false
-//                            Toast.makeText(
-//                                this@StockTaking,
-//                                "Stock is not uploaded for the\ncurrent date $cutoffDate in batch name !!!",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                            Log.d("count < 0",apiUrl)
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@StockTaking,
-//                        "Error checking batch cutoff: ${e.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    Log.d("count not fetch",apiUrl)
-//
-//                }
-//            }
-//        }
-//    }
-//
-//
-//
-//    private fun parseCutoffDate(input: String): String? {
-//        val regex = Regex("""\d{2}-\d{2}-\d{4}|\d-\d{2}-\d{4}""")
-//        val match = regex.find(input)?.value ?: return null
-//
-//        return try {
-//            val date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse(match)
-//            SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(date)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            null
-//        }
-//    }
-
 
     private fun fetchCutOffDates() {
         val client = OkHttpClient()
@@ -402,14 +311,10 @@ class StockTaking : AppCompatActivity() {
             .url("${ApiFile.APP_URL}/accounts/batchCutofDate?ou=$ouId")
             .build()
 
-        Log.d("RequestCutOffCheck->", "fetchCutOffDatesCheck")
-
-
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("RequestCutOff->", request.toString())
 
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
@@ -475,51 +380,6 @@ class StockTaking : AppCompatActivity() {
         }
     }
 
-
-
-//    private fun findBybatchNameOpenStatus(){
-//        val LocationName = "$location_name"
-//        val client = OkHttpClient()
-//        val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/accounts/findExBatchNameStatus?location=$LocationName")
-//            .build()
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val jsonData = response.body?.string()
-//                Log.d("jsonData------", jsonData.toString())
-//                val jsonObject = JSONObject(jsonData.toString())
-//                val jsonArray = jsonObject.getJSONArray("obj")
-//                Log.d("jsonDataCheck", jsonArray.toString())
-////                val status =  jsonArray[0].toString()
-//                val batStatus = jsonArray.getJSONObject(0)
-//                val status = batStatus.getString("BATCHSTATUS")
-//                Log.d("status------", status)
-//                if (status.equals("open") ){
-//                    Toast.makeText(this@StockTaking, "The batch is OPEN!", Toast.LENGTH_SHORT).show()
-//                    Log.d("jsonDataCheckOpenStatus", jsonData.toString())
-//                    multipleBatchNameSpinner.visibility=View.VISIBLE
-//                    batchEditText.visibility= View.INVISIBLE
-////                    findBybatchNameOpenStatus()
-//                   fetchBatchData()
-//                }
-//                else if (status.equals("Closed") ){
-//                    findBybatchNameStatus()
-//                    save_button.visibility=View.INVISIBLE
-//                    Toast.makeText(
-//                        this@StockTaking,
-//                        "The batch is closed!",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//
-//                }
-//            }
-//            catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-
     private fun findBybatchNameOpenStatus() {
         val LocationName = "$location_name"
         val client = OkHttpClient()
@@ -530,18 +390,13 @@ class StockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
-                Log.d("jsonDataCheck", jsonArray.toString())
-                Log.d("jsonArray Length->>>",jsonArray.length().toString())
                 val arrayLn = jsonArray.length()
                 jsonBatchStatus=arrayLn.toString()
-                Log.d("arrayLn------", arrayLn.toString())
 
                 if (jsonArray.length() == 0) {
                     runOnUiThread {
-                        Log.d("jsonArray Empty", "The JSON array is empty.")
                         findBybatchNameStatus()
                         fetchCutOffDates()
                         save_button.visibility = View.INVISIBLE
@@ -554,18 +409,14 @@ class StockTaking : AppCompatActivity() {
                 val batStatus = jsonArray.getJSONObject(0)
                 val status = batStatus.getString("BATCHSTATUS")
                 batchStatus=status
-                Log.d("status------", status)
                 runOnUiThread {
                     if (status.equals("open", ignoreCase = true)) {
-                        Log.d("jsonDataCheckOpenStatus", jsonData.toString())
                         multipleBatchNameSpinner.visibility = View.VISIBLE
                         batchEditText.visibility = View.INVISIBLE
                         cutOffDateSpinner.visibility=View.GONE
                         fetchBatchData()
-                        Log.d("in if","in if-->cutoffdATE")
                     }
                     else if (status.equals("Closed", ignoreCase = true)) {
-                        Log.d("in else","in else-->CUTOFFDATE")
                         findBybatchNameStatus()
                         fetchCutOffDates()
                         save_button.visibility = View.INVISIBLE
@@ -587,46 +438,32 @@ class StockTaking : AppCompatActivity() {
         val batchName = ("$location_name-$currentDate")
 //        val batchName = ("Borivali(E)-29-07-2024")
         val LocationName = "$location_name"
-        Log.d("LocationName----LocationName", LocationName)
-        Log.d("batchName----batchName", batchName)
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("${ApiFile.APP_URL}/accounts/findBatchNameStatus?batchName=${batchName}&location=$LocationName")
             .build()
-        Log.d("findBybatchNameStatus",request.toString())
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
 
-                Log.d("jsonData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
                 val batStatus = jsonArray.getJSONObject(0)
                 val batchName = batStatus.getString("batchName")
                 val batchStatus = batStatus.getString("batchStatus")
-                Log.d("batchname",batchName)
-                Log.d("batchStatus",batchStatus)
-                Log.d("jsonDataCheck", jsonArray.toString())
 
                 if (jsonArray.length() === 0){
-                    Log.d("jsonDataCheckIf", jsonData.toString())
                     batchEditText.visibility=View.VISIBLE
                     multipleBatchNameSpinner.visibility= View.INVISIBLE
                 } else{
-                    Log.d("jsonDataCheckelse", jsonData.toString())
                     batchEditText.visibility= View.GONE
                     multipleBatchNameSpinner.visibility=View.VISIBLE
                     fetchBatchData()
                 }
-                Log.d("nss---->", batchName.toString())
-                Log.d("nss2--->", batchEditText.text.toString())
                 if(batchName.toString()==batchEditText.text.toString()&&batchStatus.toString()=="Closed"){
                     save_button.visibility=View.INVISIBLE
                     save_button2.visibility=View.INVISIBLE
-                    Log.d("nss---->", batchName.toString())
-                    Log.d("nss2.0--->", batchStatus.toString())
-                    Log.d("nss2--->", batchEditText.toString())
                 }
             }
             catch (e: Exception) {
@@ -644,11 +481,9 @@ class StockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonDataBatchList", jsonData.toString())
 
                 jsonData?.let {
                     val batchCodeList = parseCities(it)
-                    Log.d("batchCodeList----428",batchCodeList.toString())
                     runOnUiThread {
                         val adapter = ArrayAdapter(
                             this@StockTaking,
@@ -679,7 +514,6 @@ class StockTaking : AppCompatActivity() {
 
     private fun parseCities(jsonData: String): List<String> {
         val batchCodeList = mutableListOf<String>()
-        Log.d("batchList Checking451----",batchCodeList.toString())
         try {
             val jsonObject = JSONObject(jsonData)
             val jsonArray = jsonObject.getJSONArray("obj")
@@ -763,12 +597,9 @@ class StockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val jsonData = response.body?.string()
-                Log.d("Chassis_response--->",jsonData.toString())
-                Log.d("deptName----------", deptName)
                 if (responseCode == 200 && jsonData != null) {
                     try {
                         val jsonObject = JSONObject(jsonData)
-                        Log.d("DatachassisData----", jsonData)
                         val objArray = jsonObject.getJSONArray("obj")
 
                         if (objArray.length() > 0) {
@@ -791,7 +622,6 @@ class StockTaking : AppCompatActivity() {
                                 LOCATION=stockItem.getString("LOCATION")
                             )
                             runOnUiThread {
-                                Log.d("Vin:", chassisData.VIN)
                                     qr_result_textview.text = chassisData.VIN
                                     qr_result_textview.visibility=View.GONE
                                     VinQr.setText(qr_result_textview.text.toString())
@@ -829,8 +659,6 @@ class StockTaking : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Log.d("Error", "Server returned non-200 response: $responseCode")
-                    Log.d("Error", "Response: $jsonData")
                     runOnUiThread {
                         Toast.makeText(
                             this@StockTaking,
@@ -861,18 +689,14 @@ class StockTaking : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -934,12 +758,10 @@ class StockTaking : AppCompatActivity() {
         val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin"
 //        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
 
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -947,7 +769,6 @@ class StockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vinData(
@@ -1001,11 +822,9 @@ class StockTaking : AppCompatActivity() {
 //        val url = ApiFile.APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
         val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin2"
 //        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
-        Log.d("URL:", url)
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -1013,7 +832,6 @@ class StockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
@@ -1028,8 +846,6 @@ class StockTaking : AppCompatActivity() {
                         ENGINE_NO=stockItem.getString("ENGINE_NO")
                     )
 
-                    Log.d("fuelDesc",vinData.FUEL_DESC)
-                    Log.d("Vin Data", vinData.toString())
 
                     runOnUiThread {
                         populateFields(vinData)
@@ -1084,8 +900,6 @@ class StockTaking : AppCompatActivity() {
 
 
     private fun saveVinData(vin: String, batchName: String) {
-        Log.d("BatchName", batchName)
-        Log.d("vinIn", vin)
 
         var dateTimeToSend: String? = null
 
@@ -1118,7 +932,6 @@ class StockTaking : AppCompatActivity() {
             val formatter2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
             dateTimeToSend = formatter2.format(combinedDateTime.time)
 
-            Log.d("FinalDateTimeToSend", dateTimeToSend)
         }
 
         val client = OkHttpClient()
@@ -1130,12 +943,10 @@ class StockTaking : AppCompatActivity() {
         val formattedDate = formatter.format(currentDateTime.time)
 
 
-        Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
         val formatterForEndDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val batchCodeEndDate = formatterForEndDate.format(currentDateTime.time)
-        Log.d("batchCodeEndDate", batchCodeEndDate)
 
         jsonObject.put("vin", vin)
         jsonObject.put("chassis_no", variantCdTextView.text.toString().split(": ")[1])
@@ -1160,10 +971,8 @@ class StockTaking : AppCompatActivity() {
         jsonObject.put("batchCodeEndDate", batchCodeEndDate)
         jsonObject.put("updatedBy", login_name)
         jsonObject.put("updationDate", formattedDate)
-        Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1175,9 +984,6 @@ class StockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1225,7 +1031,6 @@ class StockTaking : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@StockTaking,
@@ -1239,10 +1044,8 @@ class StockTaking : AppCompatActivity() {
 
     
     private fun saveVinData2(vin: String, batchName: String) {
-        Log.d("BatchName", batchName)
-        Log.d("vinIn", vin)
 
-        var dateTimeToSend: String? = null
+                var dateTimeToSend: String? = null
 
         if (::batchStatus.isInitialized && batchStatus.equals("Closed", ignoreCase = true)||jsonBatchStatus.toInt()==0) {
             val batchCreationDt = cutOffDateSpinner.selectedItem?.toString()
@@ -1273,7 +1076,6 @@ class StockTaking : AppCompatActivity() {
             val formatter2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
             dateTimeToSend = formatter2.format(combinedDateTime.time)
 
-            Log.d("FinalDateTimeToSend", dateTimeToSend)
         }
 
 
@@ -1284,7 +1086,6 @@ class StockTaking : AppCompatActivity() {
         val currentDateTime = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val formattedDate = formatter.format(currentDateTime.time)
-        Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
         val formatterForEndDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
@@ -1294,9 +1095,6 @@ class StockTaking : AppCompatActivity() {
 //
 //        val dateTimeToSend = "$batchCreationDt $currentTime"
 
-        Log.d("formattedDate", formattedDate)
-//        Log.d("dateTimeToSend", dateTimeToSend)
-        Log.d("batchCodeEndDate", batchCodeEndDate)
 
         jsonObject.put("vin", vin)
         jsonObject.put("chassis_no", variantCdTextView.text.toString().split(": ")[1])
@@ -1319,10 +1117,8 @@ class StockTaking : AppCompatActivity() {
         jsonObject.put("batchCodeEndDate", batchCodeEndDate)
         jsonObject.put("updatedBy", login_name)
         jsonObject.put("updationDate", formattedDate)
-        Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1334,9 +1130,6 @@ class StockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1385,7 +1178,6 @@ class StockTaking : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@StockTaking,

@@ -85,3 +85,33 @@
 ## Espresso for testing
 #-keep class androidx.test.espresso.** { *; }
 #-dontwarn androidx.test.espresso.**
+
+#
+#-assumenosideeffects class android.util.Log {
+#    public static int d(...);
+#    public static int v(...);
+#    public static int i(...);
+#    public static int w(...);
+#    public static int e(...);
+#}
+#
+## Keep Retrofit/Gson model classes
+#-keep class com.example.apinew.model.** { *; }
+#
+#
+## Strip all Log calls
+#-assumenosideeffects class android.util.Log {
+#    public static int d(...);
+#    public static int v(...);
+#    public static int i(...);
+#    public static int w(...);
+#    public static int e(...);
+#}
+#
+## Keep Retrofit + Gson model classes
+#-keep class com.example.apinew.model.** { *; }
+#
+#
+#
+#
+#

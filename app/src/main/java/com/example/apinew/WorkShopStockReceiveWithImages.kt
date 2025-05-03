@@ -450,8 +450,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         val jobCardNo=jobCardInputField.text.toString()
         val url =ApiFile.APP_URL+"/service/wsVehReceiveDetByJobCardNo?jobCardNo=$jobCardNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -462,7 +460,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val jcData = jobCardDetails(
@@ -542,8 +539,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         val vehNo=vehNoInputField.text.toString()
         val url =ApiFile.APP_URL+"/service/wsVehReceiveDetByRegNo?regNo=$vehNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -554,7 +549,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val jcData = jobCardDetails(
@@ -644,126 +638,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         }
     }
 
-//    private fun postData() {
-//        Log.d("regNo", regNo)
-//        val dateString = stockTrfDate
-//        val formattedDate = convertStringToDate(dateString)
-//        val toKm=currentKms.text.toString().toFloat()
-//        val frmKm=fromKm.toFloat()
-//
-//        if(currentKmsText.text.toString().isEmpty()){
-//            Toast.makeText(this,"Please enter the Current KM",Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        if(toKm<=frmKm){
-//            Toast.makeText(this,"To KM must be greater than From KM",Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//
-//        val client = OkHttpClient()
-//        val url = ApiFile.APP_URL + "/service/wsVehTransReceive"
-//        val jsonObject = JSONObject()
-//
-//
-//        jsonObject.put("chassisNo", chassisNo)
-//        jsonObject.put("regNo", regNo)
-//        jsonObject.put("jobCardNo", jobCardNo)
-//        jsonObject.put("vin", vin)
-//        jsonObject.put("madeBy", login_name)
-//        jsonObject.put("toLocation",location_name)
-//        jsonObject.put("fromLocation",fromLocation)
-//        jsonObject.put("engineNo",engineNo)
-//        jsonObject.put("driverName",driverName)
-//        jsonObject.put("authorisedBy","")
-//        jsonObject.put("ou",ouId.toString())
-//        jsonObject.put("fromKm",fromKm)
-//        jsonObject.put("updatedBy",login_name)
-//        jsonObject.put("lastUploadedBy",login_name)
-//        jsonObject.put("createdBy",login_name)
-//        jsonObject.put("dept",deptName)
-//        jsonObject.put("fromLocCode","-")
-//        jsonObject.put("toLocCode",locId)
-//        jsonObject.put("stockTrfNo",stockTrfNo)
-//        jsonObject.put("stockTrfDate",formattedDate)
-//        jsonObject.put("receivedBy",login_name)
-//        jsonObject.put("toKm",toKm)
-//
-//
-//
-//        Log.d("jsonObject", jsonObject.toString())
-//
-//        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//        Log.d("requestBody",requestBody.toString())
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .post(requestBody)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseCode = response.code
-//                val responseBody = response.body?.string()
-//
-//                Log.d("SaveVinData", "Response Code: $responseCode")
-//                Log.d("SaveVinData", "Response Body: $responseBody")
-//
-//                runOnUiThread {
-//                    if (responseBody != null) {
-//                        val jsonObject = JSONObject(responseBody)
-//                        val message = jsonObject.optString("message", "")
-//
-//                        when {
-//                            message.contains("Registration No already exists for this batchName", ignoreCase = true) -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Stock taking is already completed for this vehicle",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                resetFields()
-//                            }
-//                            responseCode == 200 -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Vehicle Received Successfully at location $location_name",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                resetFields()
-//                            }
-//                            else -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Failed to Receive Vehicle. Error code: $responseCode",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    } else {
-//                        Toast.makeText(
-//                            this@WorkShopStockReceiveWithImages,
-//                            "No response from server",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Log.e("SaveVinData", "Error: ${e.message}")
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@WorkShopStockReceiveWithImages,
-//                        "Error saving data: ${e.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
-
-
     private fun showProgressDialog(): AlertDialog {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
@@ -775,178 +649,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         dialog.show()
         return dialog
     }
-
-//    private fun postData() {
-//        val progressDialog = showProgressDialog()
-//        stockTrfDate=getFormattedDate()
-//        val toKm=currentKms.text.toString()
-//        if (toKm.isEmpty()) {
-//            Toast.makeText(this, "Please enter the Current KM", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        val tokmInt = toKm.toInt()
-//
-//        val frmKm=fromKm
-//
-//        if(currentKmsText.text.toString().isEmpty()){
-//            Toast.makeText(this,"Please enter the Current KM",Toast.LENGTH_SHORT).show()
-//            progressDialog.dismiss()
-//            return
-//        }
-//
-//        if(toKm.isEmpty()){
-//            Toast.makeText(this,"Please enter the Current KM",Toast.LENGTH_SHORT).show()
-//            progressDialog.dismiss()
-//            return
-//        }
-//
-//        if(tokmInt<=frmKm){
-//            Toast.makeText(this,"To KM must be greater than From KM",Toast.LENGTH_SHORT).show()
-//            progressDialog.dismiss()
-//            return
-//        }
-//
-//        val client = OkHttpClient()
-//        val url = ApiFile.APP_URL + "/service/wsVehTransReceive"
-//
-//        Log.d("stockTrfDate",stockTrfDate)
-//
-//
-//        val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-//
-//        bodyBuilder.addFormDataPart("chassisNo", chassisNo)
-//        bodyBuilder.addFormDataPart("regNo", regNo)
-//        bodyBuilder.addFormDataPart("jobCardNo", jobCardNo)
-//        bodyBuilder.addFormDataPart("vin", vin)
-//        bodyBuilder.addFormDataPart("madeBy", login_name)
-//        bodyBuilder.addFormDataPart("toLocation", location_name)
-//        bodyBuilder.addFormDataPart("fromLocation", fromLocation)
-//        bodyBuilder.addFormDataPart("engineNo", engineNo)
-//        bodyBuilder.addFormDataPart("driverName", driverName)
-//        bodyBuilder.addFormDataPart("authorisedBy", "$login_name-$location_name")
-//        bodyBuilder.addFormDataPart("ou", ouId.toString())
-//        bodyBuilder.addFormDataPart("fromKm", fromKm.toString())
-//        bodyBuilder.addFormDataPart("updatedBy", login_name)
-//        bodyBuilder.addFormDataPart("lastUploadedBy", login_name)
-//        bodyBuilder.addFormDataPart("createdBy", login_name)
-//        bodyBuilder.addFormDataPart("dept", deptName)
-//        bodyBuilder.addFormDataPart("fromLocCode", FROM_LOC_CODE)
-//        bodyBuilder.addFormDataPart("toLocCode", locId.toString())
-//        bodyBuilder.addFormDataPart("stockTrfNo", stockTrfNo)
-//        bodyBuilder.addFormDataPart("stockTrfDate", stockTrfDate)
-//        bodyBuilder.addFormDataPart("receivedBy", login_name)
-//        bodyBuilder.addFormDataPart("toKm", tokmInt.toString())
-//
-//
-//        val imageViews = listOf(
-//            findViewById<ImageView>(R.id.imagePlaceholder1),
-//            findViewById<ImageView>(R.id.imagePlaceholder2),
-//            findViewById<ImageView>(R.id.imagePlaceholder3),
-//            findViewById<ImageView>(R.id.imagePlaceholder4),
-//            findViewById<ImageView>(R.id.imagePlaceholder5),
-//            findViewById<ImageView>(R.id.imagePlaceholder6),
-//            findViewById<ImageView>(R.id.imagePlaceholder7),
-//            findViewById<ImageView>(R.id.imagePlaceholder8),
-//            findViewById<ImageView>(R.id.imagePlaceholder9),
-//            findViewById<ImageView>(R.id.imagePlaceholder10),
-//            findViewById<ImageView>(R.id.imagePlaceholder11),
-//            findViewById<ImageView>(R.id.imagePlaceholder12),
-//            findViewById<ImageView>(R.id.imagePlaceholder13),
-//            findViewById<ImageView>(R.id.imagePlaceholder14),
-//        )
-//
-//        for ((index, imageView) in imageViews.withIndex()) {
-//            val drawable = imageView.drawable ?: continue
-//
-//            if (drawable.constantState == resources.getDrawable(R.drawable.uploadimgstk).constantState) {
-//                bodyBuilder.addFormDataPart("images", "-")
-//                continue
-//            }
-//
-//            val bitmap = (drawable as BitmapDrawable).bitmap
-//            val compressedFile = File(cacheDir, "compressed_image_${index + 1}.jpg")
-//            compressedFile.outputStream().use {
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, it)
-//            }
-//
-//            val imageBody = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//            bodyBuilder.addFormDataPart("images", compressedFile.name, imageBody)
-//        }
-//
-//
-//        val requestBody = bodyBuilder.build()
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .put(requestBody)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val responseCode = response.code
-//                val responseBody = response.body?.string()
-//
-//                Log.d("SaveVinData", "Response Code: $responseCode")
-//                Log.d("SaveVinData", "Response Body: $responseBody")
-//
-//                runOnUiThread {
-//                    if (responseBody != null) {
-//                        val jsonObject = JSONObject(responseBody)
-//                        val message = jsonObject.optString("message", "")
-//
-//                        when {
-//                            message.contains("Registration No already exists for this batchName", ignoreCase = true) -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Stock taking is already completed for this vehicle",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                progressDialog.dismiss()
-//                                resetFields()
-//                            }
-//                            responseCode == 200 -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Vehicle Received Successfully at location $location_name",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                progressDialog.dismiss()
-//                                resetFields()
-//                            }
-//                            else -> {
-//                                Toast.makeText(
-//                                    this@WorkShopStockReceiveWithImages,
-//                                    "Failed to Receive Vehicle. Error code: $responseCode",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                                progressDialog.dismiss()
-//                            }
-//                        }
-//                    } else {
-//                        Toast.makeText(
-//                            this@WorkShopStockReceiveWithImages,
-//                            "No response from server",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        progressDialog.dismiss()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Log.e("SaveVinData", "Error: ${e.message}")
-//                runOnUiThread {
-//                    progressDialog.dismiss()
-//                    Toast.makeText(
-//                        this@WorkShopStockReceiveWithImages,
-//                        "Error saving data: ${e.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
-
 
     private fun postData() {
         val progressDialog = showProgressDialog()
@@ -981,7 +683,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/service/wsVehTransReceive"
 
-        Log.d("stockTrfDate", stockTrfDate)
 
         val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
@@ -1057,9 +758,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                 val responseCode = response.code
                 val responseBody = response.body?.string()
 
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
-
                 runOnUiThread {
                     if (responseBody != null) {
                         val jsonObject = JSONObject(responseBody)
@@ -1104,7 +802,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     progressDialog.dismiss()
                     Toast.makeText(
@@ -1135,7 +832,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
             val formattedTime = date?.let { outputTimeFormat.format(it) }
             "$formattedDate $formattedTime"
         } catch (e: Exception) {
-            Log.e("DateFormatError", "Failed to format date: $dateTime", e)
             dateTime
         }
     }

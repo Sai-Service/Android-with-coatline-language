@@ -1,8 +1,14 @@
 package com.example.apinew
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -10,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.HorizontalScrollView
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TableLayout
@@ -17,25 +24,33 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 import kotlin.math.max
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class WorkshopWashingReport : AppCompatActivity() {
 
@@ -63,6 +78,9 @@ class WorkshopWashingReport : AppCompatActivity() {
     private lateinit var toDateLabel:TextView
     private lateinit var sendReportButton:Button
     private lateinit var emailId:String
+    private lateinit var reportDownload:ImageButton
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,8 +94,6 @@ class WorkshopWashingReport : AppCompatActivity() {
         deptName = intent.getStringExtra("deptName") ?: ""
         emailId = intent.getStringExtra("emailId") ?: ""
 
-        Log.d("Email",emailId)
-
 
         rowCountTextView = findViewById(R.id.rowCountTextView)
         rowCountTextView.visibility=View.GONE
@@ -87,6 +103,7 @@ class WorkshopWashingReport : AppCompatActivity() {
         fromDateLabel=findViewById(R.id.fromDateLabel)
         toDateLabel=findViewById(R.id.toDateLabel)
         sendReportButton=findViewById(R.id.sendReportButton)
+        reportDownload=findViewById(R.id.reportDownload)
 
         val calendar = Calendar.getInstance()
 
@@ -126,12 +143,16 @@ class WorkshopWashingReport : AppCompatActivity() {
             sendReport()
         }
 
-        if (deptName=="WM"){
-            sendReportButton.visibility=View.VISIBLE
-        } else {
-            sendReportButton.visibility=View.GONE
+        reportDownload.setOnClickListener {
+            downloadReport()
         }
 
+
+//        if (deptName=="WM"){
+//            sendReportButton.visibility=View.VISIBLE
+//        } else {
+//            sendReportButton.visibility=View.GONE
+//        }
 
         fetchData = findViewById(R.id.fetchData)
         progressBar = findViewById(R.id.progressBar)
@@ -179,6 +200,7 @@ class WorkshopWashingReport : AppCompatActivity() {
             headerHorizontalScrollView.scrollTo(scrollX, headerHorizontalScrollView.scrollY)
         }
 
+
 //        fetchData.setOnClickListener {
 //            fetchUninvoice()
 //            rowCountTextView.visibility=View.GONE
@@ -193,6 +215,7 @@ class WorkshopWashingReport : AppCompatActivity() {
             citySpinner.visibility= View.GONE
         }
 
+
         fetchData.setOnClickListener {
             rowCountTextView.visibility=View.GONE
             tableLayout.removeAllViews()
@@ -202,14 +225,18 @@ class WorkshopWashingReport : AppCompatActivity() {
                 return@setOnClickListener
             }
             fetchUninvoice()
+
         }
+
     }
 
 
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+//            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url(WorkshopWashingUrlManager.getCityUrl())
+
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -295,9 +322,11 @@ class WorkshopWashingReport : AppCompatActivity() {
         }
             val incrementedToDate = getIncrementedDate(toDate)
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/vehWashingReport/vehWashingReportByOu?ouId=$selectedCityCode&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+//                ApiFile.APP_URL + "/vehWashingReport/vehWashingReportByOu?ouId=$selectedCityCode&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+                WorkshopWashingUrlManager.getWashingReportUrl(selectedCityCode.toInt(), locId, fromDate, incrementedToDate)
             } else {
-                ApiFile.APP_URL + "/vehWashingReport/vehWashingReportByOu?ouId=$ouId&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+//                ApiFile.APP_URL + "/vehWashingReport/vehWashingReportByOu?ouId=$ouId&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+                WorkshopWashingUrlManager.getWashingReportUrl(ouId, locId, fromDate, incrementedToDate)
             }
 
             val request = Request.Builder()
@@ -308,22 +337,18 @@ class WorkshopWashingReport : AppCompatActivity() {
                 .build()
             progressBar.visibility = View.VISIBLE
             TextProgressBar.visibility = View.VISIBLE
-            Log.d("URL-->",url)
 
             GlobalScope.launch(Dispatchers.IO) {
                 try {
                     val response = client.newCall(request).execute()
 
                     if (!response.isSuccessful) {
-                        Log.e("API Error", "HTTP Error: ${response.code}")
-                        Log.d("API-Failed",url)
                         return@launch
                     }
 
                     val jsonData = response.body?.string()
 
                     jsonData?.let {
-                        Log.d("JSON Response", it)
 
                         val jsonObject = JSONObject(it)
                         if (jsonObject.has("obj")) {
@@ -334,21 +359,25 @@ class WorkshopWashingReport : AppCompatActivity() {
                             for (i in 0 until jsonArray.length()) {
                                 val stockItem = jsonArray.getJSONObject(i)
                                 val data = listOf(
-                                    stockItem.optString("SR_NO"),
-                                    stockItem.getString("REG_NO"),
-                                    stockItem.optString("CHASSIS_NO",""),
+                                    stockItem.optString("SR NO"),
+                                    stockItem.getString("REG NO"),
+                                    stockItem.optString("CHASSIS NO",""),
                                     stockItem.optString("MODEL", ""),
-                                    stockItem.optString("SERVICE_ADVISOR", ""),
-                                    stockItem.optString("UPDATED_BY", ""),
-                                    formatDateTime(stockItem.optString("IN_TIME", "")),
-                                    stockItem.optString("AIR_BLOW_STN", ""),
-                                    stockItem.optString("ENGINE_ROOM_STN", ""),
-                                    stockItem.optString("UNDERBODY_STN", ""),
-                                    stockItem.optString("LOOSE_ITEMS_STN", ""),
-                                    stockItem.optString("VEH_INTERIOR_STN", ""),
-                                    stockItem.optString("VEH_EXTERIOR_STN", ""),
-                                    stockItem.optString("GLASS_POLISH_STN", ""),
-                                    formatDateTime(stockItem.optString("OUT_TIME", ""))
+                                    stockItem.optString("SERVICE ADVISOR", ""),
+                                    stockItem.optString("UPDATED BY", ""),
+                                    formatDateTime(stockItem.optString("1ST STAGE IN TIME", "")),
+                                    stockItem.optString("AIR BLOW-1ST STAGE", ""),
+                                    stockItem.optString("ENGINE ROOM-1ST STAGE", ""),
+                                    stockItem.optString("UNDER BODY-1ST STAGE", ""),
+                                    formatDateTime(stockItem.optString("1ST STAGE OUT TIME", "")),
+                                    formatDateTime(stockItem.optString("2ND STAGE IN TIME", "")),
+                                    stockItem.optString("LOOSE ITEM-2ND STAGE", ""),
+                                    stockItem.optString("VEH INTERIOR-2ND STAGE", ""),
+                                    formatDateTime(stockItem.optString("2ND STAGE OUT TIME", "")),
+                                    formatDateTime(stockItem.optString("3RD STAGE IN TIME", "")),
+                                    stockItem.optString("VEH EXTERIOR-3RD STAGE", ""),
+                                    stockItem.optString("GLASS POLISH-3RD STAGE", ""),
+                                    formatDateTime(stockItem.optString("3RD STAGE OUT TIME", ""))
                                     )
                                 summaryDataList.add(data)
                             }
@@ -358,11 +387,8 @@ class WorkshopWashingReport : AppCompatActivity() {
                                 progressBar.visibility = View.GONE
                                 TextProgressBar.visibility = View.GONE
                                 rowCountTextView.visibility = View.VISIBLE
-
-
                             }
                         } else {
-                            Log.e("JSON Response", "Key 'obj' not found in JSON response")
                             runOnUiThread {
                                 progressBar.visibility = View.GONE
                             }
@@ -375,28 +401,12 @@ class WorkshopWashingReport : AppCompatActivity() {
                     }
                 }
             }
-
     }
-
-//    private fun formatDateTime(dateTime: String): String {
-//        return try {
-//            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-//            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-//            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-//            val date = inputFormat.parse(dateTime)
-//            val formattedDate = date?.let { outputDateFormat.format(it) }
-//            val formattedTime = date?.let { outputTimeFormat.format(it) }
-//            "$formattedDate "+ "$formattedTime"
-//        } catch (e: Exception) {
-//            dateTime
-//        }
-//    }
 
     private fun updateTableView(stockItems: List<List<String>>) {
         tableLayout.removeAllViews()
         headerTableLayout.removeAllViews()
         rowCountTextView.text=""
-
 
         val headers = listOf(
             "SR NO",
@@ -405,8 +415,8 @@ class WorkshopWashingReport : AppCompatActivity() {
             "MODEL",
             "SERVICE ADVISOR",
             "WASH S.VISOR",
-            "IN TIME","AIR BLOW","ENGINE ROOM","UNDER BODY","LOOSE ITEM","VEH INTERIOR",
-            "VEH EXTERIOR","GLASS POLISH","OUT TIME"
+            "1ST STAGE IN TIME","AIR BLOW-1ST STAGE","ENGINE ROOM-1ST STAGE","UNDER BODY-1ST STAGE","1ST STAGE OUT TIME","2ND STAGE IN TIME","LOOSE ITEM-2ND STAGE","VEH INTERIOR-2ND STAGE","2ND STAGE OUT TIME",
+            "3RD STAGE IN TIME","VEH EXTERIOR-3RD STAGE","GLASS POLISH-3RD STAGE","3RD STAGE OUT TIME"
         )
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2
@@ -448,7 +458,7 @@ class WorkshopWashingReport : AppCompatActivity() {
             for ((index, data) in item.withIndex()) {
                 val dataText = createTextView(data, false)
                 dataText.layoutParams =
-                    TableRow.LayoutParams(maxWidths[index], TableRow.LayoutParams.WRAP_CONTENT)
+                    TableRow.LayoutParams(maxWidths[index],TableRow.LayoutParams.WRAP_CONTENT)
                 dataRow.addView(dataText)
             }
             tableLayout.addView(dataRow)
@@ -475,14 +485,54 @@ class WorkshopWashingReport : AppCompatActivity() {
     }
 
 
+    private fun fetchEmailList(callback: (List<String>) -> Unit) {
+        val emailApiUrl = WorkshopWashingUrlManager.fetchEmailList(ouId.toString(),locId.toString())
+        val client = OkHttpClient()
+        val request = Request.Builder().url(emailApiUrl).build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(this@WorkshopWashingReport, "Failed to fetch emails: ${e.message}", Toast.LENGTH_SHORT).show()
+                    callback(emptyList())
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val emails = mutableListOf<String>()
+                try {
+                    val jsonResponse = JSONObject(response.body?.string() ?: "")
+                    val objArray = jsonResponse.optJSONArray("obj")
+                    if (objArray != null) {
+                        for (i in 0 until objArray.length()) {
+                            val email = objArray.getJSONObject(i).optString("EMAIL_ID")
+                            if (email.isNotEmpty()) {
+                                emails.add(email)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                runOnUiThread {
+                    callback(emails)
+                }
+            }
+        })
+    }
+
     private fun sendReport() {
         if (fromDate.isEmpty() || toDate.isEmpty()) {
             Toast.makeText(this, "Please select both From Date and To Date", Toast.LENGTH_SHORT).show()
             return
         }
 
+        progressBar.visibility = View.VISIBLE
+        TextProgressBar.text = "Email Sending in Progress...Please wait..."
+        TextProgressBar.visibility = View.VISIBLE
+
         val inputFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
-        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH)
 
         val formattedFromDate = try {
             outputFormat.format(inputFormat.parse(fromDate)!!)
@@ -493,61 +543,256 @@ class WorkshopWashingReport : AppCompatActivity() {
         }
 
         val formattedToDate = try {
-            outputFormat.format(inputFormat.parse(toDate)!!)
+            val date = inputFormat.parse(toDate)!!
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+            outputFormat.format(calendar.time)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Invalid To Date format", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val url = "${ApiFile.APP_URL}/vehWashingReport/mailVehWashingReport"
-        val json = JSONObject().apply {
-            put("ouId", ouId)
-            put("locId", locId)
-            put("fromDate", formattedFromDate)
-            put("toDate", formattedToDate)
-            put("email", emailId)
-        }
+        val url = WorkshopWashingUrlManager.postSendReportUrl()
+        val emailJsonArray = JSONArray()
 
-        Log.d("URL:", url)
-        val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPDATE:", json.toString())
-
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .addHeader("Content-Type", "application/json")
-            .build()
-
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                runOnUiThread {
-                    Toast.makeText(this@WorkshopWashingReport, "Failed to update vehicle", Toast.LENGTH_SHORT).show()
-                }
+        fetchEmailList { emailList ->
+            for (email in emailList) {
+                emailJsonArray.put(email)
             }
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val responseBody = it.body?.string() ?: ""
+            val json = JSONObject().apply {
+                put("ouId", ouId)
+                put("locId", locId)
+                put("fromDate", formattedFromDate)
+                put("toDate", formattedToDate)
+                put("recipients", emailJsonArray)
+            }
+
+            val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            val request = Request.Builder().url(url).post(requestBody).build()
+//            val client = OkHttpClient()
+            val client = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .build()
+
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    val response = client.newCall(request).execute()
+                    val responseBodyStr = response.body?.string()
+
                     runOnUiThread {
-                        if (it.isSuccessful) {
+                        progressBar.visibility = View.GONE
+                        TextProgressBar.visibility = View.GONE
+                        TextProgressBar.text = "Data is loading....."
+
+                        if (response.isSuccessful && responseBodyStr != null) {
+                            Log.d("ResponseBody", responseBodyStr)
+                            val jsonResponse = JSONObject(responseBodyStr)
+                            val message = jsonResponse.optString("message", "Report sent!")
+
                             Toast.makeText(
                                 this@WorkshopWashingReport,
-                                "Report sent, please check mail!",
+                                message,
                                 Toast.LENGTH_LONG
                             ).show()
                         } else {
                             Toast.makeText(
                                 this@WorkshopWashingReport,
-                                "Failed to send report. Error code: ${it.code}",
-                                Toast.LENGTH_LONG
+                                "Failed to send mail. Error code: ${response.code}",
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        TextProgressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this@WorkshopWashingReport,
+                            "Error sending data: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-        })
+
+        }
     }
+
+
+    private fun downloadReport() {
+        if (fromDate.isEmpty() || toDate.isEmpty()) {
+            Toast.makeText(this, "Please select both From Date and To Date", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        progressBar.visibility = View.VISIBLE
+        TextProgressBar.text = "Downloading report...Please wait..."
+        TextProgressBar.visibility = View.VISIBLE
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1001
+                )
+                return
+            }
+        }
+
+        val inputFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        outputFormat.isLenient = false
+
+        val formattedFromDate = try {
+            val parsedDate = inputFormat.parse(fromDate)!!
+            outputFormat.format(parsedDate).toUpperCase(Locale.ENGLISH)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Invalid From Date format", Toast.LENGTH_SHORT).show()
+            progressBar.visibility = View.GONE
+            TextProgressBar.visibility = View.GONE
+            return
+        }
+
+        val formattedToDate = try {
+            val parsedDate = inputFormat.parse(toDate)!!
+            outputFormat.format(parsedDate).toUpperCase(Locale.ENGLISH)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Invalid To Date format", Toast.LENGTH_SHORT).show()
+            progressBar.visibility = View.GONE
+            TextProgressBar.visibility = View.GONE
+            return
+        }
+
+        val downloadUrl = WorkshopWashingUrlManager.getVehWashingMainReportUrl(ouId, locId, formattedFromDate, formattedToDate)
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        val request = Request.Builder()
+            .url(downloadUrl)
+            .build()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) {
+                        progressBar.visibility = View.GONE
+                        TextProgressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this@WorkshopWashingReport,
+                            "Download failed: ${response.code}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    return@launch
+                }
+
+                val responseBody = response.body
+                if (responseBody == null) {
+                    withContext(Dispatchers.Main) {
+                        progressBar.visibility = View.GONE
+                        TextProgressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this@WorkshopWashingReport,
+                            "Empty response from server",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    return@launch
+                }
+
+                val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                val fileName = "VehWashingReport_${timeStamp}.xls"
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val contentValues = ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                        put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.ms-excel")
+                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                    }
+
+                    val resolver = contentResolver
+                    val uri: Uri? = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+
+                    if (uri != null) {
+                        resolver.openOutputStream(uri).use { outputStream ->
+                            if (outputStream != null) {
+                                responseBody.byteStream().copyTo(outputStream)
+                            }
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            progressBar.visibility = View.GONE
+                            TextProgressBar.visibility = View.GONE
+                            Toast.makeText(
+                                this@WorkshopWashingReport,
+                                "Report downloaded successfully to Downloads folder",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            progressBar.visibility = View.GONE
+                            TextProgressBar.visibility = View.GONE
+                            Toast.makeText(
+                                this@WorkshopWashingReport,
+                                "Failed to create file",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } else {
+                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    val file = File(downloadsDir, fileName)
+
+                    FileOutputStream(file).use { outputStream ->
+                        responseBody.byteStream().copyTo(outputStream)
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        progressBar.visibility = View.GONE
+                        TextProgressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this@WorkshopWashingReport,
+                            "Report downloaded successfully to Downloads folder",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    progressBar.visibility = View.GONE
+                    TextProgressBar.visibility = View.GONE
+                    Toast.makeText(
+                        this@WorkshopWashingReport,
+                        "Error downloading report: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+
 }

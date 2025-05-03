@@ -175,7 +175,6 @@ class UninvoiceActivity : AppCompatActivity() {
         headerTableLayout.removeAllViews()
         rowCountTextView.visibility = View.GONE
 
-        Log.d("ouId", ouId.toString())
         val client = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -204,7 +203,6 @@ class UninvoiceActivity : AppCompatActivity() {
             } else {
                 ApiFile.APP_URL + "/accounts/reportUnInvoice?ouId=$ouId&vehType=$selectedType"
             }
-            Log.d("fetchUninvoice", "Constructed URL: $url")
 
             progressBar.visibility = View.VISIBLE
             TextProgressBar.visibility = View.VISIBLE
@@ -220,7 +218,6 @@ class UninvoiceActivity : AppCompatActivity() {
                         val jsonObject = JSONObject(it)
                         val jsonArray = jsonObject.getJSONArray("obj")
                         val summaryDataList = mutableListOf<List<String>>()
-                        Log.d("uninvoice report----", jsonArray.toString())
                         for (i in 0 until jsonArray.length()) {
                             val stockItem = jsonArray.getJSONObject(i)
                             val data = listOf(

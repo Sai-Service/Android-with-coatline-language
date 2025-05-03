@@ -298,7 +298,6 @@ class TrueValueStk : AppCompatActivity() {
             integrator.setBarcodeImageEnabled(true)
             integrator.setOrientationLocked(false)
             integrator.initiateScan()
-            Log.d("currentDate", currentDate)
             Handler(Looper.getMainLooper()).postDelayed({
 //                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
             }, 10000)
@@ -441,28 +440,24 @@ class TrueValueStk : AppCompatActivity() {
         }
 
         modifiedString = modifiedString.trim()
-        Log.d("FinalModifiedString", modifiedString)
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
                 resultTextView.text = modifiedString
                 vehNoTextView.text = modifiedString
                 vinNoTextView.text = modifiedString
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
@@ -540,7 +535,6 @@ class TrueValueStk : AppCompatActivity() {
         val chassis=chassis_no.text.toString()
         val url =ApiFile.APP_URL+"/trueValue/tvDetInByChassis?chassisNo=$chassis&ou=$ouId"
 
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -552,7 +546,6 @@ class TrueValueStk : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -625,8 +618,6 @@ class TrueValueStk : AppCompatActivity() {
         val vehicleNo2=vehNoTextView.text.toString()
         val url =ApiFile.APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo2"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -637,7 +628,6 @@ class TrueValueStk : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -712,8 +702,6 @@ class TrueValueStk : AppCompatActivity() {
 //        val vehicleNo2=vehNoTextView.toString()
         val url =ApiFile.APP_URL+"/trueValue/tvDetailsByVin?vin=$bestResult2"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -724,7 +712,6 @@ class TrueValueStk : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -795,8 +782,6 @@ class TrueValueStk : AppCompatActivity() {
         val vehicleNo=vehNoEditText.text.toString()
         val url =ApiFile.APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -807,7 +792,6 @@ class TrueValueStk : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoData(
@@ -897,9 +881,6 @@ class TrueValueStk : AppCompatActivity() {
             put("location",location_name)
             put("toLocation",location_name)
         }
-        Log.d("inRegNo-----:",inRegNo)
-        Log.d("inStkTfNo---:",inStkTfNo)
-        Log.d("toKm---:",toKm)
 
         if (toKm.isEmpty()) {
             Toast.makeText(this, "To KM is required", Toast.LENGTH_SHORT).show()
@@ -913,7 +894,6 @@ class TrueValueStk : AppCompatActivity() {
         }
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPADATE:",json.toString())
         val request = Request.Builder()
             .url(url)
             .put(requestBody)
@@ -960,48 +940,12 @@ class TrueValueStk : AppCompatActivity() {
         startActivity(intent)
     }
 
-//    private fun populateFields(RegData: regNoData) {
-//        inStkTfNo=RegData.STOCK_TRF_NO
-//        inRegNo=RegData.REG_NO
-//        inFrmKm= RegData.FROMKM.toString()
-////        inToLoc=RegData.TO_LOCATION
-////        inFromLoc=RegData.FROM_LOCATION
-////        inLocation=RegData.LOCATION
-//        Log.d("inStkTfNo-->",inStkTfNo)
-//        Log.d("inRegNo-->",inRegNo)
-//        Log.d("inToLoc-->",inToLoc)
-//        Log.d("inFromLoc-->",inFromLoc)
-//        LOCATION.text="VEHICLE NO.: ${RegData.REG_NO}"
-//        ENGINE_NO.text="FROM KM.: ${RegData.FROMKM}"
-//        trValChassis.text = "CHASSIS NO.: ${RegData.CHASSIS_NO}"
-//        trValVin.text = "VIN: ${RegData.VIN}"
-//        trValVariantDesc.text = "VARIANT DESC: ${RegData.VARIANT_DESC}"
-//        trValFuelDesc.text = "FUEL DESC: ${RegData.FUEL_DESC}"
-//        trValModelDesc.text="MODEL DESC: ${RegData.MODEL_DESC}"
-//        trValEngineNo.text="ENGINE NO: ${RegData.ENGINE_NO}"
-//        trValVehStatus.text="VEH STATUS: ${RegData.VEH_STATUS}"
-//        DRIVER_NAME.text="DRIVER NAME: ${RegData.DRIVER_NAME}"
-//        STOCK_TRF_NO.text="STK NO: ${RegData.STOCK_TRF_NO}"
-//    }
-
-//    private fun populateFields22(vinData: vinData) {
-//        trValChassis.text = "CHASSIS NO.: ${vinData.CHASSIS_NUM}"
-//        trValVin.text = "VIN: ${vinData.VIN}"
-//        trValVariantDesc.text = "VARIANT DESC: ${vinData.VARIANT_CD}"
-//        trValFuelDesc.text = "FUEL DESC: ${vinData.FUEL_DESC}"
-//        trValModelDesc.text="MODEL DESC: ${vinData.MODEL_CD}"
-//        trValEngineNo.text="ENGINE NO: ${vinData.ENGINE_NO}"
-//        trValVehStatus.text="VEH STATUS: ${vinData.LOCATION}"
-//    }
-
     private fun populateFields3(RegData: regNoData) {
         val table = findViewById<TableLayout>(R.id.tableLayout2)
         table.removeAllViews()
         inRegNo=RegData.REG_NO
         inStkTfNo=RegData.STOCK_TRF_NO
         inFrmKm= RegData.FROMKM.toString()
-        Log.d("inStkTfNo-->",inStkTfNo)
-        Log.d("inRegNo-->",inRegNo)
 
         val detailsMap = mutableMapOf(
             "VEHICLE NO" to RegData.REG_NO,

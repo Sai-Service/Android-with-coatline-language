@@ -37,6 +37,55 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/userDetialsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:background="@drawable/rounded_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineralay">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="Username:"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/usernameIntent"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:textColor="#0429F6"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/locationName"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="Location:"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/locationIntent"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:textColor="#0429F6"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/spinnerLayout"
@@ -47,7 +96,7 @@
         android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineralay">
+        app:layout_constraintTop_toBottomOf="@id/userDetialsLinearLayout">
 
         <TextView
             android:layout_width="wrap_content"

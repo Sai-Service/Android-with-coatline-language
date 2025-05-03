@@ -89,7 +89,6 @@ class QrScanner : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val chassisData = chassis_data(
@@ -160,7 +159,6 @@ class QrScanner : AppCompatActivity() {
             .post(formBody)
             .build()
 
-        Log.d("QrScanner", "Request URL: ${request.url}")
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
@@ -168,7 +166,6 @@ class QrScanner : AppCompatActivity() {
                     tvResult.text = "Failed to generate QR Code"
                     Toast.makeText(this@QrScanner, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-                Log.e("QrScanner", "Failed to generate QR Code", e)
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -187,7 +184,6 @@ class QrScanner : AppCompatActivity() {
                             "Server Error: ${response.message}\n${responseBody}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.e("QrScanner", "Server Response: ${response.message}\n${responseBody}")
                     }
                 }
             }
@@ -207,7 +203,6 @@ class QrScanner : AppCompatActivity() {
                     tvResult.text = "Failed to fetch QR Code image"
                     Toast.makeText(this@QrScanner, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-                Log.e("QrScanner", "Failed to fetch QR Code image", e)
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -225,7 +220,6 @@ class QrScanner : AppCompatActivity() {
                                 "Server Error: Empty response",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Log.e("QrScanner", "Server Response: Empty response")
                         }
                     }
                 } else {
@@ -237,7 +231,6 @@ class QrScanner : AppCompatActivity() {
                             "Server Error: ${response.message}\n${responseBody}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.e("QrScanner", "Server Response: ${response.message}\n${responseBody}")
                     }
                 }
             }
@@ -257,7 +250,6 @@ class QrScanner : AppCompatActivity() {
                 runOnUiThread {
                     tvResult.text = "Failed to generate QR Code"
                 }
-                Log.e("QrScanner", "Failed to decode QR Code", e)
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -274,7 +266,6 @@ class QrScanner : AppCompatActivity() {
                     runOnUiThread {
                         tvResult.text = "Failed to generate QR Code: ${response.message}"
                     }
-                    Log.e("QrScanner", "Failed to generate QR Code: ${response.message}")
                 }
             }
         })

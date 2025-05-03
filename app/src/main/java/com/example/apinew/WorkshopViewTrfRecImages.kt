@@ -182,7 +182,6 @@ class WorkshopViewTrfRecImages : Activity() {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
 
-                Log.d("API_RESPONSE", "Raw response from /Download: $jsonData")
 
                 jsonData?.let {
                     val imagePaths = JSONArray(it)
@@ -194,7 +193,6 @@ class WorkshopViewTrfRecImages : Activity() {
                             val downloadUrl =
                                 "${ApiFile.APP_URL}/service/wsTrfImageDownload?imagePath=$imagePath"
 
-                            Log.d("DOWNLOAD_URL", "Downloading image from URL: $downloadUrl")
 
                             runOnUiThread {
                                 dialogBox.dismiss()
@@ -209,16 +207,11 @@ class WorkshopViewTrfRecImages : Activity() {
                         }
                     }
                 } ?: run {
-                    Log.e("API_ERROR", "No response received for Vehicle no: $vehNo")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 runOnUiThread {
                     dialogBox.dismiss()
-                    Log.e(
-                        "API_ERROR",
-                        "Error fetching images Vehicle no: $vehNo - ${e.javaClass.simpleName}: ${e.message}"
-                    )
                     Toast.makeText(
                         this@WorkshopViewTrfRecImages,
                         "Error fetching images for Vehicle no: $vehNo",
@@ -246,7 +239,6 @@ class WorkshopViewTrfRecImages : Activity() {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
 
-                Log.d("API_RESPONSE", "Raw response from /Download: $jsonData")
 
                 jsonData?.let {
                     val imagePaths = JSONArray(it)
@@ -258,7 +250,6 @@ class WorkshopViewTrfRecImages : Activity() {
                             val downloadUrl =
                                 "${ApiFile.APP_URL}/service/wsRecImageDownload?imagePath=$imagePath"
 
-                            Log.d("DOWNLOAD_URL", "Downloading image from URL: $downloadUrl")
 
                             runOnUiThread {
                                 dialogBox.dismiss()
@@ -280,10 +271,6 @@ class WorkshopViewTrfRecImages : Activity() {
                 e.printStackTrace()
                 runOnUiThread {
                     dialogBox.dismiss()
-                    Log.e(
-                        "API_ERROR",
-                        "Error fetching images for Vehicle no: $vehNo - ${e.javaClass.simpleName}: ${e.message}"
-                    )
                     Toast.makeText(
                         this@WorkshopViewTrfRecImages,
                         "Error fetching images for Vehicle no: $vehNo",

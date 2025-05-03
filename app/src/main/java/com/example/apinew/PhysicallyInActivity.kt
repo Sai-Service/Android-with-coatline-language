@@ -216,14 +216,12 @@ class PhysicallyInActivity : AppCompatActivity() {
                     val response = client.newCall(request).execute()
 
                     if (!response.isSuccessful) {
-                        Log.e("API Error", "HTTP Error: ${response.code}")
                         return@launch
                     }
 
                     val jsonData = response.body?.string()
 
                     jsonData?.let {
-                        Log.d("JSON Response", it)
 
                         val jsonObject = JSONObject(it)
                         if (jsonObject.has("obj")) {
@@ -271,7 +269,6 @@ class PhysicallyInActivity : AppCompatActivity() {
 
                             }
                         } else {
-                            Log.e("JSON Response", "Key 'obj' not found in JSON response")
                             runOnUiThread {
                                 progressBar.visibility = View.GONE
                             }
@@ -353,7 +350,6 @@ class PhysicallyInActivity : AppCompatActivity() {
             }
             tableLayout.addView(dataRow)
             val rowCount = stockItems.size
-            Log.d("rowCount",rowCount.toString())
             rowCountTextView.text = "Total Rows: $rowCount"
         }
     }

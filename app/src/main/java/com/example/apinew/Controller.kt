@@ -70,10 +70,6 @@ class Controller : AppCompatActivity() {
         ouId = intent.getIntExtra("ouId", 0)
         locId = intent.getIntExtra("locId", 0)
 
-        Log.d("ouId",ouId.toString())
-        Log.d("locId",locId.toString())
-
-
         attribute1 = intent.getStringExtra("attribute1") ?: ""
         login_name = intent.getStringExtra("login_name") ?: ""
         location_name = intent.getStringExtra("location_name") ?: ""
@@ -106,7 +102,6 @@ class Controller : AppCompatActivity() {
         username.text = "$login_name"
         deptIntent.text=deptName
 
-        Log.d("EmailId====+++++====",emailId)
 
 
         logoutButton.setOnClickListener {
@@ -459,6 +454,28 @@ class Controller : AppCompatActivity() {
                 row18.visibility=View.VISIBLE
                 row19.visibility=View.GONE
             }
+
+            "WM" ->{
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+                row5.visibility = View.GONE
+                row6.visibility = View.GONE
+                row7.visibility = View.GONE
+                row8.visibility = View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+            }
         }
     }
     fun goToCityReport(view: View) {
@@ -602,17 +619,17 @@ class Controller : AppCompatActivity() {
     }
 
 
-    fun generateLogins(view: View) {
-        val intent = Intent(this@Controller, GenerateLogins::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
+//    fun generateLogins(view: View) {
+//        val intent = Intent(this@Controller, GenerateLogins::class.java)
+//        intent.putExtra("attribute1", attribute1)
+//        intent.putExtra("login_name", login_name)
+//        intent.putExtra("ouId", ouId)
+//        intent.putExtra("location", location)
+//        intent.putExtra("locId", locId)
+//        intent.putExtra("location_name",location_name)
+//        intent.putExtra("deptName",deptName)
+//        startActivity(intent)
+//    }
 
     fun stockTrfReceive(view: View) {
         val intent = Intent(this@Controller, WorkShopStockReceiveWithImages::class.java)

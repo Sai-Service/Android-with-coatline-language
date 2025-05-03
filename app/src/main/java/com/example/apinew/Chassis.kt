@@ -160,7 +160,6 @@ class ChassisActivity : Activity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockArray = jsonObject.getJSONArray("obj")
 
                     if (stockArray.length() > 1) {
@@ -277,7 +276,6 @@ class ChassisActivity : Activity() {
         findViewById<EditText>(R.id.CHASSIS_NO).setText(chassisData.CHASSIS_NO)
         findViewById<EditText>(R.id.VIN).setText(chassisData.VIN)
         vinNo=chassisData.VIN
-        Log.d("vinNo---> CHeck",vinNo)
         findViewById<TextView>(R.id.VARIANT_DESC).text = chassisData.VARIANT_DESC
         findViewById<EditText>(R.id.MODEL_DESC).setText(chassisData.MODEL_DESC)
         findViewById<TextView>(R.id.DEALER_LOCATION).text = chassisData.DEALER_LOCATION

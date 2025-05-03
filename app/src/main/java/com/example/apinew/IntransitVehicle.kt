@@ -192,8 +192,6 @@ class IntransitVehicle : AppCompatActivity() {
         } else {
             ""
         }
-        Log.d("fetchUninvoice", "Selected City: $selectedCity")
-        Log.d("fetchUninvoice", "Selected City Code: $selectedCityCode")
 //        val selectedCity = citySpinner.selectedItem.toString()
 
         if (selectedType == "SELECT VEHICLE TYPE") {

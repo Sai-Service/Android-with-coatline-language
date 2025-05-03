@@ -184,7 +184,6 @@ class AllotedNotInvoice : AppCompatActivity() {
         headerTableLayout.removeAllViews()
         rowCountTextView.visibility = View.GONE
 
-        Log.d("ouId", ouId.toString())
         val client = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -213,7 +212,6 @@ class AllotedNotInvoice : AppCompatActivity() {
             } else {
                 ApiFile.APP_URL + "/accounts/reportStkAlloted?ouId=$ouId&vehType=$selectedType"
             }
-            Log.d("fetchUninvoice", "Constructed URL: $url")
 
 
 //        val url = {ApiFile.APP_URL}+"/accounts/reportUnInvoice?ouId=$ouId&fromDate=$fromDate&toDate=$toDate"
@@ -236,7 +234,6 @@ class AllotedNotInvoice : AppCompatActivity() {
                         val jsonObject = JSONObject(it)
                         val jsonArray = jsonObject.getJSONArray("obj")
                         val summaryDataList = mutableListOf<List<String>>()
-                        Log.d("Un invoice report----", jsonArray.toString())
                         for (i in 0 until jsonArray.length()) {
                             val stockItem = jsonArray.getJSONObject(i)
                             val data = listOf(

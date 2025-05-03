@@ -1,6 +1,7 @@
 package com.example.apinew
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -44,6 +45,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -508,28 +510,24 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
 
         modifiedString = modifiedString.trim()
-        Log.d("FinalModifiedString", modifiedString)
 
         when {
             regexVehicleNo.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
                 physicallyOutVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo2.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
                 physicallyOutVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             regexVehicleNo3.matches(modifiedString) -> {
                 resultTextView.setText(modifiedString)
                 newVehEditText.setText(modifiedString)
                 physicallyOutVehEditText.setText(modifiedString)
-                Log.d("TextRecognition", "Best result: $modifiedString")
                 Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
             else -> {
@@ -674,7 +672,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
-                Log.d("Gate No->",response.toString())
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val cities = parseGateNo(it)
@@ -880,8 +877,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
         val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -892,7 +887,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
@@ -1010,8 +1004,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
         val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveOut?regNo=$vehNo"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -1022,7 +1014,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
@@ -1132,17 +1123,90 @@ class WorkShopGatepass2 : AppCompatActivity() {
     }
 
 
+//    private fun detailsForPhysicallyOutVehicle() {
+//        val client = OkHttpClient()
+//        val vehNo = physicallyOutVehEditText.text.toString()
+//        if(vehNo.isEmpty()){
+//            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//        val url = ApiFile.APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
+//
+//        val request = Request.Builder()
+//            .url(url)
+//            .build()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val jsonObject = JSONObject(it)
+//
+//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+//
+//                    val jcData3 = physicallyOutData(
+//                        REG_NO = stockItem.optString("REG_NO"),
+//                        IN_TIME = stockItem.optString("IN_TIME"),
+//                        IN_KM = stockItem.optString("IN_KM"),
+//                        TEST_DRIVE_NO =stockItem.optString("TEST_DRIVE_NO")
+//                    )
+//                    val responseMessage = jsonObject.getString("message")
+//
+//                    when (responseMessage) {
+//                        "Details Found Successfully" -> {
+//                            runOnUiThread {
+//                                populateFieldsForPhysicallyOutVehicle(jcData3)
+//                               populateFieldsForPhysicallyOutSearch()
+//                                Toast.makeText(
+//                                    this@WorkShopGatepass2,
+//                                    "Details Found Successfully for Vehicle No: $vehNo\nYou can out vehicle physically.",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                        "Details Not Found" -> {
+//                            runOnUiThread {
+//                                Toast.makeText(
+//                                    this@WorkShopGatepass2,
+//                                    "Vehicle is not delivered yet.",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                        else -> {
+//                            runOnUiThread {
+//                                Toast.makeText(
+//                                    this@WorkShopGatepass2,
+//                                    "Unexpected response for Vehicle No: $vehNo",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@WorkShopGatepass2,
+//                        "Failed to fetch details for vehicle No: $vehNo",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
+
 
     private fun detailsForPhysicallyOutVehicle() {
         val client = OkHttpClient()
         val vehNo = physicallyOutVehEditText.text.toString()
-        if(vehNo.isEmpty()){
-            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
+        if (vehNo.isEmpty()) {
+            Toast.makeText(this@WorkShopGatepass2, "Please enter vehicle number.", Toast.LENGTH_SHORT).show()
             return
         }
         val url = ApiFile.APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
-
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -1154,32 +1218,42 @@ class WorkShopGatepass2 : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
-
-                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
-
-                    val jcData3 = physicallyOutData(
-                        REG_NO = stockItem.optString("REG_NO"),
-                        IN_TIME = stockItem.optString("IN_TIME"),
-                        IN_KM = stockItem.optString("IN_KM"),
-                        TEST_DRIVE_NO =stockItem.optString("TEST_DRIVE_NO")
-                    )
-
                     val responseMessage = jsonObject.getString("message")
 
                     when (responseMessage) {
                         "Details Found Successfully" -> {
-                            runOnUiThread {
-                                populateFieldsForPhysicallyOutVehicle(jcData3)
-                               populateFieldsForPhysicallyOutSearch()
-                                Toast.makeText(
-                                    this@WorkShopGatepass2,
-                                    "Details Found Successfully for Vehicle No: $vehNo\nYou can out vehicle physically.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            val obj = jsonObject.get("obj")
+                            if (obj is JSONArray) {
+                                val stockItem = obj.getJSONObject(0)
+
+                                val jcData3 = physicallyOutData(
+                                    REG_NO = stockItem.optString("REG_NO"),
+                                    IN_TIME = stockItem.optString("IN_TIME"),
+                                    IN_KM = stockItem.optString("IN_KM"),
+                                    TEST_DRIVE_NO = stockItem.optString("TEST_DRIVE_NO")
+                                )
+
+                                runOnUiThread {
+                                    populateFieldsForPhysicallyOutVehicle(jcData3)
+                                    populateFieldsForPhysicallyOutSearch()
+                                    Toast.makeText(
+                                        this@WorkShopGatepass2,
+                                        "Details Found Successfully for Vehicle No: $vehNo\nYou can out vehicle physically.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                runOnUiThread {
+                                    Toast.makeText(
+                                        this@WorkShopGatepass2,
+                                        "Unexpected format received from server.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                        "Details not found" -> {
+
+                        "Details Not Found" -> {
                             runOnUiThread {
                                 Toast.makeText(
                                     this@WorkShopGatepass2,
@@ -1188,6 +1262,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                                 ).show()
                             }
                         }
+
                         else -> {
                             runOnUiThread {
                                 Toast.makeText(
@@ -1212,7 +1287,9 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
-//Post Data For vehicle in at location and in after test drive
+
+
+    //Post Data For vehicle in at location and in after test drive
     private fun vehicleIn() {
         val driverName = driverNameField.text.toString()
         val currentKms = currentKMSField.text.toString()
@@ -1326,9 +1403,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
                 val responseCode = response.code
                 val responseBody = response.body?.string()
 
-                Log.d("newVehicleIn", "Response Code: $responseCode")
-                Log.d("newVehicleIn", "Response Body: $responseBody")
-
                 runOnUiThread {
                     if (responseBody != null) {
                         val jsonResponse = JSONObject(responseBody)
@@ -1375,7 +1449,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("newVehicleIn", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@WorkShopGatepass2,
@@ -1396,10 +1469,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val driverName=driverNameField.text.toString()
         val reasonCode=reasonCodeLov.selectedItem.toString()
 
-    val adapter = transferLocationLov.adapter
-    if (adapter != null && adapter.count > 1) {
-        Log.d("adapter->Length", adapter.count.toString())
-    }
+        val adapter = transferLocationLov.adapter
         if (adapter != null && adapter.count > 1) {
             if(reasonCode=="Select Transfer Location"){
                 Toast.makeText(this, "Please select Transfer location", Toast.LENGTH_SHORT).show()
@@ -1417,7 +1487,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
 //        }
 
         else {
-//            attribute5=parkingEditText.text.toString()
+            //
         }
 
 //        if(attribute5=="Select Transfer Location"){
@@ -1435,13 +1505,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
             Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
             return
         }
-
-//        val gateType=gateTypeLov.selectedItem.toString()
-//        if(gateType=="Select Gate Type"){
-//            Toast.makeText(this,"Please select the Gate Type.",Toast.LENGTH_SHORT).show()
-//            return
-//        }
-
 
         if(currentKMSField.text.toString().isEmpty()){
             Toast.makeText(this,"Please enter the Current Kilometers",Toast.LENGTH_SHORT).show()
@@ -1521,10 +1584,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
             put("locCode",locId)
 
         }
-        Log.d("URL:", url)
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPDATE:", json.toString())
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
@@ -1601,10 +1662,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
             put("testDriveNo",testDriveNo)
 
         }
-        Log.d("URL:", url)
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        Log.d("URL FOR UPDATE:", json.toString())
         val request = Request.Builder()
             .url(url)
             .put(requestBody)

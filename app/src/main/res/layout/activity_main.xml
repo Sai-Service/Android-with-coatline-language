@@ -1,110 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:orientation="vertical"-->
-<!--    android:gravity="center"-->
-<!--    android:background="@drawable/harshbg"-->
-<!--    tools:context=".MainActivity">-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="398dp"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginTop="100dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:background="@drawable/rounded_background"-->
-<!--        android:orientation="vertical"-->
-<!--        android:padding="24dp">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="82dp"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:src="@drawable/sslogo" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:text="Username"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/usernameEditText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@drawable/edittext_border"-->
-<!--            android:drawablePadding="8dp"-->
-<!--            android:padding="8dp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:ignore="SpeakableTextPresentCheck" />-->
-
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:text="Password"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/passwordEditText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@drawable/edittext_border"-->
-<!--            android:drawableEnd="@drawable/ic_visibility_off"-->
-<!--            android:drawablePadding="8dp"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:padding="8dp"-->
-<!--            android:textColor="@color/black"-->
-<!--            tools:ignore="SpeakableTextPresentCheck" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/forgotPBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:backgroundTint="@color/lavender"-->
-<!--            android:text="Forgot password?"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="18sp"-->
-<!--            app:cornerRadius="20dp" />-->
-
-
-<!--    </LinearLayout>-->
-
-
-<!--    <Button-->
-<!--        android:id="@+id/loginButton"-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginStart="125dp"-->
-<!--        android:layout_marginEnd="117dp"-->
-<!--        android:layout_marginBottom="123dp"-->
-<!--        android:backgroundTint="@color/lavender"-->
-<!--        android:gravity="center"-->
-<!--        android:onClick="onClick"-->
-<!--        android:text="Login"-->
-<!--        android:textSize="18sp"-->
-<!--        app:cornerRadius="20dp" />-->
-<!--</RelativeLayout>-->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -133,7 +28,7 @@
                 android:layout_height="83dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/sslogo" />
+                android:src="@drawable/sslogo"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -144,9 +39,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -164,16 +57,6 @@
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/forgotPBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:text="Forgot password?"
-                android:textColor="@color/lavender"
-                android:textSize="14sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginButton"

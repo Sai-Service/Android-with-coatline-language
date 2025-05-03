@@ -151,7 +151,6 @@ class TrueValVehicleEnquiry : Activity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val chassisData = ChassisData2(
                         CHASSIS_NO = stockItem.getString("CHASSIS_NO"),
@@ -207,7 +206,6 @@ class TrueValVehicleEnquiry : Activity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", it)
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
                     val chassisData = ChassisData2(
                         CHASSIS_NO = stockItem.getString("CHASSIS_NO"),

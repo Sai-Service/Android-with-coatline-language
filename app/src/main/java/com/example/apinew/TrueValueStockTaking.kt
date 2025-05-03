@@ -343,7 +343,6 @@ class TrueValueStockTaking : AppCompatActivity() {
             integrator.setBarcodeImageEnabled(true)
             integrator.setOrientationLocked(false)
             integrator.initiateScan()
-            Log.d("currentDate", currentDate)
             Handler(Looper.getMainLooper()).postDelayed({
 //                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
             }, 10000)
@@ -361,20 +360,14 @@ class TrueValueStockTaking : AppCompatActivity() {
             val regNo=LOCATION.text.toString().split(": ")[1]
             val selectedBatchName = multipleBatchNameSpinner.selectedItem?.toString() ?: ""
             val batchName = batchEditText.text.toString()
-            Log.d("-----selectedBatchName---", selectedBatchName)
-            Log.d("-----regNo---", regNo)
-            Log.d("-----batchName---", batchName)
             when {
                 selectedBatchName == "Select Batch Name" && batchName.isEmpty()-> {
-                    Log.d("-----selectedBatchName---", selectedBatchName )
-                    Log.d("-----batchName---", batchName)
                     Toast.makeText(this,"Please select a Batch Name first", Toast.LENGTH_SHORT)
                         .show()
                     return@setOnClickListener
                 }
                 selectedBatchName.isNotEmpty() && selectedBatchName != "Select Batch Name"-> {
                     if (regNo.isNotEmpty()) {
-                        Log.d("-----IFREGNOEMPTY---", regNo)
                         saveVinData(regNo, selectedBatchName)
                     } else {
                         Toast.makeText(this, "Vehicle no is empty", Toast.LENGTH_SHORT).show()
@@ -471,7 +464,6 @@ class TrueValueStockTaking : AppCompatActivity() {
             resultTextView.text = bestResult2
             vehNoTextView.text = bestResult2
             vinNoTextView.text=bestResult2
-            Log.d("TextRecognition", "Best result: $bestResult2")
             Toast.makeText(this, "Text recognized: $bestResult2", Toast.LENGTH_SHORT).show()
         }
     }
@@ -518,16 +510,12 @@ class TrueValueStockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
-                Log.d("jsonDataCheck", jsonArray.toString())
                 val batStatus = jsonArray.getJSONObject(0)
                 val status = batStatus.getString("BATCHSTATUS")
-                Log.d("status------", status)
                 runOnUiThread {
                     if (status.equals("open", ignoreCase = true)) {
-                        Log.d("First If-----jsonDataCheckOpenStatus", jsonData.toString())
                         multipleBatchNameSpinner.visibility = View.VISIBLE
                         batchEditText.visibility = View.INVISIBLE
                         fetchBatchData()
@@ -536,7 +524,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                         save_button.visibility = View.INVISIBLE
                     }
                     else if (jsonArray.length()==0){
-                        Log.d("else If----jsonDataCheckOpenStatus", jsonData.toString())
                         multipleBatchNameSpinner.visibility = View.INVISIBLE
                         batchEditText.visibility = View.VISIBLE
                         fetchBatchData()
@@ -555,45 +542,31 @@ class TrueValueStockTaking : AppCompatActivity() {
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         val batchName = ("$location_name-$currentDate")
         val LocationName = "$location_name"
-        Log.d("LocationName----LocationName", LocationName)
-        Log.d("batchName----batchName", batchName)
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("${ApiFile.APP_URL}/tvAccounts/findBatchNameStatus?batchName=$batchName&location=$LocationName")
             .build()
-        Log.d("findBybatchNameStatus",request.toString())
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
 
-                Log.d("batchNameData------", jsonData.toString())
                 val jsonObject = JSONObject(jsonData.toString())
                 val jsonArray = jsonObject.getJSONArray("obj")
                 val batStatus = jsonArray.getJSONObject(0)
                 val batchName = batStatus.getString("batchName")
                 val batchStatus = batStatus.getString("batchStatus")
-                Log.d("batchname",batchName)
-                Log.d("batchStatus",batchStatus)
-                Log.d("jsonDataCheck", jsonArray.toString())
 
                 if (jsonArray.length() == 0){
-                    Log.d("jsonDataCheckIf", jsonData.toString())
                     batchEditText.visibility=View.VISIBLE
                     multipleBatchNameSpinner.visibility= View.INVISIBLE
                 } else{
-                    Log.d("jsonDataCheckelse", jsonData.toString())
                     batchEditText.visibility= View.GONE
                     multipleBatchNameSpinner.visibility=View.VISIBLE
                     fetchBatchData()
                 }
-                Log.d("nss---->", batchName.toString())
-                Log.d("nss2--->", batchEditText.text.toString())
                 if(batchName==batchEditText.text.toString()&&batchStatus.toString()=="Closed"){
                     save_button.visibility=View.INVISIBLE
-                    Log.d("nss---->", batchName.toString())
-                    Log.d("nss2.0--->", batchStatus.toString())
-                    Log.d("nss2--->", batchEditText.toString())
                 }
             }
             catch (e: Exception) {
@@ -611,7 +584,6 @@ class TrueValueStockTaking : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("jsonDataBatchList", jsonData.toString())
                 jsonData?.let {
                     val batchCodeList = parseCities(it)
                     runOnUiThread {
@@ -643,7 +615,6 @@ class TrueValueStockTaking : AppCompatActivity() {
 
     private fun parseCities(jsonData: String): List<String> {
         val batchCodeList = mutableListOf<String>()
-        Log.d("batchList Checking----",batchCodeList.toString())
         try {
             val jsonObject = JSONObject(jsonData)
             val jsonArray = jsonObject.getJSONArray("obj")
@@ -727,7 +698,6 @@ class TrueValueStockTaking : AppCompatActivity() {
         val chassis=chassis_no.text.toString()
         val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByChassisNo?chassisNo=$chassis&ouId=$ouId"
 
-        Log.d("URL:", url)
 
         val request = Request.Builder()
             .url(url)
@@ -739,7 +709,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData =regNoDataStkTake(
@@ -807,8 +776,6 @@ class TrueValueStockTaking : AppCompatActivity() {
 //        val vehicleNo2=vehNoTextView.toString()
         val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$bestResult2"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -819,7 +786,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoDataStkTake(
@@ -888,9 +854,6 @@ class TrueValueStockTaking : AppCompatActivity() {
         val vehicleNo=vehNoEditText.text.toString()
         val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$vehicleNo"
 
-
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -901,7 +864,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val RegData = regNoDataStkTake(
@@ -973,18 +935,14 @@ class TrueValueStockTaking : AppCompatActivity() {
     }
 
     private fun parseVindata(objArray: String): List<String> {
-        Log.d("Second Fn----",objArray)
         val parseVindataList = mutableListOf<String>()
-        Log.d("parseVindataList---- After Call", parseVindataList.toString())
         try {
             val jsonObject = JSONObject(objArray)
             val jsonArray = jsonObject.getJSONArray("obj")
-            Log.d("jsonArray----",jsonArray.toString())
             parseVindataList.add("Select Vin")
             for (i in 0 until jsonArray.length()) {
                 val parseVindataLst = jsonArray.getJSONObject(i)
                 val vin = parseVindataLst.getString("VIN")
-                Log.d("vin----In For Loop", vin)
                 parseVindataList.add(vin)
             }
         } catch (e: JSONException) {
@@ -999,12 +957,9 @@ class TrueValueStockTaking : AppCompatActivity() {
         val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin"
 //        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
 
-        Log.d("URL:", url)
-
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -1012,7 +967,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
                     val vinData = vinData(
@@ -1065,11 +1019,9 @@ class TrueValueStockTaking : AppCompatActivity() {
 //        val url = ApiFile.APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
         val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin2"
 //        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
-        Log.d("URL:", url)
         val request = Request.Builder()
             .url(url)
             .build()
-        Log.d("Vin no:", vin)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -1077,7 +1029,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val jsonData = response.body?.string()
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
-                    Log.d("Data", jsonObject.toString())
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
@@ -1092,8 +1043,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                         ENGINE_NO=stockItem.getString("ENGINE_NO")
                     )
 
-                    Log.d("fuelDesc",vinData.FUEL_DESC)
-                    Log.d("Vin Data", vinData.toString())
 
                     runOnUiThread {
 //                        populateFields(vinData)
@@ -1147,8 +1096,6 @@ class TrueValueStockTaking : AppCompatActivity() {
     }
 
     private fun saveVinData(regNo: String, batchName: String) {
-        Log.d("BatchName", batchName)
-        Log.d("regNo", regNo)
 
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/tvAccounts/tvBatchName"
@@ -1157,12 +1104,10 @@ class TrueValueStockTaking : AppCompatActivity() {
         val currentDateTime = Calendar.getInstance()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val formattedDate = formatter.format(currentDateTime.time)
-        Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
         val formatterForEndDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val batchCodeEndDate = formatterForEndDate.format(currentDateTime.time)
-        Log.d("batchCodeEndDate", batchCodeEndDate)
 
         jsonObject.put("regNo", regNo)
         jsonObject.put("chassis_no", trValChassis.text.toString().split(": ")[1])
@@ -1181,10 +1126,8 @@ class TrueValueStockTaking : AppCompatActivity() {
         jsonObject.put("batchCodeEndDate", batchCodeEndDate)
         jsonObject.put("updatedBy", login_name)
 //        jsonObject.put("updationDate", formattedDate)
-        Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1196,9 +1139,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
                 val responseBody = response.body?.string()
-
-                Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
 
                 runOnUiThread {
                     if (responseBody != null) {
@@ -1240,7 +1180,6 @@ class TrueValueStockTaking : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("SaveVinData", "Error: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@TrueValueStockTaking,

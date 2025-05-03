@@ -215,14 +215,12 @@ class TrueValueStockTransferReport : AppCompatActivity() {
                     val response = client.newCall(request).execute()
 
                     if (!response.isSuccessful) {
-                        Log.e("API Error", "HTTP Error: ${response.code}")
                         return@launch
                     }
 
                     val jsonData = response.body?.string()
 
                     jsonData?.let {
-                        Log.d("JSON Response", it)
 
                         val jsonObject = JSONObject(it)
                         if (jsonObject.has("obj")) {
@@ -262,7 +260,6 @@ class TrueValueStockTransferReport : AppCompatActivity() {
 
                             }
                         } else {
-                            Log.e("JSON Response", "Key 'obj' not found in JSON response")
                             runOnUiThread {
                                 progressBar.visibility = View.GONE
                             }

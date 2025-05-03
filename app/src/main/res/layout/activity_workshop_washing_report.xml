@@ -202,6 +202,15 @@
             android:textSize="14sp"
             android:backgroundTint="#FF5722"
             android:textColor="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/reportDownload"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/downloadbtn"
+            android:layout_marginStart="10dp"
+            />
+
     </LinearLayout>
 
     <HorizontalScrollView

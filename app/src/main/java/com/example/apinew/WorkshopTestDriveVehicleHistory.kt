@@ -125,8 +125,6 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
         }
         val url = "${ApiFile.APP_URL}/service/wsVehTestDriveHistory?regNo=$vehNo"
 
-        Log.d("FetchData", "Request URL: $url")
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -135,8 +133,6 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
-                Log.d("FetchDataResponse", "Response: $responseBody")
-
                 if (response.isSuccessful && responseBody != null) {
                     val jsonObject = JSONObject(responseBody)
                     val jsonArray = jsonObject.getJSONArray("obj")
@@ -162,7 +158,6 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
                         )
                         vehicleList.add(vehicle)
                     }
-                    Log.d("FetchDataResponse", "Parsed Vehicles: ${vehicleList.size}")
 
                     runOnUiThread {
                         if(vehicleList.size<=0){
@@ -172,14 +167,12 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
                         populateTable(vehicleList)
                     }
                 } else {
-                    Log.e("FetchDataError", "Failed to fetch data: ${response.code}")
                     runOnUiThread {
                         Toast.makeText(this@WorkshopTestDriveVehicleHistory, "Failed to fetch data", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Log.e("FetchDataException", "Exception: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@WorkshopTestDriveVehicleHistory, "Failed to fetch data due to exception: ${e.message}", Toast.LENGTH_SHORT).show()
                 }

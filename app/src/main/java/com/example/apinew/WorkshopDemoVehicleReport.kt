@@ -36,6 +36,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
     private var ouId: Int = 0
     private var locId: Int = 0
     private lateinit var login_name: String
+    private lateinit var location_name:String
     private lateinit var attribute1: String
     private lateinit var location: String
     private lateinit var fetchData: Button
@@ -55,6 +56,10 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
     private var toDate: String = ""
     private lateinit var fromDateLabel:TextView
     private lateinit var toDateLabel:TextView
+    private lateinit var username:TextView
+    private lateinit var usernameIntent:TextView
+    private lateinit var locationName:TextView
+    private lateinit var locationIntent:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +71,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
         login_name = intent.getStringExtra("login_name") ?: ""
         location = intent.getStringExtra("location") ?: ""
         deptName = intent.getStringExtra("deptName") ?: ""
+        location_name=intent.getStringExtra("location_name")?:""
         rowCountTextView = findViewById(R.id.rowCountTextView)
         rowCountTextView.visibility=View.GONE
 
@@ -73,6 +79,14 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
         toDatePicker=findViewById(R.id.toDatePicker)
         fromDateLabel=findViewById(R.id.fromDateLabel)
         toDateLabel=findViewById(R.id.toDateLabel)
+        username=findViewById(R.id.username)
+        usernameIntent=findViewById(R.id.usernameIntent)
+        locationName=findViewById(R.id.locationName)
+        locationIntent=findViewById(R.id.locationIntent)
+
+        usernameIntent.text=login_name
+        locationIntent.text=location_name
+
 
         val calendar = Calendar.getInstance()
 
@@ -121,7 +135,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
         TextProgressBar.visibility=View.GONE
         typeSpinner=findViewById(R.id.typeSpinner)
 
-        val typeOptions = mutableListOf("SELECT DEPARTMENT", "ALL", "SERVICE", "DP")
+        val typeOptions = mutableListOf("SELECT DEPARTMENT","ALL", "SERVICE", "DP")
         val typeAdapter = object : ArrayAdapter<String>(
             this,
             android.R.layout.simple_spinner_item,
@@ -248,7 +262,8 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
         val selectedCity = citySpinner.selectedItem.toString()
         val selectedCityCode = if (selectedCity != "Select City") {
             selectedCity.split("-")[0].trim()
-        } else {
+        }
+        else {
             ""
         }
         val incrementedToDate = getIncrementedDate(toDate)
@@ -267,23 +282,18 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
             .build()
         progressBar.visibility = View.VISIBLE
         TextProgressBar.visibility = View.VISIBLE
-        Log.d("URL-->",url)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
 
                 if (!response.isSuccessful) {
-                    Log.e("API Error", "HTTP Error: ${response.code}")
-                    Log.d("API-Failed",url)
                     return@launch
                 }
 
                 val jsonData = response.body?.string()
 
                 jsonData?.let {
-                    Log.d("JSON Response", it)
-
                     val jsonObject = JSONObject(it)
                     if (jsonObject.has("obj")) {
                         val jsonArray = jsonObject.getJSONArray("obj")
@@ -298,6 +308,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
                                 stockItem.optString("CHASSIS_NO",""),
                                 stockItem.optString("MODEL_DESC", ""),
                                 stockItem.optString("VARIANT_DESC", ""),
+                                stockItem.optString("GATE_PASS_NO",""),
                                 stockItem.optString("OUT_KM", ""),
                                 stockItem.optString("OUT_TIME", ""),
                                 stockItem.optString("CUST_NAME", ""),
@@ -306,6 +317,8 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
                                 stockItem.optString("IN_KM", ""),
                                 stockItem.optString("IN_TIME", ""),
                                 stockItem.optString("LOCATION", ""),
+                                stockItem.optString("REMARKS",""),
+                                stockItem.optString("ATTRIBUTE3",""),
                                 stockItem.optString("CREATED_BY","")
                                 )
                             summaryDataList.add(data)
@@ -320,7 +333,6 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
 
                         }
                     } else {
-                        Log.e("JSON Response", "Key 'obj' not found in JSON response")
                         runOnUiThread {
                             progressBar.visibility = View.GONE
                         }
@@ -336,19 +348,6 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
 
     }
 
-    private fun formatDateTime(dateTime: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-            val date = inputFormat.parse(dateTime)
-            val formattedDate = date?.let { outputDateFormat.format(it) }
-            val formattedTime = date?.let { outputTimeFormat.format(it) }
-            "$formattedDate "+ "$formattedTime"
-        } catch (e: Exception) {
-            dateTime
-        }
-    }
 
     private fun updateTableView(stockItems: List<List<String>>) {
         tableLayout.removeAllViews()
@@ -360,8 +359,8 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
             "SR NO",
             "REG NO",
             "CHASSIS NO",
-            "MODEL","VARIANT","OUT KM","OUT TIME","CUSTOMER NAME","CUST CONTACT","CUST ADDRESS",
-            "IN KM","IN TIME","LOCATION","ATTENDED BY"
+            "MODEL","VARIANT","GATE PASS NO","OUT KM","OUT TIME","CUSTOMER NAME","CUST CONTACT","CUST ADDRESS",
+            "IN KM","IN TIME","LOCATION","REMARKS","EXECUTIVE NAME","ATTENDED BY"
         )
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2

@@ -201,7 +201,6 @@ class SummaryLocationWise : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
-                Log.d("json",jsonData.toString())
                 jsonData?.let {
                     val jsonObject = JSONObject(it)
                     val jsonArray = jsonObject.getJSONArray("obj")
