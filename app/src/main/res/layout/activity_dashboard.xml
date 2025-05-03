@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@drawable/harshbg"-->
+<!--    tools:context=".MainActivity">-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/homePage"-->
+<!--        android:layout_width="42dp"-->
+<!--        android:layout_height="31dp"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="347dp"-->
+<!--        android:background="@drawable/home" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/logoutButton"-->
+<!--        android:layout_width="48dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginTop="17dp"-->
+<!--        android:layout_marginEnd="51dp"-->
+<!--        android:background="@drawable/logout"-->
+<!--        android:padding="0dp"-->
+<!--        android:textColorLink="@color/black"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_below="@id/logoutButton"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_marginStart="22dp"-->
+<!--        android:layout_marginTop="18dp"-->
+<!--        android:text="Organization : "-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="19sp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/ouIdTextView"-->
+<!--        android:layout_width="70dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_below="@id/logoutButton"-->
+<!--        android:layout_marginStart="-108dp"-->
+<!--        android:layout_marginTop="66dp"-->
+<!--        android:layout_toEndOf="@id/textView"-->
+<!--        android:background="@drawable/rounded_textview"-->
+<!--        android:text="OU ID - "-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:visibility="invisible" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/attributeTextView"-->
+<!--        android:layout_width="130dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_below="@id/logoutButton"-->
+<!--        android:layout_marginStart="67dp"-->
+<!--        android:layout_marginTop="18dp"-->
+<!--        android:layout_toEndOf="@id/ouIdTextView"-->
+<!--        android:background="@drawable/rounded_textview"-->
+<!--        android:text="City: "-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/fetchDataButton"-->
+<!--        android:layout_width="136dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/textView"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_marginStart="118dp"-->
+<!--        android:layout_marginTop="26dp"-->
+<!--        android:background="@drawable/custom_button_background"-->
+<!--        android:text="Stock Report"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/redirectButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/textView"-->
+<!--        android:layout_marginStart="22dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_toEndOf="@id/fetchDataButton"-->
+<!--        android:background="@drawable/custom_button_background"-->
+<!--        android:text="Chassis Report"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:visibility="invisible"/>-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:visibility="gone" />-->
+
+<!--    <HorizontalScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/fetchDataButton"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:scrollbars="none"-->
+<!--        android:id="@+id/headerHorizontalScrollView">-->
+
+<!--        <TableLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/headerTableLayout">-->
+<!--        </TableLayout>-->
+<!--    </HorizontalScrollView>-->
+
+<!--    <ScrollView-->
+<!--        android:layout_width="364dp"-->
+<!--        android:layout_height="484dp"-->
+<!--        android:layout_below="@id/headerHorizontalScrollView"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="37dp">-->
+
+
+<!--        <HorizontalScrollView-->
+<!--            android:id="@+id/dataHorizontalScrollView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:scrollbars="none">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textAlignment="center">-->
+
+<!--            </TableLayout>-->
+<!--        </HorizontalScrollView>-->
+<!--    </ScrollView>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView5"-->
+<!--        android:layout_width="198dp"-->
+<!--        android:layout_height="67dp"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginStart="66dp"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginEnd="129dp"-->
+<!--        android:background="@drawable/saiservicelogo" />-->
+
+<!--</RelativeLayout>-->
+
+
+
+
+
+
+
+
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:background="@drawable/harshbg"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <Button-->
+<!--        android:id="@+id/fetchData"-->
+<!--        android:layout_width="157dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:text="View Reports"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.23" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/CountWiseDetails"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:text="CURRENT VEHICLE STOCK"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.156" />-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:visibility="gone" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/TextProgressBar"-->
+<!--        android:layout_width="74dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:layout_marginLeft="100dp"-->
+<!--        android:text="Data is loading....."-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/fetchData"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/headerHorizontalScrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:scrollbars="none"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/fetchData"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <TableLayout-->
+<!--            android:id="@+id/headerTableLayout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            &lt;!&ndash; Headers will be dynamically added here &ndash;&gt;-->
+<!--        </TableLayout>-->
+<!--    </HorizontalScrollView>-->
+
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/dataHorizontalScrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:fillViewport="true"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/headerHorizontalScrollView"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                &lt;!&ndash; Data rows will be dynamically added here &ndash;&gt;-->
+<!--            </TableLayout>-->
+<!--        </ScrollView>-->
+<!--    </HorizontalScrollView>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView7"-->
+<!--        android:layout_width="384dp"-->
+<!--        android:layout_height="76dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/saiservicelogo"-->
+<!--        tools:layout_editor_absoluteY="2dp" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/harshbg"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/fetchData"
+        android:layout_width="157dp"
+        android:layout_height="50dp"
+        android:text="View Reports"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.325" />
+
+    <TextView
+        android:id="@+id/CountWiseDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="CURRENT VEHICLE STOCK"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.133" />
+
+    <Spinner
+        android:id="@+id/citySpinner"
+        android:layout_width="283dp"
+        android:layout_height="30dp"
+        android:background="@drawable/modern_spinner_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.205" />
+
+
+    <Spinner
+        android:id="@+id/typeSpinner"
+        android:layout_width="283dp"
+        android:layout_height="30dp"
+        android:background="@drawable/modern_spinner_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.266" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/TextProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Data is loading....."
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/headerHorizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fetchData">
+
+        <TableLayout
+            android:id="@+id/headerTableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TableLayout>
+    </HorizontalScrollView>
+
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/dataHorizontalScrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:fillViewport="true"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/headerHorizontalScrollView">-->
+
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--            </TableLayout>-->
+<!--        </ScrollView>-->
+<!--    </HorizontalScrollView>-->
+
+
+
+
+    <HorizontalScrollView
+        android:id="@+id/dataHorizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerHorizontalScrollView">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TableLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="334dp"
+        android:layout_height="59dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022"
+        app:srcCompat="@drawable/saiservicelogojpg" />
+
+    <TextView
+        android:id="@+id/rowCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.331" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+

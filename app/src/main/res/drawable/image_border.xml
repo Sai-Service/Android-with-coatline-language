@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/image_border.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Border -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/black" /> <!-- Change border color here -->
+            <corners android:radius="8dp" /> <!-- Adjust corner radius as needed -->
+        </shape>
+    </item>
+    <!-- Image -->
+   <!-- Replace with your image resource -->
+</layer-list>

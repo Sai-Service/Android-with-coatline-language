@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+<!--        <domain includeSubdomains="true">182.73.44.117</domain>-->
+<!--        <domain includeSubdomains="true">115.242.10.86</domain>-->
+<!--        <domain includeSubdomains="true">203.115.117.157</domain>-->
+<!--                <domain includeSubdomains="true">182.72.0.216</domain>-->
+<!--      <domain includeSubdomains="true">10.0.2.2</domain>-->
+
+        <domain includeSubdomains="true">115.242.10.85</domain>
+
+    </domain-config>
+</network-security-config>

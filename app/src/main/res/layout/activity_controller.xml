@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@drawable/harshbg"-->
+<!--    tools:context=".Controller">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/amazonImage"-->
+<!--        android:layout_width="267dp"-->
+<!--        android:layout_height="53dp"-->
+<!--        android:src="@drawable/saiservicelogocp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:id="@+id/line1"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/amazonImage"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="USERNAME :-"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/username"-->
+<!--            android:layout_width="111dp"-->
+<!--            android:layout_height="26dp"-->
+<!--            android:hint="username"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Location :-"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/locIdTxt"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="locId"-->
+<!--            android:textStyle="bold" />-->
+<!--    </LinearLayout>-->
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/line1"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/row1"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="175dp"-->
+<!--                android:layout_marginTop="40dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginStart="100dp">-->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/clothingCard"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardElevation="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/reports"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:onClick="goToCityReport">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/clothingName"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_below="@+id/clothingImage"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:fontFamily="@font/poppins_semibold"-->
+<!--                            android:text="REPORTS"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/clothingImage"-->
+<!--                            android:layout_width="70dp"-->
+<!--                            android:layout_height="70dp"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:src="@drawable/reportbtn" />-->
+<!--                    </RelativeLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/row2"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="175dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginStart="100dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/stockAc"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardElevation="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:onClick="goToStockTaking">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/beautyName"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_below="@+id/beautyImage"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:fontFamily="@font/poppins_semibold"-->
+<!--                            android:text="STOCK TAKING"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/beautyImage"-->
+<!--                            android:layout_width="70dp"-->
+<!--                            android:layout_height="70dp"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:src="@drawable/stocktake" />-->
+<!--                    </RelativeLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/row3"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="175dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginStart="100dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardElevation="20dp"-->
+<!--                    app:cardCornerRadius="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:onClick="goToCamera"-->
+<!--                        android:id="@+id/vehTrack">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:id="@+id/homeName"-->
+<!--                            android:text="VEHICLE TRACK"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:fontFamily="@font/poppins_semibold"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_below="@+id/homeImage" />-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="70dp"-->
+<!--                            android:layout_height="70dp"-->
+<!--                            android:id="@+id/homeImage"-->
+<!--                            android:src="@drawable/vehicletrack"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:layout_centerHorizontal="true" />-->
+<!--                    </RelativeLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/row4"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="175dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginStart="100dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/chassis"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardElevation="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:onClick="goToChassisReport">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/elecName"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_below="@+id/elecImage"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:fontFamily="@font/poppins_semibold"-->
+<!--                            android:text="CHASSIS ENQUIRY"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/elecImage"-->
+<!--                            android:layout_width="70dp"-->
+<!--                            android:layout_height="70dp"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:src="@drawable/searchsame" />-->
+<!--                    </RelativeLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/row5"-->
+<!--                android:layout_width="202dp"-->
+<!--                android:layout_height="174dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginStart="100dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="306dp"-->
+<!--                    android:layout_height="136dp"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardElevation="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/security"-->
+<!--                        android:layout_width="178dp"-->
+<!--                        android:layout_height="114dp"-->
+<!--                        android:onClick="SecurityVehTrans">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/pharmName"-->
+<!--                            android:layout_width="169dp"-->
+<!--                            android:layout_height="41dp"-->
+<!--                            android:layout_below="@+id/pharmImage"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:fontFamily="@font/poppins_semibold"-->
+<!--                            android:text="SECURITY VEHICLE TRACK"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/pharmImage"-->
+<!--                            android:layout_width="62dp"-->
+<!--                            android:layout_height="55dp"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_marginTop="15dp"-->
+<!--                            android:src="@drawable/security_two" />-->
+<!--                    </RelativeLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/logoutButton"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.958"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/logout"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/harshbg"
+    tools:context=".Controller">
+
+    <ImageView
+        android:id="@+id/amazonImage"
+        android:layout_width="267dp"
+        android:layout_height="53dp"
+        android:src="@drawable/saiservicelogocp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <ImageButton
+        android:id="@+id/about"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/infobtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_bg"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amazonImage">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USERNAME: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username"
+            android:textColor="#0429F6"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="LOCATION: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/locIdTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="locId"
+            android:textColor="#0429F6"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+
+                        <LinearLayout
+                            android:id="@+id/row2"
+                            android:layout_width="200dp"
+                            android:layout_height="175dp"
+                            android:layout_marginTop="40dp"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/stockAc"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="20dp"
+                                app:cardElevation="8dp"
+                                app:cardBackgroundColor="@android:color/white">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:onClick="goToStockTaking">
+
+                                    <TextView
+                                        android:id="@+id/beautyName"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/beautyImage"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="10dp"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:text="STOCK TAKING"
+                                        android:textColor="@color/black"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/beautyImage"
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="15dp"
+                                        android:src="@drawable/stocktake" />
+                                </RelativeLayout>
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/logoutButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logout"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

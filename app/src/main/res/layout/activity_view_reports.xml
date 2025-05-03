@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:padding="16dp"-->
+<!--    android:background="@drawable/harshbg">-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/homepage"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:background="@drawable/home"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/amazonImage"-->
+<!--        android:layout_width="313dp"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_marginStart="30dp"-->
+<!--        android:src="@drawable/saiservicelogo"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/homepage"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/spinner_label"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="SELECT BATCH REPORT"-->
+<!--        android:textStyle="bold"-->
+<!--        android:padding="24dp"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/amazonImage"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/batch_name_spinner"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/modern_spinner_background"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spinner_label"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/view_reports_button"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/modern_button_background"-->
+<!--        android:text="View Reports"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/batch_name_spinner"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/refresh_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Refresh"-->
+<!--        android:background="@drawable/modern_button_background"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/view_reports_button"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="16dp" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/multipleBatchNameSpinner"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:background="@drawable/modern_spinner_background"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/refresh_button" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/closeBatch"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Close Selected Batch"-->
+<!--        android:background="@drawable/modern_button_background"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/multipleBatchNameSpinner"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="16dp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/rowCountTextView"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:background="@drawable/rounded_bg"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/closeBatch"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--    <HorizontalScrollView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scrollbars="horizontal"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/rowCountTextView"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            &lt;!&ndash; Header TableLayout &ndash;&gt;-->
+<!--            <TableLayout-->
+<!--                android:id="@+id/header_table_layout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/header_background"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--            &lt;!&ndash; Data TableLayout inside a ScrollView for vertical scrolling &ndash;&gt;-->
+<!--            <ScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/header_table_layout">-->
+
+<!--                <TableLayout-->
+<!--                    android:id="@+id/table_layout"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:stretchColumns="0,1,2,3,4,5,6" />-->
+<!--            </ScrollView>-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </HorizontalScrollView>-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+
+
+
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@drawable/harshbg">
+
+    <ImageButton
+        android:id="@+id/homepage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/home"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/amazonImage"
+        android:layout_width="313dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/saiservicelogojpg"
+        app:layout_constraintTop_toBottomOf="@+id/homepage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/spinner_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SELECT BATCH REPORT"
+        android:textStyle="bold"
+        android:padding="24dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/amazonImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/batch_name_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/modern_spinner_background"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/view_reports_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/modern_button_background"
+        android:text="View Reports"
+        app:layout_constraintTop_toBottomOf="@+id/batch_name_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:background="@drawable/modern_button_background"
+        app:layout_constraintTop_toBottomOf="@+id/view_reports_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:id="@+id/multipleBatchNameSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/modern_spinner_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refresh_button" />
+
+    <Button
+        android:id="@+id/closeBatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close Selected Batch"
+        android:background="@drawable/modern_button_background"
+        app:layout_constraintTop_toBottomOf="@+id/multipleBatchNameSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/rowCountTextView"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_bg"
+        app:layout_constraintTop_toBottomOf="@+id/closeBatch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- HorizontalScrollView for horizontal scrolling -->
+    <HorizontalScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/rowCountTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- LinearLayout to hold the header and scrollable body -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header Table (Fixed Vertically, Scrollable Horizontally) -->
+            <TableLayout
+                android:id="@+id/header_table_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/header_background" />
+
+            <!-- ScrollView for vertical scrolling of table content -->
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical">
+
+                <!-- Data Table (Scrollable Vertically and Horizontally) -->
+                <TableLayout
+                    android:id="@+id/table_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="0,1,2,3,4,5,6" />
+
+            </ScrollView>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

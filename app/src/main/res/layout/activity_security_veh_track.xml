@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:padding="16dp"-->
+<!--    android:background="@drawable/harshbg"-->
+<!--    tools:context=".MainActivity">-->
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+
+<!--        <Button-->
+<!--            android:id="@+id/scanQrBtn"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/attributeTextView"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="73dp"-->
+<!--            android:layout_marginEnd="190dp"-->
+<!--            android:background="@drawable/custom_button_background"-->
+<!--            android:text="BY QR CODE" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/showDetailsButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="59dp"-->
+<!--            android:layout_below="@id/attributeTextView"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="68dp"-->
+<!--            android:layout_marginEnd="21dp"-->
+<!--            android:text="BY CHASSIS" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fetchChassisDataButton"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/chassis_no"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="103dp"-->
+<!--            android:layout_marginTop="7dp"-->
+<!--            android:layout_marginEnd="103dp"-->
+<!--            android:background="@drawable/custom_button_background"-->
+<!--            android:text="Chassis Report" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/chassis_no"-->
+<!--            android:layout_width="256dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/scanQrBtn"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="60dp"-->
+<!--            android:layout_marginTop="14dp"-->
+<!--            android:layout_marginEnd="63dp"-->
+<!--            android:background="@drawable/edittext"-->
+<!--            android:hint="enter chassis no."-->
+<!--            android:minHeight="48dp"-->
+<!--            android:textAlignment="center" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/VinDetails"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/fetchChassisDataButton"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="17sp"-->
+<!--            android:textAlignment="center"-->
+<!--            android:text="Details By Vin Number"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/detailsByVin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/tableLayout2"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:visibility="invisible"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/qrResultTextView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/detailsByVin"-->
+<!--            android:layout_marginTop="14dp"-->
+<!--            android:textAlignment="center"-->
+<!--            android:background="@drawable/rounded_textview"-->
+<!--            android:padding="16dp"-->
+<!--            android:text="QR Data "-->
+<!--            android:visibility="invisible"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
+
+
+
+<!--        <EditText-->
+<!--            android:id="@+id/VinQr"-->
+<!--            android:layout_width="260dp"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_below="@id/qrResultTextView"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="60dp"-->
+<!--            android:layout_marginTop="18dp"-->
+<!--            android:layout_marginEnd="41dp"-->
+<!--            android:background="@drawable/edittext"-->
+<!--            android:hint="Vin number"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textStyle="bold"-->
+<!--            android:visibility="invisible"/>-->
+
+
+<!--        <CheckBox-->
+<!--            android:id="@+id/checkbox"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="37dp"-->
+<!--            android:layout_below="@+id/VinQr"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="-6dp"-->
+<!--            android:layout_marginEnd="106dp"-->
+<!--            android:text="VEHICLE PHYSICALLY OUT" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/attributeTextView"-->
+<!--            android:layout_width="79dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="87dp"-->
+<!--            android:layout_marginTop="73dp"-->
+<!--            android:hint="City"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/vehText"-->
+<!--            android:layout_width="212dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/checkbox"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="14dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:text="Select Vehicle Entry Status"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold"/>-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/orgText"-->
+<!--            android:layout_width="212dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_below="@id/vehicleSpinner"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_marginStart="84dp"-->
+<!--            android:layout_marginTop="28dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:text="Select vehicle out location"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/organizationSpinner"-->
+<!--            android:layout_width="324dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_below="@id/orgText"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:background="@color/semi_transparent_white"-->
+<!--            android:entries="@array/organization_names"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/remarkText"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="Enter remark about Vehicle"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_below="@id/organizationSpinner"/>-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/Remarks"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_below="@id/remarkText"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="0dp" />-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/vehicleSpinner"-->
+<!--            android:layout_width="324dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_below="@id/vehText"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginLeft="16dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginRight="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:background="@color/semi_transparent_white" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/logoutButton"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            app:srcCompat="@drawable/logout" />-->
+
+
+<!--        <Button-->
+<!--            android:id="@+id/refreshButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="59dp"-->
+<!--            android:layout_below="@id/Remarks"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:layout_marginEnd="227dp"-->
+<!--            android:onClick="refreshData"-->
+<!--            android:text="Refresh" />-->
+
+
+<!--        <Button-->
+<!--            android:id="@+id/postBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="59dp"-->
+<!--            android:layout_below="@id/Remarks"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginEnd="60dp"-->
+<!--            android:text="Submit" />-->
+
+
+<!--        <Button-->
+<!--            android:id="@+id/vehicleIn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/postBtn"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginStart="117dp"-->
+<!--            android:layout_marginTop="27dp"-->
+<!--            android:layout_marginEnd="109dp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:visibility="invisible"-->
+<!--            android:text="PENDING VEHICLE LIST" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/location1"-->
+<!--            android:layout_width="75dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="254dp"-->
+<!--            android:layout_marginTop="73dp"-->
+<!--            android:layout_marginEnd="31dp"-->
+<!--            android:text="TextView" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="239dp"-->
+<!--            android:layout_height="55dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginEnd="57dp"-->
+<!--            android:background="@drawable/saiservicelogo" />-->
+
+
+<!--        &lt;!&ndash;        <Button&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:id="@+id/fetchButton"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_alignParentEnd="true"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_alignParentBottom="true"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_marginEnd="215dp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_marginBottom="2dp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:text="GetVin" />&ndash;&gt;-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="67dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="15dp"-->
+<!--            android:layout_marginTop="74dp"-->
+<!--            android:layout_marginEnd="279dp"-->
+<!--            android:text="Username:"-->
+<!--            android:textSize="12sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="178dp"-->
+<!--            android:layout_marginTop="75dp"-->
+<!--            android:layout_marginEnd="111dp"-->
+<!--            android:text="Location : "-->
+<!--            android:textSize="12sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <HorizontalScrollView-->
+<!--            android:id="@+id/horizontalScrollView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/vehicleIn">-->
+
+<!--            <ScrollView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <TableLayout-->
+<!--                    android:id="@+id/transferTable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:stretchColumns="1"-->
+<!--                    android:layout_below="@+id/vehicleIn"-->
+<!--                    android:layout_margin="16dp">-->
+<!--                </TableLayout>-->
+
+<!--            </ScrollView>-->
+
+<!--        </HorizontalScrollView>-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/homePage"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginEnd="327dp"-->
+<!--            android:background="@drawable/home" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView11"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="39dp"-->
+<!--            android:layout_above="@+id/Remarks"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="102dp"-->
+<!--            android:layout_marginTop="110dp"-->
+<!--            android:layout_marginEnd="33dp"-->
+<!--            android:layout_marginBottom="639dp"-->
+<!--            android:text="VEHICLE TRACKING"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
+
+
+<!--        <TableLayout-->
+<!--            android:id="@+id/tableLayout2"-->
+<!--            android:layout_below="@+id/VinDetails"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:stretchColumns="1">-->
+<!--        </TableLayout>-->
+
+
+<!--    </RelativeLayout>-->
+
+<!--</ScrollView>-->
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/harshbg"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="239dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/saiservicelogojpg" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SECURITY CHECKOUT"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_bg"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amazonImage">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USERNAME: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/attributeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="#0429F6"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="LOCATION: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/location1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#0429F6"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ScrollView for the rest of the content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerLayout"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/scanQrBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="190dp"
+                android:background="@drawable/modern_button_background"
+                android:text="BY QR CODE" />
+
+            <Button
+                android:id="@+id/showDetailsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/modern_button_background"
+                android:text="BY CHASSIS" />
+
+            <ImageButton
+                android:id="@+id/fetchChassisDataButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/chassis_no"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-31dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/search"
+                android:text="Chassis Report" />
+
+            <EditText
+                android:id="@+id/chassis_no"
+                android:layout_width="256dp"
+                android:layout_height="35dp"
+                android:layout_below="@id/scanQrBtn"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/edittext"
+                android:hint="enter chassis no."
+                android:minHeight="48dp"
+                android:textAlignment="center" />
+
+            <Spinner
+                android:id="@+id/vintypeSpinner"
+                android:layout_width="256dp"
+                android:layout_height="35dp"
+                android:layout_below="@+id/chassis_no"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="107dp"
+                android:background="@drawable/modern_spinner_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.226"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/VinDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vintypeSpinner"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textAlignment="center"
+                android:text="Details By Vin Number"/>
+
+            <TextView
+                android:id="@+id/detailsByVin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableLayout2"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/qrResultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detailsByVin"
+                android:layout_marginTop="14dp"
+                android:textAlignment="center"
+                android:background="@drawable/rounded_textview"
+                android:padding="16dp"
+                android:text="QR Data "
+                android:visibility="invisible"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/VinQr"
+                android:layout_width="260dp"
+                android:layout_height="31dp"
+                android:layout_below="@id/qrResultTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/edittext"
+                android:hint="Vin number"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:visibility="invisible"/>
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_below="@+id/VinQr"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="VEHICLE PHYSICALLY OUT" />
+
+            <TextView
+                android:id="@+id/vehText"
+                android:layout_width="212dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/checkbox"
+                android:layout_marginTop="14dp"
+                android:visibility="invisible"
+                android:text="Select Vehicle Entry Status"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/orgText"
+                android:layout_width="212dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/vehicleSpinner"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:visibility="invisible"
+                android:text="Select vehicle out location"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/organizationSpinner"
+                android:layout_width="324dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/orgText"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
+                android:background="@color/semi_transparent_white"
+                android:entries="@array/organization_names"/>
+
+            <TextView
+                android:id="@+id/remarkText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter remark about Vehicle"
+                android:visibility="invisible"
+                android:layout_below="@id/organizationSpinner"
+                android:layout_marginTop="5dp"/>
+
+            <EditText
+                android:id="@+id/Remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_below="@id/remarkText" />
+
+            <Spinner
+                android:id="@+id/vehicleSpinner"
+                android:layout_width="324dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/vehText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:background="@color/semi_transparent_white" />
+
+<!--            <Button-->
+<!--                android:id="@+id/refreshButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="59dp"-->
+<!--                android:layout_below="@id/Remarks"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_marginTop="6dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:onClick="refreshData"-->
+<!--                android:text="Refresh" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/postBtn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="59dp"-->
+<!--                android:layout_below="@id/Remarks"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="Submit" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/vehicleIn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/postBtn"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="27dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:visibility="invisible"-->
+<!--                android:text="PENDING VEHICLE LIST" />-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout2"-->
+<!--                android:layout_below="@+id/VinDetails"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:stretchColumns="1">-->
+<!--            </TableLayout>-->
+
+<!--            <HorizontalScrollView-->
+<!--                android:id="@+id/horizontalScrollView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/vehicleIn">-->
+
+<!--                <TableLayout-->
+<!--                    android:id="@+id/transferTable"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:stretchColumns="1">-->
+<!--                </TableLayout>-->
+
+<!--            </HorizontalScrollView>-->
+
+
+
+            <TableLayout
+                android:id="@+id/tableLayout2"
+                android:layout_below="@+id/VinDetails"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+            </TableLayout>
+
+            <Button
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableLayout2"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/modern_button_background"
+                android:layout_marginStart="16dp"
+                android:onClick="refreshData"
+                android:text="Refresh" />
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/postBtn"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_below="@id/tableLayout2"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_marginTop="18dp"-->
+<!--                android:layout_marginEnd="22dp"-->
+<!--                android:background="@drawable/custom_button_background"-->
+<!--                -->
+<!--                android:text="Submit" />-->
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableLayout2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="22dp">
+
+                <ImageButton
+                    android:id="@+id/postBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/modern_button_background"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/submit_button" />
+
+                <TextView
+                    android:id="@+id/postText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Vehicle Out"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+            </RelativeLayout>
+
+
+
+            <Button
+                android:id="@+id/vehicleIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/refreshButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="invisible"
+                android:text="PENDING VEHICLE LIST" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vehicleIn">
+
+                <TableLayout
+                    android:id="@+id/transferTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1">
+                </TableLayout>
+
+            </HorizontalScrollView>
+
+            <ImageButton
+                android:id="@+id/fetchVinData2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="125dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/search"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- Logout button (outside ScrollView to keep it fixed) -->
+    <ImageView
+        android:id="@+id/logoutButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/logout" />
+
+    <ImageButton
+        android:id="@+id/homePage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/home" />
+
+</RelativeLayout>

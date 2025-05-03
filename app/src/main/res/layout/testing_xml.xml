@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/harshbg"
+    tools:context=".StockTransferNew">
+
+    <ImageView
+        android:id="@+id/amazonImage"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@drawable/saiservicelogojpg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/homePage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoutButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_bg"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amazonImage">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USERNAME: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/attributeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username"
+            android:textColor="#0429F6"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="LOCATION: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/location1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="locId"
+            android:textColor="#0429F6"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="VEHICLE TRACKING"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+
+    <ScrollView
+        android:id="@+id/scroll1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView11">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/scanQrBtn"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/showDetailsButton"
+                android:background="@drawable/modern_button_background"
+                android:text="BY QR CODE" />
+
+            <Button
+                android:id="@+id/showDetailsButton"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/modern_button_background"
+                android:text="BY CHASSIS" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/chassisInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/showDetailsButton"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/chassis_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Chassis No."
+                    android:textAlignment="center" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/fetchChassisDataButton"
+                android:layout_width="35dp"
+                android:layout_height="41dp"
+                android:layout_alignTop="@id/chassisInputLayout"
+                android:layout_alignBottom="@id/chassisInputLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/search"
+                android:contentDescription="Search"
+                android:scaleType="fitCenter" />
+
+            <Spinner
+                android:id="@+id/vintypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/chassisInputLayout"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="111dp"
+                android:background="@drawable/modern_spinner_background"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/fetchVinData2"
+                android:layout_width="102dp"
+                android:layout_height="41dp"
+                android:layout_alignTop="@id/vintypeSpinner"
+                android:layout_alignBottom="@id/vintypeSpinner"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="-6dp"
+                android:background="@drawable/modern_button_background"
+                android:text="Find" />
+
+            <TextView
+                android:id="@+id/VinDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vintypeSpinner"
+                android:layout_marginTop="60dp"
+                android:text="Details By Vin Number"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:id="@+id/tableScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/VinDetails"
+                android:layout_marginTop="10dp">
+
+                <TableLayout
+                    android:id="@+id/tableLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1" />
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/detailsByVin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableScrollView"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/qrResultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detailsByVin"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_textview"
+                android:padding="16dp"
+                android:text="QR Data "
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/VinQr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/qrResultTextView"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/edittext_border"
+                android:hint="Vin number"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/VinQr"
+                android:layout_marginTop="20dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TableLayout
+                        android:id="@+id/transferTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:stretchColumns="1" />
+
+                </ScrollView>
+
+            </HorizontalScrollView>
+
+            <Spinner
+                android:id="@+id/vehStatusSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_below="@+id/horizontalScrollView"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/modern_spinner_background" />
+
+            <TextView
+                android:id="@+id/currentKmsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehStatusSpinner"
+                android:layout_marginTop="5dp"
+                android:text="TO KMS"
+                android:textAlignment="center" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/currentKmsLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentKmsText"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/currentKms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter To Km"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/postBtn"
+                android:layout_width="126dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentKmsLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="37dp"
+                android:background="@drawable/modern_button_background"
+                android:text="Submit" />
+
+            <Button
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentKmsLayout"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/postBtn"
+                android:background="@drawable/modern_button_background"
+                android:onClick="refreshData"
+                android:text="Refresh" />
+
+            <Button
+                android:id="@+id/vehicleIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/refreshButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/modern_button_background"
+                android:text="PENDING VEHICLE LIST" />
+
+        </RelativeLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
