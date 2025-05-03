@@ -1,0 +1,42 @@
+<!-- res/drawable/spinner_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base background for the spinner with rounded corners and border -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+            <corners android:radius="8dp" /> <!-- Increased radius for a more rounded look -->
+            <stroke android:width="2dp" android:color="@color/primary_color" />
+        </shape>
+    </item>
+
+    <!-- Decorative cross icon aligned to the right, styled as a subtle dropdown indicator -->
+    <item android:gravity="end|center_vertical" android:right="12dp">
+        <layer-list>
+            <item
+                android:width="10dp"
+                android:height="10dp"
+                android:gravity="center">
+
+                <rotate android:fromDegrees="45">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/primary_color" />
+                        <size android:width="1.5dp" android:height="10dp" />
+                    </shape>
+                </rotate>
+            </item>
+            <item
+                android:width="10dp"
+                android:height="10dp"
+                android:gravity="center">
+
+                <rotate android:fromDegrees="-45">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/primary_color" />
+                        <size android:width="1.5dp" android:height="10dp" />
+                    </shape>
+                </rotate>
+            </item>
+        </layer-list>
+    </item>
+</layer-list>

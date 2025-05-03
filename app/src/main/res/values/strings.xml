@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Vehicle Delivery</string>
+
+
+        <string-array name="payment_modes">
+            <item>Select Payment Method</item>
+            <item>Cash</item>
+            <item>UPI</item>
+        </string-array>
+
+
+</resources>
