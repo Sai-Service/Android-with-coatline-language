@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -123,6 +124,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
     private lateinit var gatePassNoNote:TextView
     private lateinit var salesExecutiveTxt:TextView
     private lateinit var executiveSpinner:EditText
+    private lateinit var fuelTripTxt:TextView
+    private lateinit var fuelTripField:EditText
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -187,6 +190,9 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         salesExecutiveTxt=findViewById(R.id.salesExecutiveTxt)
         executiveSpinner=findViewById(R.id.executiveSpinner)
 
+        fuelTripTxt=findViewById(R.id.fuelTripTxt)
+        fuelTripField=findViewById(R.id.fuelTripField)
+
 
 
         kmTxt.visibility=View.GONE
@@ -214,6 +220,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         gatePassNoNote.visibility=View.GONE
         salesExecutiveTxt.visibility=View.GONE
         executiveSpinner.visibility=View.GONE
+        fuelTripTxt.visibility=View.GONE
+        fuelTripField.visibility=View.GONE
 
         locId = intent.getIntExtra("locId", 0)
         ouId = intent.getIntExtra("ouId", 0)
@@ -298,6 +306,20 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         vehicleHistory.setOnClickListener { workShopTestDriveVehHistory()  }
 
+        val blockSpecialCharFilter = InputFilter { source, _, _, _, _, _ ->
+            val pattern = Regex("^[a-zA-Z0-9]+$")
+            if (source.isEmpty() || source.matches(pattern)) {
+                source
+            } else {
+                ""
+            }
+        }
+
+        newVehEditText.filters=arrayOf(blockSpecialCharFilter,InputFilter.AllCaps())
+        custNameEditText.filters=arrayOf(blockSpecialCharFilter)
+        executiveSpinner.filters=arrayOf(blockSpecialCharFilter)
+        remarksField.filters=arrayOf(blockSpecialCharFilter)
+        fuelTripField.filters=arrayOf(blockSpecialCharFilter)
     }
 
     private fun workShopTestDriveVehHistory() {
@@ -514,20 +536,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 101 && resultCode == RESULT_OK) {
-//            val bitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-//            if (clickedPlaceholder == captureToKm) {
-//                processImageForText(bitmap)
-//            }
-//
-//        }
-//    }
-
-
-
-
     private fun processImageForText(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
@@ -550,6 +558,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             if (matchResult != null) {
                 val numericText = matchResult.value.trim()
                 currentKMSField.setText(numericText)
+                currentKMSField.isEnabled=true
             } else {
                 Toast.makeText(this, "No valid reading found", Toast.LENGTH_SHORT).show()
                 currentKMSField.isEnabled=true
@@ -592,7 +601,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                             }
 
                             override fun onNothingSelected(parentView: AdapterView<*>?) {
-                                // Handle case where no item is selected
+
                             }
                         }
                     }
@@ -635,6 +644,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         refreshButton.visibility=View.VISIBLE
         gateTypeTxtView.visibility=View.VISIBLE
         gateTypeLov.visibility=View.VISIBLE
+        fuelTripTxt.visibility=View.VISIBLE
+        fuelTripField.visibility=View.VISIBLE
     }
 
     private fun populateFieldsAfterOutSearch() {
@@ -645,8 +656,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         newVehicleOutPremises.visibility=View.VISIBLE
         remarksTxt.visibility=View.VISIBLE
         remarksField.visibility=View.VISIBLE
-//        driverTxt.visibility=View.VISIBLE
-//        driverNameField.visibility=View.VISIBLE
         refreshButton.visibility=View.VISIBLE
         custNameTxt.visibility=View.VISIBLE
         custNameEditText.visibility=View.VISIBLE
@@ -658,6 +667,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         gateTypeTxtView.visibility=View.VISIBLE
         salesExecutiveTxt.visibility=View.VISIBLE
         executiveSpinner.visibility=View.VISIBLE
+        fuelTripTxt.visibility=View.VISIBLE
+        fuelTripField.visibility=View.VISIBLE
     }
 
     private fun detailsForVehicleInFirstTime() {
@@ -683,7 +694,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
                     val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
 
-                    val jcData3 = allData(
+                    val jcData3 = allData2(
                         CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
                         VIN = stockItem.optString("VIN"),
                         MODEL_DESC = stockItem.optString("MODEL_DESC"),
@@ -698,7 +709,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                         OUT_KM = stockItem.optString("OUT_KM"),
                         REMARKS = stockItem.optString("REMARKS"),
                         VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
-                        REG_NO = stockItem.optString("REG_NO")
+                        REG_NO = stockItem.optString("REG_NO"),
+                        FUEL_QTY =stockItem.optString("FUEL_QTY")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -888,7 +900,9 @@ class WorkshopDemoVehicle : AppCompatActivity() {
                                         OUT_KM = stockItem.optString("OUT_KM"),
                                         REMARKS = stockItem.optString("REMARKS"),
                                         VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
-                                        REG_NO = stockItem.optString("REG_NO")
+                                        REG_NO = stockItem.optString("REG_NO"),
+                                        LAST_IN_KM = stockItem.optString("LAST_IN_KM"),
+                                        FUEL_QTY =stockItem.optString("FUEL_QTY")
                                     )
 
                                     populateFieldsOut(jcData3)
@@ -956,6 +970,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         val customerAddress=custAddressEditText.text.toString()
         val customerContact=custContactEditText.text.toString()
         val salesExecutive=executiveSpinner.text.toString()
+        val fuelQty=fuelTripField.text.toString()
+
         if(salesExecutive.isEmpty()){
             Toast.makeText(this@WorkshopDemoVehicle,"Please enter executive name.",Toast.LENGTH_SHORT).show()
             return
@@ -974,7 +990,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             return
         }
 
-        if(gateNo.isEmpty() &&gateType.isEmpty()){
+        if(gateNo.isEmpty() &&gateType.isEmpty()) {
             Toast.makeText(this,"Please select the Gate.",Toast.LENGTH_SHORT).show()
             return
         }
@@ -1049,6 +1065,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             put("fromLocation",location)
             put("loginName",login_name)
             put("authorisedBy",attribute1)
+            put("fuelQty",fuelQty)
         }
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
@@ -1140,6 +1157,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         val outKmInt=outKm.toInt()
         val gateNo=gateNumber
         val gateType=gateType
+        val fuelQty=fuelTripField.text.toString()
 
         if(currentKMSField.text.toString().isEmpty()){
             Toast.makeText(this,"Please enter the Current Kilometers",Toast.LENGTH_SHORT).show()
@@ -1182,7 +1200,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             put("inKm",currentKms)
             put("attribute1",gateNo)
             put("attribute2",gateType)
-
+            put("fuelQty",fuelQty)
         }
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
@@ -1251,7 +1269,11 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             "MODEL" to jcData.MODEL_DESC,
             "FUEL DESC" to jcData.FUEL_DESC,
             "VARIANT" to jcData.VARIANT_DESC,
+            "LAST IN KM" to jcData.LAST_IN_KM,
+            "LAST FUEL QUANTITY" to jcData.FUEL_QTY
         )
+
+        Log.d("LAST_IN_KM",jcData.LAST_IN_KM)
 
         engineNo=jcData.ENGINE_NO
         chassisNo=jcData.CHASSIS_NO
@@ -1263,14 +1285,16 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
 
         for ((label, value) in detailsMap) {
-            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-            val labelTextView = row.findViewById<TextView>(R.id.label)
-            val valueTextView = row.findViewById<TextView>(R.id.value)
+            if (value.isNotEmpty() && value!= "-") {
+                val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+                val labelTextView = row.findViewById<TextView>(R.id.label)
+                val valueTextView = row.findViewById<TextView>(R.id.value)
 
-            labelTextView.text = label
-            valueTextView.text = value
+                labelTextView.text = label
+                valueTextView.text = value
 
-            table.addView(row)
+                table.addView(row)
+            }
         }
 
         if (table.childCount > 0) {
@@ -1281,7 +1305,7 @@ class WorkshopDemoVehicle : AppCompatActivity() {
     }
 
 
-    private fun populateFieldsIn(jcData:allData) {
+    private fun populateFieldsIn(jcData:allData2) {
         val table = findViewById<TableLayout>(R.id.tableLayout2)
         table.removeAllViews()
 
@@ -1297,7 +1321,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             "CUSTOMER ADDRESS" to jcData.CUST_ADDRESS,
             "OUT KM" to jcData.OUT_KM,
             "OUT TIME" to jcData.OUT_TIME,
-            "LOCATION" to jcData.LOCATION
+            "LOCATION" to jcData.LOCATION,
+            "FUEL QUANTITY" to jcData.FUEL_QTY
         )
 
         engineNo=jcData.ENGINE_NO
@@ -1310,15 +1335,28 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         regNo=jcData.REG_NO
 
 
+//        for ((label, value) in detailsMap) {
+//            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+//            val labelTextView = row.findViewById<TextView>(R.id.label)
+//            val valueTextView = row.findViewById<TextView>(R.id.value)
+//
+//            labelTextView.text = label
+//            valueTextView.text = value
+//
+//            table.addView(row)
+//        }
+
         for ((label, value) in detailsMap) {
-            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-            val labelTextView = row.findViewById<TextView>(R.id.label)
-            val valueTextView = row.findViewById<TextView>(R.id.value)
+            if (value.isNotEmpty() && value!= "-") {
+                val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+                val labelTextView = row.findViewById<TextView>(R.id.label)
+                val valueTextView = row.findViewById<TextView>(R.id.value)
 
-            labelTextView.text = label
-            valueTextView.text = value
+                labelTextView.text = label
+                valueTextView.text = value
 
-            table.addView(row)
+                table.addView(row)
+            }
         }
 
         if (table.childCount > 0) {
@@ -1378,7 +1416,9 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         salesExecutiveTxt.visibility=View.GONE
         executiveSpinner.visibility=View.GONE
         executiveSpinner.setText("")
-
+        fuelTripTxt.visibility=View.GONE
+        fuelTripField.visibility=View.GONE
+        fuelTripField.setText("")
     }
 
 
@@ -1407,7 +1447,28 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         val OUT_TIME:String,
         val LOCATION:String,
         val VEHICLE_NO:String,
-        val REG_NO:String
+        val REG_NO:String,
+        val LAST_IN_KM:String,
+        val FUEL_QTY:String
+    )
+
+    data class allData2(
+        val VIN:String,
+        val VARIANT_DESC:String,
+        val CHASSIS_NO:String,
+        val MODEL_DESC:String,
+        val ENGINE_NO:String,
+        val FUEL_DESC:String,
+        val CUST_ADDRESS:String,
+        val CUST_NAME:String,
+        val OUT_KM:String,
+        val CUST_CONTACT_NO:String,
+        val REMARKS:String,
+        val OUT_TIME:String,
+        val LOCATION:String,
+        val VEHICLE_NO:String,
+        val REG_NO:String,
+        val FUEL_QTY:String
     )
 }
 

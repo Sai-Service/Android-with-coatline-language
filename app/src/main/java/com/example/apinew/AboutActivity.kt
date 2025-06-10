@@ -27,8 +27,7 @@ class AboutActivity : AppCompatActivity() {
 
 
         val version = when (ApiFile.APP_URL) {
-//            "http://182.73.44.117:8080/ErpAndroid" -> "BOR PRODUCTION"
-            "http://182.72.0.216:7485/ErpAndroid/" ->  "PRODUCTION"
+            "http://182.72.0.216:7485/ErpAndroid" ->  "PRODUCTION"
             "http://115.242.10.86:6101/ErpAndroid" -> "CLONE"
             "http://10.0.2.2:8081" -> "LOCALHOST"
             "http://203.115.117.157:6101/ErpAndroid" ->"CLONE2"

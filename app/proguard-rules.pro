@@ -20,98 +20,20 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#
-# Core KTX
-#-keep class androidx.core.** { *; }
-#
-## AppCompat
-#-keep class androidx.appcompat.** { *; }
-#
-## Material Design Components
-#-keep class com.google.android.material.** { *; }
-#
-## OkHttp
-#-keepattributes Signature
-#-keepattributes *Annotation*
-#-keepclassmembers class okhttp3.internal.publicsuffix.PublicSuffixDatabase {
-#    public *;
-#}
-#-dontwarn okhttp3.**
-#
-## Retrofit
-#-keep class retrofit2.** { *; }
-#-dontwarn retrofit2.**
-#-keepattributes Signature
-#-keepattributes Exceptions
-#-keepattributes *Annotation*
-#
-## Retrofit Gson Converter
-#-keep class retrofit2.converter.gson.** { *; }
-#-dontwarn retrofit2.converter.gson.**
-#-keep class com.google.gson.** { *; }
-#-keepattributes *Annotation*
-#-dontwarn com.google.gson.**
-#
-## OkHttp Logging Interceptor
-#-keep class okhttp3.logging.** { *; }
-#-dontwarn okhttp3.logging.**
-#
-## JExcelAPI
-#-keep class jxl.** { *; }
-#-dontwarn jxl.**
-#
-## Activity KTX
-#-keep class androidx.activity.** { *; }
-#
-## ConstraintLayout
-#-keep class androidx.constraintlayout.** { *; }
-#
-## Play Services Awareness
-#-keep class com.google.android.gms.awareness.** { *; }
-#
-## Volley
-#-keep class com.android.volley.** { *; }
-#
-## Media3 Common
-#-keep class androidx.media3.common.** { *; }
-#
-## JUnit for testing
-#-keep class org.junit.** { *; }
-#-dontwarn org.junit.**
-#
-## AndroidX JUnit for testing
-#-keep class androidx.test.ext.junit.** { *; }
-#
-## Espresso for testing
-#-keep class androidx.test.espresso.** { *; }
-#-dontwarn androidx.test.espresso.**
 
-#
-#-assumenosideeffects class android.util.Log {
-#    public static int d(...);
-#    public static int v(...);
-#    public static int i(...);
-#    public static int w(...);
-#    public static int e(...);
-#}
-#
-## Keep Retrofit/Gson model classes
-#-keep class com.example.apinew.model.** { *; }
-#
-#
-## Strip all Log calls
-#-assumenosideeffects class android.util.Log {
-#    public static int d(...);
-#    public static int v(...);
-#    public static int i(...);
-#    public static int w(...);
-#    public static int e(...);
-#}
-#
-## Keep Retrofit + Gson model classes
-#-keep class com.example.apinew.model.** { *; }
-#
-#
-#
-#
-#
+
+-keep class com.example.apinew.** { *; }
+-keep interface com.example.apinew.** { *; }
+
+# Retrofit / Gson
+-keep class com.google.gson.** { *; }
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# Keep interfaces for Retrofit to create dynamic implementations
+-keep interface retrofit2.Call
+-keep interface retrofit2.http.* { *; }

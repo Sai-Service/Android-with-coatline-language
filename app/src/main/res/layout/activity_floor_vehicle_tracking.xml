@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/amazonImage"
+            android:layout_width="267dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/saiservicelogocp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amazonImage">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USERNAME: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="#FF5722"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="LOCATION: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/locIdTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#FF5722"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1">
+
+            <TextView
+                android:id="@+id/deptTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="DEPARTMENT: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/deptIntent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#FF5722"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/washingTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="FLOOR VEHICLE CONTROL"
+                android:textColor="#0A0A0B"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/floorHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/gatepass_textview"
+                android:text="FLOOR VEHICLE HISTORY"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/washInLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/washIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gatepass_textview"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="VEHICLE IN"
+                    android:textColor="#F5F6F8"
+                    android:layout_marginStart="40dp"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/washOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gatepass_textview"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="VEHICLE OUT"
+                    android:textColor="#F5F6F8"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/captureVehNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="9dp"
+                    android:text="Caputure VEH NO - "
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/captureRegNoCamera"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/camera"
+                    android:elevation="4dp"
+                    android:padding="12dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vehNoEnterLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="8dp">
+
+                <EditText
+                    android:id="@+id/enterVehNumber"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Vehicle Number"
+                    android:inputType="textCapCharacters"
+                    android:padding="12dp"
+                    android:background="@drawable/new_edittext_modern"
+                    android:elevation="2dp"
+                    android:layout_marginBottom="20dp" />
+
+                <ImageButton
+                    android:id="@+id/vehWashButtonIn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/search"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="4dp" />
+
+                <ImageButton
+                    android:id="@+id/vehWashButtonOut"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/search"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="4dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/regNoDetails"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Details By Vehicle Number"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <HorizontalScrollView
+                android:id="@+id/tableScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="23dp">
+
+                <TableLayout
+                    android:id="@+id/tableLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1" />
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/technician"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Enter Technician Name"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/technicianName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Technician Name"
+                android:padding="12dp"
+                android:background="@drawable/new_edittext_modern"
+                android:elevation="2dp"
+                android:layout_marginBottom="20dp" />
+
+
+            <TextView
+                android:id="@+id/carRepair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Enter Car Repair Details"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/carRepairDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Car Repair Details"
+                android:padding="12dp"
+                android:background="@drawable/new_edittext_modern"
+                android:elevation="2dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/labours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Enter Labours Required"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/laboursCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Labours Required"
+                android:padding="12dp"
+                android:background="@drawable/new_edittext_modern"
+                android:elevation="2dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Enter Remarks"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/remarksEnter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Remarks"
+                android:padding="12dp"
+                android:background="@drawable/new_edittext_modern"
+                android:elevation="2dp"
+                android:layout_marginBottom="20dp" />
+
+
+            <TextView
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#F4F4F1"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/submit_button_layout"
+                android:text="VEHICLE IN"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/submitButtonOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#F4F4F1"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/submit_button_layout"
+                android:text="VEHICLE OUT"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+            <TextView
+                android:id="@+id/resetFields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#F5F6F8"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/gatepass_textview"
+                android:text="REFRESH"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

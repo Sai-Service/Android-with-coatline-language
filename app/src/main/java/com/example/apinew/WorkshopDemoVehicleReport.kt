@@ -318,6 +318,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
                                 stockItem.optString("IN_TIME", ""),
                                 stockItem.optString("LOCATION", ""),
                                 stockItem.optString("REMARKS",""),
+                                stockItem.optString("FUEL_QTY",""),
                                 stockItem.optString("ATTRIBUTE3",""),
                                 stockItem.optString("CREATED_BY","")
                                 )
@@ -360,7 +361,7 @@ class WorkshopDemoVehicleReport : AppCompatActivity() {
             "REG NO",
             "CHASSIS NO",
             "MODEL","VARIANT","GATE PASS NO","OUT KM","OUT TIME","CUSTOMER NAME","CUST CONTACT","CUST ADDRESS",
-            "IN KM","IN TIME","LOCATION","REMARKS","EXECUTIVE NAME","ATTENDED BY"
+            "IN KM","IN TIME","LOCATION","REMARKS","FUEL QUANTITY","EXECUTIVE NAME","ATTENDED BY"
         )
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2

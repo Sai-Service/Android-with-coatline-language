@@ -36,7 +36,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/new_edittext_modern"
-        android:hint="Enter Vehicle Number"
+        android:hint="Enter Vehicle/Chassis No"
         android:inputType="textCapCharacters"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -87,6 +87,11 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
     <Button
         android:id="@+id/intransitBtn"
         android:layout_width="wrap_content"
@@ -100,6 +105,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:layout_width="60dp"
+            android:layout_height="1dp"/>
+
     <TextView
         android:id="@+id/stktrfIntrBtn"
         android:layout_width="wrap_content"
@@ -108,12 +117,34 @@
         android:background="@drawable/gatepass_textview"
         android:clickable="true"
         android:focusable="true"
-        android:text="Show Vehicle Washing History"
+        android:text="By Vehicle No"
         android:textColor="#F5F6F8"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/chassisBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="172dp"
+            android:background="@drawable/gatepass_textview"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="By Chassis No"
+            android:textColor="#F5F6F8"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

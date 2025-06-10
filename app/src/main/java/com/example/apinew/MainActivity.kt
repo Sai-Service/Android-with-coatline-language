@@ -1,14 +1,11 @@
 package com.example.apinew
 
-import LoginRequest
-import LoginResponse
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.text.method.HideReturnsTransformationMethod
 import android.util.Log
@@ -21,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -37,6 +35,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        if (isEmulator()) {
+//            Toast.makeText(this, "App cannot run on emulator", Toast.LENGTH_LONG).show()
+//            finishAffinity()
+//            return
+//        }
+
+        if (isThreatDetected()) {
+            Toast.makeText(this, "Security Threat Detected!", Toast.LENGTH_LONG).show()
+            finishAffinity()
+        }
 
         loginName = findViewById(R.id.usernameEditText)
         password = findViewById(R.id.passwordEditText)
@@ -57,21 +66,28 @@ class MainActivity : AppCompatActivity() {
 
         val buildDateTime = getBuildDateTime()
 
-//        loginName.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
-//            if (source.matches(Regex("[a-zA-Z0-9]+"))) {
-//                source
-//            } else {
-//                ""
-//            }
-//        })
-//
-//        password.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
-//            if (source.matches(Regex("[a-zA-Z0-9]+"))) {
-//                source
-//            } else {
-//                ""
-//            }
-//        })
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            for (i in start until end) {
+                val char = source[i]
+
+                // Allow only letters, digits, and hyphen
+                if (!char.isLetterOrDigit() && char != '-') {
+                    return@InputFilter ""
+                }
+
+                // Allow only one hyphen
+                if (char == '-' && dest.contains("-")) {
+                    return@InputFilter ""
+                }
+            }
+            null // Accept the input
+        }
+
+
+
+        loginName.filters = arrayOf(filter)
+        password.filters = arrayOf(filter)
+
 
 
 
@@ -176,6 +192,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_LONG).show()
+                Log.d("Throwable", t.printStackTrace().toString())
+                Log.d("Throwable", t.message.toString())
+
             }
         })
     }
@@ -214,4 +233,69 @@ class MainActivity : AppCompatActivity() {
             return System.currentTimeMillis()
         }
     }
+
+    fun isDeviceRooted(): Boolean {
+        return checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
+    }
+
+    fun isThreatDetected(): Boolean {
+        return isDeviceRooted() || isFridaDetected() || isXposedDetected()
+    }
+
+
+    private fun checkRootMethod1(): Boolean {
+        val paths = arrayOf(
+            "/system/app/Superuser.apk",
+            "/sbin/su",
+            "/system/bin/su",
+            "/system/xbin/su",
+            "/data/local/xbin/su",
+            "/data/local/bin/su",
+            "/system/sd/xbin/su",
+            "/system/bin/failsafe/su",
+            "/data/local/su"
+        )
+        return paths.any { File(it).exists() }
+    }
+
+    private fun checkRootMethod2(): Boolean {
+        return try {
+            Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
+                .inputStream.bufferedReader().readLine() != null
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun checkRootMethod3(): Boolean {
+        return Build.TAGS?.contains("test-keys") == true
+    }
+
+    fun isFridaDetected(): Boolean {
+        return try {
+            val fridaLibs = listOf("frida", "frida-agent", "gum-js-loop")
+            val maps = File("/proc/${android.os.Process.myPid()}/maps").readText()
+            fridaLibs.any { maps.contains(it, ignoreCase = true) }
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun isXposedDetected(): Boolean {
+        val xposedClasses = listOf(
+            "de.robv.android.xposed.XposedBridge",
+            "de.robv.android.xposed.XposedHelpers"
+        )
+        return xposedClasses.any {
+            try {
+                Class.forName(it)
+                true
+            } catch (e: ClassNotFoundException) {
+                false
+            }
+        }
+    }
+
+
+
 }

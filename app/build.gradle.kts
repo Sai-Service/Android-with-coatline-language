@@ -11,7 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.apinew"
-        minSdk = 24
+//        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -21,17 +22,25 @@ android {
 
     buildTypes {
 
+//        release {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isDebuggable= false
+            isMinifyEnabled= true
+            isShrinkResources= true
+            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
         }
 
-//        release {//added on 29-04-2025 - also added proguard rules
-//            isMinifyEnabled= true
+//        debug {
+//           isMinifyEnabled= true
 //            isShrinkResources= true
+//            isDebuggable=true
 //            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
 //        }
 
@@ -53,8 +62,6 @@ android {
                 }
         }
 
-
-
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -64,7 +71,6 @@ android {
         jvmTarget = "1.8"
     }
 }
-
 
 dependencies {
     implementation(libs.androidx.core.ktx)

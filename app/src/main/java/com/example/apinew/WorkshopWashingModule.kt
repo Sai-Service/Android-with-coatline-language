@@ -41,6 +41,7 @@ import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 import android.app.TimePickerDialog
+import android.media.Image
 import android.text.InputFilter
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -89,12 +90,8 @@ class WorkshopWashingModule : AppCompatActivity() {
     private lateinit var vehWashNo:String
     private lateinit var resetFields:TextView
     private lateinit var submitButton:TextView
-    private lateinit var btnPickTime:TextView
-    private lateinit var txtSelectedTime:TextView
-    private lateinit var timePickerLL:View
     private lateinit var dateTimeToSend:String
     private lateinit var submitButtonOut:TextView
-
 
 
     companion object {
@@ -124,7 +121,6 @@ class WorkshopWashingModule : AppCompatActivity() {
         login_name = intent.getStringExtra("login_name") ?: ""
         attribute1 = intent.getStringExtra("attribute1") ?: ""
 
-
         username.text=login_name
         locIdTxt.text= location_name
         deptIntent.text=deptName
@@ -147,10 +143,9 @@ class WorkshopWashingModule : AppCompatActivity() {
         washStageTypeLov=findViewById(R.id.washStageTypeLov)
         resetFields=findViewById(R.id.resetFields)
         submitButton=findViewById(R.id.submitButton)
-        btnPickTime=findViewById(R.id.btnPickTime)
-        txtSelectedTime=findViewById(R.id.txtSelectedTime)
-        timePickerLL=findViewById(R.id.timePickerLL)
         submitButtonOut=findViewById(R.id.submitButtonOut)
+
+
 
         washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
@@ -168,9 +163,9 @@ class WorkshopWashingModule : AppCompatActivity() {
         washStageTypeLov.visibility=View.GONE
         resetFields.visibility=View.GONE
         submitButton.visibility=View.GONE
-        timePickerLL.visibility=View.GONE
         vehWashButtonOut.visibility=View.GONE
         submitButtonOut.visibility=View.GONE
+
 
 //        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
 //            if (source.any { it.isWhitespace() }) "" else null
@@ -243,10 +238,6 @@ class WorkshopWashingModule : AppCompatActivity() {
                     CAMERA_PERMISSION_CODE
                 )
             }
-        }
-
-        btnPickTime.setOnClickListener {
-            showTimePicker(txtSelectedTime)
         }
 
         submitButton.setOnClickListener{
@@ -428,6 +419,7 @@ class WorkshopWashingModule : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
                     (index == 4) && char == '0' -> 'D'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     else -> char
                 }
             }.joinToString("")
@@ -438,6 +430,7 @@ class WorkshopWashingModule : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 6) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 6) && char == 'S' -> '5'
                     (index == 4 || index == 5) && char == '0' -> 'D'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     else -> char
                 }
             }.joinToString("")
@@ -448,6 +441,7 @@ class WorkshopWashingModule : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 7) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 7) && char == 'S' -> '5'
                     (index == 4 || index == 5 || index == 6) && char == '0' -> 'D'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     else -> char
                 }
             }.joinToString("")
@@ -556,6 +550,7 @@ class WorkshopWashingModule : AppCompatActivity() {
     }
 
     private val selectedStages = mutableListOf<String>()
+
     private fun fetchwashStageType() {
         val cmnCode = washStageNumberLov.selectedItem.toString()
         val client = OkHttpClient()
@@ -625,22 +620,16 @@ class WorkshopWashingModule : AppCompatActivity() {
     }
 
 
-    private fun populateFieldsAfterInSearch(){
+    private fun populateFieldsAfterInSearch() {
         regNoDetails.visibility=View.VISIBLE
         washStageNumber.visibility=View.VISIBLE
         washStageNumberLov.visibility=View.VISIBLE
-//        washStageType.visibility=View.VISIBLE
-//        washStageTypeLov.visibility=View.VISIBLE
         resetFields.visibility=View.VISIBLE
         submitButton.visibility=View.VISIBLE
     }
 
     private fun populateFieldsAfterOutSearch(){
         regNoDetails.visibility=View.VISIBLE
-//        washStageNumber.visibility=View.VISIBLE
-//        washStageNumberLov.visibility=View.VISIBLE
-//        washStageType.visibility=View.VISIBLE
-//        washStageTypeLov.visibility=View.VISIBLE
         resetFields.visibility=View.VISIBLE
         submitButtonOut.visibility=View.VISIBLE
     }
@@ -669,12 +658,10 @@ class WorkshopWashingModule : AppCompatActivity() {
         engineNo=""
         chassisNo=""
         custName=""
-        txtSelectedTime.text=""
         dateTimeToSend=""
         model=""
         serviceAdvisor=""
         vehWashNo=""
-        timePickerLL.visibility=View.GONE
         val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
         checkBoxContainer.removeAllViews()
     }
@@ -704,7 +691,6 @@ class WorkshopWashingModule : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingModule,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWash?regNo=$vehNo"
         val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
 
         val request = Request.Builder()
@@ -762,7 +748,6 @@ class WorkshopWashingModule : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsAForThirdStage(jcData3)
                                 populateFieldsAfterInSearch()
-                                timePickerLL.visibility=View.GONE
                                 Toast.makeText(
                                     this@WorkshopWashingModule,
                                     "Details for vehicle : $vehNo found in washing table",
@@ -775,7 +760,6 @@ class WorkshopWashingModule : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsForMastersTable(jcData3)
                                 populateFieldsAfterInSearch()
-                                timePickerLL.visibility=View.GONE
                                 Toast.makeText(
                                     this@WorkshopWashingModule,
                                     "Details Found Successfully in master table for Vehicle No: $vehNo",
@@ -788,7 +772,6 @@ class WorkshopWashingModule : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsDuringInForNewVehicle(jcData3)
                                 populateFieldsAfterInSearch()
-                                timePickerLL.visibility=View.GONE
                                 Toast.makeText(
                                     this@WorkshopWashingModule,
                                     "New Vehicle details for Vehicle No: $vehNo",
@@ -832,9 +815,7 @@ class WorkshopWashingModule : AppCompatActivity() {
 //        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
         val url = WorkshopWashingUrlManager.getdetailsForVehicleOutFirstTime(vehNo)
 
-        val request = Request.Builder()
-            .url(url)
-            .build()
+        val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -1043,7 +1024,6 @@ class WorkshopWashingModule : AppCompatActivity() {
 
 
     private fun vehicleOut() {
-
         val url = ApiFile.APP_URL + "/washingRegister/vehWashOut/"
         val jsonObject = JSONObject().apply {
             put("regNo", regNo)

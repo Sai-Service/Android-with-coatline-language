@@ -148,11 +148,13 @@ class WorkshopWashingReport : AppCompatActivity() {
         }
 
 
-//        if (deptName=="WM"){
-//            sendReportButton.visibility=View.VISIBLE
-//        } else {
-//            sendReportButton.visibility=View.GONE
-//        }
+        if (deptName=="WM"){
+            sendReportButton.visibility=View.VISIBLE
+            reportDownload.visibility=View.VISIBLE
+        } else {
+            sendReportButton.visibility=View.GONE
+            reportDownload.visibility=View.GONE
+        }
 
         fetchData = findViewById(R.id.fetchData)
         progressBar = findViewById(R.id.progressBar)
@@ -224,7 +226,7 @@ class WorkshopWashingReport : AppCompatActivity() {
                 Toast.makeText(this, "Please select both dates", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            fetchUninvoice()
+            fetchWashingReport()
 
         }
 
@@ -303,7 +305,7 @@ class WorkshopWashingReport : AppCompatActivity() {
     }
 
 
-    private fun fetchUninvoice() {
+    private fun fetchWashingReport() {
         rowCountTextView.visibility = View.GONE
         tableLayout.removeAllViews()
         headerTableLayout.removeAllViews()
@@ -359,25 +361,26 @@ class WorkshopWashingReport : AppCompatActivity() {
                             for (i in 0 until jsonArray.length()) {
                                 val stockItem = jsonArray.getJSONObject(i)
                                 val data = listOf(
-                                    stockItem.optString("SR NO"),
-                                    stockItem.getString("REG NO"),
-                                    stockItem.optString("CHASSIS NO",""),
+                                    stockItem.optString("SR_NO"),
+                                    stockItem.optString("REG_NO",""),
+                                    stockItem.optString("CHASSIS_NO",""),
+                                    stockItem.optString("VIN",""),
                                     stockItem.optString("MODEL", ""),
-                                    stockItem.optString("SERVICE ADVISOR", ""),
-                                    stockItem.optString("UPDATED BY", ""),
-                                    formatDateTime(stockItem.optString("1ST STAGE IN TIME", "")),
-                                    stockItem.optString("AIR BLOW-1ST STAGE", ""),
-                                    stockItem.optString("ENGINE ROOM-1ST STAGE", ""),
-                                    stockItem.optString("UNDER BODY-1ST STAGE", ""),
-                                    formatDateTime(stockItem.optString("1ST STAGE OUT TIME", "")),
-                                    formatDateTime(stockItem.optString("2ND STAGE IN TIME", "")),
-                                    stockItem.optString("LOOSE ITEM-2ND STAGE", ""),
-                                    stockItem.optString("VEH INTERIOR-2ND STAGE", ""),
-                                    formatDateTime(stockItem.optString("2ND STAGE OUT TIME", "")),
-                                    formatDateTime(stockItem.optString("3RD STAGE IN TIME", "")),
-                                    stockItem.optString("VEH EXTERIOR-3RD STAGE", ""),
-                                    stockItem.optString("GLASS POLISH-3RD STAGE", ""),
-                                    formatDateTime(stockItem.optString("3RD STAGE OUT TIME", ""))
+                                    stockItem.optString("SERVICE_ADVISOR", ""),
+                                    stockItem.optString("UPDATED_BY", ""),
+                                    formatDateTime(stockItem.optString("FS_IN_TIME", "")),
+                                    stockItem.optString("AIR_BLOW_STN", ""),
+                                    stockItem.optString("ENGINE_ROOM_STN", ""),
+                                    stockItem.optString("UNDERBODY_STN", ""),
+                                    formatDateTime(stockItem.optString("FS_OUT_TIME", "")),
+                                    formatDateTime(stockItem.optString("SS_IN_TIME", "")),
+                                    stockItem.optString("LOOSE_ITEMS_STN", ""),
+                                    stockItem.optString("VEH_INTERIOR_STN", ""),
+                                    formatDateTime(stockItem.optString("SS_OUT_TIME", "")),
+                                    formatDateTime(stockItem.optString("DS_IN_TIME", "")),
+                                    stockItem.optString("VEH_EXTERIOR_STN", ""),
+                                    stockItem.optString("GLASS_POLISH_STN", ""),
+                                    formatDateTime(stockItem.optString("DS_OUT_TIME", ""))
                                     )
                                 summaryDataList.add(data)
                             }
@@ -409,14 +412,12 @@ class WorkshopWashingReport : AppCompatActivity() {
         rowCountTextView.text=""
 
         val headers = listOf(
-            "SR NO",
-            "REG NO",
-            "CHASSIS NO",
-            "MODEL",
-            "SERVICE ADVISOR",
-            "WASH S.VISOR",
-            "1ST STAGE IN TIME","AIR BLOW-1ST STAGE","ENGINE ROOM-1ST STAGE","UNDER BODY-1ST STAGE","1ST STAGE OUT TIME","2ND STAGE IN TIME","LOOSE ITEM-2ND STAGE","VEH INTERIOR-2ND STAGE","2ND STAGE OUT TIME",
-            "3RD STAGE IN TIME","VEH EXTERIOR-3RD STAGE","GLASS POLISH-3RD STAGE","3RD STAGE OUT TIME"
+            "SR NO","REG NO", "CHASSIS NO","VIN" ,"MODEL", "SERVICE ADVISOR", "WASH S.VISOR",
+            "1ST STAGE IN TIME","AIR BLOW-1ST STAGE","ENGINE ROOM-1ST STAGE",
+            "UNDER BODY-1ST STAGE","1ST STAGE OUT TIME","2ND STAGE IN TIME",
+            "LOOSE ITEM-2ND STAGE","VEH INTERIOR-2ND STAGE","2ND STAGE OUT TIME",
+            "3RD STAGE IN TIME","VEH EXTERIOR-3RD STAGE","GLASS POLISH-3RD STAGE",
+            "3RD STAGE OUT TIME"
         )
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2
@@ -632,7 +633,6 @@ class WorkshopWashingReport : AppCompatActivity() {
             Toast.makeText(this, "Please select both From Date and To Date", Toast.LENGTH_SHORT).show()
             return
         }
-
         progressBar.visibility = View.VISIBLE
         TextProgressBar.text = "Downloading report...Please wait..."
         TextProgressBar.visibility = View.VISIBLE
@@ -667,9 +667,23 @@ class WorkshopWashingReport : AppCompatActivity() {
             return
         }
 
+//        val formattedToDate = try {
+//            val parsedDate = inputFormat.parse(toDate)!!
+//            outputFormat.format(parsedDate).toUpperCase(Locale.ENGLISH)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            Toast.makeText(this, "Invalid To Date format", Toast.LENGTH_SHORT).show()
+//            progressBar.visibility = View.GONE
+//            TextProgressBar.visibility = View.GONE
+//            return
+//        }
+
         val formattedToDate = try {
-            val parsedDate = inputFormat.parse(toDate)!!
-            outputFormat.format(parsedDate).toUpperCase(Locale.ENGLISH)
+            val date = inputFormat.parse(toDate)!!
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+            outputFormat.format(calendar.time)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Invalid To Date format", Toast.LENGTH_SHORT).show()
@@ -679,6 +693,7 @@ class WorkshopWashingReport : AppCompatActivity() {
         }
 
         val downloadUrl = WorkshopWashingUrlManager.getVehWashingMainReportUrl(ouId, locId, formattedFromDate, formattedToDate)
+        Log.d("ToDate->",formattedToDate)
 
         val client = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
@@ -686,9 +701,7 @@ class WorkshopWashingReport : AppCompatActivity() {
             .writeTimeout(120, TimeUnit.SECONDS)
             .build()
 
-        val request = Request.Builder()
-            .url(downloadUrl)
-            .build()
+        val request = Request.Builder().url(downloadUrl).build()
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {

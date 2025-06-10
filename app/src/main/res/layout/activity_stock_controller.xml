@@ -642,6 +642,32 @@
                     android:layout_centerVertical="true" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/row23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@drawable/rounded_bg">
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="272dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="FLOOR VEHICLE REPORT"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/floorVehicleReport"
+                    android:layout_width="37dp"
+                    android:layout_height="39dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/reportbtn"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -248,6 +248,7 @@ class StockTaking : AppCompatActivity() {
                 selectedBatchName == "Select Batch Name" -> {
                     Toast.makeText(this,"Please select a Batch Name first", Toast.LENGTH_SHORT)
                         .show()
+                    return@setOnClickListener
                 }
 
                 selectedBatchName.isNotEmpty() -> {
@@ -280,6 +281,7 @@ class StockTaking : AppCompatActivity() {
                 selectedBatchName == "Select Batch Name" -> {
                     Toast.makeText(this,"Please select a Batch Name first", Toast.LENGTH_SHORT)
                         .show()
+                    return@setOnClickListener
                 }
 
                 selectedBatchName.isNotEmpty() -> {
@@ -589,7 +591,6 @@ class StockTaking : AppCompatActivity() {
         val request = Request.Builder()
 
             .url("${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassis_no&ouId=$ouId")
-//            http://localhost:8081/qrcode/qrDetailsByChassisDelv?chassisNo=375203
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {

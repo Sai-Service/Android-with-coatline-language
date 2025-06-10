@@ -76,17 +76,46 @@ class WorkshopTestDriveReport : AppCompatActivity() {
 
         val calendar = Calendar.getInstance()
 
+//        val dateSetListener = { textView: TextView, isFromDate: Boolean ->
+//            DatePickerDialog(
+//                this,
+//                { _, year, month, dayOfMonth ->
+//                    val selectedDate = String.format(
+//                        Locale.getDefault(),
+//                        "%02d-%s-%d",
+//                        dayOfMonth,
+//                        SimpleDateFormat("MMM", Locale.getDefault()).format(Date(year - 1900, month, dayOfMonth)),
+//                        year
+//                    )
+//                    textView.text = selectedDate
+//                    if (isFromDate) {
+//                        fromDate = selectedDate
+//                    } else {
+//                        toDate = selectedDate
+//                    }
+//                },
+//                calendar.get(Calendar.YEAR),
+//                calendar.get(Calendar.MONTH),
+//                calendar.get(Calendar.DAY_OF_MONTH)
+//            ).show()
+//        }
+
         val dateSetListener = { textView: TextView, isFromDate: Boolean ->
             DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(year, month, dayOfMonth)
+
+                    val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
                     val selectedDate = String.format(
                         Locale.getDefault(),
                         "%02d-%s-%d",
                         dayOfMonth,
-                        SimpleDateFormat("MMM", Locale.getDefault()).format(Date(year - 1900, month, dayOfMonth)),
+                        monthFormat.format(selectedCalendar.time),
                         year
                     )
+
                     textView.text = selectedDate
                     if (isFromDate) {
                         fromDate = selectedDate
@@ -99,6 +128,9 @@ class WorkshopTestDriveReport : AppCompatActivity() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+
+
 
         fromDatePicker.setOnClickListener {
             dateSetListener(fromDateLabel, true)

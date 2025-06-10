@@ -937,6 +937,59 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/row21"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/floorVehTrack"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/floorVehTrack2"
+                        android:layout_width="match_parent"
+                        android:layout_height="136dp"
+                        android:onClick="floorVehicleTracking">
+
+                        <TextView
+                            android:id="@+id/floorVehTrack3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/floorVehTrack4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="FLOOR VEHICLE TRACK"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/floorVehTrack4"
+                            android:layout_width="80dp"
+                            android:layout_height="78dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/vehicletrack" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/row18"
                 android:layout_width="200dp"
@@ -977,6 +1030,59 @@
 
                         <ImageView
                             android:id="@+id/workshopGWashingModule4"
+                            android:layout_width="80dp"
+                            android:layout_height="78dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/vehicletrack" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/row22"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/workshopGWashingModuleChassis"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/workshopGWashingModuleChassis2"
+                        android:layout_width="match_parent"
+                        android:layout_height="136dp"
+                        android:onClick="workshopWashingModuleChassis">
+
+                        <TextView
+                            android:id="@+id/workshopGWashingModuleChassis3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/workshopGWashingModuleChassis4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="WASHING CONTROL SALES/SERVICE"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/workshopGWashingModuleChassis4"
                             android:layout_width="80dp"
                             android:layout_height="78dp"
                             android:layout_centerHorizontal="true"
@@ -1035,6 +1141,59 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="15dp"
                             android:src="@drawable/vehicletrack" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/row20"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/workshopDemoehicleAvailability"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/workshopDemoehicleAvailability2"
+                        android:layout_width="match_parent"
+                        android:layout_height="136dp"
+                        android:onClick="workshopDemoVehicleAvailability">
+
+                        <TextView
+                            android:id="@+id/workshopDemoehicleAvailability3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/workshopDemoehicleAvailability4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="Demo Car Availability"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/workshopDemoehicleAvailability4"
+                            android:layout_width="80dp"
+                            android:layout_height="78dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/search2" />
 
                     </RelativeLayout>
 

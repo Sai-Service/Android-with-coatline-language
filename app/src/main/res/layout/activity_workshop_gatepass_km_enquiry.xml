@@ -151,12 +151,12 @@
             android:padding="16dp">
 
             <View
-                android:layout_width="40dp"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/forNewVehicleOut"
-                android:layout_width="109dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/gatepass_textview"
                 android:clickable="true"
@@ -168,7 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <View
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content" />
 
 

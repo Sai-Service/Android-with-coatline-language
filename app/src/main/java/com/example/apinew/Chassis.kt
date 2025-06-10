@@ -169,7 +169,7 @@ class ChassisActivity : Activity() {
                             vinList.add(stockArray.getJSONObject(i).getString("VIN"))
                         }
                         runOnUiThread {
-                            showVinSelectionDialog(vinList, chassisNo)
+                            showVinSelectionDialog(vinList)
                         }
                     } else if (stockArray.length() == 1) {
                         val stockItem = stockArray.getJSONObject(0)
@@ -189,7 +189,7 @@ class ChassisActivity : Activity() {
         }
     }
 
-    private fun showVinSelectionDialog(vinList: List<String>, chassisNo: String) {
+    private fun showVinSelectionDialog(vinList: List<String>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select VIN")
         builder.setItems(vinList.toTypedArray()) { _, which ->

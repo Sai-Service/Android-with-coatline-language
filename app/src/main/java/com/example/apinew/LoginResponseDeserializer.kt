@@ -1,7 +1,6 @@
 package com.example.apinew
 
-import LoginResponse
-import LoginResponseObject
+//import LoginResponseObject
 import com.google.gson.*
 import java.lang.reflect.Type
 
@@ -25,12 +24,12 @@ class LoginResponseDeserializer : JsonDeserializer<LoginResponse> {
             val emailId=obj.emailId
 
             LoginResponse(code, obj, attribute1, ouId,loginName,location,locId,location_name,deptName,emailId)
-//            LoginResponse(code, obj, attribute1, ouId,loginName)
+//            com.example.apinew.LoginResponse(code, obj, attribute1, ouId,loginName)
 
         } else {
             val obj = objElement.asString
             LoginResponse(code, obj, null, null, null.toString(), null,null,null,null,null)
-//            LoginResponse(code, obj, null, null, null.toString())
+//            com.example.apinew.LoginResponse(code, obj, null, null, null.toString())
 
         }
     }

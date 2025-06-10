@@ -169,18 +169,32 @@ class WorkShopGatepass2 : AppCompatActivity() {
         refreshButton=findViewById(R.id.refreshButton)
         captureVehNumberIn=findViewById(R.id.captureVehNumberIn)
         captureRegNoCameraIn=findViewById(R.id.captureRegNoCameraIn)
-//        captureVehNumberOut=findViewById(R.id.captureVehNumberOut)
-//        captureRegNoCameraOut=findViewById(R.id.captureRegNoCameraOut)
-//        newVehOutLL=findViewById(R.id.newVehOutLL)
-//        newVehOutEditText=findViewById(R.id.newVehOutEditText)
         newVehOutButton=findViewById(R.id.newVehOutButton)
+        physicallyOutVehEditText=findViewById(R.id.physicallyOutVehEditText)
 
         val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
             if (source.any { it.isWhitespace() }) "" else null
         }
 
+        val blockSpecialCharFilter = InputFilter { source, _, _, _, _, _ ->
+            val pattern = Regex("^[a-zA-Z0-9]+$")
+            if (source.isEmpty() || source.matches(pattern)) {
+                source
+            } else {
+                ""
+            }
+        }
+
+
         val newVehEditText = findViewById<EditText>(R.id.newVehEditText)
-        newVehEditText.filters = arrayOf(noSpaceFilter)
+        newVehEditText.filters = arrayOf(noSpaceFilter, blockSpecialCharFilter, InputFilter.AllCaps())
+//        newVehEditText.filters = arrayOf(noSpaceFilter)
+//        newVehEditText.filters = arrayOf(blockSpecialCharFilter)
+
+//        val physicallyOutVehEditText = findViewById<EditText>(R.id.physicallyOutVehEditText)
+        physicallyOutVehEditText.filters = arrayOf(noSpaceFilter, blockSpecialCharFilter, InputFilter.AllCaps())
+//        physicallyOutVehEditText.filters = arrayOf(noSpaceFilter)
+//        physicallyOutVehEditText.filters = arrayOf(blockSpecialCharFilter)
 
 
 
@@ -198,7 +212,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         physicallyOutLL=findViewById(R.id.physicallyOutLL)
         physicallyOutButton=findViewById(R.id.physicallyOutButton)
         physicallyOutLLTxt=findViewById(R.id.physicallyOutLLTxt)
-        physicallyOutVehEditText=findViewById(R.id.physicallyOutVehEditText)
         physicallyOutVehButton=findViewById(R.id.physicallyOutVehButton)
         physicallyOutVehicleSave=findViewById(R.id.physicallyOutVehicleSave)
 
@@ -251,6 +264,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             physicallyOutLLTxt.visibility=View.GONE
             newVehInButton.visibility=View.VISIBLE
             newVehOutButton.visibility=View.GONE
+            Toast.makeText(this@WorkShopGatepass2,"Vehicle In option selected",Toast.LENGTH_SHORT).show()
         }
 
         forNewVehicleOut.setOnClickListener {
@@ -261,6 +275,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             physicallyOutLLTxt.visibility=View.GONE
             newVehInButton.visibility=View.GONE
             newVehOutButton.visibility=View.VISIBLE
+            Toast.makeText(this@WorkShopGatepass2,"Vehicle Out option selected",Toast.LENGTH_SHORT).show()
         }
 
         newVehInButton.setOnClickListener { detailsForVehicleInFirstTime() }
@@ -281,6 +296,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             physicallyOutLLTxt.visibility=View.VISIBLE
             newVehLL.visibility=View.GONE
             newVehEditText.setText("")
+            Toast.makeText(this@WorkShopGatepass2,"Vehicle Physically Out option selected",Toast.LENGTH_SHORT).show()
         }
 
 
@@ -481,6 +497,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
                     (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     (index == 4) && char == '0' -> 'D'
                     else -> char
                 }
@@ -492,6 +509,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 6) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 6) && char == 'S' -> '5'
                     (index == 4 || index == 5) && char == '0' -> 'D'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     else -> char
                 }
             }.joinToString("")
@@ -502,6 +520,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     (index == 2 || index == 3 || index >= 7) && char == 'Z' -> '4'
                     (index == 2 || index == 3 || index >= 7) && char == 'S' -> '5'
                     (index == 4 || index == 5 || index == 6) && char == '0' -> 'D'
+                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
                     else -> char
                 }
             }.joinToString("")
@@ -584,11 +603,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
 //
 //        }
 //    }
-
-
-
-
-
 
 
     private fun processImageForText(bitmap: Bitmap) {
@@ -713,7 +727,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val client = OkHttpClient()
         val gateNo = gateNoLov.selectedItem.toString()
         if (gateNo == "Select Gate Number") {
-//            Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
             return
         } else {
         val request = Request.Builder()
@@ -927,7 +941,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                     val responseMessage = jsonObject.getString("message")
 
                     when (responseMessage) {
-                        "Details Found Successfully In Test Drive Table" -> {
+                        "Details Found Successfully In Test Drive Table" -> { //1
                             runOnUiThread {
                                 populateFieldsAfterVehicleInAfterTestDrive(jcData3)
                                 populateFieldsAfterInSearch()
@@ -938,7 +952,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                                 ).show()
                             }
                         }
-                        "Details Found Successfully in Service Stock" -> {
+                        "Details Found Successfully in Service Stock" -> { //2
                             runOnUiThread {
                                 populateFieldsDuringInStockVehicle(jcData3)
                                 populateFieldsAfterInSearch()
@@ -949,7 +963,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                                 ).show()
                             }
                         }
-                        "Details Found Successfully in master table" -> {
+                        "Details Found Successfully in master table" -> { //3
                             runOnUiThread {
                                 populateFieldsDuringInFromMasterVehicle(jcData3)
                                 populateFieldsAfterInSearch()
@@ -960,7 +974,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
                                 ).show()
                             }
                         }
-                        "New Vehicle" -> {
+                        "New Vehicle" -> { //4
                             runOnUiThread {
                                 populateFieldsDuringInForNewVehicle(jcData3)
                                 populateFieldsAfterInSearch()
@@ -1058,6 +1072,9 @@ class WorkShopGatepass2 : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsAfterVehicleOutForFirstTime(jcData3)
                                 populateFieldsAfterOutSearch()
+                                Log.d("jsonData",jsonData)
+                                Log.d("jsonObject",jsonObject.toString())
+
                                 Toast.makeText(
                                     this@WorkShopGatepass2,
                                     "Details found in Test Drive Table for Vehicle No: $vehNo",
@@ -1069,6 +1086,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsDuringInStockVehicle(jcData3)
                                 populateFieldsAfterOutSearch()
+                                Log.d("jsonData",jsonData)
+                                Log.d("jsonObject",jsonObject.toString())
                                 Toast.makeText(
                                     this@WorkShopGatepass2,
                                     "Details found in Service Stock table for Vehicle No: $vehNo",
@@ -1080,6 +1099,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsDuringInFromMasterVehicle(jcData3)
                                 populateFieldsAfterOutSearch()
+                                Log.d("jsonData",jsonData)
+                                Log.d("jsonObject",jsonObject.toString())
                                 Toast.makeText(
                                     this@WorkShopGatepass2,
                                     "Details Found Successfully in master table for Vehicle No: $vehNo",
@@ -1091,6 +1112,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsDuringInForNewVehicle(jcData3)
                                 populateFieldsAfterOutSearch()
+                                Log.d("jsonData",jsonData)
+                                Log.d("jsonObject",jsonObject.toString())
                                 Toast.makeText(
                                     this@WorkShopGatepass2,
                                     "New Vehicle details for Vehicle No: $vehNo",
@@ -1735,6 +1758,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
 //            "CUSTNAME" to jcData.CUSTNAME
         )
 
+        Log.d("VIN NUMBER---->",jcData.VIN)
+
         driverNameField.setText(jcData.SERVICE_ADVISOR)
         regNo=jcData.REGNO
         jobCardNo=jcData.JOBCARDNO
@@ -1785,6 +1810,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         chassisNo=jcData.CHASSIS_NO
         custName=jcData.CUST_NAME
         driverNameField.setText(jcData.CUST_NAME)
+        vinNo=jcData.VIN
 
         for ((label, value) in detailsMap) {
             val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1842,13 +1868,14 @@ class WorkShopGatepass2 : AppCompatActivity() {
             "VIN" to jcData.VIN,
             "CHASSIS NO" to jcData.CHASSIS_NO,
             "ENGINE NO" to jcData.ENGINE_NO,
-//            "DEPT." to jcData.DEPT,
             "LOCATION" to jcData.LOCATION,
             "TEST DRIVE NO" to jcData.TEST_DRIVE_NO,
             "IN KM" to jcData.IN_KM,
             "IN TIME" to jcData.IN_TIME,
             "REMARKS" to jcData.REMARKS
         )
+
+        Log.d("VIN NUMBER---->",jcData.VIN)
 
         regNo=jcData.REG_NO
         inKmNewVeh=jcData.IN_KM
@@ -1894,6 +1921,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             "OUT TIME" to jcData.OUT_TIME,
             "REMARKS" to jcData.REMARKS
         )
+        Log.d("VIN NUMBER---->",jcData.VIN)
 
         regNo=jcData.REG_NO
         outKm=jcData.OUT_KM
