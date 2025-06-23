@@ -155,16 +155,13 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
         //newly added
         washInByChassisLL=findViewById(R.id.washInByChassisLL)
+        washInByChassisLL.visibility=View.GONE
         washInByChassis=findViewById(R.id.washInByChassis)
         washOutByChassis=findViewById(R.id.washOutByChassis)
         chassisNoEnterLL=findViewById(R.id.chassisNoEnterLL)
         enterChassisNumber=findViewById(R.id.enterChassisNumber)
         chassisWashButtonIn=findViewById(R.id.chassisWashButtonIn)
         chassisWashButtonOut=findViewById(R.id.chassisWashButtonOut)
-
-
-
-
 
 
 
@@ -194,11 +191,11 @@ class SalesWashingWithChassis : AppCompatActivity() {
         chassisWashButtonOut.visibility=View.GONE
 
 
-        if(deptName=="WASHING"){
-            washInByChassisLL.visibility=View.GONE
-        } else{
-            washInByChassisLL.visibility=View.VISIBLE
-        }
+//        if (deptName=="WASHING") {
+//            washInByChassisLL.visibility=View.GONE
+//        } else {
+//            washInByChassisLL.visibility=View.VISIBLE
+//        }
 
 //        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
 //            if (source.any { it.isWhitespace() }) "" else null
@@ -219,45 +216,112 @@ class SalesWashingWithChassis : AppCompatActivity() {
             refreshData()
         }
 
-        washIn.setOnClickListener{
-            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In Button",Toast.LENGTH_SHORT).show()
-            captureVehNumber.visibility=View.VISIBLE
-            vehNoEnterLL.visibility=View.VISIBLE
-            enterVehNumber.visibility=View.VISIBLE
-            vehWashButtonIn.visibility=View.VISIBLE
-            vehWashButtonOut.visibility=View.GONE
-            chassisNoEnterLL.visibility=View.GONE
+//        washIn.setOnClickListener{
+//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In Button",Toast.LENGTH_SHORT).show()
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.VISIBLE
+//            vehWashButtonOut.visibility=View.GONE
+//            chassisNoEnterLL.visibility=View.GONE
+//        }
+
+        washIn.setOnClickListener {
+            val options = arrayOf("By Vehicle Number", "By Chassis Number")
+
+            val builder = AlertDialog.Builder(this@SalesWashingWithChassis)
+            builder.setTitle("Select Wash In Method")
+
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> { // Vehicle Number - IN
+                        Toast.makeText(this@SalesWashingWithChassis, "Clicked on Wash In by Vehicle Button", Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility = View.VISIBLE
+                        vehNoEnterLL.visibility = View.VISIBLE
+                        enterVehNumber.visibility = View.VISIBLE
+                        vehWashButtonIn.visibility = View.VISIBLE
+                        vehWashButtonOut.visibility = View.GONE
+                        chassisNoEnterLL.visibility = View.GONE
+                    }
+                    1 -> { //Chassis Number - IN
+                        Toast.makeText(this@SalesWashingWithChassis, "Clicked on Wash In by Chassis Button", Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility = View.GONE
+                        chassisNoEnterLL.visibility = View.VISIBLE
+                        enterChassisNumber.visibility = View.VISIBLE
+                        chassisWashButtonIn.visibility = View.VISIBLE
+                        chassisWashButtonOut.visibility = View.GONE
+                        vehNoEnterLL.visibility = View.GONE
+                    }
+                }
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
         }
 
-        washOut.setOnClickListener{
-            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out Button",Toast.LENGTH_SHORT).show()
-            captureVehNumber.visibility=View.VISIBLE
-            vehNoEnterLL.visibility=View.VISIBLE
-            enterVehNumber.visibility=View.VISIBLE
-            vehWashButtonIn.visibility=View.GONE
-            vehWashButtonOut.visibility=View.VISIBLE
-            chassisNoEnterLL.visibility=View.GONE
+
+        washOut.setOnClickListener {
+            val options = arrayOf("By Vehicle Number", "By Chassis Number")
+
+            val builder = AlertDialog.Builder(this@SalesWashingWithChassis)
+            builder.setTitle("Select Wash Out Method")
+
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> { //Vehicle Number - OUT
+                        Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out By Vehicle Number",Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility=View.VISIBLE
+                        vehNoEnterLL.visibility=View.VISIBLE
+                        enterVehNumber.visibility=View.VISIBLE
+                        vehWashButtonIn.visibility=View.GONE
+                        vehWashButtonOut.visibility=View.VISIBLE
+                        chassisNoEnterLL.visibility=View.GONE
+                    }
+                    1 -> { //Chassis Number - OUT
+                        Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out by Chassis",Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility=View.GONE
+                        chassisNoEnterLL.visibility=View.VISIBLE
+                        enterChassisNumber.visibility=View.VISIBLE
+                        chassisWashButtonIn.visibility=View.GONE
+                        chassisWashButtonOut.visibility=View.VISIBLE
+                        vehNoEnterLL.visibility=View.GONE
+                    }
+                }
+            }
+
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
         }
 
-        washInByChassis.setOnClickListener {
-            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In by Chassis Button",Toast.LENGTH_SHORT).show()
-            captureVehNumber.visibility=View.GONE
-            chassisNoEnterLL.visibility=View.VISIBLE
-            enterChassisNumber.visibility=View.VISIBLE
-            chassisWashButtonIn.visibility=View.VISIBLE
-            chassisWashButtonOut.visibility=View.GONE
-            vehNoEnterLL.visibility=View.GONE
-        }
 
-        washOutByChassis.setOnClickListener {
-            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out by Chassis Button",Toast.LENGTH_SHORT).show()
-            captureVehNumber.visibility=View.GONE
-            chassisNoEnterLL.visibility=View.VISIBLE
-            enterChassisNumber.visibility=View.VISIBLE
-            chassisWashButtonIn.visibility=View.GONE
-            chassisWashButtonOut.visibility=View.VISIBLE
-            vehNoEnterLL.visibility=View.GONE
-        }
+//        washOut.setOnClickListener{
+//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out Button",Toast.LENGTH_SHORT).show()
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.GONE
+//            vehWashButtonOut.visibility=View.VISIBLE
+//            chassisNoEnterLL.visibility=View.GONE
+//        }
+
+//        washInByChassis.setOnClickListener {
+//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In by Chassis Button",Toast.LENGTH_SHORT).show()
+//            captureVehNumber.visibility=View.GONE
+//            chassisNoEnterLL.visibility=View.VISIBLE
+//            enterChassisNumber.visibility=View.VISIBLE
+//            chassisWashButtonIn.visibility=View.VISIBLE
+//            chassisWashButtonOut.visibility=View.GONE
+//            vehNoEnterLL.visibility=View.GONE
+//        }
+//
+//        washOutByChassis.setOnClickListener {
+//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out by Chassis Button",Toast.LENGTH_SHORT).show()
+//            captureVehNumber.visibility=View.GONE
+//            chassisNoEnterLL.visibility=View.VISIBLE
+//            enterChassisNumber.visibility=View.VISIBLE
+//            chassisWashButtonIn.visibility=View.GONE
+//            chassisWashButtonOut.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.GONE
+//        }
 
         vehWashButtonIn.setOnClickListener {
             detailsForVehicleInFirstTime()
@@ -323,10 +387,9 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
+
             }
         }
-
-
     }
 
     private fun workShopTestDriveVehHistory() {
@@ -1328,7 +1391,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
             "REG NO" to jcData.REGNO,
             "MESSAGE" to "This is new vehicle."
         )
-
         regNo=jcData.REGNO
         chassisNo=jcData.CHASSIS_NO
         vehWashNo=jcData.VEH_WASH_NO
@@ -1421,7 +1483,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
                     if (code == 200) {
                         if (objArray.length() == 1) {
                             val stockItem = objArray.getJSONObject(0)
-
                             val jcData = chassisData(
                                 AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
                                 ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
@@ -1449,7 +1510,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
                                 VIN = stockItem.optString("VIN"),
                                 CHASSIS_NO = stockItem.optString("CHASSIS_NO")
                             )
-
                             runOnUiThread {
                                 populateFieldsFromVinData(jcData)
                                 regNoDetails.text="Details found by Chassis Number"
@@ -1587,7 +1647,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
             }
         }
     }
-
 
 
     private fun getChassisDetailsForOutWithSelection() {

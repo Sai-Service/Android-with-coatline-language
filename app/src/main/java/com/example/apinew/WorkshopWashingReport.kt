@@ -2,6 +2,7 @@ package com.example.apinew
 
 import android.app.DatePickerDialog
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.net.Uri
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TableLayout
@@ -79,6 +81,7 @@ class WorkshopWashingReport : AppCompatActivity() {
     private lateinit var sendReportButton:Button
     private lateinit var emailId:String
     private lateinit var reportDownload:ImageButton
+    private lateinit var logoutBtn:ImageView
 
 
 
@@ -97,13 +100,13 @@ class WorkshopWashingReport : AppCompatActivity() {
 
         rowCountTextView = findViewById(R.id.rowCountTextView)
         rowCountTextView.visibility=View.GONE
-
         fromDatePicker=findViewById(R.id.fromDatePicker)
         toDatePicker=findViewById(R.id.toDatePicker)
         fromDateLabel=findViewById(R.id.fromDateLabel)
         toDateLabel=findViewById(R.id.toDateLabel)
         sendReportButton=findViewById(R.id.sendReportButton)
         reportDownload=findViewById(R.id.reportDownload)
+        logoutBtn=findViewById(R.id.logoutBtn)
 
         val calendar = Calendar.getInstance()
 
@@ -147,6 +150,9 @@ class WorkshopWashingReport : AppCompatActivity() {
             downloadReport()
         }
 
+        logoutBtn.setOnClickListener{
+            logout()
+        }
 
         if (deptName=="WM"){
             sendReportButton.visibility=View.VISIBLE
@@ -807,5 +813,10 @@ class WorkshopWashingReport : AppCompatActivity() {
         }
     }
 
+    private fun logout(){
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
 }

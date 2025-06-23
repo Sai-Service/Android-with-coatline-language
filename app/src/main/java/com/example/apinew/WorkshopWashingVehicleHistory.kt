@@ -269,7 +269,7 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
 
                     runOnUiThread {
                         if(vehicleList.size<=0){
-                            Toast.makeText(this@WorkshopWashingVehicleHistory, "This vehicle has not any transfer history", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@WorkshopWashingVehicleHistory, "This vehicle has not any history", Toast.LENGTH_LONG).show()
                             return@runOnUiThread
                         }
                         Toast.makeText(this@WorkshopWashingVehicleHistory, "Details found successfully for Vehicle No.$vehNo", Toast.LENGTH_LONG).show()
@@ -344,7 +344,7 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
 
                     runOnUiThread {
                         if(vehicleList.size<=0){
-                            Toast.makeText(this@WorkshopWashingVehicleHistory, "This vehicle has not any transfer history", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@WorkshopWashingVehicleHistory, "This vehicle has not any history", Toast.LENGTH_LONG).show()
                             return@runOnUiThread
                         }
                         Toast.makeText(this@WorkshopWashingVehicleHistory, "Details found successfully for Vehicle No.$chassisNo", Toast.LENGTH_LONG).show()

@@ -1145,83 +1145,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
-
-//    private fun detailsForPhysicallyOutVehicle() {
-//        val client = OkHttpClient()
-//        val vehNo = physicallyOutVehEditText.text.toString()
-//        if(vehNo.isEmpty()){
-//            Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        val url = ApiFile.APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val jsonData = response.body?.string()
-//                jsonData?.let {
-//                    val jsonObject = JSONObject(it)
-//
-//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
-//
-//                    val jcData3 = physicallyOutData(
-//                        REG_NO = stockItem.optString("REG_NO"),
-//                        IN_TIME = stockItem.optString("IN_TIME"),
-//                        IN_KM = stockItem.optString("IN_KM"),
-//                        TEST_DRIVE_NO =stockItem.optString("TEST_DRIVE_NO")
-//                    )
-//                    val responseMessage = jsonObject.getString("message")
-//
-//                    when (responseMessage) {
-//                        "Details Found Successfully" -> {
-//                            runOnUiThread {
-//                                populateFieldsForPhysicallyOutVehicle(jcData3)
-//                               populateFieldsForPhysicallyOutSearch()
-//                                Toast.makeText(
-//                                    this@WorkShopGatepass2,
-//                                    "Details Found Successfully for Vehicle No: $vehNo\nYou can out vehicle physically.",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                        "Details Not Found" -> {
-//                            runOnUiThread {
-//                                Toast.makeText(
-//                                    this@WorkShopGatepass2,
-//                                    "Vehicle is not delivered yet.",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                        else -> {
-//                            runOnUiThread {
-//                                Toast.makeText(
-//                                    this@WorkShopGatepass2,
-//                                    "Unexpected response for Vehicle No: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@WorkShopGatepass2,
-//                        "Failed to fetch details for vehicle No: $vehNo",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
-
-
     private fun detailsForPhysicallyOutVehicle() {
         val client = OkHttpClient()
         val vehNo = physicallyOutVehEditText.text.toString()
@@ -1503,23 +1426,12 @@ class WorkShopGatepass2 : AppCompatActivity() {
         } else if (reasonCode=="PARKING"){
             attribute5=parkingEditText.text.toString()
         }
-//        else if(reasonCode=="TRIAL"){
-//            transferLocationTxtView.visibility=View.GONE
-//            transferLocationLov.visibility=View.GONE
-//            resetSpinner2()
-//        }
-
         else {
             //
         }
 
-//        if(attribute5=="Select Transfer Location"){
-//            Toast.makeText(this, "Please select Transfer location", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-
         if(reasonCode=="Select Test Drive Reason"){
-                Toast.makeText(this,"Please select the reason of Test Drive.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Please select the reason of Test Drive.",Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -1752,14 +1664,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             "VARIANT_CODE" to jcData.VARIANT_CODE,
             "MODEL_DESC" to jcData.MODEL_DESC,
             "IN KM" to jcData.IN_KM,
-//            "DEPT." to jcData.DEPT,
-//            "CONTACTNO" to jcData.CONTACTNO,
-//            "ERPACCTNO" to jcData.ERPACCTNO,
-//            "CUSTNAME" to jcData.CUSTNAME
         )
-
-        Log.d("VIN NUMBER---->",jcData.VIN)
-
         driverNameField.setText(jcData.SERVICE_ADVISOR)
         regNo=jcData.REGNO
         jobCardNo=jcData.JOBCARDNO
