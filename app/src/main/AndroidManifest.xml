@@ -13,7 +13,14 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-            android:maxSdkVersion="28" />
+            android:maxSdkVersion="28"/>
+
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true" />
 
     <application
         android:allowBackup="false"
@@ -30,7 +37,7 @@
 
         <meta-data
             android:name="build_time"
-            android:value="${BUILD_TIME}" />
+            android:value="${BUILD_TIME}"/>
 
         <activity
             android:name=".UpdateLoginInfo"
@@ -134,7 +141,7 @@
             android:exported="false" />
 
 
-                            <!--TRUE VALUE-->
+                                        <!--TRUE VALUE-->
 
         <activity
             android:name=".TrueValVehicleEnquiry"
@@ -330,6 +337,18 @@
             android:exported="false"/>
 
         <activity android:name=".FloorVehicleReport"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+        <activity android:name=".WorkshopParkingModule"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+        <activity android:name=".WorkshopParkingInOutTrack"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+        <activity android:name=".WorkshopParkingReport"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"/>
 

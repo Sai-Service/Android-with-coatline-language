@@ -60,7 +60,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private lateinit var username:TextView
     private lateinit var locIdTxt:TextView
     private lateinit var deptIntent:TextView
-
     private lateinit var washingHistory:TextView
     private lateinit var washInLL: View
     private lateinit var washIn:TextView
@@ -98,8 +97,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private lateinit var enterChassisNumber:EditText
     private lateinit var chassisWashButtonIn:ImageButton
     private lateinit var chassisWashButtonOut:ImageButton
-
-
 
 
     companion object {
@@ -163,14 +160,10 @@ class SalesWashingWithChassis : AppCompatActivity() {
         chassisWashButtonIn=findViewById(R.id.chassisWashButtonIn)
         chassisWashButtonOut=findViewById(R.id.chassisWashButtonOut)
 
-
-
         washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
 
         regNoDetails.visibility=View.GONE
         captureVehNumber.visibility=View.GONE
@@ -205,12 +198,15 @@ class SalesWashingWithChassis : AppCompatActivity() {
             if (source.all { it.isLetterOrDigit() }) null else ""
         }
 
+
         val lengthFilter = InputFilter.LengthFilter(10)
 
-
+        val lengthFilterChassis = InputFilter.LengthFilter(6)
 
         val enterVehNumber = findViewById<EditText>(R.id.enterVehNumber)
         enterVehNumber.filters = arrayOf(alphaNumericFilter,lengthFilter)
+
+        enterChassisNumber.filters = arrayOf(alphaNumericFilter,lengthFilterChassis)
 
         resetFields.setOnClickListener{
             refreshData()
@@ -401,52 +397,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
         intent.putExtra("deptName",deptName)
         startActivity(intent)
     }
-
-    private fun formatDateTime(dateTime: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-            val date = inputFormat.parse(dateTime)
-            val formattedDate = date?.let { outputDateFormat.format(it) }
-            val formattedTime = date?.let { outputTimeFormat.format(it) }
-            "$formattedDate $formattedTime"
-        } catch (e: Exception) {
-            dateTime
-        }
-    }
-
-    private fun showTimePicker(textView: TextView) {
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-
-        val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
-            val updatedCalendar = Calendar.getInstance()
-            updatedCalendar.set(Calendar.HOUR_OF_DAY, selectedHour)
-            updatedCalendar.set(Calendar.MINUTE, selectedMinute)
-
-            val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-
-            val currentDate = updatedCalendar.time
-
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val formattedDateTime = dateFormat.format(currentDate)
-
-            val dateFormat2 = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val formattedDateTime2 = dateFormat2.format(currentDate)
-
-            textView.text = formattedDateTime2
-
-            dateTimeToSend = formattedDateTime
-
-        }, hour, minute, true)
-
-        timePickerDialog.show()
-    }
-
-
-
 
     private fun openCamera(requestCode: Int) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

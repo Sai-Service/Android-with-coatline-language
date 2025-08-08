@@ -573,7 +573,7 @@
                 android:id="@+id/parkingEditTextTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select the Transfer Location"
+                android:text="Enter Parking Remarks"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:textColor="@android:color/black"

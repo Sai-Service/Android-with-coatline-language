@@ -85,6 +85,7 @@ class StockTaking : AppCompatActivity() {
     private lateinit var batchStatus:String
     private lateinit var jsonBatchStatus:String
 
+
     @SuppressLint("MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.O)
 
@@ -214,8 +215,6 @@ class StockTaking : AppCompatActivity() {
 //        fetchCutOffDates()
 
         scanButton.setOnClickListener {
-//            checkBatchCutoff()
-            val selectedBatchName = multipleBatchNameSpinner.selectedItem?.toString()
             val integrator = IntentIntegrator(this)
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
             integrator.setPrompt("Scan a QR Code or Barcode")
@@ -235,13 +234,11 @@ class StockTaking : AppCompatActivity() {
         fetchVinData2.setOnClickListener {
             val vin = vintypeSpinner.selectedItem.toString()
             fetchVinData2(vin)
-//            findBybatchNameStatus()
         }
 
         save_button.setOnClickListener {
 
             val vin = VinQr.text.toString()
-//            val vin = vintypeSpinner.selectedItem.toString()
             val selectedBatchName = multipleBatchNameSpinner.selectedItem?.toString() ?: ""
 
             when {
@@ -273,7 +270,6 @@ class StockTaking : AppCompatActivity() {
 
         save_button2.setOnClickListener {
 
-//            val vin = VinQr.text.toString()
             val vin = vintypeSpinner.selectedItem.toString()
             val selectedBatchName = multipleBatchNameSpinner.selectedItem?.toString() ?: ""
 

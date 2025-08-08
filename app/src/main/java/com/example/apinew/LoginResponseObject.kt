@@ -16,5 +16,6 @@ data class LoginResponseObject(
     val locId: Int?,
     val dmsLoc: String?,
     val ouId: Int,
-    val location_name:String
+    val location_name:String,
+    val message:String
 )

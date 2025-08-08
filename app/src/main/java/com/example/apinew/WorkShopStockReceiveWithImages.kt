@@ -726,14 +726,18 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
             findViewById<ImageView>(R.id.imagePlaceholder14)
         )
 
-        if (imageViews.any { it.drawable == null || it.drawable.constantState == resources.getDrawable(R.drawable.uploadimgstk).constantState }) {
-            Toast.makeText(this, "Please upload all 14 images", Toast.LENGTH_SHORT).show()
-            progressDialog.dismiss()
-            return
-        }
+//        if (imageViews.any { it.drawable == null || it.drawable.constantState == resources.getDrawable(R.drawable.uploadimgstk).constantState }) {
+//            Toast.makeText(this, "Please upload all 14 images", Toast.LENGTH_SHORT).show()
+//            progressDialog.dismiss()
+//            return
+//        }
+        val placeholderDrawable = ContextCompat.getDrawable(this, R.drawable.uploadimgstk)
 
         for ((index, imageView) in imageViews.withIndex()) {
             val drawable = imageView.drawable ?: continue
+            if (drawable.constantState == placeholderDrawable?.constantState) {
+                continue
+            }
 
             val bitmap = (drawable as BitmapDrawable).bitmap
             val compressedFile = File(cacheDir, "compressed_image_${index + 1}.jpg")

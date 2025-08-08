@@ -655,7 +655,7 @@
                     android:layout_height="37dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:text="FLOOR VEHICLE REPORT"
+                    android:text="PARKING VEHICLE REPORT"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 

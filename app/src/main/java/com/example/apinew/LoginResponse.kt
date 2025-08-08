@@ -12,6 +12,7 @@ data class LoginResponse(
     val location_name:String?=null,
     val deptName:String?=null,
     val emailId: String?=null,
+    val message: String?=null,
 )
 
 //data class LoginResponseObject(

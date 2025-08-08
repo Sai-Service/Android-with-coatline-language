@@ -1,6 +1,7 @@
 package com.example.apinew
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -33,10 +34,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.google.common.reflect.TypeToken
+//import com.google.common.reflect.TypeToken
+import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.Dispatchers
@@ -132,6 +135,8 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
     private var photoFile: File? = null
 
     private var submittedOnce = false
+
+    private val CAMERA_PERMISSION_CODE = 100
 
 
 
@@ -244,7 +249,8 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
 
         captureToKm.setOnClickListener {
             clickedPlaceholder = captureToKm
-            openCamera()
+//            openCamera()
+            checkCameraPermissionAndOpenCamera()
         }
 
         currentKmsText.visibility=View.GONE
@@ -267,7 +273,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         vehNoLL.visibility=View.GONE
 
 
-        fetchOrganizations()
+//        fetchOrganizations()
 
 
         searchButton.setOnClickListener {
@@ -291,7 +297,8 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         imagePlaceholders.forEach { placeholder ->
             placeholder.setOnClickListener {
                 clickedPlaceholder = placeholder
-                openCamera()
+//                openCamera()
+                checkCameraPermissionAndOpenCamera()
             }
         }
 
@@ -309,6 +316,28 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         }
 
     }
+
+    private fun checkCameraPermissionAndOpenCamera() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        } else {
+            openCamera()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                openCamera()
+            } else {
+                Toast.makeText(this, "Camera permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun redirect() {
         val intent = Intent(this, WorkshopViewTrfRecImages::class.java)
@@ -461,10 +490,20 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                 if (response.isSuccessful && responseBody != null) {
                     val gson = Gson()
                     val jsonObject = JSONObject(responseBody)
-                    val organizations: List<CameraActivity.Organization> = gson.fromJson(
+//                    val listType = object : TypeToken<List<Organization>>() {}.type
+//                    val organizations: List<Organization> = gson.fromJson(jsonObject.getJSONArray("obj").toString(), listType)
+
+                    val listType = object : com.google.gson.reflect.TypeToken<List<Organization>>() {}.type
+                    val organizations: List<Organization> = gson.fromJson(
                         jsonObject.getJSONArray("obj").toString(),
-                        object : TypeToken<List<CameraActivity.Organization>>() {}.type
+                        listType
                     )
+
+
+//                    val organizations: List<CameraActivity.Organization> = gson.fromJson(
+//                        jsonObject.getJSONArray("obj").toString(),
+//                        object : TypeToken<List<CameraActivity.Organization>>() {}.type
+//                    )
                     runOnUiThread {
                         populateOrganizationSpinner(organizations)
                     }
@@ -482,7 +521,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         }
     }
 
-    private fun populateOrganizationSpinner(organizations: List<CameraActivity.Organization>) {
+    private fun populateOrganizationSpinner(organizations: List<Organization>) {
         val spinnerItems = mutableListOf("Select Organization")
         spinnerItems.addAll(organizations.map { "${it.LOCID} - ${it.LOCATIONNAME}" })
 
@@ -608,23 +647,35 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                             populateFields3(jcData)
                             refreshData.visibility=View.VISIBLE
                         }
-                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
+//                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                        }
+//                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT!="BANDP" && deptName=="SERVICE") {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                        }
+                        else if (jcData.VEH_STATUS=="STOCK") {
                             Toast.makeText(
                                 this@WorkShopStockTransferWithImages,
                                 "Vehicle status is ${jcData.VEH_STATUS}",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            populateFields3(jcData)
-                            populateFieldsAfterJobCNoSearch()
-                            refreshData.visibility=View.VISIBLE
-                            saveData.visibility=View.VISIBLE
-                        }
-                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT!="BANDP" && deptName=="SERVICE") {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            fetchOrganizations()
                             populateFields3(jcData)
                             populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
@@ -699,23 +750,36 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                             populateFields3(jcData)
                             refreshData.visibility=View.VISIBLE
                         }
-                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
+//                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                        }
+//                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT!="BANDP" && deptName=="SERVICE") {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                        }
+
+                        else if (jcData.VEH_STATUS=="STOCK") {
                             Toast.makeText(
                                 this@WorkShopStockTransferWithImages,
                                 "Vehicle status is ${jcData.VEH_STATUS}",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            populateFields3(jcData)
-                            populateFieldsAfterJobCNoSearch()
-                            refreshData.visibility=View.VISIBLE
-                            saveData.visibility=View.VISIBLE
-                        }
-                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT!="BANDP" && deptName=="SERVICE") {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            fetchOrganizations()
                             populateFields3(jcData)
                             populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
@@ -793,15 +857,15 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
             imageView.drawable?.constantState == placeholderDrawable.constantState
         }
 
-        if (missingImages) {
-            Toast.makeText(
-                this@WorkShopStockTransferWithImages,
-                "Please upload all 14 images before submitting.",
-                Toast.LENGTH_LONG
-            ).show()
-            progressDialog.dismiss()
-            return
-        }
+//        if (missingImages) {
+//            Toast.makeText(
+//                this@WorkShopStockTransferWithImages,
+//                "Please upload all 14 images before submitting.",
+//                Toast.LENGTH_LONG
+//            ).show()
+//            progressDialog.dismiss()
+//            return
+//        }
 
         val client = OkHttpClient()
         val url = ApiFile.APP_URL + "/service/wsVehTransMake"
@@ -836,8 +900,13 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         bodyBuilder.addFormDataPart("fromLocCode", locId.toString())
         bodyBuilder.addFormDataPart("toLocCode", toLocationID.toString())
 
+
         for ((index, imageView) in imageViews.withIndex()) {
             val drawable = imageView.drawable ?: continue
+
+            if (drawable.constantState == placeholderDrawable?.constantState) {
+                continue
+            }
 
             val bitmap = (drawable as BitmapDrawable).bitmap
             val compressedFile = File(cacheDir, "compressed_image_${index + 1}.jpg")
@@ -916,7 +985,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
             }
         }
     }
-
 
 
 
@@ -1023,6 +1091,9 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
             placeholder.setImageResource(R.drawable.uploadimgstk)
         }
     }
+
+
+    data class Organization(val LOCID: Int, val LOCATIONNAME: String)
 
     data class jobCardDetails(
             val VIN:String,

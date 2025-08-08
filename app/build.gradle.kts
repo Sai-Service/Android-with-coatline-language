@@ -37,12 +37,13 @@ android {
             proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
         }
 
-//        debug {
-//           isMinifyEnabled= true
-//            isShrinkResources= true
-//            isDebuggable=true
-//            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
-//        }
+        debug {
+           isMinifyEnabled= true
+           isMinifyEnabled= true
+            isShrinkResources= true
+            isDebuggable=true
+            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
+        }
 
 //FOR GETTING THE TIME AND DATE OF GENERATED APK
         

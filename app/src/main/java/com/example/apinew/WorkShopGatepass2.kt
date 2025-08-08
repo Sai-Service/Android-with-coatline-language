@@ -883,6 +883,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
     }
 
     private fun detailsForVehicleInFirstTime() {
+        fetchGateNo()
         val client = OkHttpClient()
         val vehNo = newVehEditText.text.toString()
         if(vehNo.isEmpty()){
@@ -1010,6 +1011,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
     }
 
     private fun detailsForVehicleOut() {
+        fetchGateNo()
         val client = OkHttpClient()
         val vehNo = newVehEditText.text.toString()
         if(vehNo.isEmpty()){
@@ -1244,8 +1246,11 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val gateNo=gateNumber
 //        val gateType=gateTypeLov.selectedItem.toString()
         val gateType=gateType
+        Log.d("GateNumber",gateNo)
+        Log.d("GateNumber",gateType)
 
-    if(gateNo=="Select Gate Number"){
+
+        if(gateNo=="Select Gate Number"){
             Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
             return
         }
@@ -1308,11 +1313,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
             put("location", location_name)
             put("attribute3",gateNo)
             put("attribute4",gateType)
-//            if(attribute5.isEmpty()) {
-//                put("attribute5", "-")
-//            } else {
-//                put("attribute5", attribute5)
-//            }
             if(remarks.isEmpty()) {
                 put("remarks", "-")
             } else {
@@ -1414,6 +1414,8 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val remarks=remarksField.text.toString()
         val driverName=driverNameField.text.toString()
         val reasonCode=reasonCodeLov.selectedItem.toString()
+        val gateNoJson=gateNumber
+        val gateTypeJson=gateType
 
         val adapter = transferLocationLov.adapter
         if (adapter != null && adapter.count > 1) {
@@ -1440,6 +1442,10 @@ class WorkShopGatepass2 : AppCompatActivity() {
             Toast.makeText(this,"Please select the Gate Number.",Toast.LENGTH_SHORT).show()
             return
         }
+
+        Log.d("gateNo",gateNoJson)
+        Log.d("gateNo",gateTypeJson)
+
 
         if(currentKMSField.text.toString().isEmpty()){
             Toast.makeText(this,"Please enter the Current Kilometers",Toast.LENGTH_SHORT).show()

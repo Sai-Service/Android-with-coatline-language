@@ -324,6 +324,84 @@ class StockController : AppCompatActivity() {
                 row20.visibility=View.VISIBLE
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
+                row23.visibility=View.GONE
+            }
+
+            "SECURITYPARK"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+                row23.visibility=View.VISIBLE
+            }
+
+            "SERVICE-YPARK"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+                row23.visibility=View.VISIBLE
+            }
+
+            "BODYSHOP-YPARK"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
                 row23.visibility=View.VISIBLE
             }
 
@@ -819,7 +897,7 @@ class StockController : AppCompatActivity() {
     }
 
     private fun floorVehicleReport() {
-        val intent = Intent(this@StockController, FloorVehicleReport::class.java)
+        val intent = Intent(this@StockController, WorkshopParkingReport::class.java)
         intent.putExtra("attribute1", attribute1)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)

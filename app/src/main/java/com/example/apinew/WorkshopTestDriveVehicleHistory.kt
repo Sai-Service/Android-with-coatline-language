@@ -81,7 +81,8 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
             tableLayout.visibility = View.GONE
         } else {
             tableLayout.visibility = View.VISIBLE
-            setupTableHeader(arrayOf("ID","VEHICLE NO","JOBCARD NO","CHASSIS NO","LOCATION","OUT KM","OUT TIME","IN KM","IN TIME"))
+            setupTableHeader(arrayOf("ID","VEHICLE NO","JOBCARD NO","CHASSIS NO","LOCATION","OUT KM","OUT TIME","IN KM","IN TIME",
+                "REASON FOR TEST DRIVE","GATE NO","GATE TYPE","DESCRIPTION"))
             vehicleList.forEachIndexed { index, vehicle ->
                 addDataRow(index + 1, vehicle)
             }
@@ -104,7 +105,11 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
             vehicle.OUT_KM,
             vehicle.OUT_TIME,
             vehicle.IN_KM,
-            vehicle.IN_TIME
+            vehicle.IN_TIME,
+            vehicle.REASON,
+            vehicle.GATE_NO,
+            vehicle.GATE_TYPE,
+            vehicle.DESCRIPTION
         )
         values.forEach { value ->
             val textView = TextView(this)
@@ -154,7 +159,11 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
                             REMARKS = item.getString("REMARKS"),
                             TEST_DRIVE_NO = item.getString("TEST_DRIVE_NO"),
                             UPDATION_DATE = item.getString("UPDATION_DATE"),
-                            UPDATED_BY = item.getString("UPDATED_BY")
+                            UPDATED_BY = item.getString("UPDATED_BY"),
+                            DESCRIPTION = item.getString("DESCRIPTION"),
+                            GATE_TYPE = item.getString("GATE_TYPE"),
+                            GATE_NO = item.getString("GATE_NO"),
+                            REASON = item.getString("REASON")
                         )
                         vehicleList.add(vehicle)
                     }
@@ -195,7 +204,11 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
         val REG_NO:String,
         val OU:String,
         val CHASSIS_NO:String,
-        val OUT_TIME:String
+        val OUT_TIME:String,
+        val REASON:String,
+        val GATE_NO:String,
+        val GATE_TYPE:String,
+        val DESCRIPTION:String
     )
 }
 

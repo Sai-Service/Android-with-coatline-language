@@ -52,13 +52,12 @@ class WorkshopAvailableDemoVehicle : AppCompatActivity() {
             fetchDemoVehicleStatus()
         }
 
-
     }
 
     private fun fetchDemoVehicleStatus() {
         thread {
             try {
-                val url = URL("${ApiFile.APP_URL}/demoVehicleTrans/demoVehStatusList?ouId=$ouId&location=$locationName")
+                val url = URL("${ApiFile.APP_URL}/demoVehicleTrans/demoVehStatusList?ouId=$ouId&location=$location_name")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
                 val response = connection.inputStream.bufferedReader().readText()
@@ -88,7 +87,6 @@ class WorkshopAvailableDemoVehicle : AppCompatActivity() {
             val srNo = (i + 1).toString()
             val instanceNo = obj.getString("INSTANCE_NUMBER")
             val status = obj.getString("STATUS")
-
 
             val row = createRow(listOf(srNo, instanceNo,status), isHeader = false)
             row.setBackgroundColor(0xFFF0F0F0.toInt())
