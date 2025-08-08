@@ -41,11 +41,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".Forgotp"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
-
-        <activity
             android:name=".DeliveryReport"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false" />

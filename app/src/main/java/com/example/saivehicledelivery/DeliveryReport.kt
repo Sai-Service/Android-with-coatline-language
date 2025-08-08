@@ -6,26 +6,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.HorizontalScrollView
 import android.widget.ProgressBar
-import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.apinew.ApiFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -202,13 +196,12 @@ class DeliveryReport : AppCompatActivity() {
                                 stockItem.optString("PAYMENT_TRANS_NO"),
                                 stockItem.optString("CUST_NAME"),
                                 stockItem.optString("CUST_CONTACT_NO"),
+                                stockItem.optString("OTP_SEND_NUMBER"),
                                 stockItem.optString("DRIVER_NAME"),
                                 stockItem.optString("DRIVER_LOC_ID"),
                                 stockItem.optString("DRIVER_CONTACT_NO"),
-//                                stockItem.optString("CUST_ADDRESS"),
                                 stockItem.optString("PAYMENT_TYPE"),
                                 stockItem.optString("RECEIPT_METHOD_ID"),
-//                                formatDateTime(stockItem.optString("TRANSACTION_DATE")),
                                 stockItem.optString("AMOUNT_DUE_REMAINING"),
                                 stockItem.optString("AMOUNT_PAID"),
                                 stockItem.optString("AMOUNT_PENDING")
@@ -232,20 +225,6 @@ class DeliveryReport : AppCompatActivity() {
                     }
                 }
     }
-    private fun formatDateTime(dateTime: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-            val date = inputFormat.parse(dateTime)
-            val formattedDate = date?.let { outputDateFormat.format(it) }
-            val formattedTime = date?.let { outputTimeFormat.format(it) }
-            "$formattedDate "+ "$formattedTime"
-        } catch (e: Exception) {
-            dateTime
-        }
-    }
-
 
     private fun updateTableView(stockItems: List<List<String>>) {
         tableLayout.removeAllViews()
@@ -254,8 +233,7 @@ class DeliveryReport : AppCompatActivity() {
 
 
         val headers = listOf("SR.NO.","VEH NO","INVOICE NO","TRANSACTION NO","PAYMENT TRANS NO","CUST NAME","CUST CONTACT",
-            "DRIVER NAME","DRIVER LOC ID","DRIVER CONTACT",
-//            "CUST ADDRESS",
+            "OTP SENT ON","DRIVER NAME","DRIVER LOC ID","DRIVER CONTACT",
             "PAYMENT TYPE",
             "RECIEPT METHOD ID",
             "AMOUNT DUE REMAINING","AMOUNT PAID",

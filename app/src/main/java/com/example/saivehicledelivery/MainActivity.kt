@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loginName: EditText
     private lateinit var password: EditText
     private lateinit var btnLogin: Button
-    private lateinit var forgotPBtn: TextView
     private var isPasswordVisible: Boolean = false
 
 
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         loginName = findViewById(R.id.usernameEditText)
         password = findViewById(R.id.passwordEditText)
         btnLogin = findViewById(R.id.loginButton)
-        forgotPBtn = findViewById(R.id.forgotPBtn)
 
         val tvVersion = findViewById<TextView>(R.id.tvVersion)
         val tvBuildDateTime = findViewById<TextView>(R.id.tvBuildDateTime)
@@ -80,11 +78,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        forgotPBtn.setOnClickListener {
-            val intent = Intent(this@MainActivity, Forgotp::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
 
     private fun togglePasswordVisibility() {

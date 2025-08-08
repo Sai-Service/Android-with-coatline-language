@@ -1116,9 +1116,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -1144,12 +1146,14 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 
 class VehicleDelivery : AppCompatActivity() {
     private lateinit var invoiceNumberField:EditText
     private lateinit var searchButton:Button
     private lateinit var vehicleNumberTxtView:TextView
+    private lateinit var gatePassNumberTxtView: TextView
     private lateinit var nameTxtView:TextView
     private lateinit var transactionNoTxtView:TextView
     private lateinit var transactionNoDateTxtView:TextView
@@ -1195,7 +1199,13 @@ class VehicleDelivery : AppCompatActivity() {
     private lateinit var transactionDate:String
     private lateinit var gatePassId:String
     private lateinit var cityConverter:String
+    private lateinit var customerPaymentSuccessMessageContactNo:String
 
+
+    private lateinit var forVehicleNo:Button
+    private lateinit var forGatePassNo:Button
+    private lateinit var noShowingTextView:TextView
+    private lateinit var searchButton2:Button
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1214,6 +1224,7 @@ class VehicleDelivery : AppCompatActivity() {
 
 
         vehicleNumberTxtView=findViewById(R.id.vehicleNumberTxtView)
+        gatePassNumberTxtView=findViewById(R.id.gatePassNumberTxtView)
         nameTxtView=findViewById(R.id.nameTxtView)
         transactionNoTxtView=findViewById(R.id.transactionNoTxtView)
         transactionNoDateTxtView=findViewById(R.id.transactionNoDateTxtView)
@@ -1233,9 +1244,13 @@ class VehicleDelivery : AppCompatActivity() {
         clearFields=findViewById(R.id.clearFields)
         partyId=findViewById(R.id.partyId)
 
+        forVehicleNo=findViewById(R.id.forVehicleNo)
+        forGatePassNo=findViewById(R.id.forGatePassNo)
+        noShowingTextView=findViewById(R.id.noShowingTextView)
+        searchButton2=findViewById(R.id.searchButton2)
+
         invoiceDataLL=findViewById(R.id.invoiceDataLL)
         invoiceDataLL.visibility=View.GONE
-
 
         invoiceNumberField=findViewById(R.id.invoiceNumberField)
         searchButton=findViewById(R.id.searchButton)
@@ -1252,9 +1267,39 @@ class VehicleDelivery : AppCompatActivity() {
         locIdTxt.text = "$location_name"
         username.text = "$login_name"
 
+        //Initial View Gone
+        invoiceNumberField.visibility=View.GONE
+        noShowingTextView.visibility=View.GONE
+        searchButton.visibility=View.GONE
+        clearFields.visibility=View.GONE
+        searchButton2.visibility=View.GONE
+        clearFields.visibility=View.GONE
+
+
+        forVehicleNo.setOnClickListener {
+            invoiceNumberField.visibility=View.VISIBLE
+            noShowingTextView.visibility=View.VISIBLE
+            searchButton2.visibility=View.VISIBLE
+            searchButton.visibility=View.GONE
+            clearFields.visibility=View.VISIBLE
+            noShowingTextView.text="Vehicle Number"
+            clearFields.visibility=View.VISIBLE
+        }
+
+        forGatePassNo.setOnClickListener {
+            invoiceNumberField.visibility=View.VISIBLE
+            noShowingTextView.visibility=View.VISIBLE
+            searchButton.visibility=View.VISIBLE
+            searchButton2.visibility=View.GONE
+            clearFields.visibility=View.VISIBLE
+            noShowingTextView.text="Gate Pass Number"
+            clearFields.visibility=View.VISIBLE
+        }
+
 //        contactNoTxtView.isEnabled=false
 
         detailsSubmit.setOnClickListener {
+            detailsSubmit.isEnabled=false
             saveInvoiceDetails()
         }
 
@@ -1266,12 +1311,14 @@ class VehicleDelivery : AppCompatActivity() {
             fetchInvData()
         }
 
+        searchButton2.setOnClickListener {
+            vehicleNoData()
+        }
+
         sendOTP.isEnabled=false
         verifyOTPButton.isEnabled=false
         paymentIdSpinner.isEnabled=false
         paymentModeSpinner.isEnabled=false
-
-
 
         captureImage.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -1298,7 +1345,6 @@ class VehicleDelivery : AppCompatActivity() {
         clearFields.setOnClickListener {
             resetFields()
         }
-
     }
 
     private fun fetchPaymentModes() {
@@ -1321,8 +1367,6 @@ class VehicleDelivery : AppCompatActivity() {
 
                         runOnUiThread {
                             setupPaymentModeSpinner(paymentModes)
-                            Log.d("URL->1",request.toString())
-                            Log.d("URL->2",client.toString())
                         }
                     }
                 }
@@ -1469,8 +1513,6 @@ class VehicleDelivery : AppCompatActivity() {
         sendOTP.setBackgroundColor(buttonColor)
     }
 
-
-
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile = createImageFile()
@@ -1559,14 +1601,6 @@ class VehicleDelivery : AppCompatActivity() {
                                 val objArray = jsonObject.optJSONArray("obj")
                                 if (objArray != null && objArray.length() > 0) {
                                     val stockItem = objArray.getJSONObject(0)
-
-//                                    val partyId = if (stockItem.has("PARTY_ID")) {
-//                                        stockItem.optInt("PARTY_ID", 0)
-//                                    } else {
-//                                        stockItem.optInt("PARTYID", 0)
-//                                    }
-
-
                                     val invData = InvoiceNoData(
                                         VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
                                         TRANS_REF_NUM = stockItem.optString("TRANS_REF_NUM"),
@@ -1630,24 +1664,276 @@ class VehicleDelivery : AppCompatActivity() {
     }
 
 
+    private fun vehicleNoData() {
+        val vehNo = invoiceNumberField.text.toString()
+        val client = OkHttpClient()
+        val url = ApiFile.APP_URL + "/vehDelvTrans/getByVehicleNo?vehicleNo=$vehNo&location=$location"
+        Log.d("URL:", url)
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    Log.d("Response Data", jsonObject.toString())
+
+                    val code = jsonObject.getInt("code")
+                    val message = jsonObject.getString("message")
+
+                    runOnUiThread {
+                        when (code) {
+                            400 -> {
+                                Toast.makeText(
+                                    this@VehicleDelivery,
+                                    message,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            200 -> {
+                                val objArray = jsonObject.optJSONArray("obj")
+                                if (objArray != null && objArray.length() > 0) {
+                                    val stockItem = objArray.getJSONObject(0)
+                                    val invData = InvoiceNoData(
+                                        VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
+                                        TRANS_REF_NUM = stockItem.optString("TRANS_REF_NUM"),
+                                        CUSTOMER_ADDRESS = stockItem.optString("CUSTOMER_ADDRESS"),
+                                        CUSTOMER_NAME = stockItem.optString("CUSTOMER_NAME"),
+                                        DATE_OF_DELIVERY = stockItem.optString("DATE_OF_DELIVERY"),
+                                        CONTACT_NO = stockItem.optString("CONTACT_NO"),
+                                        AMOUNT_DUE_REMAINING = stockItem.getInt("AMOUNT_DUE_REMAINING"),
+                                        INVOICE_NO = stockItem.optString("INVOICE_NO"),
+                                        EXECUTIVE = stockItem.optString("EXECUTIVE"),
+                                        GATE_PASS_ID = stockItem.optString("GATE_PASS_ID"),
+                                        SERVICE_LOCATION = stockItem.optString("SERVICE_LOCATION"),
+                                        MODEL = stockItem.optString("MODEL"),
+                                        PARTY_ID = stockItem.getInt("PARTY_ID")
+                                    )
+
+                                    populateFields(invData)
+                                    Toast.makeText(
+                                        this@VehicleDelivery,
+                                        "Details found Successfully for Vehicle No: $vehNo",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                    fetchPaymentModes()
+
+                                    verifyOTPButton.setBackgroundColor(
+                                        ContextCompat.getColor(this@VehicleDelivery, R.color.teal_700)
+                                    )
+                                    verifyOTPButton.isEnabled = true
+                                    paymentIdSpinner.isEnabled = true
+                                    paymentModeSpinner.isEnabled = true
+                                } else {
+                                    Toast.makeText(
+                                        this@VehicleDelivery,
+                                        "No details found for Vehicle No: $vehNo",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                            else -> {
+                                Toast.makeText(
+                                    this@VehicleDelivery,
+                                    "Unexpected response: $message",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(
+                        this@VehicleDelivery,
+                        "Failed to fetch details for Vehicle No: $vehNo. Error: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+
+//    private fun saveInvoiceDetails() {
+//        val progressDialog = showProgressDialog()
+//        val invNo=invNumber
+//        val otp=otpInputField.text.toString()
+//        val payTransNumber=upiInputTextField.text.toString()
+//        val custContactNo=contactNoTxtView.text.toString()
+//        val remainingAmount=amountRemainingTxtView.text.toString().split(": ")[1]
+//        val remainAmt=remainingAmount.toFloat()
+//        val amtPaidByUser=amountPaidTxtField.text.toString()
+//        val amtToBePaid=amtPaidByUser.toFloat()
+//        if (amtToBePaid>remainAmt){
+//            Toast.makeText(this@VehicleDelivery,
+//                "Entered amount is greater than remaining amount.",
+//                Toast.LENGTH_LONG
+//            ).show()
+//            progressDialog.dismiss()
+//            detailsSubmit.isEnabled=true
+//            return
+//        }
+//        val otp2=otp.toInt()
+//        val client = OkHttpClient()
+//        val url = ApiFile.APP_URL + "/vehDelvTrans/delvPaymentComplete"
+//        val jsonObject = JSONObject()
+//
+//        val currentDateTime = Calendar.getInstance()
+//        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+//        val formattedDate = formatter.format(currentDateTime.time)
+//        Log.d("formattedDate", formattedDate)
+//
+//        currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
+//        jsonObject.put("invoiceNo", invNo)
+//        jsonObject.put("location", location)
+//        jsonObject.put("paymentType",paymentType2)
+//        jsonObject.put("receiptMethodId",paymentIdSpinner.selectedItem.toString())
+//        jsonObject.put("otp",otp2)
+//        jsonObject.put("paymentImage","-")
+//        jsonObject.put("paymentTransactionNo",payTransNumber)
+//        jsonObject.put("amountPaid",amtToBePaid)
+//        jsonObject.put("ouId",ouId)
+//        jsonObject.put("department",deptName)
+//        jsonObject.put("driverName","$userName-$login_name")
+//        jsonObject.put("driverLocationName",location_name)
+//        jsonObject.put("partyId",partyId.text.toString().split(": ")[1])
+//        jsonObject.put("attribute1",gatePassId)
+//        jsonObject.put("driverContactNo",userContact)
+//        jsonObject.put("attribute2","")
+//        jsonObject.put("attribute3","")
+//        jsonObject.put("attribute4","")
+//        jsonObject.put("attribute5","")
+//        jsonObject.put("driverLocId",locId)
+//        jsonObject.put("attribute2",custContactNo)
+//
+//
+//        Log.d("jsonObject", jsonObject.toString())
+//
+//        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//        Log.d("requestBody",requestBody.toString())
+//
+//        val request = Request.Builder()
+//            .url(url)
+//            .post(requestBody)
+//            .build()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val responseCode = response.code
+//                val responseBody = response.body?.string()
+//
+//                Log.d("SaveVinData", "Response Code: $responseCode")
+//                Log.d("SaveVinData", "Response Body: $responseBody")
+//
+//                runOnUiThread {
+//                    progressDialog.dismiss()
+//                    if (responseBody != null) {
+//                        val jsonObject = JSONObject(responseBody)
+//                        val message = jsonObject.optString("message", "")
+//
+//                        when {
+//                            message.contains("Payment Already Done For This Invoice", ignoreCase = true) -> {
+//                                detailsSubmit.isEnabled=true
+//                                Toast.makeText(
+//                                    this@VehicleDelivery,
+//                                    "Payment Already Done For This Invoice",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+//                                resetFields()
+//                            }
+//                            responseCode == 200 -> {
+//                                progressDialog.dismiss()
+//                                Toast.makeText(
+//                                    this@VehicleDelivery,
+//                                    "Data saved successfully",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+//                                paymentSuccessMessage()
+//                                resetFields()
+//                            }
+//                            else -> {
+//                                    progressDialog.dismiss()
+//                                    detailsSubmit.isEnabled = true
+//                                    Toast.makeText(
+//                                        this@VehicleDelivery,
+//                                        "Failed to save data. Error code: $responseCode",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                            }
+//                        }
+//                    } else {
+//                            progressDialog.dismiss()
+//                            detailsSubmit.isEnabled = true
+//                            Toast.makeText(
+//                                this@VehicleDelivery,
+//                                "Data not available",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                runOnUiThread {
+//                    progressDialog.dismiss()
+//                detailsSubmit.isEnabled = true
+//                e.printStackTrace()
+//                Log.e("SaveData", "Error: ${e.message}")
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@VehicleDelivery,
+//                        "Error saving data: ${e.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//            }
+//        }
+//    }
+
+
     private fun saveInvoiceDetails() {
-        val invNo=invNumber
-        val otp=otpInputField.text.toString()
-        val payTransNumber=upiInputTextField.text.toString()
-        val custContactNo=contactNoTxtView.text.toString()
-        val remainingAmount=amountRemainingTxtView.text.toString().split(": ")[1]
-        val remainAmt=remainingAmount.toFloat()
-        val amtPaidByUser=amountPaidTxtField.text.toString()
-        val amtToBePaid=amtPaidByUser.toFloat()
-        if (amtToBePaid>remainAmt){
+        val progressDialog = showProgressDialog()
+        val invNo = invNumber
+        val otp = otpInputField.text.toString()
+        val payTransNumber = upiInputTextField.text.toString()
+        val custContactNo = contactNoTxtView.text.toString()
+        val remainingAmount = amountRemainingTxtView.text.toString().split(": ")[1]
+        val remainAmt = remainingAmount.toFloat()
+        val amtPaidByUser = amountPaidTxtField.text.toString()
+        val amtToBePaid = amtPaidByUser.toFloat()
+        if (amtToBePaid > remainAmt) {
             Toast.makeText(this@VehicleDelivery,
                 "Entered amount is greater than remaining amount.",
                 Toast.LENGTH_LONG
             ).show()
+            progressDialog.dismiss()
+            detailsSubmit.isEnabled = true
             return
         }
-        val otp2=otp.toInt()
-        val client = OkHttpClient()
+
+        val otp2 = otp.toIntOrNull()
+        if (otp2 == null) {
+            Toast.makeText(this@VehicleDelivery, "Invalid OTP", Toast.LENGTH_SHORT).show()
+            progressDialog.dismiss()
+            detailsSubmit.isEnabled = true
+            return
+        }
+
+//        val client = OkHttpClient()
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+
         val url = ApiFile.APP_URL + "/vehDelvTrans/delvPaymentComplete"
         val jsonObject = JSONObject()
 
@@ -1657,33 +1943,32 @@ class VehicleDelivery : AppCompatActivity() {
         Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
+
         jsonObject.put("invoiceNo", invNo)
         jsonObject.put("location", location)
-        jsonObject.put("paymentType",paymentType2)
-        jsonObject.put("receiptMethodId",paymentIdSpinner.selectedItem.toString())
-        jsonObject.put("otp",otp2)
-        jsonObject.put("paymentImage","-")
-        jsonObject.put("paymentTransactionNo",payTransNumber)
-        jsonObject.put("amountPaid",amtToBePaid)
-        jsonObject.put("ouId",ouId)
-        jsonObject.put("department",deptName)
-        jsonObject.put("driverName","$userName-$login_name")
-        jsonObject.put("driverLocationName",location_name)
-        jsonObject.put("partyId",partyId.text.toString().split(": ")[1])
-        jsonObject.put("attribute1",gatePassId)
-        jsonObject.put("driverContactNo",userContact)
-        jsonObject.put("attribute2","")
-        jsonObject.put("attribute3","")
-        jsonObject.put("attribute4","")
-        jsonObject.put("attribute5","")
-        jsonObject.put("driverLocId",locId)
-//        jsonObject.put("custContactNo",custContactNo)
-
+        jsonObject.put("paymentType", paymentType2)
+        jsonObject.put("receiptMethodId", paymentIdSpinner.selectedItem.toString())
+        jsonObject.put("otp", otp2)
+        jsonObject.put("paymentImage", "-")
+        jsonObject.put("paymentTransactionNo", payTransNumber)
+        jsonObject.put("amountPaid", amtToBePaid)
+        jsonObject.put("ouId", ouId)
+        jsonObject.put("department", deptName)
+        jsonObject.put("driverName", "$userName-$login_name")
+        jsonObject.put("driverLocationName", location_name)
+        jsonObject.put("partyId", partyId.text.toString().split(": ")[1])
+        jsonObject.put("attribute1", gatePassId)
+        jsonObject.put("driverContactNo", userContact)
+        jsonObject.put("attribute2", custContactNo)
+        jsonObject.put("attribute3", "")
+        jsonObject.put("attribute4", "")
+        jsonObject.put("attribute5", "")
+        jsonObject.put("driverLocId", locId)
 
         Log.d("jsonObject", jsonObject.toString())
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("requestBody",requestBody.toString())
+        Log.d("requestBody", requestBody.toString())
 
         val request = Request.Builder()
             .url(url)
@@ -1694,55 +1979,71 @@ class VehicleDelivery : AppCompatActivity() {
             try {
                 val response = client.newCall(request).execute()
                 val responseCode = response.code
-                val responseBody = response.body?.string()
+                val responseBodyString = response.body?.string()
 
                 Log.d("SaveVinData", "Response Code: $responseCode")
-                Log.d("SaveVinData", "Response Body: $responseBody")
+                Log.d("SaveVinData", "Response Body: $responseBodyString")
 
                 runOnUiThread {
-                    if (responseBody != null) {
-                        val jsonObject = JSONObject(responseBody)
-                        val message = jsonObject.optString("message", "")
+                    progressDialog.dismiss()
 
-                        when {
-                            message.contains("Payment Already Done For This Invoice", ignoreCase = true) -> {
-                                Toast.makeText(
-                                    this@VehicleDelivery,
-                                    "Payment Already Done For This Invoice",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                resetFields()
+                    if (!responseBodyString.isNullOrEmpty()) {
+                        try {
+                            val responseJson = JSONObject(responseBodyString)
+                            val message = responseJson.optString("message", "")
+
+                            when {
+                                message.contains("Payment Already Done", ignoreCase = true) -> {
+                                    detailsSubmit.isEnabled = true
+                                    Toast.makeText(
+                                        this@VehicleDelivery,
+                                        "Payment Already Done For This Invoice",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    resetFields()
+                                }
+                                responseCode == 200 -> {
+                                    Toast.makeText(
+                                        this@VehicleDelivery,
+                                        "Data saved successfully",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    paymentSuccessMessage()
+                                    resetFields()
+                                }
+                                else -> {
+                                    detailsSubmit.isEnabled = true
+                                    Toast.makeText(
+                                        this@VehicleDelivery,
+                                        "Failed to save data. Error code: $responseCode",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                            responseCode == 200 -> {
-                                detailsSubmit.isEnabled=false
-                                Toast.makeText(
-                                    this@VehicleDelivery,
-                                    "Data saved successfully",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                paymentSuccessMessage()
-                                resetFields()
-                            }
-                            else -> {
-                                Toast.makeText(
-                                    this@VehicleDelivery,
-                                    "Failed to save data. Error code: $responseCode",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Log.e("JSON_PARSE_ERROR", "Parsing error: ${e.message}")
+                            detailsSubmit.isEnabled = true
+                            Toast.makeText(
+                                this@VehicleDelivery,
+                                "Error parsing server response",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
+                        detailsSubmit.isEnabled = true
                         Toast.makeText(
                             this@VehicleDelivery,
-                            "Data not available",
+                            "Empty response from server",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("SaveData", "Error: ${e.message}")
+                Log.e("SaveData", "Error: ${Log.getStackTraceString(e)}")
                 runOnUiThread {
+                    progressDialog.dismiss()
+                    detailsSubmit.isEnabled = true
                     Toast.makeText(
                         this@VehicleDelivery,
                         "Error saving data: ${e.message}",
@@ -1754,10 +2055,10 @@ class VehicleDelivery : AppCompatActivity() {
     }
 
 
-
     private fun paymentSuccessMessage() {
         val otp=otpInputField.text.toString()
-        val custContactNo=contactNoTxtView.text.toString()
+//        val custContactNo=contactNoTxtView.text.toString()
+        val custContactNo=customerPaymentSuccessMessageContactNo
         val amtPaidByUser=amountPaidTxtField.text.toString()
         val amtToBePaid=amtPaidByUser.toInt()
         if(ouId==104){
@@ -1790,6 +2091,7 @@ class VehicleDelivery : AppCompatActivity() {
         Log.d("formattedDate", formattedDate)
 
         currentDateTime.add(Calendar.DAY_OF_MONTH, 1)
+
         jsonObject.put("trxNumber",gatePassId)
         jsonObject.put("instanceNumber", vehicleNumberTxtView.text.toString().split(": ")[1])
         jsonObject.put("partyName", nameTxtView.text.toString().split(": ")[1])
@@ -1882,7 +2184,6 @@ class VehicleDelivery : AppCompatActivity() {
         val client = OkHttpClient()
         val url = "${ApiFile.APP_URL}/vehDelvOtp/generateDelvOtp?invoiceNo=$invNo&mobileNo=$contactNo"
 
-        Log.d("generateOTP", "Request URL: $url")
 
         val request = Request.Builder()
             .url(url)
@@ -1957,7 +2258,6 @@ class VehicleDelivery : AppCompatActivity() {
             }
         }
     }
-
 
     private fun validateOTP() {
         val otp = otpInputField.text.toString()
@@ -2048,6 +2348,7 @@ class VehicleDelivery : AppCompatActivity() {
     private fun populateFields(InvoiceNoData:InvoiceNoData) {
         invoiceNumberTxtView.text = "Invoice No.: ${InvoiceNoData.INVOICE_NO}"
         vehicleNumberTxtView.text = "Vehicle No.: ${InvoiceNoData.VEHICLE_NO}"
+        gatePassNumberTxtView.text="Gate Pass No.: ${InvoiceNoData.GATE_PASS_ID}"
         addressTxtView.text = "Address: ${InvoiceNoData.CUSTOMER_ADDRESS}"
         nameTxtView.text = "Name: ${InvoiceNoData.CUSTOMER_NAME}"
         contactNoTxtView.setText(InvoiceNoData.CONTACT_NO)
@@ -2064,6 +2365,7 @@ class VehicleDelivery : AppCompatActivity() {
         }
         invNumber=InvoiceNoData.INVOICE_NO
         vehicleNumberTxtView.visibility=View.VISIBLE
+        gatePassNumberTxtView.visibility=View.VISIBLE
         modelTextView.visibility=View.VISIBLE
         addressTxtView.visibility=View.VISIBLE
         partyId.visibility=View.VISIBLE
@@ -2077,6 +2379,7 @@ class VehicleDelivery : AppCompatActivity() {
         amountRemaining= InvoiceNoData.AMOUNT_DUE_REMAINING.toString()
 
         gatePassId=InvoiceNoData.GATE_PASS_ID
+        customerPaymentSuccessMessageContactNo=InvoiceNoData.CONTACT_NO
 
         val pendingAmount=amountRemaining.toFloat()
 //        val pendingAmount=1000
@@ -2095,6 +2398,8 @@ class VehicleDelivery : AppCompatActivity() {
         invoiceNumberField.setText("")
         vehicleNumberTxtView.text=""
         vehicleNumberTxtView.visibility=View.GONE
+        gatePassNumberTxtView.text=""
+        gatePassNumberTxtView.visibility=View.GONE
         addressTxtView.visibility=View.GONE
         nameTxtView.visibility=View.GONE
         contactNoTxtView.visibility=View.GONE
@@ -2129,6 +2434,13 @@ class VehicleDelivery : AppCompatActivity() {
         resetSpinner2()
         invoiceDataLL.visibility=View.GONE
         detailsSubmit.isEnabled=true
+//new added
+        searchButton2.visibility=View.GONE
+        searchButton.visibility=View.GONE
+        invoiceNumberField.visibility=View.GONE
+        noShowingTextView.text=""
+        clearFields.visibility=View.GONE
+        customerPaymentSuccessMessageContactNo=""
     }
 
     fun resetSpinner() {
@@ -2149,6 +2461,17 @@ class VehicleDelivery : AppCompatActivity() {
         paymentIdSpinner.setSelection(0)
     }
 
+    private fun showProgressDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_progress, null)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+
+        val dialog = builder.create()
+        dialog.show()
+        return dialog
+    }
 
 
     private fun logout(){

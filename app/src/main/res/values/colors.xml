@@ -13,7 +13,7 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
-    <color name="text_primary">#333333</color>
+<!--    <color name="text_primary">#333333</color>-->
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="primary_color">#1976D2</color>
@@ -22,9 +22,155 @@
     <color name="background_color">#F5F5F5</color>
     <color name="primary_text_color">#212121</color>
     <color name="secondary_text_color">#757575</color>
+    <color name="button_primary_dark">#22223B</color>
 
     <color name="gray">#9E9E9E</color>
     <color name="light_gray">#D3D3D3</color>
+
+
+    <!-- Primary Palette -->
+    <color name="primary_blue">#4A90E2</color>
+    <color name="primary_blue_dark">#357ABD</color>
+    <color name="primary_blue_light">#6FA8DC</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_green">#2ECC71</color>
+    <color name="accent_red">#E74C3C</color>
+    <color name="accent_orange">#F39C12</color>
+
+    <!-- Text Colors -->
+<!--    <color name="text_secondary">#7F8C8D</color>-->
+    <color name="text_hint">#AAB2BD</color>
+    <color name="text_warning">#E67E22</color>
+
+    <!-- Backgrounds & Surfaces -->
+<!--    <color name="background_light">#F0F2F5</color>-->
+    <color name="background_dark">#E0E4EB</color>
+    <color name="card_background_light">#FFFFFF</color>
+    <color name="card_background_main">#FFFFFF</color>
+    <color name="surface_light">#F5F7FA</color>
+
+    <!-- Borders & Dividers -->
+<!--    <color name="divider_color">#D1D5DB</color>-->
+    <color name="input_stroke_color">#AAB2BD</color>
+
+    <!-- Button Tints -->
+    <color name="button_accent_green">#2ECC71</color>
+    <color name="button_accent_blue">#4A90E2</color>
+    <color name="button_accent_red">#E74C3C</color>
+
+
+    <!-- Primary Colors -->
+<!--    <color name="colorPrimary">#3F51B5</color>-->
+<!--    <color name="colorPrimaryDark">#303F9F</color>-->
+<!--    <color name="colorAccent">#FF4081</color>-->
+
+    <!-- Modern UI Colors -->
+    <color name="primaryDarkColor">#3949AB</color>
+    <color name="accentColor">#FF5722</color>
+    <color name="successColor">#4CAF50</color>
+    <color name="warningColor">#FFC107</color>
+    <color name="errorColor">#F44336</color>
+
+    <!-- Text Colors -->
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="textLight">#FFFFFF</color>
+
+    <!-- Background Colors -->
+    <color name="background">#F5F5F5</color>
+    <color name="cardBackground">#FFFFFF</color>
+
+    <!-- Button Colors -->
+    <color name="buttonPrimary">#5C6BC0</color>
+    <color name="buttonPrimaryDark">#3949AB</color>
+    <color name="buttonAccent">#FF5722</color>
+    <color name="buttonAccentDark">#E64A19</color>
+    <color name="buttonSuccess">#4CAF50</color>
+    <color name="buttonSuccessDark">#388E3C</color>
+    <color name="buttonSecondary">#78909C</color>
+    <color name="buttonSecondaryDark">#546E7A</color>
+
+    <!-- Gradient Colors -->
+    <color name="gradientStart">#5C6BC0</color>
+    <color name="gradientEnd">#3949AB</color>
+
+
+
+    <!-- Primary Colors -->
+    <color name="primary_300">#81C784</color>
+    <color name="primary_500">#4CAF50</color>
+    <color name="primary_600">#43A047</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary_500">#2196F3</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <!-- Success Colors -->
+    <color name="success_500">#4CAF50</color>
+    <color name="success_600">#43A047</color>
+    <color name="on_success">#FFFFFF</color>
+
+    <!-- Error Colors -->
+    <color name="error_500">#F44336</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <!-- Tertiary Colors -->
+    <color name="tertiary_500">#FF9800</color>
+    <color name="on_tertiary">#FFFFFF</color>
+
+    <!-- Background Colors -->
+    <color name="background_primary">#F8F9FA</color>
+    <color name="surface_primary">#FFFFFF</color>
+    <color name="surface_secondary">#F5F5F5</color>
+
+    <color name="accent_blue">#add8e6</color>
+
+
+    <color name="text_dark">#212121</color>
+    <color name="button_primary">#032633</color>
+    <color name="button_secondary">#264653</color>
+    <color name="button_otp">#61A5C2</color>
+    <color name="card_background">#F5F5F5</color>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <color name="colorPrimary">#42A5F5</color>       <!-- A vibrant, friendly blue -->
+    <color name="colorPrimaryDark">#1976D2</color>   <!-- A deeper blue for status/top bars -->
+    <color name="colorAccent">#FFC107</color>        <!-- A warm, contrasting amber for accents -->
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>       <!-- Dark grey for main text -->
+    <color name="text_secondary">#757575</color>     <!-- Medium grey for secondary text/hints -->
+    <color name="text_light">#FFFFFF</color>         <!-- White text for dark backgrounds -->
+
+    <!-- Backgrounds & Surfaces -->
+    <color name="background_light">#F5F5F5</color>   <!-- Very light grey for general backgrounds -->
+    <color name="surface_card">#FFFFFF</color>       <!-- Pure white for cards and elevated surfaces -->
+    <color name="divider_color">#E0E0E0</color>      <!-- Light grey for dividers/borders -->
+
+    <!-- Button Colors -->
+    <color name="button_default">#42A5F5</color>     <!-- Primary blue for default buttons -->
+    <color name="button_outline_text">#42A5F5</color> <!-- Text color for outline buttons -->
+    <color name="button_success">#4CAF50</color>     <!-- Green for success actions -->
+    <color name="button_warning">#FF9800</color>     <!-- Orange for warning/OTP generation -->
+    <color name="button_danger">#F44336</color>      <!-- Red for destructive actions (e.g., delete) -->
+    <color name="button_refresh">#00BCD4</color>     <!-- Cyan for refresh/reset -->
+
+
+
 
 </resources>
 
