@@ -67,11 +67,8 @@ class WorkshopDemoVehicle : AppCompatActivity() {
     private lateinit var locIdTxt:TextView
     private lateinit var deptIntent:TextView
     private lateinit var vehHistoryLL:View
-    //    private lateinit var newVehOutLL:View
     private lateinit var newVehLL:View
     private lateinit var captureVehNumberIn:View
-    //    private lateinit var captureVehNumberOut:View
-//    private lateinit var newVehOutEditText:EditText
     private lateinit var newVehEditText:EditText
     private lateinit var newVehInButton:ImageButton
     private lateinit var forTestDriveOut:TextView
@@ -199,8 +196,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         currentKMSField.visibility=View.GONE
         captureToKm.visibility=View.GONE
         regNoDetails.visibility=View.GONE
-//        driverTxt.visibility=View.GONE
-//        driverNameField.visibility=View.GONE
         remarksTxt.visibility=View.GONE
         remarksField.visibility=View.GONE
         newVehicleInPremises.visibility=View.GONE
@@ -242,7 +237,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         forNewVehicleIn.setOnClickListener {
             newVehLL.visibility=View.VISIBLE
-//            captureVehNumberIn.visibility=View.VISIBLE
             newVehEditText.setText("")
             newVehInButton.visibility=View.VISIBLE
             newVehOutButton.visibility=View.GONE
@@ -269,10 +263,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
 
         refresh.setOnClickListener { resetFieldsAfterGatePassNo() }
 
-//        captureToKm.setOnClickListener {
-//            clickedPlaceholder = captureToKm
-//            openCamera()
-//        }
 
         captureToKm.setOnClickListener {
             clickedPlaceholder = captureToKm
@@ -751,102 +741,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
             }
         }
     }
-
-//    private fun detailsForVehicleOut() {
-//        val client = OkHttpClient()
-//        val vehNo = newVehEditText.text.toString()
-//
-//        if (vehNo.isEmpty()) {
-//            Toast.makeText(
-//                this@WorkshopDemoVehicle,
-//                "Please enter the vehicle number",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            return
-//        }
-//
-//        val url = ApiFile.APP_URL + "/demoVehicleTrans/getDemoVehByRegNo?regNo=$vehNo"
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val jsonData = response.body?.string()
-//
-//                jsonData?.let {
-//                    val jsonObject = JSONObject(it)
-//
-//                    val statusCode = jsonObject.getInt("code")
-//                    val responseMessage = jsonObject.getString("message")
-//
-//                    runOnUiThread {
-//                        when (statusCode) {
-//                            200 -> {
-//                                val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
-//
-//                                val jcData3 = allData(
-//                                    CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
-//                                    VIN = stockItem.optString("VIN"),
-//                                    MODEL_DESC = stockItem.optString("MODEL_DESC"),
-//                                    ENGINE_NO = stockItem.optString("ENGINE_NO"),
-//                                    FUEL_DESC = stockItem.optString("FUEL_DESC"),
-//                                    VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-//                                    CUST_NAME = stockItem.optString("CUST_NAME"),
-//                                    CUST_ADDRESS = stockItem.optString("CUST_ADDRESS"),
-//                                    CUST_CONTACT_NO = stockItem.optString("CUST_CONTACT_NO"),
-//                                    LOCATION = stockItem.optString("LOCATION"),
-//                                    OUT_TIME = stockItem.optString("OUT_TIME"),
-//                                    OUT_KM = stockItem.optString("OUT_KM"),
-//                                    REMARKS = stockItem.optString("REMARKS"),
-//                                    VEHICLE_NO = stockItem.optString("VEHICLE_NO"),
-//                                    REG_NO = stockItem.optString("REG_NO")
-//                                )
-//
-//                                populateFieldsOut(jcData3)
-//                                populateFieldsAfterOutSearch()
-//
-//                                Toast.makeText(
-//                                    this@WorkshopDemoVehicle,
-//                                    "Details Found Successfully for vehicle no.: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//
-//                            400 -> {
-//                                Toast.makeText(
-//                                    this@WorkshopDemoVehicle,
-//                                    responseMessage,
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                            }
-//
-//                            else -> {
-//                                Toast.makeText(
-//                                    this@WorkshopDemoVehicle,
-//                                    "Unexpected response: $responseMessage",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@WorkshopDemoVehicle,
-//                        "Failed to fetch details for vehicle No: $vehNo",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
-
-
 
     private fun detailsForVehicleOut() {
         val client = OkHttpClient()
@@ -1334,18 +1228,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         outKm=jcData.OUT_KM
         regNo=jcData.REG_NO
 
-
-//        for ((label, value) in detailsMap) {
-//            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-//            val labelTextView = row.findViewById<TextView>(R.id.label)
-//            val valueTextView = row.findViewById<TextView>(R.id.value)
-//
-//            labelTextView.text = label
-//            valueTextView.text = value
-//
-//            table.addView(row)
-//        }
-
         for ((label, value) in detailsMap) {
             if (value.isNotEmpty() && value!= "-") {
                 val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1376,9 +1258,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         captureToKm.visibility=View.GONE
         currentKMSField.setText("")
         regNoDetails.visibility=View.GONE
-//        driverTxt.visibility=View.GONE
-//        driverNameField.visibility=View.GONE
-//        driverNameField.setText("")
         captureVehNumberIn.visibility=View.GONE
         remarksTxt.visibility=View.GONE
         remarksField.visibility=View.GONE
@@ -1386,8 +1265,6 @@ class WorkshopDemoVehicle : AppCompatActivity() {
         gateTypeLov.visibility=View.GONE
         gateTypeTxtView.visibility=View.GONE
         newVehicleOutPremises.visibility=View.GONE
-//        newVehLL.visibility=View.GONE
-//        newVehEditText.setText("")
         newVehicleInPremises.visibility=View.GONE
         refreshButton.visibility=View.GONE
         gateTypeLov.setSelection(0)

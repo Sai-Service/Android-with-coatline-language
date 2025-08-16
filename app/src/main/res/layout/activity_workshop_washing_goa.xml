@@ -160,6 +160,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -264,7 +265,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/captureVehNumber"
                 android:layout_width="match_parent"
@@ -341,10 +341,6 @@
                     android:elevation="6dp" />
 
             </LinearLayout>
-
-
-
-
 
 
             <TextView
@@ -462,6 +458,7 @@
                         android:elevation="4dp"
                         app:layout_constraintEnd_toEndOf="parent" />
 
+
                     <TextView
                         android:id="@+id/resetFields"
                         android:layout_width="match_parent"
@@ -472,7 +469,7 @@
                         android:textSize="16sp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:background="@drawable/info_button_gradient"
+                        android:background="@drawable/danger_button_gradient"
                         android:text="REFRESH FIELDS"
                         android:elevation="4dp"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -487,6 +484,7 @@
         </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
 
 
 

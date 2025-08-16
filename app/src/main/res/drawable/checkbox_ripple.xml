@@ -1,0 +1,9 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33FFFFFF">
+    <item>
+        <selector>
+            <item android:state_checked="true" android:drawable="@drawable/checkbox_checked_layer"/>
+            <item android:drawable="@drawable/ic_checkbox_unchecked"/>
+        </selector>
+    </item>
+</ripple>

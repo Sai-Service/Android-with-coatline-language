@@ -1,8 +1,6 @@
 package com.example.apinew
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -29,7 +27,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -37,7 +34,6 @@ import androidx.core.content.FileProvider
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -362,13 +358,10 @@ class WorkshopParkingModule : AppCompatActivity() {
         gateNumberTxtView.visibility=View.GONE
         gateTypeTxtView.visibility=View.GONE
         driverNameAutoComplete.visibility=View.GONE
-
-
         transferLocationTxtView.visibility=View.GONE
         transferLocationLov.visibility=View.GONE
         parkingEditText.visibility=View.GONE
         parkingEditTextTextView.visibility=View.GONE
-
         physicallyOutVehicleSave.visibility=View.GONE
         physicallyOutLLTxt.visibility=View.GONE
 

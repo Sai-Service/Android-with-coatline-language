@@ -48,7 +48,6 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
         location = intent.getStringExtra("location") ?: ""
         location_name = intent.getStringExtra("location_name") ?: ""
         tableLayout = findViewById(R.id.transferTable)
-        intransitBtn = findViewById(R.id.intransitBtn)
         stktrfIntrBtn = findViewById(R.id.stktrfIntrBtn)
         textView13 = findViewById(R.id.textView13)
         textViewStatus = findViewById(R.id.textViewStatus)

@@ -49,6 +49,7 @@ class Controller : AppCompatActivity() {
     private lateinit var row21:View
     private lateinit var row22:View
     private lateinit var row23:View
+    private lateinit var row24:View
 
     private lateinit var about:ImageButton
 
@@ -101,6 +102,7 @@ class Controller : AppCompatActivity() {
         row21=findViewById(R.id.row21)
         row22=findViewById(R.id.row22)
         row23=findViewById(R.id.row23)
+        row24=findViewById(R.id.row24)
 
         reports = findViewById(R.id.reports)
 
@@ -143,6 +145,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "SECURITY" -> {
@@ -169,6 +172,8 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
+
             }
 
             "SALES" -> {
@@ -195,6 +200,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "SUPERADMIN" -> {
@@ -221,6 +227,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "TRUEVALUE" -> {
@@ -247,6 +254,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "TVSUPERADMIN" -> {
@@ -273,6 +281,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "TVACCOUNTS" -> {
@@ -299,6 +308,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "SERVICE" -> {
@@ -325,6 +335,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "DP" -> {
@@ -351,6 +362,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "SERACCOUNTS" -> {
@@ -377,6 +389,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "SALES-SHOWROOM" -> {
@@ -403,6 +416,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "ADMINISTRATOR" -> {
@@ -429,6 +443,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
             "SECURITYTD" -> {
                 row1.visibility = View.VISIBLE
@@ -454,6 +469,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.VISIBLE
+                row24.visibility=View.GONE
             }
 
             "SECURITYPARK" -> {
@@ -480,6 +496,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.VISIBLE
+                row24.visibility=View.GONE
             }
 
             "SERVICE-PARK" -> {
@@ -506,6 +523,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.VISIBLE
+                row24.visibility=View.GONE
             }
 
             "BODYSHOP-PARK" -> {
@@ -532,6 +550,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.VISIBLE
+                row24.visibility=View.GONE
             }
 
             "SALES DEMO" -> {
@@ -558,7 +577,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
-
+                row24.visibility=View.GONE
             }
 
             "WASHING" ->{
@@ -585,6 +604,34 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
+            }
+
+            "VEHWASHGOA" ->{
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+                row5.visibility = View.GONE
+                row6.visibility = View.GONE
+                row7.visibility = View.GONE
+                row8.visibility = View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.GONE
+                row23.visibility=View.GONE
+                row24.visibility=View.VISIBLE
             }
 
             "WM" ->{
@@ -611,6 +658,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.GONE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
 
             "WASHSALES" ->{
@@ -637,6 +685,7 @@ class Controller : AppCompatActivity() {
                 row21.visibility=View.GONE
                 row22.visibility=View.VISIBLE
                 row23.visibility=View.GONE
+                row24.visibility=View.GONE
             }
         }
     }
@@ -903,6 +952,18 @@ class Controller : AppCompatActivity() {
 
     fun floorVehicleTracking(view: View) {
         val intent = Intent(this@Controller, FloorVehicleTracking::class.java)
+        intent.putExtra("attribute1", attribute1)
+        intent.putExtra("login_name", login_name)
+        intent.putExtra("ouId", ouId)
+        intent.putExtra("location", location)
+        intent.putExtra("locId", locId)
+        intent.putExtra("location_name",location_name)
+        intent.putExtra("deptName",deptName)
+        startActivity(intent)
+    }
+
+    fun workshopWashingGoa(view: View) {
+        val intent = Intent(this@Controller, WorkshopWashingGoa::class.java)
         intent.putExtra("attribute1", attribute1)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)

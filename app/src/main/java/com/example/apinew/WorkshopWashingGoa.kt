@@ -4,7 +4,6 @@ package com.example.apinew
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -41,7 +40,6 @@ import kotlin.math.max
 import kotlin.math.min
 import android.app.TimePickerDialog
 import android.text.InputFilter
-import android.util.Log
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -51,7 +49,7 @@ import java.util.Calendar
 import java.util.Locale
 
 
-class SalesWashingWithChassis : AppCompatActivity() {
+class WorkshopWashingGoa : AppCompatActivity() {
     private lateinit var login_name: String
     private lateinit var deptName: String
     private lateinit var attribute1: String
@@ -61,6 +59,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private lateinit var username:TextView
     private lateinit var locIdTxt:TextView
     private lateinit var deptIntent:TextView
+
     private lateinit var washingHistory:TextView
     private lateinit var washInLL: View
     private lateinit var washIn:TextView
@@ -77,7 +76,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private lateinit var washStageNumberLov:Spinner
     private lateinit var washStageType:TextView
     private lateinit var washStageTypeLov:Spinner
-    private lateinit var vinNo:String
     private lateinit var regNo:String
     private lateinit var engineNo:String
     private lateinit var chassisNo:String
@@ -89,15 +87,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private lateinit var submitButton:TextView
     private lateinit var dateTimeToSend:String
     private lateinit var submitButtonOut:TextView
-
-    //newly added
-    private lateinit var washInByChassisLL:View
-    private lateinit var washInByChassis:TextView
-    private lateinit var washOutByChassis:TextView
-    private lateinit var chassisNoEnterLL:View
-    private lateinit var enterChassisNumber:EditText
-    private lateinit var chassisWashButtonIn:ImageButton
-    private lateinit var chassisWashButtonOut:ImageButton
 
 
     companion object {
@@ -114,7 +103,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sales_washing_with_chassis)
+        setContentView(R.layout.activity_workshop_washing_goa)
 
         username=findViewById(R.id.username)
         locIdTxt=findViewById(R.id.locIdTxt)
@@ -151,20 +140,14 @@ class SalesWashingWithChassis : AppCompatActivity() {
         submitButton=findViewById(R.id.submitButton)
         submitButtonOut=findViewById(R.id.submitButtonOut)
 
-        //newly added
-        washInByChassisLL=findViewById(R.id.washInByChassisLL)
-        washInByChassisLL.visibility=View.GONE
-        washInByChassis=findViewById(R.id.washInByChassis)
-        washOutByChassis=findViewById(R.id.washOutByChassis)
-        chassisNoEnterLL=findViewById(R.id.chassisNoEnterLL)
-        enterChassisNumber=findViewById(R.id.enterChassisNumber)
-        chassisWashButtonIn=findViewById(R.id.chassisWashButtonIn)
-        chassisWashButtonOut=findViewById(R.id.chassisWashButtonOut)
+
 
         washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
 
         regNoDetails.visibility=View.GONE
         captureVehNumber.visibility=View.GONE
@@ -177,19 +160,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
         submitButton.visibility=View.GONE
         vehWashButtonOut.visibility=View.GONE
         submitButtonOut.visibility=View.GONE
-//        washInByChassis.visibility=View.GONE
-//        washOutByChassis.visibility=View.GONE
-        chassisNoEnterLL.visibility=View.GONE
-        enterChassisNumber.visibility=View.GONE
-        chassisWashButtonIn.visibility=View.GONE
-        chassisWashButtonOut.visibility=View.GONE
 
-
-//        if (deptName=="WASHING") {
-//            washInByChassisLL.visibility=View.GONE
-//        } else {
-//            washInByChassisLL.visibility=View.VISIBLE
-//        }
 
 //        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
 //            if (source.any { it.isWhitespace() }) "" else null
@@ -199,126 +170,32 @@ class SalesWashingWithChassis : AppCompatActivity() {
             if (source.all { it.isLetterOrDigit() }) null else ""
         }
 
-
         val lengthFilter = InputFilter.LengthFilter(10)
 
-        val lengthFilterChassis = InputFilter.LengthFilter(6)
+
 
         val enterVehNumber = findViewById<EditText>(R.id.enterVehNumber)
         enterVehNumber.filters = arrayOf(alphaNumericFilter,lengthFilter)
-
-        enterChassisNumber.filters = arrayOf(alphaNumericFilter,lengthFilterChassis)
 
         resetFields.setOnClickListener{
             refreshData()
         }
 
-//        washIn.setOnClickListener{
-//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In Button",Toast.LENGTH_SHORT).show()
-//            captureVehNumber.visibility=View.VISIBLE
-//            vehNoEnterLL.visibility=View.VISIBLE
-//            enterVehNumber.visibility=View.VISIBLE
-//            vehWashButtonIn.visibility=View.VISIBLE
-//            vehWashButtonOut.visibility=View.GONE
-//            chassisNoEnterLL.visibility=View.GONE
-//        }
-
-        washIn.setOnClickListener {
-            val options = arrayOf("By Vehicle Number", "By Chassis Number")
-
-            val builder = AlertDialog.Builder(this@SalesWashingWithChassis)
-            builder.setTitle("Select Wash In Method")
-
-            builder.setItems(options) { _, which ->
-                when (which) {
-                    0 -> { // Vehicle Number - IN
-                        Toast.makeText(this@SalesWashingWithChassis, "Clicked on Wash In by Vehicle Button", Toast.LENGTH_SHORT).show()
-                        captureVehNumber.visibility = View.VISIBLE
-                        vehNoEnterLL.visibility = View.VISIBLE
-                        enterVehNumber.visibility = View.VISIBLE
-                        vehWashButtonIn.visibility = View.VISIBLE
-                        vehWashButtonOut.visibility = View.GONE
-                        chassisNoEnterLL.visibility = View.GONE
-                    }
-                    1 -> { //Chassis Number - IN
-                        Toast.makeText(this@SalesWashingWithChassis, "Clicked on Wash In by Chassis Button", Toast.LENGTH_SHORT).show()
-                        captureVehNumber.visibility = View.GONE
-                        chassisNoEnterLL.visibility = View.VISIBLE
-                        enterChassisNumber.visibility = View.VISIBLE
-                        chassisWashButtonIn.visibility = View.VISIBLE
-                        chassisWashButtonOut.visibility = View.GONE
-                        vehNoEnterLL.visibility = View.GONE
-                    }
-                }
-            }
-            builder.setNegativeButton("Cancel", null)
-            builder.show()
+        washIn.setOnClickListener{
+            captureVehNumber.visibility=View.VISIBLE
+            vehNoEnterLL.visibility=View.VISIBLE
+            enterVehNumber.visibility=View.VISIBLE
+            vehWashButtonIn.visibility=View.VISIBLE
+            vehWashButtonOut.visibility=View.GONE
         }
 
-
-        washOut.setOnClickListener {
-            val options = arrayOf("By Vehicle Number", "By Chassis Number")
-
-            val builder = AlertDialog.Builder(this@SalesWashingWithChassis)
-            builder.setTitle("Select Wash Out Method")
-
-            builder.setItems(options) { _, which ->
-                when (which) {
-                    0 -> { //Vehicle Number - OUT
-                        Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out By Vehicle Number",Toast.LENGTH_SHORT).show()
-                        captureVehNumber.visibility=View.VISIBLE
-                        vehNoEnterLL.visibility=View.VISIBLE
-                        enterVehNumber.visibility=View.VISIBLE
-                        vehWashButtonIn.visibility=View.GONE
-                        vehWashButtonOut.visibility=View.VISIBLE
-                        chassisNoEnterLL.visibility=View.GONE
-                    }
-                    1 -> { //Chassis Number - OUT
-                        Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out by Chassis",Toast.LENGTH_SHORT).show()
-                        captureVehNumber.visibility=View.GONE
-                        chassisNoEnterLL.visibility=View.VISIBLE
-                        enterChassisNumber.visibility=View.VISIBLE
-                        chassisWashButtonIn.visibility=View.GONE
-                        chassisWashButtonOut.visibility=View.VISIBLE
-                        vehNoEnterLL.visibility=View.GONE
-                    }
-                }
-            }
-
-            builder.setNegativeButton("Cancel", null)
-            builder.show()
+        washOut.setOnClickListener{
+            captureVehNumber.visibility=View.VISIBLE
+            vehNoEnterLL.visibility=View.VISIBLE
+            enterVehNumber.visibility=View.VISIBLE
+            vehWashButtonIn.visibility=View.GONE
+            vehWashButtonOut.visibility=View.VISIBLE
         }
-
-
-//        washOut.setOnClickListener{
-//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out Button",Toast.LENGTH_SHORT).show()
-//            captureVehNumber.visibility=View.VISIBLE
-//            vehNoEnterLL.visibility=View.VISIBLE
-//            enterVehNumber.visibility=View.VISIBLE
-//            vehWashButtonIn.visibility=View.GONE
-//            vehWashButtonOut.visibility=View.VISIBLE
-//            chassisNoEnterLL.visibility=View.GONE
-//        }
-
-//        washInByChassis.setOnClickListener {
-//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash In by Chassis Button",Toast.LENGTH_SHORT).show()
-//            captureVehNumber.visibility=View.GONE
-//            chassisNoEnterLL.visibility=View.VISIBLE
-//            enterChassisNumber.visibility=View.VISIBLE
-//            chassisWashButtonIn.visibility=View.VISIBLE
-//            chassisWashButtonOut.visibility=View.GONE
-//            vehNoEnterLL.visibility=View.GONE
-//        }
-//
-//        washOutByChassis.setOnClickListener {
-//            Toast.makeText(this@SalesWashingWithChassis,"Clicked on Wash Out by Chassis Button",Toast.LENGTH_SHORT).show()
-//            captureVehNumber.visibility=View.GONE
-//            chassisNoEnterLL.visibility=View.VISIBLE
-//            enterChassisNumber.visibility=View.VISIBLE
-//            chassisWashButtonIn.visibility=View.GONE
-//            chassisWashButtonOut.visibility=View.VISIBLE
-//            vehNoEnterLL.visibility=View.GONE
-//        }
 
         vehWashButtonIn.setOnClickListener {
             detailsForVehicleInFirstTime()
@@ -326,14 +203,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
         vehWashButtonOut.setOnClickListener {
             detailsForVehicleOut()
-        }
-
-        chassisWashButtonIn.setOnClickListener {
-            getChassisDetailsForInWithSelection()
-        }
-
-        chassisWashButtonOut.setOnClickListener {
-            getChassisDetailsForOutWithSelection()
         }
 
 
@@ -384,13 +253,14 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
-
             }
         }
+
+
     }
 
     private fun workShopTestDriveVehHistory() {
-        val intent = Intent(this@SalesWashingWithChassis, WorkshopWashingVehicleHistory::class.java)
+        val intent = Intent(this@WorkshopWashingGoa, WorkshopWashingVehicleHistory::class.java)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)
         intent.putExtra("locId", locId)
@@ -398,6 +268,52 @@ class SalesWashingWithChassis : AppCompatActivity() {
         intent.putExtra("deptName",deptName)
         startActivity(intent)
     }
+
+    private fun formatDateTime(dateTime: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+            val date = inputFormat.parse(dateTime)
+            val formattedDate = date?.let { outputDateFormat.format(it) }
+            val formattedTime = date?.let { outputTimeFormat.format(it) }
+            "$formattedDate $formattedTime"
+        } catch (e: Exception) {
+            dateTime
+        }
+    }
+
+    private fun showTimePicker(textView: TextView) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+            val updatedCalendar = Calendar.getInstance()
+            updatedCalendar.set(Calendar.HOUR_OF_DAY, selectedHour)
+            updatedCalendar.set(Calendar.MINUTE, selectedMinute)
+
+            val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+
+            val currentDate = updatedCalendar.time
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+            val formattedDateTime = dateFormat.format(currentDate)
+
+            val dateFormat2 = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val formattedDateTime2 = dateFormat2.format(currentDate)
+
+            textView.text = formattedDateTime2
+
+            dateTimeToSend = formattedDateTime
+
+        }, hour, minute, true)
+
+        timePickerDialog.show()
+    }
+
+
+
 
     private fun openCamera(requestCode: Int) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -599,7 +515,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 jsonData?.let {
                     val cities = parsewashStageNumber(it)
                     runOnUiThread {
-                        val adapter = ArrayAdapter(this@SalesWashingWithChassis, android.R.layout.simple_spinner_item, cities
+                        val adapter = ArrayAdapter(this@WorkshopWashingGoa, android.R.layout.simple_spinner_item, cities
                         )
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         washStageNumberLov.adapter = adapter
@@ -643,24 +559,31 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val jsonData = response.body?.string()
                 jsonData?.let {
-                    val stages = parsewashStageType(it) // Get washing stage list
+                    val stages = parsewashStageType(it)
 
                     runOnUiThread {
                         val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
-                        checkBoxContainer.removeAllViews() // Clear previous checkboxes
+                        checkBoxContainer.removeAllViews()
 
-                        selectedStages.clear() // Reset selected stages
+                        selectedStages.clear()
 
-                        // Start from index 1 to skip Select Washing Type
                         for (i in 1 until stages.size) {
                             val stage = stages[i]
 
-                            val checkBox = CheckBox(this@SalesWashingWithChassis)
-                            checkBox.text = stage
-                            checkBox.layoutParams = LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            )
+                            val checkBox = CheckBox(this@WorkshopWashingGoa).apply {
+                                text = stage
+                                textSize = 16f
+                                setTextColor(Color.parseColor("#333333"))
+                                setPadding(20, 20, 20, 20)
+                                buttonDrawable = ContextCompat.getDrawable(context, R.drawable.checkbox_ripple)
+                                buttonDrawable = ContextCompat.getDrawable(context, R.drawable.checkbox_ripple)
+                                layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    setMargins(0, 10, 0, 10)
+                                }
+                            }
                             checkBoxContainer.addView(checkBox)
 
                             checkBox.setOnCheckedChangeListener { _, isChecked ->
@@ -672,6 +595,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             }
                         }
                     }
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -740,12 +664,8 @@ class SalesWashingWithChassis : AppCompatActivity() {
         model=""
         serviceAdvisor=""
         vehWashNo=""
-        vinNo=""
         val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
         checkBoxContainer.removeAllViews()
-        regNoDetails.text=""
-        chassisNoEnterLL.visibility=View.GONE
-        enterChassisNumber.setText("")
     }
 
     fun resetwashStageNumberLov() {
@@ -770,7 +690,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
         val client = OkHttpClient()
         val vehNo = enterVehNumber.text.toString()
         if(vehNo.isEmpty()){
-            Toast.makeText(this@SalesWashingWithChassis,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@WorkshopWashingGoa,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
         val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
@@ -820,8 +740,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
                         VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
                         REGNO=stockItem.optString("REGNO"),
-                        UPDATED_BY=stockItem.optString("UPDATED_BY"),
-                        VIN = stockItem.optString("VIN")
+                        UPDATED_BY=stockItem.optString("UPDATED_BY")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -831,9 +750,8 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsAForThirdStage(jcData3)
                                 populateFieldsAfterInSearch()
-                                regNoDetails.text="Details found by Vehicle Number"
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Details for vehicle : $vehNo found in washing table",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -844,9 +762,8 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsForMastersTable(jcData3)
                                 populateFieldsAfterInSearch()
-                                regNoDetails.text="Details found by Vehicle Number"
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Details Found Successfully in master table for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -857,9 +774,8 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsDuringInForNewVehicle(jcData3)
                                 populateFieldsAfterInSearch()
-                                regNoDetails.text="Details found by Vehicle Number"
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "New Vehicle details for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -869,7 +785,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         else -> {
                             runOnUiThread {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Unexpected response for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -881,7 +797,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(
-                        this@SalesWashingWithChassis,
+                        this@WorkshopWashingGoa,
                         "Failed to fetch details for vehicle No: $vehNo",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -895,7 +811,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
         val client = OkHttpClient()
         val vehNo = enterVehNumber.text.toString()
         if(vehNo.isEmpty()){
-            Toast.makeText(this@SalesWashingWithChassis,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@WorkshopWashingGoa,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
 //        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
@@ -942,8 +858,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
                         VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
                         REGNO=stockItem.optString("REGNO"),
-                        UPDATED_BY=stockItem.optString("UPDATED_BY"),
-                        VIN = stockItem.optString("VIN")
+                        UPDATED_BY=stockItem.optString("UPDATED_BY")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -953,9 +868,8 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             runOnUiThread {
                                 populateFieldsAForVehicleOut(jcData3)
                                 populateFieldsAfterOutSearch()
-                                regNoDetails.text="Details found by Vehicle Number"
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Details for vehicle : $vehNo found in washing table",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -965,7 +879,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         else -> {
                             runOnUiThread {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Unexpected response for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -977,7 +891,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(
-                        this@SalesWashingWithChassis,
+                        this@WorkshopWashingGoa,
                         "Failed to fetch details for vehicle No: $vehNo",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -996,20 +910,10 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
         val url = ApiFile.APP_URL + "/washingRegister/vehWashProceed/"
         val jsonObject = JSONObject().apply {
-//            put("regNo", regNo)
-            if (::regNo.isInitialized) {
-                if(regNo.isNotEmpty() ) {
-                    put("regNo", regNo)
-                }
-            }
+            put("regNo", regNo)
             if (::chassisNo.isInitialized) {
                 if(chassisNo.isNotEmpty() ) {
                     put("chassisNo", chassisNo)
-                }
-            }
-            if (::vinNo.isInitialized) {
-                if(vinNo.isNotEmpty() ) {
-                    put("attribute4", vinNo)
                 }
             }
             if (::vehWashNo.isInitialized) {
@@ -1056,8 +960,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 val responseCode = response.code
                 val responseBody = response.body?.string()
 
-                Log.d("responseBody---->",responseBody.toString())
-
                 runOnUiThread {
                     if (responseBody != null) {
                         val jsonResponse = JSONObject(responseBody)
@@ -1066,28 +968,28 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         when {
                             message.contains("A stage is already in progress. Please complete the current stage before starting a new one.", ignoreCase = true) -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "A stage is already in progress. Please complete the current stage before starting a new one.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                             message.contains("One or more selected stages are already marked as OUT. Cannot mark them IN again in the same row.", ignoreCase = true) -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Selected stages are already completed cannot IN again",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                             responseCode==500-> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Vehicle Wash In Failed",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                             responseCode == 200 -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Vehicle in successfully!!!",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -1095,7 +997,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             }
                             else -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Failed to save data. Error code: $responseCode",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -1103,7 +1005,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         }
                     } else {
                         Toast.makeText(
-                            this@SalesWashingWithChassis,
+                            this@WorkshopWashingGoa,
                             "No response from server",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -1113,7 +1015,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(
-                        this@SalesWashingWithChassis,
+                        this@WorkshopWashingGoa,
                         "Error saving data: ${e.message}",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -1126,14 +1028,10 @@ class SalesWashingWithChassis : AppCompatActivity() {
     private fun vehicleOut() {
         val url = ApiFile.APP_URL + "/washingRegister/vehWashOut/"
         val jsonObject = JSONObject().apply {
+            put("regNo", regNo)
             if (::regNo.isInitialized) {
                 if(regNo.isNotEmpty() ) {
                     put("regNo", regNo)
-                }
-            }
-            if (::vinNo.isInitialized) {
-                if(vinNo.isNotEmpty() ) {
-                    put("attribute4", vinNo)
                 }
             }
             put("updatedBy", attribute1)
@@ -1162,14 +1060,14 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         when {
                             message.contains("No stage is marked as IN, cannot process OUT request", ignoreCase = true) -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Vehicle is never in for wash , can't perform out.",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
                             responseCode == 200 -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Vehicle out successfully!!!",
                                     Toast.LENGTH_LONG
                                 ).show()
@@ -1177,7 +1075,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                             }
                             else -> {
                                 Toast.makeText(
-                                    this@SalesWashingWithChassis,
+                                    this@WorkshopWashingGoa,
                                     "Failed to save data. Error code: $responseCode",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -1185,7 +1083,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                         }
                     } else {
                         Toast.makeText(
-                            this@SalesWashingWithChassis,
+                            this@WorkshopWashingGoa,
                             "No response from server",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -1195,7 +1093,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
                 e.printStackTrace()
                 runOnUiThread {
                     Toast.makeText(
-                        this@SalesWashingWithChassis,
+                        this@WorkshopWashingGoa,
                         "Error saving data: ${e.message}",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -1214,8 +1112,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             "CHASSIS NO" to jcData.CHASSIS_NO,
             "ENGINE NO" to jcData.ENGINE_NO,
             "MODEL" to jcData.VEHICLE_DESC,
-            "SER ADV" to jcData.SERVICE_ADVISOR,
-            "TEST VIN" to jcData.VIN
+            "SER ADV" to jcData.SERVICE_ADVISOR
         )
 
         regNo=jcData.INSTANCE_NUMBER
@@ -1225,7 +1122,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
         model=jcData.VEHICLE_DESC
         serviceAdvisor=jcData.SERVICE_ADVISOR
         chassisNo=jcData.CHASSIS_NO
-        vinNo=jcData.VIN
 
         for ((label, value) in detailsMap) {
             val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1348,6 +1244,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             "REG NO" to jcData.REGNO,
             "MESSAGE" to "This is new vehicle."
         )
+
         regNo=jcData.REGNO
         chassisNo=jcData.CHASSIS_NO
         vehWashNo=jcData.VEH_WASH_NO
@@ -1377,7 +1274,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
         val CUST_NAME:String,
         val INSTANCE_NUMBER:String,
         val CHASSIS_NO:String,
-        val VIN:String,
 
 
 
@@ -1416,455 +1312,6 @@ class SalesWashingWithChassis : AppCompatActivity() {
     )
 
 
-    private fun getChassisDetailsForInWithSelection() {
-        val client = OkHttpClient()
-        val chassisNo = enterChassisNumber.text.toString()
-
-        if (chassisNo.isEmpty()) {
-            Toast.makeText(this@SalesWashingWithChassis, "Please enter chassis number", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
-        val request = Request.Builder().url(url).build()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = client.newCall(request).execute()
-                val jsonData = response.body?.string()
-
-                jsonData?.let {
-                    val jsonObject = JSONObject(it)
-                    val code = jsonObject.optInt("code")
-                    val objArray = jsonObject.getJSONArray("obj")
-
-                    if (code == 200) {
-                        if (objArray.length() == 1) {
-                            val stockItem = objArray.getJSONObject(0)
-                            val jcData = chassisData(
-                                AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                                ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                                FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                                FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                                FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
-                                LOC_ID = stockItem.optString("LOC_ID"),
-                                LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
-                                MODEL_CD = stockItem.optString("MODEL_CD"),
-                                MODEL = stockItem.optString("MODEL"),
-                                PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
-                                SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
-                                STATUS = stockItem.optString("STATUS"),
-                                UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                                VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
-                                VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
-                                WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-                                SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                                DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                                GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                                VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
-                                VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-                                CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
-                                ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
-                                VIN = stockItem.optString("VIN"),
-                                CHASSIS_NO = stockItem.optString("CHASSIS_NO")
-                            )
-                            runOnUiThread {
-                                populateFieldsFromVinData(jcData)
-                                regNoDetails.text="Details found by Chassis Number"
-                                populateFieldsAfterInSearch()
-                                fetchwashStageNumber()
-                            }
-
-                        } else if (objArray.length() > 1) {
-                            val vinList = mutableListOf<String>()
-                            for (i in 0 until objArray.length()) {
-                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
-                            }
-
-                            runOnUiThread {
-                                showVinSelectionDialogIn(vinList)
-                            }
-                        }
-                    } else {
-                        runOnUiThread {
-                            Toast.makeText(this@SalesWashingWithChassis, "Error: ${jsonObject.optString("message")}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                runOnUiThread {
-                    Toast.makeText(this@SalesWashingWithChassis, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-
-
-    private fun showVinSelectionDialogIn(vinList: List<String>) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select VIN")
-        builder.setItems(vinList.toTypedArray()) { _, which ->
-            val selectedVin = vinList[which]
-            fetchDetailsByVin(selectedVin)
-        }
-        builder.show()
-    }
-
-    private fun populateFieldsFromVinData(chData: chassisData) {
-        val table = findViewById<TableLayout>(R.id.tableLayout2)
-        table.removeAllViews()
-
-        val detailsMap = mutableMapOf(
-            "CHASSIS NO" to chData.CHASSIS_NUM,
-            "VIN" to chData.VIN,
-            "ENGINE NO" to chData.ENGINE_NUM,
-            "MODEL" to chData.MODEL_CD
-        )
-
-        chassisNo=chData.CHASSIS_NUM
-        vinNo=chData.VIN
-        engineNo=chData.ENGINE_NUM
-        model=chData.MODEL_CD
-
-
-        for ((label, value) in detailsMap) {
-            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-            val labelTextView = row.findViewById<TextView>(R.id.label)
-            val valueTextView = row.findViewById<TextView>(R.id.value)
-
-            labelTextView.text = label
-            valueTextView.text = value
-
-            table.addView(row)
-        }
-
-        if (table.childCount > 0) {
-            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
-            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
-            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
-        }
-    }
-
-    private fun fetchDetailsByVin(vin: String) {
-        val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
-
-        val request = Request.Builder().url(url).build()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = client.newCall(request).execute()
-                val jsonData = response.body?.string()
-
-                jsonData?.let {
-                    val jsonObject = JSONObject(it)
-                    val objArray = jsonObject.getJSONArray("obj")
-                    if (objArray.length() > 0) {
-                        val stockItem = objArray.getJSONObject(0)
-
-                        val jcData = chassisData(
-                            AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                            ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                            FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                            FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                            FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
-                            LOC_ID = stockItem.optString("LOC_ID"),
-                            LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
-                            MODEL_CD = stockItem.optString("MODEL_CD"),
-                            MODEL = stockItem.optString("MODEL"),
-                            PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
-                            SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
-                            STATUS = stockItem.optString("STATUS"),
-                            UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                            VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
-                            VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
-                            WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-                            SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                            DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                            GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                            VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
-                            VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-                            CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
-                            ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
-                            VIN = stockItem.optString("VIN"),
-                            CHASSIS_NO = stockItem.optString("CHASSIS_NO")
-                        )
-
-                        runOnUiThread {
-                            populateFieldsFromVinData(jcData)
-                            regNoDetails.text="Details found by Chassis Number"
-                            populateFieldsAfterInSearch()
-                            fetchwashStageNumber()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-
-    private fun getChassisDetailsForOutWithSelection() {
-        val client = OkHttpClient()
-        val chassisNo = enterChassisNumber.text.toString()
-
-        if (chassisNo.isEmpty()) {
-            Toast.makeText(this@SalesWashingWithChassis,"Please enter chassis number", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
-        val request = Request.Builder().url(url).build()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = client.newCall(request).execute()
-                val jsonData = response.body?.string()
-
-                jsonData?.let {
-                    val jsonObject = JSONObject(it)
-                    val code = jsonObject.optInt("code")
-                    val objArray = jsonObject.getJSONArray("obj")
-
-                    if (code == 200) {
-                        if (objArray.length() == 1) {
-                            val stockItem = objArray.getJSONObject(0)
-
-                            val jcData = chassisData(
-                                AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                                ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                                FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                                FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                                FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
-                                LOC_ID = stockItem.optString("LOC_ID"),
-                                LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
-                                MODEL_CD = stockItem.optString("MODEL_CD"),
-                                MODEL = stockItem.optString("MODEL"),
-                                PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
-                                SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
-                                STATUS = stockItem.optString("STATUS"),
-                                UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                                VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
-                                VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
-                                WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-                                SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                                DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                                GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                                VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
-                                VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-                                CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
-                                ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
-                                VIN = stockItem.optString("VIN"),
-                                CHASSIS_NO = stockItem.optString("CHASSIS_NO")
-                            )
-
-                            runOnUiThread {
-                                populateFieldsFromVinDataOut(jcData)
-                                regNoDetails.text="Details found by Chassis Number"
-                                populateFieldsAfterOutSearch()
-                            }
-
-                        }
-//                        if (objArray.length() == 1) {
-//                            val vinList = mutableListOf<String>()
-//                            for (i in 0 until objArray.length()) {
-//                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
-//                            }
-//
-//                            runOnUiThread {
-//                                showVinSelectionDialogOut(vinList)
-//                            }
-//                        }
-                        else if (objArray.length() > 1) {
-                            val vinList = mutableListOf<String>()
-                            for (i in 0 until objArray.length()) {
-                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
-                            }
-
-                            runOnUiThread {
-                                showVinSelectionDialogOut(vinList)
-                            }
-                        }
-                    } else {
-                        runOnUiThread {
-                            Toast.makeText(this@SalesWashingWithChassis, "Error: ${jsonObject.optString("message")}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                runOnUiThread {
-                    Toast.makeText(this@SalesWashingWithChassis, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun fetchDetailsByVinOut(vin: String) {
-        val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
-
-        val request = Request.Builder().url(url).build()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = client.newCall(request).execute()
-                val jsonData = response.body?.string()
-
-                jsonData?.let {
-                    val jsonObject = JSONObject(it)
-                    val objArray = jsonObject.getJSONArray("obj")
-                    if (objArray.length() > 0) {
-                        val stockItem = objArray.getJSONObject(0)
-
-                        val jcData = chassisData(
-                            AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                            ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                            FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                            FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                            FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
-                            LOC_ID = stockItem.optString("LOC_ID"),
-                            LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
-                            MODEL_CD = stockItem.optString("MODEL_CD"),
-                            MODEL =stockItem.optString("MODEL"),
-                            PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
-                            SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
-                            STATUS = stockItem.optString("STATUS"),
-                            UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                            VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
-                            VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
-                            WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-                            SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                            DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                            GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                            VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
-                            VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
-                            CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
-                            ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
-                            VIN = stockItem.optString("VIN"),
-                            CHASSIS_NO = stockItem.optString("CHASSIS_NO")
-                        )
-
-                        val responseMessage = jsonObject.getString("message")
-                        val code = jsonObject.getString("code")
-
-                        when (responseMessage) {
-                            "Details for vehicle found in washing table" -> {
-                                runOnUiThread {
-                                    populateFieldsFromVinDataOut(jcData)
-                                    regNoDetails.text="Details found by Chassis Number"
-                                    populateFieldsAfterOutSearch()
-                                    Toast.makeText(
-                                        this@SalesWashingWithChassis,
-                                        "Details found in washing table",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                            "Details not found" -> {
-                                runOnUiThread {
-                                    Toast.makeText(
-                                        this@SalesWashingWithChassis,
-                                        "Details not found",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun showVinSelectionDialogOut(vinList: List<String>) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select VIN")
-        builder.setItems(vinList.toTypedArray()) { _, which ->
-            val selectedVin = vinList[which]
-            fetchDetailsByVinOut(selectedVin)
-        }
-        builder.show()
-    }
-
-    private fun populateFieldsFromVinDataOut(jcData: chassisData) {
-        val table = findViewById<TableLayout>(R.id.tableLayout2)
-        table.removeAllViews()
-
-        val detailsMap = mutableMapOf(
-            "CHASSIS NO" to jcData.CHASSIS_NO,
-            "VIN" to jcData.VIN,
-            "MODEL" to jcData.MODEL,
-            "WASHING SUPERVISOR" to jcData.WASHING_SUPERVISOR,
-            "1ST STAGE IN" to jcData.FS_IN_TIME,
-            "AIR BLOW STN" to jcData.AIR_BLOW_STN,
-            "UNDER BODY STN" to jcData.UNDERBODY_STN,
-            "ENGINE ROOM STN" to jcData.ENGINE_ROOM_STN,
-            "1ST STAGE OUT" to jcData.FS_OUT_TIME,
-            "2ND STAGE IN" to jcData.SS_IN_TIME,
-            "LOOSE ITEMS STN" to jcData.LOOSE_ITEMS_STN,
-            "VEH INTERIOR STN" to jcData.VEH_INTERIOR_STN,
-            "2ND STAGE OUT" to jcData.SS_OUT_TIME,
-            "DS_IN_TIME" to jcData.DS_IN_TIME,
-            "VEH EXTERIOR STN" to jcData.VEH_EXTERIOR_STN,
-            "GLASS POLISH STN" to jcData.GLASS_POLISH_STN
-        )
-
-        vinNo=jcData.VIN
-
-
-        for ((label, value) in detailsMap) {
-            if (value != null && value!= "-") {
-                val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
-                val labelTextView = row.findViewById<TextView>(R.id.label)
-                val valueTextView = row.findViewById<TextView>(R.id.value)
-
-                labelTextView.text = label
-                valueTextView.text = value
-
-                table.addView(row)
-            }
-        }
-
-        if (table.childCount > 0) {
-            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
-            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
-            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
-        }
-    }
-
-    data class chassisData(
-        val CHASSIS_NO:String,
-        val VIN:String,
-        val CHASSIS_NUM:String,
-        val ENGINE_NUM:String,
-        val MODEL:String,
-        val AIR_BLOW_STN:String,
-        val ENGINE_ROOM_STN:String,
-        val VEH_INTERIOR_STN:String,
-        val VEH_WASH_NO:String,
-        val PROMISED_TIME:String,
-        val FS_IN_TIME:String,
-        val FIRST_STAGE:String,
-        val LOC_ID:String,
-        val SS_IN_TIME:String,
-        val FS_OUT_TIME:String,
-        val LOOSE_ITEMS_STN:String,
-        val WASHING_SUPERVISOR:String,
-        val STATUS:String,
-        val UNDERBODY_STN:String,
-        val SS_OUT_TIME:String,
-        val VEH_EXTERIOR_STN:String,
-        val GLASS_POLISH_STN:String,
-        val DS_IN_TIME:String,
-        val VARIANT_DESC:String,
-        val MODEL_CD:String
-        )
 }
 
 

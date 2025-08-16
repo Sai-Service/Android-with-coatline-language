@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow (slightly offset) -->
+    <item android:bottom="2dp" android:right="2dp" android:drawable="@drawable/checkbox_shadow" />
+
+    <!-- Gradient background -->
+    <item android:drawable="@drawable/checkbox_checked_bg" />
+
+    <!-- White tick -->
+    <item android:drawable="@drawable/ic_checkbox_checked" />
+</layer-list>
