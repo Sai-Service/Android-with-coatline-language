@@ -92,7 +92,6 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
         tableLayout.addView(tableHeader)
     }
 
-
     private fun populateTable(vehicleList: List<RegPending>) {
         tableLayout.removeAllViews()
         if (vehicleList.isEmpty()) {

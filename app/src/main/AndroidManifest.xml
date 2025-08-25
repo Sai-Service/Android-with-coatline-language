@@ -356,6 +356,14 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"/>
 
+        <activity android:name=".WorkshopWashingGoaHistory"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
+        <activity android:name=".WorkshopWashingReportGoa"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"/>
+
 
         <activity
             android:name=".MainActivity"

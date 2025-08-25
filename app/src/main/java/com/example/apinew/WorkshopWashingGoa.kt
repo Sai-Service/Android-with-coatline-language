@@ -4,6 +4,7 @@ package com.example.apinew
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -70,6 +71,12 @@ class WorkshopWashingGoa : AppCompatActivity() {
     private lateinit var enterVehNumber:EditText
     private lateinit var vehWashButtonIn:ImageButton
     private lateinit var vehWashButtonOut:ImageButton
+
+    private lateinit var chassisNoEnterLL:View
+    private lateinit var enterChassisNumber:EditText
+    private lateinit var chassisWashButtonIn:ImageButton
+    private lateinit var chassisWashButtonOut:ImageButton
+
     private lateinit var regNoDetails:TextView
     private lateinit var bestResult2: String
     private lateinit var washStageNumber:TextView
@@ -83,6 +90,8 @@ class WorkshopWashingGoa : AppCompatActivity() {
     private lateinit var model:String
     private lateinit var serviceAdvisor:String
     private lateinit var vehWashNo:String
+    private lateinit var vinNo:String
+    private lateinit var manufacturer:String
     private lateinit var resetFields:TextView
     private lateinit var submitButton:TextView
     private lateinit var dateTimeToSend:String
@@ -140,6 +149,10 @@ class WorkshopWashingGoa : AppCompatActivity() {
         submitButton=findViewById(R.id.submitButton)
         submitButtonOut=findViewById(R.id.submitButtonOut)
 
+       chassisNoEnterLL=findViewById(R.id.chassisNoEnterLL)
+        enterChassisNumber=findViewById(R.id.enterChassisNumber)
+        chassisWashButtonIn=findViewById(R.id.chassisWashButtonIn)
+        chassisWashButtonOut=findViewById(R.id.chassisWashButtonOut)
 
 
         washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -160,6 +173,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
         submitButton.visibility=View.GONE
         vehWashButtonOut.visibility=View.GONE
         submitButtonOut.visibility=View.GONE
+        chassisNoEnterLL.visibility=View.GONE
 
 
 //        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
@@ -181,21 +195,90 @@ class WorkshopWashingGoa : AppCompatActivity() {
             refreshData()
         }
 
-        washIn.setOnClickListener{
-            captureVehNumber.visibility=View.VISIBLE
-            vehNoEnterLL.visibility=View.VISIBLE
-            enterVehNumber.visibility=View.VISIBLE
-            vehWashButtonIn.visibility=View.VISIBLE
-            vehWashButtonOut.visibility=View.GONE
+//        washIn.setOnClickListener{
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.VISIBLE
+//            vehWashButtonOut.visibility=View.GONE
+//        }
+//
+//        washOut.setOnClickListener{
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.GONE
+//            vehWashButtonOut.visibility=View.VISIBLE
+//        }
+//
+
+
+        washIn.setOnClickListener {
+            val options = arrayOf("By Vehicle Number", "By Chassis Number")
+
+            val builder = AlertDialog.Builder(this@WorkshopWashingGoa)
+            builder.setTitle("Select Wash In Method")
+
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> { // Vehicle Number - IN
+                        Toast.makeText(this@WorkshopWashingGoa, "Clicked on Wash In by Vehicle Button", Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility = View.VISIBLE
+                        vehNoEnterLL.visibility = View.VISIBLE
+                        enterVehNumber.visibility = View.VISIBLE
+                        vehWashButtonIn.visibility = View.VISIBLE
+                        vehWashButtonOut.visibility = View.GONE
+                        chassisNoEnterLL.visibility = View.GONE
+                    }
+                    1 -> { //Chassis Number - IN
+                        Toast.makeText(this@WorkshopWashingGoa, "Clicked on Wash In by Chassis Button", Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility = View.GONE
+                        chassisNoEnterLL.visibility = View.VISIBLE
+                        enterChassisNumber.visibility = View.VISIBLE
+                        chassisWashButtonIn.visibility = View.VISIBLE
+                        chassisWashButtonOut.visibility = View.GONE
+                        vehNoEnterLL.visibility = View.GONE
+                    }
+                }
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
         }
 
-        washOut.setOnClickListener{
-            captureVehNumber.visibility=View.VISIBLE
-            vehNoEnterLL.visibility=View.VISIBLE
-            enterVehNumber.visibility=View.VISIBLE
-            vehWashButtonIn.visibility=View.GONE
-            vehWashButtonOut.visibility=View.VISIBLE
+
+        washOut.setOnClickListener {
+            val options = arrayOf("By Vehicle Number", "By Chassis Number")
+
+            val builder = AlertDialog.Builder(this@WorkshopWashingGoa)
+            builder.setTitle("Select Wash Out Method")
+
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> { //Vehicle Number - OUT
+                        Toast.makeText(this@WorkshopWashingGoa,"Clicked on Wash Out By Vehicle Number",Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility=View.VISIBLE
+                        vehNoEnterLL.visibility=View.VISIBLE
+                        enterVehNumber.visibility=View.VISIBLE
+                        vehWashButtonIn.visibility=View.GONE
+                        vehWashButtonOut.visibility=View.VISIBLE
+                        chassisNoEnterLL.visibility=View.GONE
+                    }
+                    1 -> { //Chassis Number - OUT
+                        Toast.makeText(this@WorkshopWashingGoa,"Clicked on Wash Out by Chassis",Toast.LENGTH_SHORT).show()
+                        captureVehNumber.visibility=View.GONE
+                        chassisNoEnterLL.visibility=View.VISIBLE
+                        enterChassisNumber.visibility=View.VISIBLE
+                        chassisWashButtonIn.visibility=View.GONE
+                        chassisWashButtonOut.visibility=View.VISIBLE
+                        vehNoEnterLL.visibility=View.GONE
+                    }
+                }
+            }
+
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
         }
+
 
         vehWashButtonIn.setOnClickListener {
             detailsForVehicleInFirstTime()
@@ -205,20 +288,23 @@ class WorkshopWashingGoa : AppCompatActivity() {
             detailsForVehicleOut()
         }
 
+        chassisWashButtonIn.setOnClickListener { getChassisDetailsForInWithSelection() }
+
+        chassisWashButtonOut.setOnClickListener { getChassisDetailsForOutWithSelection() }
 
 
-        washStageNumberLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                fetchwashStageType()
-                if (washStageNumberLov.selectedItem.toString()!="Select Washing Stage") {
-                    washStageType.visibility = View.VISIBLE
-                } else {
-                    washStageType.visibility = View.GONE
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        }
+//        washStageNumberLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//                fetchwashStageType()
+//                if (washStageNumberLov.selectedItem.toString()!="Select Washing Stage") {
+//                    washStageType.visibility = View.VISIBLE
+//                } else {
+//                    washStageType.visibility = View.GONE
+//                }
+//            }
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//            }
+//        }
 
         captureRegNoCamera.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -260,7 +346,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
     }
 
     private fun workShopTestDriveVehHistory() {
-        val intent = Intent(this@WorkshopWashingGoa, WorkshopWashingVehicleHistory::class.java)
+        val intent = Intent(this@WorkshopWashingGoa, WorkshopWashingGoaHistory::class.java)
         intent.putExtra("login_name", login_name)
         intent.putExtra("ouId", ouId)
         intent.putExtra("locId", locId)
@@ -501,57 +587,54 @@ class WorkshopWashingGoa : AppCompatActivity() {
 
 
 
-    private fun fetchwashStageNumber() {
-        val cmnType="WASHSTAGE"
-        val client = OkHttpClient()
-        val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
-            .url(WorkshopWashingUrlManager.fetchWashStageNumber())
-            .build()
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = client.newCall(request).execute()
-                val jsonData = response.body?.string()
-                jsonData?.let {
-                    val cities = parsewashStageNumber(it)
-                    runOnUiThread {
-                        val adapter = ArrayAdapter(this@WorkshopWashingGoa, android.R.layout.simple_spinner_item, cities
-                        )
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        washStageNumberLov.adapter = adapter
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun parsewashStageNumber(jsonData: String): List<String> {
-        val cities = mutableListOf<String>()
-        try {
-            val jsonObject = JSONObject(jsonData)
-            val jsonArray = jsonObject.getJSONArray("obj")
-            cities.add("Select Washing Stage")
-            for (i in 0 until jsonArray.length()) {
-                val city = jsonArray.getJSONObject(i)
-                val desc = city.getString("CMNCODE")
-                cities.add(desc)
-            }
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        return cities
-    }
+//    private fun fetchwashStageNumber() {
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+////            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
+//            .url(WorkshopWashingUrlManager.fetchWashStageNumber())
+//            .build()
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val cities = parsewashStageNumber(it)
+//                    runOnUiThread {
+//                        val adapter = ArrayAdapter(this@WorkshopWashingGoa, android.R.layout.simple_spinner_item, cities
+//                        )
+//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                        washStageNumberLov.adapter = adapter
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+//
+//    private fun parsewashStageNumber(jsonData: String): List<String> {
+//        val cities = mutableListOf<String>()
+//        try {
+//            val jsonObject = JSONObject(jsonData)
+//            val jsonArray = jsonObject.getJSONArray("obj")
+//            cities.add("Select Washing Stage")
+//            for (i in 0 until jsonArray.length()) {
+//                val city = jsonArray.getJSONObject(i)
+//                val desc = city.getString("CMNCODE")
+//                cities.add(desc)
+//            }
+//        } catch (e: JSONException) {
+//            e.printStackTrace()
+//        }
+//        return cities
+//    }
 
     private val selectedStages = mutableListOf<String>()
 
     private fun fetchwashStageType() {
-        val cmnCode = washStageNumberLov.selectedItem.toString()
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
-            .url(WorkshopWashingUrlManager.fetchwashStageType(cmnCode))
+            .url("${ApiFile.APP_URL}/washingRegisterGa/washStagesGoa")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -576,7 +659,6 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                 setTextColor(Color.parseColor("#333333"))
                                 setPadding(20, 20, 20, 20)
                                 buttonDrawable = ContextCompat.getDrawable(context, R.drawable.checkbox_ripple)
-                                buttonDrawable = ContextCompat.getDrawable(context, R.drawable.checkbox_ripple)
                                 layoutParams = LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT,
                                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -584,16 +666,29 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                     setMargins(0, 10, 0, 10)
                                 }
                             }
+
                             checkBoxContainer.addView(checkBox)
 
-                            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                                 if (isChecked) {
+                                    for (j in 0 until checkBoxContainer.childCount) {
+                                        val otherCheckBox = checkBoxContainer.getChildAt(j) as CheckBox
+                                        if (otherCheckBox != buttonView) {
+                                            otherCheckBox.isChecked = false
+                                        }
+                                    }
+
+                                    selectedStages.clear()
                                     selectedStages.add(stage)
+
                                 } else {
-                                    selectedStages.remove(stage)
+                                    if (selectedStages.contains(stage)) {
+                                        selectedStages.remove(stage)
+                                    }
                                 }
                             }
                         }
+
                     }
 
                 }
@@ -625,7 +720,6 @@ class WorkshopWashingGoa : AppCompatActivity() {
     private fun populateFieldsAfterInSearch() {
         regNoDetails.visibility=View.VISIBLE
         washStageNumber.visibility=View.VISIBLE
-        washStageNumberLov.visibility=View.VISIBLE
         resetFields.visibility=View.VISIBLE
         submitButton.visibility=View.VISIBLE
     }
@@ -636,7 +730,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
         submitButtonOut.visibility=View.VISIBLE
     }
 
-    private fun refreshData(){
+    private fun refreshData() {
         regNoDetails.visibility=View.GONE
         washStageNumber.visibility=View.GONE
         washStageNumberLov.visibility=View.GONE
@@ -648,6 +742,8 @@ class WorkshopWashingGoa : AppCompatActivity() {
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout2)
         tableLayout.removeAllViews()
         enterVehNumber.setText("")
+        enterChassisNumber.setText("")
+        chassisNoEnterLL.visibility=View.GONE
         vehWashButtonIn.visibility=View.GONE
         vehWashButtonOut.visibility=View.GONE
         vehNoEnterLL.visibility=View.GONE
@@ -664,6 +760,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
         model=""
         serviceAdvisor=""
         vehWashNo=""
+        vinNo=""
         val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
         checkBoxContainer.removeAllViews()
     }
@@ -693,7 +790,9 @@ class WorkshopWashingGoa : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingGoa,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
+//        val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
+        val url="${ApiFile.APP_URL}/washingRegisterGa/vehDetailsForWashGa?regNo=$vehNo"
+
 
         val request = Request.Builder()
             .url(url)
@@ -714,50 +813,32 @@ class WorkshopWashingGoa : AppCompatActivity() {
                         ENGINE_NO=stockItem.optString("ENGINE_NO"),
                         REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
                         CUST_NAME=stockItem.optString("CUST_NAME"),
-
-                        AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                        ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                        FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                        FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                        FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
                         LOC_ID = stockItem.optString("LOC_ID"),
-                        LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
                         MODEL = stockItem.optString("MODEL"),
                         OU_ID = stockItem.optString("OU_ID"),
-                        PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
                         REG_NO = stockItem.optString("REG_NO"),
                         SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
-                        SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
                         STATUS = stockItem.optString("STATUS"),
-                        UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                        VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
                         VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
                         WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-
-                        SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                        DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                        GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                        VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
                         VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
                         REGNO=stockItem.optString("REGNO"),
-                        UPDATED_BY=stockItem.optString("UPDATED_BY")
+                        UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                        BODY_WASH = stockItem.optString("BODY_WASH"),
+                        DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                        DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                        FULL_WASH = stockItem.optString("FULL_WASH"),
+                        VIN = stockItem.optString("VIN"),
+                        IN_TIME = stockItem.optString("IN_TIME"),
+                        OUT_TIME = stockItem.optString("OUT_TIME"),
+                        LOCATION = stockItem.optString("LOCATION"),
+                        CREATED_BY = stockItem.optString("CREATED_BY"),
+                        MANUFACTURER = stockItem.optString("MANUFACTURER")
                     )
 
                     val responseMessage = jsonObject.getString("message")
 
                     when (responseMessage) {
-                        "Details for vehicle found in washing table" -> {
-                            runOnUiThread {
-                                populateFieldsAForThirdStage(jcData3)
-                                populateFieldsAfterInSearch()
-                                Toast.makeText(
-                                    this@WorkshopWashingGoa,
-                                    "Details for vehicle : $vehNo found in washing table",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                fetchwashStageNumber()
-                            }
-                        }
                         "Details Found Successfully in master table" -> {
                             runOnUiThread {
                                 populateFieldsForMastersTable(jcData3)
@@ -767,7 +848,19 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                     "Details Found Successfully in master table for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                fetchwashStageNumber()
+                                fetchwashStageType()
+                            }
+                        }
+                        "Details Found Successfully in tv stock table" -> {
+                            runOnUiThread {
+                                populateFieldsForTrueValueDataTable(jcData3)
+                                populateFieldsAfterInSearch()
+                                Toast.makeText(
+                                    this@WorkshopWashingGoa,
+                                    "Details for vehicle : $vehNo found in washing table",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                fetchwashStageType()
                             }
                         }
                         "New Vehicle" -> {
@@ -779,7 +872,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                     "New Vehicle details for Vehicle No: $vehNo",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                fetchwashStageNumber()
+                                fetchwashStageType()
                             }
                         }
                         else -> {
@@ -814,8 +907,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingGoa,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
-        val url = WorkshopWashingUrlManager.getdetailsForVehicleOutFirstTime(vehNo)
+        val url = ApiFile.APP_URL + "/washingRegisterGa/vehDetailsForWashOutGa?regNo=$vehNo"
 
         val request = Request.Builder().url(url).build()
 
@@ -834,31 +926,27 @@ class WorkshopWashingGoa : AppCompatActivity() {
                         ENGINE_NO=stockItem.optString("ENGINE_NO"),
                         REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
                         CUST_NAME=stockItem.optString("CUST_NAME"),
-                        AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
-                        ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
-                        FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
-                        FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
-                        FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
                         LOC_ID = stockItem.optString("LOC_ID"),
-                        LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
                         MODEL = stockItem.optString("MODEL"),
                         OU_ID = stockItem.optString("OU_ID"),
-                        PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
                         REG_NO = stockItem.optString("REG_NO"),
                         SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
-                        SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
                         STATUS = stockItem.optString("STATUS"),
-                        UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
-                        VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
                         VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
                         WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
-                        SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
-                        DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
-                        GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
-                        VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
                         VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
                         REGNO=stockItem.optString("REGNO"),
-                        UPDATED_BY=stockItem.optString("UPDATED_BY")
+                        UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                        BODY_WASH = stockItem.optString("BODY_WASH"),
+                        DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                        DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                        FULL_WASH = stockItem.optString("FULL_WASH"),
+                        VIN = stockItem.optString("VIN"),
+                        IN_TIME = stockItem.optString("IN_TIME"),
+                        OUT_TIME = stockItem.optString("OUT_TIME"),
+                        LOCATION = stockItem.optString("LOCATION"),
+                        CREATED_BY = stockItem.optString("CREATED_BY"),
+                        MANUFACTURER = stockItem.optString("MANUFACTURER")
                     )
 
                     val responseMessage = jsonObject.getString("message")
@@ -873,7 +961,6 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                     "Details for vehicle : $vehNo found in washing table",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                fetchwashStageNumber()
                             }
                         }
                         else -> {
@@ -908,9 +995,13 @@ class WorkshopWashingGoa : AppCompatActivity() {
             return
         }
 
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashProceed/"
+        val url = ApiFile.APP_URL + "/washingRegisterGa/vehWashProceedGa/"
         val jsonObject = JSONObject().apply {
-            put("regNo", regNo)
+            if (::regNo.isInitialized) {
+                if(regNo.isNotEmpty() ) {
+                    put("regNo", regNo)
+                }
+            }
             if (::chassisNo.isInitialized) {
                 if(chassisNo.isNotEmpty() ) {
                     put("chassisNo", chassisNo)
@@ -931,18 +1022,22 @@ class WorkshopWashingGoa : AppCompatActivity() {
                     put("model",model)
                 }
             }
-
+            if (::vinNo.isInitialized) {
+                if(vinNo.isNotEmpty() ) {
+                    put("vin",vinNo)
+                }
+            }
+            if (::manufacturer.isInitialized) {
+                if(manufacturer.isNotEmpty() ) {
+                    put("attribute1",manufacturer)
+                }
+            }
             put("locId", locId.toString())
             put("ouId", ouId.toString())
-            put("dept", deptName)
-            put("createdBy", login_name)
+            put("loginName", login_name)
             put("location", location_name)
-            put("authorisedBy", login_name)
             put("updatedBy", attribute1)
-            put("washingSupervisor",login_name)
-            put("attribute1", selectedStages.getOrNull(0) ?: "")
-            put("attribute2", selectedStages.getOrNull(1) ?: "")
-            put("attribute3", selectedStages.getOrNull(2) ?: "")
+            put("status", selectedStages.firstOrNull() ?: "")
         }
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
@@ -1026,12 +1121,16 @@ class WorkshopWashingGoa : AppCompatActivity() {
 
 
     private fun vehicleOut() {
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashOut/"
+        val url = ApiFile.APP_URL + "/washingRegisterGa/vehWashOutGa/"
         val jsonObject = JSONObject().apply {
-            put("regNo", regNo)
             if (::regNo.isInitialized) {
                 if(regNo.isNotEmpty() ) {
                     put("regNo", regNo)
+                }
+            }
+            if (::vinNo.isInitialized) {
+                if(vinNo.isNotEmpty() ) {
+                    put("vin", vinNo)
                 }
             }
             put("updatedBy", attribute1)
@@ -1110,6 +1209,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
         val detailsMap = mutableMapOf(
             "REG NO" to jcData.INSTANCE_NUMBER,
             "CHASSIS NO" to jcData.CHASSIS_NO,
+            "VIN" to jcData.VIN,
             "ENGINE NO" to jcData.ENGINE_NO,
             "MODEL" to jcData.VEHICLE_DESC,
             "SER ADV" to jcData.SERVICE_ADVISOR
@@ -1122,6 +1222,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
         model=jcData.VEHICLE_DESC
         serviceAdvisor=jcData.SERVICE_ADVISOR
         chassisNo=jcData.CHASSIS_NO
+        vinNo=jcData.VIN
 
         for ((label, value) in detailsMap) {
             val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1141,29 +1242,25 @@ class WorkshopWashingGoa : AppCompatActivity() {
         }
     }
 
-    private fun populateFieldsAForThirdStage(jcData: allData) {
+    private fun populateFieldsForTrueValueDataTable(jcData: allData) {
         val table = findViewById<TableLayout>(R.id.tableLayout2)
         table.removeAllViews()
 
         val detailsMap = mutableMapOf(
             "REG NO" to jcData.REG_NO,
             "CHASSIS NO" to jcData.CHASSIS_NO,
-            "SERVICE ADVISOR" to jcData.SERVICE_ADVISOR,
-            "PROMISED TIME" to jcData.PROMISED_TIME,
-            "WASHING SUPERVISOR" to jcData.WASHING_SUPERVISOR,
-            "1ST STAGE IN TIME" to jcData.FS_IN_TIME,
-            "1ST STAGE OUT TIME" to jcData.FS_OUT_TIME,
-            "SS IN TIME" to jcData.SS_IN_TIME,
-            "SS_OUT_TIME" to jcData.SS_OUT_TIME,
-            "DS_IN_TIME" to jcData.DS_IN_TIME,
-            "VEH EXTERIOR STN" to jcData.VEH_EXTERIOR_STN,
-            "GLASS POLISH STN" to jcData.GLASS_POLISH_STN
+            "VIN" to jcData.VIN,
+            "ENGINE NO" to jcData.ENGINE_NO,
+            "MODEL" to jcData.MODEL,
+            "TYPE" to jcData.MANUFACTURER
         )
 
         regNo=jcData.REG_NO
+        engineNo=jcData.ENGINE_NO
         chassisNo=jcData.CHASSIS_NO
-        vehWashNo=jcData.VEH_WASH_NO
-        serviceAdvisor=jcData.SERVICE_ADVISOR
+        model=jcData.MODEL
+        vinNo=jcData.VIN
+        manufacturer=jcData.MANUFACTURER
 
         for ((label, value) in detailsMap) {
             val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
@@ -1195,25 +1292,20 @@ class WorkshopWashingGoa : AppCompatActivity() {
             "CHASSIS NO" to jcData.CHASSIS_NO,
             "MODEL" to jcData.MODEL,
             "SERVICE ADVISOR" to jcData.SERVICE_ADVISOR,
-            "PROMISED TIME" to jcData.PROMISED_TIME,
             "WASHING SUPERVISOR" to washSuperVisor,
-            "1ST STAGE IN" to jcData.FS_IN_TIME,
-            "AIR BLOW STN" to jcData.AIR_BLOW_STN,
-            "UNDER BODY STN" to jcData.UNDERBODY_STN,
-            "ENGINE ROOM STN" to jcData.ENGINE_ROOM_STN,
-            "1ST STAGE OUT" to jcData.FS_OUT_TIME,
-            "2ND STAGE IN" to jcData.SS_IN_TIME,
-            "LOOSE ITEMS STN" to jcData.LOOSE_ITEMS_STN,
-            "VEH INTERIOR STN" to jcData.VEH_INTERIOR_STN,
-            "2ND STAGE OUT" to jcData.SS_OUT_TIME,
-            "DS_IN_TIME" to jcData.DS_IN_TIME,
-            "VEH EXTERIOR STN" to jcData.VEH_EXTERIOR_STN,
-            "GLASS POLISH STN" to jcData.GLASS_POLISH_STN
+            "VIN" to jcData.VIN,
+            "IN TIME" to jcData.IN_TIME,
+            "BODY WASH" to jcData.BODY_WASH,
+            "FULL WASH" to jcData.FULL_WASH,
+            "DRY BODY WASH" to jcData.DRY_BODY_WASH,
+            "DRY WASH FULL" to jcData.DRY_WASH_FULL,
+            "OUT TIME" to jcData.OUT_TIME
         )
 
         regNo = jcData.REG_NO
         chassisNo = jcData.CHASSIS_NO
         vehWashNo = jcData.VEH_WASH_NO
+        vinNo = jcData.VIN
 
         for ((label, value) in detailsMap) {
             if (value != null && value!= "-") {
@@ -1268,49 +1360,522 @@ class WorkshopWashingGoa : AppCompatActivity() {
     }
 
     data class allData(
+        val WASHING_SUPERVISOR:String,
+        val LOC_ID:String,
+        val FULL_WASH:String,
+        val IN_TIME:String,
+        val CREATED_BY:String,
+        val STATUS:String,
+        val LOCATION:String,
+        val SERVICE_ADVISOR:String,
+        val OU_ID:String,
+        val DRY_BODY_WASH:String,
+        val UPDATED_BY:String,
+        val CHASSIS_NO:String,
+        val OUT_TIME:String,
+        val DRY_WASH_FULL:String,
+        val REG_NO:String,
+        val VIN:String,
+        val VEH_WASH_NO:String,
+        val BODY_WASH:String,
+        val MODEL:String,
+        val REGNO:String,
+        val INSTANCE_NUMBER:String,
         val ACCOUNT_NUMBER:String,
         val ENGINE_NO:String,
         val REGISTRATION_DATE:String,
         val CUST_NAME:String,
-        val INSTANCE_NUMBER:String,
-        val CHASSIS_NO:String,
-
-
-
-        val OU_ID:String,
-        val AIR_BLOW_STN:String,
-        val ENGINE_ROOM_STN:String,
-        val VEH_INTERIOR_STN:String,
-        val VEH_WASH_NO:String,
-        val PROMISED_TIME:String,
-        val FS_IN_TIME:String,
-        val FIRST_STAGE:String,
-        val LOC_ID:String,
-        val SERVICE_ADVISOR:String,
-        val REG_NO:String,
-        val SS_IN_TIME:String,
-        val FS_OUT_TIME:String,
-        val LOOSE_ITEMS_STN:String,
-        val WASHING_SUPERVISOR:String,
-        val MODEL:String,
-        val STATUS:String,
-        val UNDERBODY_STN:String,
-
-        val SS_OUT_TIME:String,
-        val VEH_EXTERIOR_STN:String,
-        val GLASS_POLISH_STN:String,
-        val DS_IN_TIME:String,
         val VEHICLE_DESC:String,
+
+        //FOR TRUE VALUE
+        val MANUFACTURER:String,
+
+        )
+
+
+    /////////////// - SEARCH ON BASIS OF CHASSIS NUMBER - //////////////////////
+
+    private fun getChassisDetailsForInWithSelection() {
+        val client = OkHttpClient()
+        val chassisNo = enterChassisNumber.text.toString()
+
+        if (chassisNo.isEmpty()) {
+            Toast.makeText(this@WorkshopWashingGoa, "Please enter chassis number", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
+        val request = Request.Builder().url(url).build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    val code = jsonObject.optInt("code")
+                    val objArray = jsonObject.getJSONArray("obj")
+
+                    if (code == 200) {
+                        if (objArray.length() == 1) {
+                            val stockItem = objArray.getJSONObject(0)
+                            val jcData = chassisData(
+                                INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+                                CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+                                ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+                                ENGINE_NO=stockItem.optString("ENGINE_NO"),
+                                REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+                                CUST_NAME=stockItem.optString("CUST_NAME"),
+                                LOC_ID = stockItem.optString("LOC_ID"),
+                                MODEL = stockItem.optString("MODEL"),
+                                OU_ID = stockItem.optString("OU_ID"),
+                                REG_NO = stockItem.optString("REG_NO"),
+                                SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+                                STATUS = stockItem.optString("STATUS"),
+                                VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+                                WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+                                VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+                                REGNO=stockItem.optString("REGNO"),
+                                UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                                BODY_WASH = stockItem.optString("BODY_WASH"),
+                                DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                                DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                                FULL_WASH = stockItem.optString("FULL_WASH"),
+                                VIN = stockItem.optString("VIN"),
+                                IN_TIME = stockItem.optString("IN_TIME"),
+                                OUT_TIME = stockItem.optString("OUT_TIME"),
+                                LOCATION = stockItem.optString("LOCATION"),
+                                CREATED_BY = stockItem.optString("CREATED_BY"),
+                                CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
+                                ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
+                                MODEL_CD = stockItem.optString("MODEL_CD"),
+                                VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+                                VARIANT_CD = stockItem.optString("VARIANT_CD"),
+                                OPERATING_UNIT = stockItem.optString("OPERATING_UNIT")
+                            )
+                            runOnUiThread {
+                                populateFieldsFromVinData(jcData)
+                                regNoDetails.text="Details found by Chassis Number"
+                                populateFieldsAfterInSearch()
+                                fetchwashStageType()
+                            }
+
+                        } else if (objArray.length() > 1) {
+                            val vinList = mutableListOf<String>()
+                            for (i in 0 until objArray.length()) {
+                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
+                            }
+
+                            runOnUiThread {
+                                showVinSelectionDialogIn(vinList)
+                            }
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@WorkshopWashingGoa, "Error: ${jsonObject.optString("message")}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(this@WorkshopWashingGoa, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showVinSelectionDialogIn(vinList: List<String>) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select VIN")
+        builder.setItems(vinList.toTypedArray()) { _, which ->
+            val selectedVin = vinList[which]
+            fetchDetailsByVin(selectedVin)
+        }
+        builder.show()
+    }
+
+    private fun fetchDetailsByVin(vin: String) {
+        val client = OkHttpClient()
+        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
+
+        val request = Request.Builder().url(url).build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    val objArray = jsonObject.getJSONArray("obj")
+                    if (objArray.length() > 0) {
+                        val stockItem = objArray.getJSONObject(0)
+
+                        val jcData = chassisData(
+                            INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+                            CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+                            ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+                            ENGINE_NO=stockItem.optString("ENGINE_NO"),
+                            REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+                            CUST_NAME=stockItem.optString("CUST_NAME"),
+                            LOC_ID = stockItem.optString("LOC_ID"),
+                            MODEL = stockItem.optString("MODEL"),
+                            OU_ID = stockItem.optString("OU_ID"),
+                            REG_NO = stockItem.optString("REG_NO"),
+                            SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+                            STATUS = stockItem.optString("STATUS"),
+                            VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+                            WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+                            VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+                            REGNO=stockItem.optString("REGNO"),
+                            UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                            BODY_WASH = stockItem.optString("BODY_WASH"),
+                            DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                            DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                            FULL_WASH = stockItem.optString("FULL_WASH"),
+                            VIN = stockItem.optString("VIN"),
+                            IN_TIME = stockItem.optString("IN_TIME"),
+                            OUT_TIME = stockItem.optString("OUT_TIME"),
+                            LOCATION = stockItem.optString("LOCATION"),
+                            CREATED_BY = stockItem.optString("CREATED_BY"),
+                            CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
+                            ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
+                            MODEL_CD = stockItem.optString("MODEL_CD"),
+                            VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+                            VARIANT_CD = stockItem.optString("VARIANT_CD"),
+                            OPERATING_UNIT = stockItem.optString("OPERATING_UNIT")
+                        )
+
+                        runOnUiThread {
+                            populateFieldsFromVinData(jcData)
+                            regNoDetails.text="Details found by Chassis Number"
+                            populateFieldsAfterInSearch()
+                            fetchwashStageType()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun populateFieldsFromVinData(chData:chassisData) {
+        val table = findViewById<TableLayout>(R.id.tableLayout2)
+        table.removeAllViews()
+
+        val detailsMap = mutableMapOf(
+            "CHASSIS NO" to chData.CHASSIS_NUM,
+            "VIN" to chData.VIN,
+            "ENGINE NO" to chData.ENGINE_NUM,
+            "MODEL" to chData.MODEL_CD
+        )
+
+        chassisNo=chData.CHASSIS_NUM
+        vinNo=chData.VIN
+        engineNo=chData.ENGINE_NUM
+        model=chData.MODEL_CD
+
+        for ((label, value) in detailsMap) {
+            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+            val labelTextView = row.findViewById<TextView>(R.id.label)
+            val valueTextView = row.findViewById<TextView>(R.id.value)
+
+            labelTextView.text = label
+            valueTextView.text = value
+
+            table.addView(row)
+        }
+
+        if (table.childCount > 0) {
+            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+        }
+    }
+
+
+    private fun getChassisDetailsForOutWithSelection() {
+        val client = OkHttpClient()
+        val chassisNo = enterChassisNumber.text.toString()
+
+        if (chassisNo.isEmpty()) {
+            Toast.makeText(this@WorkshopWashingGoa,"Please enter chassis number", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val url = "${ApiFile.APP_URL}/washingRegisterGa/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
+        val request = Request.Builder().url(url).build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    val code = jsonObject.optInt("code")
+                    val objArray = jsonObject.getJSONArray("obj")
+
+                    if (code == 200) {
+                        if (objArray.length() == 1) {
+                            val stockItem = objArray.getJSONObject(0)
+
+                            val jcData = chassisData(
+                                INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+                                CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+                                ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+                                ENGINE_NO=stockItem.optString("ENGINE_NO"),
+                                REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+                                CUST_NAME=stockItem.optString("CUST_NAME"),
+                                LOC_ID = stockItem.optString("LOC_ID"),
+                                MODEL = stockItem.optString("MODEL"),
+                                OU_ID = stockItem.optString("OU_ID"),
+                                REG_NO = stockItem.optString("REG_NO"),
+                                SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+                                STATUS = stockItem.optString("STATUS"),
+                                VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+                                WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+                                VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+                                REGNO=stockItem.optString("REGNO"),
+                                UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                                BODY_WASH = stockItem.optString("BODY_WASH"),
+                                DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                                DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                                FULL_WASH = stockItem.optString("FULL_WASH"),
+                                VIN = stockItem.optString("VIN"),
+                                IN_TIME = stockItem.optString("IN_TIME"),
+                                OUT_TIME = stockItem.optString("OUT_TIME"),
+                                LOCATION = stockItem.optString("LOCATION"),
+                                CREATED_BY = stockItem.optString("CREATED_BY"),
+                                CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
+                                ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
+                                MODEL_CD = stockItem.optString("MODEL_CD"),
+                                VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+                                VARIANT_CD = stockItem.optString("VARIANT_CD"),
+                                OPERATING_UNIT = stockItem.optString("OPERATING_UNIT")
+                            )
+
+                            runOnUiThread {
+                                populateFieldsFromVinDataOut(jcData)
+                                regNoDetails.text="Details found by Chassis Number"
+                                populateFieldsAfterOutSearch()
+                            }
+
+                        }
+//                        if (objArray.length() == 1) {
+//                            val vinList = mutableListOf<String>()
+//                            for (i in 0 until objArray.length()) {
+//                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
+//                            }
+//
+//                            runOnUiThread {
+//                                showVinSelectionDialogOut(vinList)
+//                            }
+//                        }
+                        else if (objArray.length() > 1) {
+                            val vinList = mutableListOf<String>()
+                            for (i in 0 until objArray.length()) {
+                                vinList.add(objArray.getJSONObject(i).optString("VIN"))
+                            }
+
+                            runOnUiThread {
+                                showVinSelectionDialogOut(vinList)
+                            }
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@WorkshopWashingGoa, "Error: ${jsonObject.optString("message")}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(this@WorkshopWashingGoa, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showVinSelectionDialogOut(vinList: List<String>) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select VIN")
+        builder.setItems(vinList.toTypedArray()) { _, which ->
+            val selectedVin = vinList[which]
+            fetchDetailsByVinOut(selectedVin)
+        }
+        builder.show()
+    }
+
+    private fun fetchDetailsByVinOut(vin: String) {
+        val client = OkHttpClient()
+        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
+
+        val request = Request.Builder().url(url).build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                val jsonData = response.body?.string()
+
+                jsonData?.let {
+                    val jsonObject = JSONObject(it)
+                    val objArray = jsonObject.getJSONArray("obj")
+                    if (objArray.length() > 0) {
+                        val stockItem = objArray.getJSONObject(0)
+
+                        val jcData = chassisData(
+                            INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+                            CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+                            ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+                            ENGINE_NO=stockItem.optString("ENGINE_NO"),
+                            REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+                            CUST_NAME=stockItem.optString("CUST_NAME"),
+                            LOC_ID = stockItem.optString("LOC_ID"),
+                            MODEL = stockItem.optString("MODEL"),
+                            OU_ID = stockItem.optString("OU_ID"),
+                            REG_NO = stockItem.optString("REG_NO"),
+                            SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+                            STATUS = stockItem.optString("STATUS"),
+                            VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+                            WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+                            VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+                            REGNO=stockItem.optString("REGNO"),
+                            UPDATED_BY=stockItem.optString("UPDATED_BY"),
+                            BODY_WASH = stockItem.optString("BODY_WASH"),
+                            DRY_BODY_WASH = stockItem.optString("DRY_BODY_WASH"),
+                            DRY_WASH_FULL = stockItem.optString("DRY_WASH_FULL"),
+                            FULL_WASH = stockItem.optString("FULL_WASH"),
+                            VIN = stockItem.optString("VIN"),
+                            IN_TIME = stockItem.optString("IN_TIME"),
+                            OUT_TIME = stockItem.optString("OUT_TIME"),
+                            LOCATION = stockItem.optString("LOCATION"),
+                            CREATED_BY = stockItem.optString("CREATED_BY"),
+                            CHASSIS_NUM = stockItem.optString("CHASSIS_NUM"),
+                            ENGINE_NUM = stockItem.optString("ENGINE_NUM"),
+                            MODEL_CD = stockItem.optString("MODEL_CD"),
+                            VARIANT_DESC = stockItem.optString("VARIANT_DESC"),
+                            VARIANT_CD = stockItem.optString("VARIANT_CD"),
+                            OPERATING_UNIT = stockItem.optString("OPERATING_UNIT"),
+                        )
+
+                        val responseMessage = jsonObject.getString("message")
+                        val code = jsonObject.getString("code")
+
+                        when (responseMessage) {
+                            "Details for vehicle found in washing table" -> {
+                                runOnUiThread {
+                                    populateFieldsFromVinDataOut(jcData)
+                                    regNoDetails.text="Details found by Chassis Number"
+                                    populateFieldsAfterOutSearch()
+                                    Toast.makeText(
+                                        this@WorkshopWashingGoa,
+                                        "Details found in washing table",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            "Details not found" -> {
+                                runOnUiThread {
+                                    Toast.makeText(
+                                        this@WorkshopWashingGoa,
+                                        "Details not found",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    private fun populateFieldsFromVinDataOut(jcData:chassisData) {
+        val table = findViewById<TableLayout>(R.id.tableLayout2)
+        table.removeAllViews()
+
+        val detailsMap = mutableMapOf(
+            "CHASSIS NO" to jcData.CHASSIS_NO,
+            "VIN" to jcData.VIN,
+            "REG NO" to jcData.REG_NO,
+            "MODEL" to jcData.MODEL,
+            "WASHING SUPERVISOR" to jcData.WASHING_SUPERVISOR,
+            "IN TIME" to jcData.IN_TIME,
+            "BODY WASH" to jcData.BODY_WASH,
+            "FULL WASH" to jcData.FULL_WASH,
+            "DRY BODY WASH" to jcData.DRY_BODY_WASH,
+            "DRY WASH FULL" to jcData.DRY_WASH_FULL,
+            "OUT TIME" to jcData.OUT_TIME,
+        )
+
+        vinNo=jcData.VIN
+        regNo=jcData.REG_NO
+
+
+        for ((label, value) in detailsMap) {
+            if (value != null && value!= "-") {
+                val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+                val labelTextView = row.findViewById<TextView>(R.id.label)
+                val valueTextView = row.findViewById<TextView>(R.id.value)
+
+                labelTextView.text = label
+                valueTextView.text = value
+
+                table.addView(row)
+            }
+        }
+
+        if (table.childCount > 0) {
+            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+        }
+    }
+
+
+    data class chassisData(
+        val WASHING_SUPERVISOR:String,
+        val LOC_ID:String,
+        val FULL_WASH:String,
+        val IN_TIME:String,
+        val CREATED_BY:String,
+        val STATUS:String,
+        val LOCATION:String,
+        val SERVICE_ADVISOR:String,
+        val OU_ID:String,
+        val DRY_BODY_WASH:String,
+        val UPDATED_BY:String,
+        val CHASSIS_NO:String,
+        val OUT_TIME:String,
+        val DRY_WASH_FULL:String,
+        val REG_NO:String,
+        val VIN:String,
+        val VEH_WASH_NO:String,
+        val BODY_WASH:String,
+        val MODEL:String,
         val REGNO:String,
+        val INSTANCE_NUMBER:String,
+        val ACCOUNT_NUMBER:String,
+        val ENGINE_NO:String,
+        val REGISTRATION_DATE:String,
+        val CUST_NAME:String,
+        val VEHICLE_DESC:String,
+        //by chassis
+        val ENGINE_NUM:String,
+        val VARIANT_DESC:String,
+        val VARIANT_CD:String,
+        val OPERATING_UNIT:String,
+        val CHASSIS_NUM:String,
+        val MODEL_CD:String,
 
-        val UPDATED_BY:String
     )
-
-    data class WashStageType(
-        val name: String,
-        var isSelected: Boolean = false
-    )
-
 
 }
 

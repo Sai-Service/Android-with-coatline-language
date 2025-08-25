@@ -504,10 +504,7 @@ class WorkshopWashingModule : AppCompatActivity() {
         return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
     }
 
-
-
     private fun fetchwashStageNumber() {
-        val cmnType="WASHSTAGE"
         val client = OkHttpClient()
         val request = Request.Builder()
 //            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
@@ -550,7 +547,6 @@ class WorkshopWashingModule : AppCompatActivity() {
     }
 
     private val selectedStages = mutableListOf<String>()
-
     private fun fetchwashStageType() {
         val cmnCode = washStageNumberLov.selectedItem.toString()
         val client = OkHttpClient()

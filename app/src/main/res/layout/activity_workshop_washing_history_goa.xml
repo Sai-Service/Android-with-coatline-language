@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background2">
+
+    <LinearLayout
+        android:id="@+id/topContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="274dp"
+            android:layout_height="48dp"
+            android:src="@drawable/saiservicelogo"
+            android:contentDescription="@string/app_name" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="VEHICLE WASHING HISTORY"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Search box -->
+        <EditText
+            android:id="@+id/textViewStatus"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/modern_edittext_gradient"
+            android:hint="Enter Vehicle/Chassis No"
+            android:inputType="textCapCharacters"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/stktrfIntrBtn"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:background="@drawable/department_button_gradient"
+                android:text="By Vehicle No"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                android:elevation="4dp" />
+
+            <TextView
+                android:id="@+id/chassisBtn"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:background="@drawable/department_button_gradient"
+                android:text="By Chassis No"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                android:elevation="4dp" />
+
+        </LinearLayout>
+
+        <!-- Buttons Row -->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:layout_marginTop="8dp">-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/stktrfIntrBtn"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:background="@drawable/gatepass_textview"-->
+        <!--                android:clickable="true"-->
+        <!--                android:focusable="true"-->
+        <!--                android:paddingHorizontal="12dp"-->
+        <!--                android:paddingVertical="8dp"-->
+        <!--                android:text="By Vehicle No"-->
+        <!--                android:textColor="#F5F6F8"-->
+        <!--                android:textSize="17sp"-->
+        <!--                android:textStyle="bold" />-->
+
+        <!--            <View-->
+        <!--                android:layout_width="16dp"-->
+        <!--                android:layout_height="1dp" />-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/chassisBtn"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:background="@drawable/gatepass_textview"-->
+        <!--                android:clickable="true"-->
+        <!--                android:focusable="true"-->
+        <!--                android:paddingHorizontal="12dp"-->
+        <!--                android:paddingVertical="8dp"-->
+        <!--                android:text="By Chassis No"-->
+        <!--                android:textColor="#F5F6F8"-->
+        <!--                android:textSize="17sp"-->
+        <!--                android:textStyle="bold" />-->
+        <!--        </LinearLayout>-->
+    </LinearLayout>
+
+    <!-- Table Section -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/topContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/transferTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:stretchColumns="1" />
+        </ScrollView>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
