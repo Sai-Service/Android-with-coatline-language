@@ -2,6 +2,7 @@ package com.example.apinew
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,7 @@ import android.text.method.PasswordTransformationMethod
 import android.text.method.HideReturnsTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
     private var buildVersion: Int = 0
     private  var hardCodedVersion:Double=0.0
     private lateinit var versionCheck:TextView
+    private lateinit var downloadBtn:Button
+    private lateinit var apkLink:String
+    private lateinit var linkTextView:TextView
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        hardCodedVersion=1.0
+        hardCodedVersion=1.2
 
 //        if (isEmulator()) {
 //            Toast.makeText(this, "App cannot run on emulator", Toast.LENGTH_LONG).show()
@@ -63,6 +68,12 @@ class MainActivity : AppCompatActivity() {
         password = findViewById(R.id.passwordEditText)
         btnLogin = findViewById(R.id.loginButton)
         versionCheck = findViewById(R.id.versionCheck)
+        downloadBtn = findViewById(R.id.downloadBtn)
+        linkTextView = findViewById(R.id.linkTextView)
+
+        linkTextView.visibility= View.GONE
+        downloadBtn.visibility=View.GONE
+
 
 
         val tvVersion = findViewById<TextView>(R.id.tvVersion)
@@ -125,6 +136,18 @@ class MainActivity : AppCompatActivity() {
 
 //        fetchLatestVersion()
 
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            linkTextView.text=apkLink
+//        }, 3000)
+
+
+
+
+        downloadBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(apkLink)
+            startActivity(intent)
+        }
     }
 
     private fun togglePasswordVisibility() {
@@ -402,13 +425,19 @@ class MainActivity : AppCompatActivity() {
                 val obj = jsonResponse.getJSONObject("obj")
 
                 appversion=obj.getString("versionCode")
+                apkLink=obj.optString("downloadUrl")
+                Log.d("downloadUrl",apkLink)
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     if(appversion.toDouble()==hardCodedVersion){
             btnLogin.isEnabled=true
+                        linkTextView.visibility= View.GONE
+                        downloadBtn.visibility=View.GONE
                         Toast.makeText(this@MainActivity,"You have the latest app version you can proceed",Toast.LENGTH_LONG).show()
                     } else if (appversion.toDouble()<hardCodedVersion) {
             btnLogin.isEnabled=false
+                        linkTextView.visibility= View.VISIBLE
+                        downloadBtn.visibility=View.VISIBLE
                         versionCheck.text="The new version is available kindly contact your IT-Admin"
 }
         }, 1000)
@@ -425,10 +454,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return null
     }
-
-
 
 }

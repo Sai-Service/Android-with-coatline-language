@@ -1116,6 +1116,7 @@ class WorkshopParkingModule : AppCompatActivity() {
                     val response = client.newCall(request).execute()
                     val jsonData = response.body?.string()
                     jsonData?.let {
+
                         val cities = parseGateType(it)
                         runOnUiThread {
                             val adapter = ArrayAdapter(
@@ -1251,129 +1252,6 @@ class WorkshopParkingModule : AppCompatActivity() {
         transferLocationLov.visibility=View.VISIBLE
         transferLocationTxtView.visibility=View.VISIBLE
     }
-
-
-//    private fun detailsForVehicleInFirstTime() {
-//        fetchGateNo()
-//        fetchDriverName()
-//        val client = OkHttpClient()
-//        val vehNo = newVehEditText.text.toString()
-//        if(vehNo.isEmpty()){
-//            Toast.makeText(this@WorkshopParkingModule,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        val url = ApiFile.APP_URL + "/tdParking/vehParkInDet?regNo=$vehNo"
-//
-//        val request = Request.Builder()
-//            .url(url)
-//            .build()
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = client.newCall(request).execute()
-//                val jsonData = response.body?.string()
-//                jsonData?.let {
-//                    val jsonObject = JSONObject(it)
-//
-//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
-//
-//                    val jcData3 = allData(
-//                        DEPT = stockItem.optString("DEPT"),
-//                        ENGINENO = stockItem.optString("ENGINENO"),
-//                        CHASSIS_NO = stockItem.optString("CHASSIS_NO"),
-//                        REGNO = stockItem.optString("REGNO"),
-//                        CUSTNAME = stockItem.optString("CUSTNAME"),
-//                        VIN = stockItem.optString("VIN"),
-//                        VARIANT_CODE = stockItem.optString("VARIANT_CODE"),
-//                        CONTACTNO = stockItem.optString("CONTACTNO"),
-//                        MODEL_DESC = stockItem.optString("MODEL_DESC"),
-//                        ERPACCTNO = stockItem.optString("ERPACCTNO"),
-//                        //Masters Table Data
-//                        ACCOUNT_NUMBER = stockItem.optString("ACCOUNT_NUMBER"),
-//                        ADDRESS = stockItem.optString("ADDRESS"),
-//                        CUST_NAME = stockItem.optString("CUST_NAME"),
-//                        EMAIL_ADDRESS = stockItem.optString("EMAIL_ADDRESS"),
-//                        ENGINE_NO = stockItem.optString("ENGINE_NO"),
-//                        INSTANCE_NUMBER = stockItem.optString("INSTANCE_NUMBER"),
-//                        PRIMARY_PHONE_NUMBER = stockItem.optString("PRIMARY_PHONE_NUMBER"),
-//                        REGISTRATION_DATE = stockItem.optString("REGISTRATION_DATE"),
-//                        //Out after vehicle in from location
-//                        IN_KM = stockItem.optString("IN_KM"),
-//                        IN_TIME = stockItem.optString("IN_TIME"),
-//                        REG_NO = stockItem.optString("REG_NO"),
-//                        REMARKS = stockItem.optString("REMARKS"),
-//                        TEST_DRIVE_NO = stockItem.optString("TEST_DRIVE_NO"),
-//                        LOCATION = stockItem.optString("LOCATION"),
-//                        //In after test Drive
-//                        OUT_KM = stockItem.optString("OUT_KM"),
-//                        OUT_TIME = stockItem.optString("OUT_TIME"),
-//                        SERVICE_ADVISOR=stockItem.optString("SERVICE_ADVISOR"),
-//                        DRIVER_IN=stockItem.optString("DRIVER_IN"),
-//                        DRIVER_OUT =stockItem.optString("DRIVER_OUT"),
-//                        VEHICLE_DESC = stockItem.optString("VEHICLE_DESC")
-//                    )
-//
-//                    val responseMessage = jsonObject.getString("message")
-//
-//                    when (responseMessage) {
-//                        "Details Found Successfully In Parking Table" -> { //1
-//                            runOnUiThread {
-//                                populateFieldsAfterVehicleInAfterTestDrive(jcData3)
-//                                populateFieldsAfterInSearch()
-//                                gateNumberTxtView.visibility=View.VISIBLE
-//                                gateNoLov.visibility=View.VISIBLE
-//                                Toast.makeText(
-//                                    this@WorkshopParkingModule,
-//                                    "Details found for Vehicle No: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                        "Details Found Successfully In Master Table" -> { //3
-//                            runOnUiThread {
-//                                populateFieldsDuringInFromMasterVehicle(jcData3)
-//                                populateFieldsAfterInSearch()
-//                                Toast.makeText(
-//                                    this@WorkshopParkingModule,
-//                                    "Details Found Successfully for Vehicle No: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                        "New Vehicle" -> { //4
-//                            runOnUiThread {
-//                                populateFieldsDuringInForNewVehicle(jcData3)
-//                                populateFieldsAfterInSearch()
-//                                Toast.makeText(
-//                                    this@WorkshopParkingModule,
-//                                    "New Vehicle details for Vehicle No: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                        else -> {
-//                            runOnUiThread {
-//                                Toast.makeText(
-//                                    this@WorkshopParkingModule,
-//                                    "Unexpected response for Vehicle No: $vehNo",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                runOnUiThread {
-//                    Toast.makeText(
-//                        this@WorkshopParkingModule,
-//                        "Failed to fetch details for vehicle No: $vehNo",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
 
 
     private fun detailsForVehicleInFirstTime() {

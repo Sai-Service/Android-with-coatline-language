@@ -1874,7 +1874,6 @@ class WorkshopWashingGoa : AppCompatActivity() {
         val OPERATING_UNIT:String,
         val CHASSIS_NUM:String,
         val MODEL_CD:String,
-
     )
 
 }

@@ -69,9 +69,9 @@
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onClick"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/lavender"
-                android:onClick="onClick"
                 android:padding="12dp"
                 android:text="Login"
                 android:textSize="16sp"
@@ -137,5 +137,26 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/linkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Download link will appear here"
+            android:textSize="16sp"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/downloadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/lavender"
+            android:padding="12dp"
+            android:textSize="16sp"
+            app:cornerRadius="8dp"
+            android:text="Download App" />
 </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
