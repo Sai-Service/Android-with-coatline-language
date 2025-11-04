@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
+
+    <!-- Ultra Premium Header with Glass Effect -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/header_gradient"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:elevation="12dp"
+        android:gravity="center_vertical">
+
+        <!-- Premium Logo Container -->
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="56dp"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            app:cardCornerRadius="18dp"-->
+<!--            app:cardElevation="8dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            app:cardBackgroundColor="@color/transparent">-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/glass_effect_bg"
+
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/image"
+                    android:background="@drawable/icon_glow_effect"
+                    android:padding="4dp" />
+            </LinearLayout>
+<!--        </androidx.cardview.widget.CardView>-->
+
+        <!-- Enhanced Title with Glow -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="start|center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SaiService"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/white"
+                android:layout_marginStart="10dp"
+                android:textSize="24sp"
+                android:letterSpacing="0.03"
+                android:shadowColor="#33000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:gravity="start"
+                android:textAlignment="textStart"/>
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Professional Service Platform"-->
+<!--                android:fontFamily="@font/poppins_regular"-->
+<!--                android:textColor="#B3FFFFFF"-->
+<!--                android:textSize="12sp"-->
+<!--                android:letterSpacing="0.05"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:gravity="start"-->
+<!--                android:textAlignment="textStart"/>-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+        <!-- Premium User Profile -->
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="end">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#80FFFFFF"
+                    android:layout_marginEnd="10dp">
+
+                    <ImageView
+                        android:id="@+id/logoutButton"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/logout"
+                        android:layout_gravity="center"
+                        app:tint="@color/white"/>
+                </androidx.cardview.widget.CardView>
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:gravity="start|center_vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/username"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="username"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:fontFamily="@font/poppins_bold"-->
+<!--                        android:gravity="start"-->
+<!--                        android:textAlignment="textStart"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Online"-->
+<!--                        android:textColor="#80FFFFFF"-->
+<!--                        android:textSize="10sp"-->
+<!--                        android:fontFamily="@font/poppins_regular"-->
+<!--                        android:gravity="start"-->
+<!--                        android:textAlignment="textStart"/>-->
+<!--                </LinearLayout>-->
+            </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/glass_effect_bg"
+                    android:padding="4dp"
+                    android:gravity="center_vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#80FFFFFF"
+                        android:layout_marginEnd="10dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/person"
+                            android:layout_gravity="center"
+                            app:tint="@color/white"/>
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start|center_vertical">
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="username"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:gravity="start"
+                            android:textAlignment="textStart"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Online"
+                            android:textColor="#80FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="start"
+                            android:textAlignment="textStart"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/buttonLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="24dp">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/downloadPdfCmd"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="56dp"-->
+<!--                    android:layout_marginBottom="12dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:clickable="true"-->
+<!--                    android:focusable="true"-->
+<!--                    android:background="@drawable/danger_button_gradient"-->
+<!--                    android:text="Download PDF"-->
+<!--                    android:elevation="4dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/refreshBtnNew"-->
+<!--                    android:layout_width="52dp"-->
+<!--                    android:layout_height="52dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginHorizontal="4dp"-->
+<!--                    android:background="@drawable/refresh"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:elevation="6dp" />-->
+
+<!--            </LinearLayout>-->
+
+            <!-- Ultra Premium Chassis Input Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="12dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/premium_card_bg"
+                    android:padding="10dp">
+
+                    <!-- Card Header with Icon -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="start|center_vertical"
+                        android:layout_marginBottom="5dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="#E3F2FD"
+                            android:layout_marginEnd="16dp"
+                            android:layout_margin="5dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_car"
+                                android:layout_gravity="center"
+                                app:tint="#1976D2"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="start|center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Vehicle Information"
+                                android:textColor="#1A1A1A"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/poppins_bold"
+                                android:gravity="start"
+                                android:textAlignment="textStart"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    <Button-->
+<!--                        android:id="@+id/testMarutiButton"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Test Maruti Image"-->
+<!--                        />-->
+
+                    <AutoCompleteTextView
+                        android:id="@+id/chasisNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:hint="Vin Number"
+                        android:inputType="textCapCharacters"
+                        android:padding="16dp"
+                        android:background="@drawable/modern_edittext_gradient"
+                        android:elevation="2dp"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="#1A237E"
+                        android:textColorHint="#7986CB"
+                        android:layout_marginEnd="8dp" />
+
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:hint="Chassis Number"-->
+<!--                        app:boxCornerRadiusTopStart="16dp"-->
+<!--                        app:boxCornerRadiusTopEnd="16dp"-->
+<!--                        app:boxCornerRadiusBottomStart="16dp"-->
+<!--                        app:boxCornerRadiusBottomEnd="16dp"-->
+<!--                        app:boxStrokeColor="#1976D2"-->
+<!--                        app:boxStrokeWidth="1dp"-->
+<!--                        app:hintTextColor="#1976D2"-->
+
+<!--                        app:startIconTint="#1976D2"-->
+<!--                        app:endIconMode="clear_text"-->
+<!--                        app:endIconTint="#1976D2">-->
+<!--                        -->
+
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/chasisNo"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:fontFamily="@font/poppins_regular"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textColor="#1A1A1A"-->
+<!--                            android:padding="16dp"-->
+<!--                            android:gravity="start|center_vertical"-->
+<!--                            android:textAlignment="textStart"/>-->
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+            <!-- Ultra Premium Image Capture Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="12dp">
+
+                <LinearLayout
+                    android:id="@+id/imageCaptureLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/premium_card_bg"
+                    android:padding="10dp">
+
+                    <!-- Card Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="start|center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="#FFF3E0"
+                            android:layout_marginEnd="10dp"
+                            android:layout_margin="5dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_camera"
+                                android:layout_gravity="center"
+                                app:tint="#F57C00"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="start|center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Image Capture"
+                                android:textColor="#1A1A1A"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/poppins_bold"
+                                android:gravity="start"
+                                android:textAlignment="textStart"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
+
+                        <!-- Ultra Premium First Image Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            android:gravity="center_horizontal">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="170dp"
+                                android:layout_height="170dp"
+                                android:visibility="gone"
+                                android:layout_marginBottom="15dp"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="4dp"
+                                app:cardBackgroundColor="#FAFAFA">
+
+                                <ImageView
+                                    android:id="@+id/imageView1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="First Image"
+                                    android:src="@drawable/defaultimg"
+                                    android:scaleType="centerCrop"/>
+
+                                <!-- Premium Overlay -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:gravity="center"
+                                    android:background="@drawable/premium_overlay_gradient">
+
+<!--&lt;!&ndash;                                    <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="64dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="64dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:cardCornerRadius="32dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:cardElevation="6dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:cardBackgroundColor="#80FFFFFF"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_marginBottom="12dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                                            android:layout_width="32dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            android:layout_height="32dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            android:src="@drawable/ic_camera"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            app:tint="#1976D2"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </androidx.cardview.widget.CardView>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:text="Front View"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:textColor="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:textSize="14sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:textStyle="bold"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:fontFamily="@font/poppins_bold"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:shadowColor="#80000000"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:shadowDx="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:shadowDy="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:shadowRadius="2"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:textAlignment="center"/>&ndash;&gt;-->
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/captureImage1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="56dp"
+                                android:text="Capture Front View"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/poppins_medium"
+                                app:backgroundTint="#1976D2"
+                                app:cornerRadius="16dp"
+                                app:elevation="8dp"
+                                app:iconGravity="textStart"
+                                app:iconPadding="12dp"
+                                app:rippleColor="#80FFFFFF"
+                                android:gravity="center"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+
+                        <!-- Ultra Premium Second Image Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="170dp"
+                                android:layout_height="170dp"
+                                android:visibility="gone"
+                                android:layout_marginBottom="15dp"
+                                app:cardBackgroundColor="#FAFAFA"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="4dp">
+
+                                <ImageView
+                                    android:id="@+id/imageView2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="Second Image"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/defaultimg" />
+
+                                <!-- Premium Overlay -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/premium_overlay_gradient"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+<!--                                    &lt;!&ndash;                                    <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:layout_width="64dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:layout_height="64dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        app:cardCornerRadius="32dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        app:cardElevation="6dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        app:cardBackgroundColor="#80FFFFFF"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:layout_marginBottom="12dp">&ndash;&gt;-->
+
+<!--                                    &lt;!&ndash;                                        <ImageView&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            android:layout_width="32dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            android:layout_height="32dp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            android:src="@drawable/ic_camera"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            app:tint="#1976D2"/>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    </androidx.cardview.widget.CardView>&ndash;&gt;-->
+
+<!--                                    &lt;!&ndash;                                    <TextView&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:text="Vin Number"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:textColor="@color/white"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:textSize="14sp"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:textStyle="bold"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:fontFamily="@font/poppins_bold"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:shadowColor="#80000000"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:shadowDx="1"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:shadowDy="1"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:shadowRadius="2"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:gravity="center"&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        android:textAlignment="center"/>&ndash;&gt;-->
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/captureImage2"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="center"
+                                android:text="Capture Vin No"
+                                android:textAlignment="center"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="#1976D2"
+                                app:cornerRadius="16dp"
+                                app:elevation="8dp"
+                                app:iconGravity="textStart"
+                                app:iconPadding="12dp"
+                                app:rippleColor="#80FFFFFF" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/scanButtonLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/scanButton"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginStart="50dp"
+                    android:text="Scan QR Code"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    app:backgroundTint="#FF6B35"
+                    app:cornerRadius="20dp"
+                    app:elevation="10dp"
+                    app:icon="@drawable/ic_qr_code"
+                    app:iconGravity="textStart"
+                    app:iconPadding="12dp"
+                    app:rippleColor="#80FFFFFF"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+            <!-- Ultra Premium Action Buttons -->
+            <LinearLayout
+                android:id="@+id/uplResLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/uploadButton"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:text="Upload"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    app:backgroundTint="#27AE60"
+                    app:cornerRadius="20dp"
+                    app:elevation="10dp"
+                    app:icon="@drawable/ic_upload"
+                    app:iconGravity="textStart"
+                    app:iconPadding="10dp"
+                    app:rippleColor="#80FFFFFF"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+<!--                //reset button-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/resetButton"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:text="Reset"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    app:backgroundTint="#FFBB86FC"
+                    app:cornerRadius="20dp"
+                    app:elevation="10dp"
+                    app:icon="@drawable/ic_reset"
+                    app:iconGravity="textStart"
+                    app:iconPadding="10dp"
+                    app:rippleColor="#80FFFFFF"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+
+
+            <!-- Ultra Premium Neumorphic Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dwnldpdfcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/premium_card_bg"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <!-- Card Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="start|center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_margin="5dp"
+                            android:layout_marginEnd="10dp"
+                            app:cardBackgroundColor="#FFF3E0"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_pdf"
+                                app:tint="#F57C00" />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start|center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_bold"
+                                android:gravity="start"
+                                android:text="Download PDF"
+                                android:textAlignment="textStart"
+                                android:textColor="#1A1A1A"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <!-- Ultra Premium First Image Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/viewPdf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="56dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:gravity="center"
+                                android:text="Download PDF "
+                                android:textAlignment="center"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="#1976D2"
+                                app:cornerRadius="16dp"
+                                app:elevation="8dp"
+                                app:iconGravity="textStart"
+                                app:iconPadding="12dp"
+                                app:rippleColor="#80FFFFFF" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/buttonLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/downloadPdfCmd"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/danger_button_gradient"
+                    android:text="Download PDF"
+                    android:elevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/refreshBtnNew"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/refresh"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="12dp"
+                    android:elevation="6dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
