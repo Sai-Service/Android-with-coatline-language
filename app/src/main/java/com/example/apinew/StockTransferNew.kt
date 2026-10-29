@@ -350,7 +350,7 @@ class StockTransferNew : AppCompatActivity() {
     private fun fetchChassisData(chassis_no: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/qrcode/qrDetailsByChassis?chassisNo=$chassis_no&ouId=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassis?chassisNo=$chassis_no&ouId=$ouId")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -476,7 +476,7 @@ class StockTransferNew : AppCompatActivity() {
     }
 
     private fun postData(vinData: vin_data) {
-        val url = "${ApiFile.APP_URL}/qrcode/updateVehicleStockIN"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/updateVehicleStockIN"
         val toKm=currentKms.text.toString()
         val selectedVehStatus = vehStatusSpinner.selectedItem.toString()
         val json = JSONObject().apply {
@@ -603,7 +603,7 @@ class StockTransferNew : AppCompatActivity() {
 
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
 
         val request = Request.Builder()
             .url(url)
@@ -706,7 +706,7 @@ class StockTransferNew : AppCompatActivity() {
         if (vin2=="Select Vin"){
             Toast.makeText(this@StockTransferNew, "Please select the vin number", Toast.LENGTH_SHORT).show()
         }
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
 
         val request = Request.Builder()
             .url(url)
@@ -865,7 +865,7 @@ class StockTransferNew : AppCompatActivity() {
     }
 
     private fun fetchVehicleStatus(vin: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/vehStatusByVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/vehStatusByVin?vin=$vin"
 
         val request = Request.Builder()
             .url(url)
@@ -978,6 +978,7 @@ class StockTransferNew : AppCompatActivity() {
     }
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

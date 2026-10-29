@@ -174,7 +174,7 @@ class WorkshopViewTrfRecImages : Activity() {
             .readTimeout(60, TimeUnit.SECONDS)
             .build()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/service/wsTrfImage?stockTrfNo=$stockTrfNo")
+            .url("${ApiFile.ERP_APP_URL}/service/wsTrfImage?stockTrfNo=$stockTrfNo")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -191,7 +191,7 @@ class WorkshopViewTrfRecImages : Activity() {
 
                         if (!imagePath.isNullOrEmpty()) {
                             val downloadUrl =
-                                "${ApiFile.APP_URL}/service/wsTrfImageDownload?imagePath=$imagePath"
+                                "${ApiFile.ERP_APP_URL}/service/wsTrfImageDownload?imagePath=$imagePath"
 
 
                             runOnUiThread {
@@ -231,7 +231,7 @@ class WorkshopViewTrfRecImages : Activity() {
             .readTimeout(60, TimeUnit.SECONDS)
             .build()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/service/wsRecImage?stockTrfNo=$stockTrfNo")
+            .url("${ApiFile.ERP_APP_URL}/service/wsRecImage?stockTrfNo=$stockTrfNo")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -248,7 +248,7 @@ class WorkshopViewTrfRecImages : Activity() {
 
                         if (!imagePath.isNullOrEmpty()) {
                             val downloadUrl =
-                                "${ApiFile.APP_URL}/service/wsRecImageDownload?imagePath=$imagePath"
+                                "${ApiFile.ERP_APP_URL}/service/wsRecImageDownload?imagePath=$imagePath"
 
 
                             runOnUiThread {
@@ -321,6 +321,7 @@ class WorkshopViewTrfRecImages : Activity() {
 
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this@WorkshopViewTrfRecImages, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

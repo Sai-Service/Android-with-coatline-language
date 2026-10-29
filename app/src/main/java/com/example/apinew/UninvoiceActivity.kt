@@ -128,7 +128,7 @@ class UninvoiceActivity : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -199,9 +199,9 @@ class UninvoiceActivity : AppCompatActivity() {
 
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/accounts/reportUnInvoice?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportUnInvoice?ouId=$selectedCityCode&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/accounts/reportUnInvoice?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportUnInvoice?ouId=$ouId&vehType=$selectedType"
             }
 
             progressBar.visibility = View.VISIBLE

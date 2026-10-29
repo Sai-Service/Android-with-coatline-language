@@ -1,108 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/harshbg"
-    android:id="@+id/headerLayout">
-
-    <ImageView
-        android:id="@+id/amazonImage"
-        android:layout_width="267dp"
-        android:layout_height="53dp"
-        android:layout_gravity="center"
-        android:src="@drawable/saiservicelogocp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <LinearLayout
-        android:id="@+id/line1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_bg"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="USERNAME: "
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="username"
-            android:textColor="#0429F6"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="LOCATION: "
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/locIdTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="locId"
-            android:textColor="#0429F6"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="CHECK DEMO VEHICLE AVAILABILITY"
-        android:layout_marginTop="10dp"
-        android:textSize="18dp"
-        android:textColor="#0C0C10"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textColor="#F5F6F8"
-        android:textSize="17dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/gatepass_textview"
-        android:text="Display Vehicle Status"
-        android:padding="20dp"
-        />
-
-    <ScrollView
-        android:id="@+id/scrollViewContent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F2F4F7"
+        android:id="@+id/headerLayout">
 
-        <LinearLayout
-            android:id="@+id/tableLayout"
+    <!-- ═══════════════════════════════════════════
+         TOP HEADER — Dark charcoal with green accent
+         ═══════════════════════════════════════════ -->
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp" />
-    </ScrollView>
+            android:background="#1C1C1E"
+            android:elevation="8dp">
+
+        <!-- Logo row -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="10dp">
+
+            <ImageView
+                    android:id="@+id/amazonImage"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/saiservicelogocp"
+                    android:scaleType="fitStart"/>
+
+            <!-- Live indicator pill -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#2A2A2C"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+                <View
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
+                        android:background="#22C55E"
+                        android:layout_marginEnd="6dp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIVE"
+                        android:textColor="#22C55E"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Green accent line -->
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#22C55E"/>
+
+        <!-- User info strip -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#2A2A2C"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:gravity="center_vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤 "
+                    android:textSize="13sp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USER: "
+                    android:textColor="#9A9A9F"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="username"
+                    android:textColor="#22C55E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="#444447"
+                    android:layout_marginEnd="12dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 "
+                    android:textSize="13sp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOC: "
+                    android:textColor="#9A9A9F"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/locIdTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="locId"
+                    android:textColor="#22C55E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ═══════════════════════════════════════════
+         CONTROL PANEL — Title + Spinner + Button + Legend
+         ═══════════════════════════════════════════ -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:elevation="3dp">
+
+        <!-- Title -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="DEMO VEHICLE AVAILABILITY"
+                android:textSize="16sp"
+                android:textColor="#1C1C1E"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"/>
 
 
+        <!-- ── SPINNER SECTION ── -->
+        <!-- Label row -->
+        <LinearLayout
+                android:id="@+id/labelView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
 
+            <!-- Pin icon accent bar -->
+            <View
+                    android:layout_width="3dp"
+                    android:layout_height="16dp"
+                    android:background="#22C55E"
+                    android:layout_marginEnd="8dp"/>
+
+            <TextView
+                    android:id="@+id/cityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT CITY"
+                    android:textColor="#374151"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"/>
+
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E5E7EB"
+                    android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <!-- Spinner container with custom border + dropdown arrow -->
+        <LinearLayout
+                android:id="@+id/spinnerLableView"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/spinner_border_new"
+                android:layout_marginBottom="12dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="10dp">
+
+            <!-- Green left accent strip inside spinner -->
+            <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#22C55E"
+                    android:layout_marginEnd="10dp"/>
+
+            <Spinner
+                    android:id="@+id/citySpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dropdown"
+                    android:visibility="gone"
+                    android:popupBackground="#1C1C1E"/>
+
+            <!-- Custom dropdown chevron -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▾"
+                    android:textColor="#22C55E"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Refresh Button -->
+        <TextView
+                android:id="@+id/refreshButton"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:letterSpacing="0.06"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/gatepass_textview"
+                android:text="⟳   CHECK AVAILABILITY"/>
+
+        <!-- Legend -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="12dp">
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:background="#F0FDF4" android:paddingStart="8dp" android:paddingEnd="8dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginEnd="6dp">
+                <View android:layout_width="8dp" android:layout_height="8dp"
+                        android:background="#22C55E" android:layout_marginEnd="5dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Available" android:textColor="#15803D"
+                        android:textSize="10sp" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:background="#FFF7ED" android:paddingStart="8dp" android:paddingEnd="8dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginEnd="6dp">
+                <View android:layout_width="8dp" android:layout_height="8dp"
+                        android:background="#F97316" android:layout_marginEnd="5dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Out for Demo" android:textColor="#C2410C"
+                        android:textSize="10sp" android:textStyle="bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Gap -->
+    <View android:layout_width="match_parent" android:layout_height="6dp" android:background="#F2F4F7"/>
+
+    <!-- ═══════════════════════════════════════════
+         TABLE — Dual scroll
+         ═══════════════════════════════════════════ -->
+    <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:background="#F2F4F7">
+
+        <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+            <LinearLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="700dp"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF"
+                    android:layout_margin="8dp"
+                    android:elevation="4dp"/>
+
+        </ScrollView>
+    </HorizontalScrollView>
 
 </LinearLayout>

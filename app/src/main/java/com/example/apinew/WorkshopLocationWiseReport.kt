@@ -122,7 +122,7 @@ class WorkshopLocationWiseReport : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -182,18 +182,18 @@ class WorkshopLocationWiseReport : AppCompatActivity() {
             ).show()
         } else {
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/srAccounts/srReportLocationCount?ouId=$selectedCity&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srReportLocationCount?ouId=$selectedCity&dept=$selectedType"
             } else {
-                ApiFile.APP_URL + "/srAccounts/srReportLocationCount?ouId=$ouId&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srReportLocationCount?ouId=$ouId&dept=$selectedType"
             }
 
             val url2 = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/srAccounts/srReportLocationCountSum?ouId=$selectedCity&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srReportLocationCountSum?ouId=$selectedCity&dept=$selectedType"
             } else {
-                ApiFile.APP_URL + "/srAccounts/srReportLocationCountSum?ouId=$ouId&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srReportLocationCountSum?ouId=$ouId&dept=$selectedType"
             }
-//        val url = ApiFile.APP_URL + "/accounts/reportLocModelCount?ouId=$ouId"
-//        val url2 = ApiFile.APP_URL + "/accounts/reportAllModelCount?ouId=$ouId"
+//        val url = ApiFile.ERP_APP_URL + "/accounts/reportLocModelCount?ouId=$ouId"
+//        val url2 = ApiFile.ERP_APP_URL + "/accounts/reportAllModelCount?ouId=$ouId"
 
             val request = Request.Builder()
                 .url(url)

@@ -1,38 +1,61 @@
-package com.example.apinew
-
-//import LoginResponseObject
-import com.google.gson.*
-import java.lang.reflect.Type
-
-
-class LoginResponseDeserializer : JsonDeserializer<LoginResponse> {
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): LoginResponse {
-        val jsonObject = json.asJsonObject
-
-        val code = jsonObject.get("code").asInt
-        val objElement = jsonObject.get("obj")
-
-        return if (objElement.isJsonObject) {
-            val obj = context.deserialize<LoginResponseObject>(objElement, LoginResponseObject::class.java)
-            val attribute1 = obj.attribute1
-            val ouId = obj.ouId
-            val loginName = obj.loginName
-            val location=obj.location
-            val locId=obj.locId
-            val location_name=obj.location_name
-            val deptName=obj.deptName
-            val emailId=obj.emailId
-            val message=obj.message
-
-            LoginResponse(code, obj, attribute1, ouId,loginName,location,locId,location_name,deptName,emailId, message)
-//            com.example.apinew.LoginResponse(code, obj, attribute1, ouId,loginName)
-
-        } else {
-            val obj = objElement.asString
-            LoginResponse(code, obj, null, null, null.toString(), null,null,null,null,null,null)
-//            com.example.apinew.LoginResponse(code, obj, null, null, null.toString())
-
-        }
-    }
-}
-
+//package com.example.apinew
+//
+////import LoginResponseObject
+//// com.example.merged.LoginResponseDeserializer.kt
+//import com.google.gson.*
+//import java.lang.reflect.Type
+//
+//class LoginResponseDeserializer : JsonDeserializer<LoginResponse> {
+//    override fun deserialize(
+//        json: JsonElement,
+//        typeOfT: Type,
+//        context: JsonDeserializationContext
+//    ): LoginResponse {
+//        val jsonObject = json.asJsonObject
+//        val code = jsonObject.get("code").asInt
+//        val objElement = jsonObject.get("obj")
+//
+//        return if (objElement != null && objElement.isJsonObject) {
+//            val obj = context.deserialize<LoginResponseObject>(
+//                objElement,
+//                LoginResponseObject::class.java
+//            )
+//
+//            // location_name: App1 sends "location_name", App2 sends "locationName"
+//            // We check both and use whichever is non-null
+//            val resolvedLocationName = obj.location_name ?: obj.locationName
+//
+//            LoginResponse(
+//                code         = code,
+//                obj          = obj,
+//                // App 1 fields
+//                attribute1   = obj.attribute1,
+//                attribute2   = obj.attribute2,
+//                emailId      = obj.emailId,
+//                message      = obj.message,
+//                // App 2 fields
+//                userContact  = obj.userContact,
+//                userName     = obj.userName,
+//                // Common fields
+//                ouId         = obj.ouId,
+//                loginName    = obj.loginName,
+//                location     = obj.location,
+//                locId        = obj.locId,
+//                location_name = resolvedLocationName,
+//                deptName     = obj.deptName
+//                // source is set later by AuthManager, not from JSON
+//            )
+//        } else {
+//            // obj is a plain string (error message like "Invalid credentials")
+//            val objStr = if (objElement != null && !objElement.isJsonNull)
+//                objElement.asString else null
+//
+//            LoginResponse(
+//                code  = code,
+//                obj   = objStr,
+//                loginName = null
+//            )
+//        }
+//    }
+//}
+//

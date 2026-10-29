@@ -139,7 +139,7 @@ class WorkshopParkingInOutTrack : AppCompatActivity() {
             Toast.makeText(this@WorkshopParkingInOutTrack,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/tdParking/parkingHistory?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/tdParking/parkingHistory?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -294,14 +294,9 @@ class WorkshopParkingInOutTrack : AppCompatActivity() {
             "REMARKS" to jcData.REMARKS,
             "DRIVER NAME-IN" to jcData.DRIVER_IN,
             "DRIVER NAME-OUT" to jcData.DRIVER_OUT,
-            "VEHICLE STATUS" to jcData.STATUS
-
+            "VEHICLE STATUS" to jcData.STATUS,
+            "UPDATED_BY" to jcData.UPDATED_BY
         )
-
-//        if (!hideReasonAndDesc) {
-//            detailsMap["REASON"] = jcData.REASON
-//            detailsMap["PARK DESC"] = jcData.DESCRIPTION
-//        }
 
         for ((label, value) in detailsMap) {
             if (value != "-" && value != "0") {

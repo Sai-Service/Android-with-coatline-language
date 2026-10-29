@@ -326,7 +326,7 @@ class SecurityVehicleTrack : AppCompatActivity() {
     private fun fetchChassisData(chassis_no: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/qrcode/qrDetailsByChassisDelv?chassisNo=$chassis_no&ouId=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassisDelv?chassisNo=$chassis_no&ouId=$ouId")
 //            http://localhost:8081/qrcode/qrDetailsByChassisDelv?chassisNo=375203
             .build()
 
@@ -450,7 +450,7 @@ class SecurityVehicleTrack : AppCompatActivity() {
         val vin = qrResultTextView.text.toString()
 
 
-        val url = "${ApiFile.APP_URL}/SecDelv/vehTrackingBySecVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/SecDelv/vehTrackingBySecVin?vin=$vin"
 
         val request = Request.Builder()
             .url(url)
@@ -546,7 +546,7 @@ class SecurityVehicleTrack : AppCompatActivity() {
 
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin"
 //        http://localhost:8081/qrcode/qrDetailsByVinDelv?vin=MA3TFC62SPF246799
 
         val request = Request.Builder()
@@ -636,7 +636,7 @@ class SecurityVehicleTrack : AppCompatActivity() {
     private fun fetchVinData2(vin: String) {
         val client = OkHttpClient()
         val vin2=vintypeSpinner.selectedItem.toString()
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin2"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVinDelv?vin=$vin2"
 //        http://localhost:8081/qrcode/qrDetailsByVinDelv?vin=MA3TFC62SPF246799
 
         val request = Request.Builder()
@@ -785,6 +785,7 @@ class SecurityVehicleTrack : AppCompatActivity() {
 
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

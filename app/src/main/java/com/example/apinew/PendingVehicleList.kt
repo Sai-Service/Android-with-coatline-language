@@ -191,7 +191,7 @@ class PendingVehicleList : AppCompatActivity() {
     }
 
     private fun updateVehicleStatus(vin: String, login_name: String, STOCK_TRF_NO: String, toKm: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/updateVehicle"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/updateVehicle"
         val json = JSONObject().apply {
             put("vin", vin)
             put("receivedBy", login_name)
@@ -241,7 +241,7 @@ class PendingVehicleList : AppCompatActivity() {
     }
 
     private fun updateVehicleStatus_1(vin: String, location_name: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/updateVehicleIntransit?vin=$vin&location=$location_name"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/updateVehicleIntransit?vin=$vin&location=$location_name"
         val json = JSONObject().apply {
             put("vin", vin)
             put("location", location_name)
@@ -290,7 +290,7 @@ class PendingVehicleList : AppCompatActivity() {
     private fun fetchTransferListData() {
         val client = OkHttpClient()
         val transType = "Stock Transfer In-Transit"
-        val url = "${ApiFile.APP_URL}/qrcode/transferList?to_location=$location_name&veh_status=$transType"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/transferList?to_location=$location_name&veh_status=$transType"
 
 
         val request = Request.Builder()
@@ -341,7 +341,7 @@ class PendingVehicleList : AppCompatActivity() {
     private fun fetchTransferListDataIntransit() {
         val client = OkHttpClient()
         val transType = "In-Transit"
-        val url = "${ApiFile.APP_URL}/qrcode/transferListIntransit?to_location=$location_name&veh_status=$transType"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/transferListIntransit?to_location=$location_name&veh_status=$transType"
 
         val request = Request.Builder()
             .url(url)

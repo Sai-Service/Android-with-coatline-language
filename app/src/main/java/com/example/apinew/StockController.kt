@@ -365,7 +365,7 @@ class StockController : AppCompatActivity() {
                 row24.visibility=View.GONE
             }
 
-            "SERVICE-YPARK"->{
+            "SERVICE-PARK"->{
                 row1.visibility=View.GONE
                 row2.visibility=View.GONE
                 row3.visibility=View.GONE
@@ -392,7 +392,7 @@ class StockController : AppCompatActivity() {
                 row24.visibility=View.GONE
             }
 
-            "BODYSHOP-YPARK"->{
+            "BODYSHOP-PARK"->{
                 row1.visibility=View.GONE
                 row2.visibility=View.GONE
                 row3.visibility=View.GONE
@@ -420,6 +420,34 @@ class StockController : AppCompatActivity() {
             }
 
             "SALES DEMO"->{
+                row1.visibility=View.GONE
+                row2.visibility=View.GONE
+                row3.visibility=View.GONE
+                row4.visibility=View.GONE
+                row5.visibility=View.GONE
+                row6.visibility=View.GONE
+                row7.visibility=View.GONE
+                row8.visibility=View.GONE
+                row9.visibility=View.GONE
+                row10.visibility=View.GONE
+                row11.visibility=View.GONE
+                row12.visibility=View.GONE
+                row13.visibility=View.GONE
+                row14.visibility=View.GONE
+                row15.visibility=View.GONE
+                row16.visibility=View.GONE
+                row17.visibility=View.GONE
+                row18.visibility=View.GONE
+                row19.visibility=View.GONE
+                row20.visibility=View.GONE
+                row21.visibility=View.GONE
+                row22.visibility=View.VISIBLE
+                row23.visibility=View.GONE
+                row24.visibility=View.GONE
+            }
+
+
+            "SALESSUPERADMIN"->{
                 row1.visibility=View.GONE
                 row2.visibility=View.GONE
                 row3.visibility=View.GONE

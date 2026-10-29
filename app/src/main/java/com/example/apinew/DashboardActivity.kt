@@ -154,7 +154,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -207,7 +207,7 @@ class DashboardActivity : AppCompatActivity() {
             .build()
 
         val todayDate = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date())
-//        val url = ApiFile.APP_URL + "/fndcom/stockDetails?ouId=$ouId"
+//        val url = ApiFile.ERP_APP_URL + "/fndcom/stockDetails?ouId=$ouId"
         val selectedCity = citySpinner.selectedItem.toString()
         val selectedCityCode = if (selectedCity != "Select City") {
             selectedCity.split("-")[0].trim()
@@ -225,9 +225,9 @@ class DashboardActivity : AppCompatActivity() {
         } else {
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/fndcom/stockDetails?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/fndcom/stockDetails?ouId=$selectedCityCode&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/fndcom/stockDetails?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/fndcom/stockDetails?ouId=$ouId&vehType=$selectedType"
             }
 
             val request = Request.Builder()
@@ -404,6 +404,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
         private fun logout() {
+        SessionManager.clearSession(this)
         Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(this)

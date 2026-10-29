@@ -242,7 +242,7 @@ class WorkshopWashingReportGoa : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+//            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .url(WorkshopWashingUrlManager.getCityUrl())
 
             .build()
@@ -330,10 +330,10 @@ class WorkshopWashingReportGoa : AppCompatActivity() {
         }
         val incrementedToDate = getIncrementedDate(toDate)
         val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/vehWashingReport/vehWashingGaReportByOu?ouId=$selectedCityCode&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.ERP_APP_URL + "/vehWashingReport/vehWashingGaReportByOu?ouId=$selectedCityCode&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
 //            WorkshopWashingUrlManager.getWashingReportUrl(selectedCityCode.toInt(), locId, fromDate, incrementedToDate)
         } else {
-                ApiFile.APP_URL + "/vehWashingReport/vehWashingGaReportByOu?ouId=$ouId&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.ERP_APP_URL + "/vehWashingReport/vehWashingGaReportByOu?ouId=$ouId&locId=$locId&fromDate=$fromDate&toDate=$incrementedToDate"
 //            WorkshopWashingUrlManager.getWashingReportUrl(ouId, locId, fromDate, incrementedToDate)
         }
 
@@ -655,7 +655,7 @@ class WorkshopWashingReportGoa : AppCompatActivity() {
 
         val formattedFromDate = try {
             val parsedDate = inputFormat.parse(fromDate)!!
-            outputFormat.format(parsedDate).toUpperCase(Locale.ENGLISH)
+            outputFormat.format(parsedDate).uppercase(Locale.ENGLISH)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Invalid From Date format", Toast.LENGTH_SHORT).show()
@@ -805,6 +805,7 @@ class WorkshopWashingReportGoa : AppCompatActivity() {
     }
 
     private fun logout(){
+        SessionManager.clearSession(this)
         val intent = Intent(this,MainActivity::class.java)
         startActivity(intent)
         finish()

@@ -137,7 +137,7 @@ class AllotedNotInvoice : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -208,9 +208,9 @@ class AllotedNotInvoice : AppCompatActivity() {
 
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/accounts/reportStkAlloted?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportStkAlloted?ouId=$selectedCityCode&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/accounts/reportStkAlloted?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportStkAlloted?ouId=$ouId&vehType=$selectedType"
             }
 
 

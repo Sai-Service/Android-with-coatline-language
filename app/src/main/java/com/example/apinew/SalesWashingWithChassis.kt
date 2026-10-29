@@ -589,7 +589,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
         val cmnType="WASHSTAGE"
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
+//            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
             .url(WorkshopWashingUrlManager.fetchWashStageNumber())
             .build()
         GlobalScope.launch(Dispatchers.IO) {
@@ -634,7 +634,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
         val cmnCode = washStageNumberLov.selectedItem.toString()
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
+//            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
             .url(WorkshopWashingUrlManager.fetchwashStageType(cmnCode))
             .build()
 
@@ -898,7 +898,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             Toast.makeText(this@SalesWashingWithChassis,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
+//        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
         val url = WorkshopWashingUrlManager.getdetailsForVehicleOutFirstTime(vehNo)
 
         val request = Request.Builder().url(url).build()
@@ -994,7 +994,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             return
         }
 
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashProceed/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashProceed/"
         val jsonObject = JSONObject().apply {
 //            put("regNo", regNo)
             if (::regNo.isInitialized) {
@@ -1124,7 +1124,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
 
     private fun vehicleOut() {
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashOut/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashOut/"
         val jsonObject = JSONObject().apply {
             if (::regNo.isInitialized) {
                 if(regNo.isNotEmpty() ) {
@@ -1425,7 +1425,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             return
         }
 
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -1549,7 +1549,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
     private fun fetchDetailsByVin(vin: String) {
         val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
 
         val request = Request.Builder().url(url).build()
 
@@ -1616,7 +1616,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
             return
         }
 
-        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
+        val url = "${ApiFile.ERP_APP_URL}/washingRegister/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -1705,7 +1705,7 @@ class SalesWashingWithChassis : AppCompatActivity() {
 
     private fun fetchDetailsByVinOut(vin: String) {
         val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
 
         val request = Request.Builder().url(url).build()
 

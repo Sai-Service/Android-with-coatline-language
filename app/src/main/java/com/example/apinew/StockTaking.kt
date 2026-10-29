@@ -39,6 +39,21 @@ import java.util.Locale
 import org.json.JSONObject
 import java.text.ParseException
 import java.util.TimeZone
+import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
+import androidx.core.content.FileProvider
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
+import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
+import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
+import com.google.mlkit.vision.common.InputImage
+import java.io.File
 
 class StockTaking : AppCompatActivity() {
 
@@ -50,7 +65,7 @@ class StockTaking : AppCompatActivity() {
     private lateinit var dmsInvNoTextView: TextView
     private lateinit var chassisNumberTextView: TextView
     private lateinit var modelCodeTextView: TextView
-//    private lateinit var engineNumberTextView: TextView
+    //    private lateinit var engineNumberTextView: TextView
     private lateinit var engine2:TextView
     private lateinit var batchEditText: EditText
     private  lateinit var multipleBatchNameSpinner: Spinner
@@ -66,7 +81,7 @@ class StockTaking : AppCompatActivity() {
     private lateinit var homepage:ImageButton
     private var ouId: Int = 0
     private var locId:Int=0
-//    private lateinit var VinNumber:EditText
+    //    private lateinit var VinNumber:EditText
     private lateinit var variant_code:TextView
     private lateinit var Physical_Location:TextView
     private lateinit var qr_result_textview:TextView
@@ -84,6 +99,10 @@ class StockTaking : AppCompatActivity() {
     private lateinit var cutOffDateSpinner:Spinner
     private lateinit var batchStatus:String
     private lateinit var jsonBatchStatus:String
+//    private val VIN_REGEX = Regex("^[A-HJ-NPR-Z0-9]{17}$")
+    private val BARCODE_REQUEST_CODE = 400
+    private lateinit var currentBarcodePath: String
+    private lateinit var scanner: GmsBarcodeScanner
 
 
     @SuppressLint("MissingInflatedId")
@@ -152,6 +171,18 @@ class StockTaking : AppCompatActivity() {
 
 //        findBybatchNameStatus()
 
+        val options = GmsBarcodeScannerOptions.Builder()
+            .setBarcodeFormats(
+                Barcode.FORMAT_CODE_128,
+                Barcode.FORMAT_CODE_39,
+                Barcode.FORMAT_QR_CODE,
+                Barcode.FORMAT_DATA_MATRIX
+            )
+            .enableAutoZoom() // Very important for windshield stickers
+            .build()
+
+        scanner = GmsBarcodeScanning.getClient(this, options)
+
 
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         val currentMonth: String = SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(Date())
@@ -214,18 +245,64 @@ class StockTaking : AppCompatActivity() {
 
 //        fetchCutOffDates()
 
+//        scanButton.setOnClickListener {
+//            val integrator = IntentIntegrator(this)
+//            integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+//            integrator.setPrompt("Scan a QR Code or Barcode")
+//            integrator.setCameraId(0)
+//            integrator.setBeepEnabled(true)
+//            integrator.setBarcodeImageEnabled(true)
+//            integrator.setOrientationLocked(false)
+//            integrator.initiateScan()
+//            Handler(Looper.getMainLooper()).postDelayed({
+////                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
+//            }, 10000)
+//        }
+
+
         scanButton.setOnClickListener {
-            val integrator = IntentIntegrator(this)
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
-            integrator.setPrompt("Scan a QR Code or Barcode")
-            integrator.setCameraId(0)
-            integrator.setBeepEnabled(true)
-            integrator.setBarcodeImageEnabled(true)
-            integrator.setOrientationLocked(false)
-            integrator.initiateScan()
-            Handler(Looper.getMainLooper()).postDelayed({
-//                Toast.makeText(this, "Could not scan.Please try again.", Toast.LENGTH_SHORT).show()
-            }, 10000)
+            scanner.startScan()
+                .addOnSuccessListener { barcode ->
+                    val raw = barcode.rawValue ?: return@addOnSuccessListener
+                    val vin = raw
+                        .replace(Regex("[^A-Za-z0-9]"), "")
+                        .uppercase(Locale.US)
+                        .trim()
+
+                    Log.d("BARCODE_GMS", "Raw: '$raw' → Cleaned: '$vin' (len=${vin.length})")
+
+                    val finalVin = when {
+                        vin.length == 17 && vin[0] == 'M' && VIN_REGEX.matches(vin) -> vin
+                        vin.length == 17 -> vin
+                        vin.length > 17 -> extractVinFromScan(vin)
+                        else -> null
+                    }
+
+                    if (finalVin != null) {
+                        qr_result_textview.visibility = View.VISIBLE
+                        qr_result_textview.text = finalVin
+                        VinQr.setText(finalVin)
+                        Toast.makeText(this, "✓ VIN: $finalVin", Toast.LENGTH_SHORT).show()
+                        fetchVinData(finalVin)
+                    } else {
+                        // Show what was scanned — let user verify
+                        qr_result_textview.visibility = View.VISIBLE
+                        qr_result_textview.text = vin
+                        VinQr.setText(vin)
+                        Toast.makeText(
+                            this,
+                            "Got: $vin — please verify",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                .addOnCanceledListener {
+                    Toast.makeText(this, "Scan cancelled", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("BARCODE_GMS", "Failed: ${e.message}")
+                    Toast.makeText(this, "Scan failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         }
 
 
@@ -249,7 +326,7 @@ class StockTaking : AppCompatActivity() {
                 }
 
                 selectedBatchName.isNotEmpty() -> {
-                    if (vin.isNotEmpty()) {
+                    if (vin.isNotEmpty()  && vin!="Select Vin") {
                         saveVinData(vin, selectedBatchName)
                     } else {
                         Toast.makeText(this, "VIN is empty", Toast.LENGTH_SHORT).show()
@@ -258,7 +335,7 @@ class StockTaking : AppCompatActivity() {
 
                 else -> {
                     val batchName = batchEditText.text.toString()
-                    if (vin.isNotEmpty()) {
+                    if (vin.isNotEmpty() && vin!="Select Vin") {
                         saveVinData(vin, batchName)
                     } else {
                         Toast.makeText(this, "VIN or Batch Name is empty", Toast.LENGTH_SHORT)
@@ -290,7 +367,7 @@ class StockTaking : AppCompatActivity() {
 
                 else -> {
                     val batchName = batchEditText.text.toString()
-                    if (vin.isNotEmpty()) {
+                    if (vin.isNotEmpty() && vin!="Select Vin") {
                         saveVinData2(vin, batchName)
                     } else {
                         Toast.makeText(this, "VIN or Batch Name is empty", Toast.LENGTH_SHORT)
@@ -306,7 +383,7 @@ class StockTaking : AppCompatActivity() {
     private fun fetchCutOffDates() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/accounts/batchCutofDate?ou=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/accounts/batchCutofDate?ou=$ouId")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -321,6 +398,7 @@ class StockTaking : AppCompatActivity() {
                 for (i in 0 until jsonArray.length()) {
                     val batch = jsonArray.getJSONObject(i)
                     val date = batch.getString("BATCH_CREATION_DATE")
+                    Log.d("BATCH_CREATION_DATE",date)
                     batchDates.add(date)
                 }
 
@@ -382,7 +460,7 @@ class StockTaking : AppCompatActivity() {
         val LocationName = "$location_name"
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/accounts/findExBatchNameStatus?location=$LocationName")
+            .url("${ApiFile.ERP_APP_URL}/accounts/findExBatchNameStatus?location=$LocationName")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -406,6 +484,7 @@ class StockTaking : AppCompatActivity() {
 
                 val batStatus = jsonArray.getJSONObject(0)
                 val status = batStatus.getString("BATCHSTATUS")
+                Log.d("BATCHSTATUS",status)
                 batchStatus=status
                 runOnUiThread {
                     if (status.equals("open", ignoreCase = true)) {
@@ -438,8 +517,9 @@ class StockTaking : AppCompatActivity() {
         val LocationName = "$location_name"
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/accounts/findBatchNameStatus?batchName=${batchName}&location=$LocationName")
+            .url("${ApiFile.ERP_APP_URL}/accounts/findBatchNameStatus?batchName=${batchName}&location=$LocationName")
             .build()
+        Log.d("URL-:",request.toString())
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
@@ -450,6 +530,7 @@ class StockTaking : AppCompatActivity() {
                 val batStatus = jsonArray.getJSONObject(0)
                 val batchName = batStatus.getString("batchName")
                 val batchStatus = batStatus.getString("batchStatus")
+                Log.d("batchStatus--->",batchStatus)
 
                 if (jsonArray.length() === 0){
                     batchEditText.visibility=View.VISIBLE
@@ -473,7 +554,7 @@ class StockTaking : AppCompatActivity() {
     private fun fetchBatchData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/accounts/batchNameOpen?locationName=${location_name}")
+            .url("${ApiFile.ERP_APP_URL}/accounts/batchNameOpen?locationName=${location_name}")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -528,23 +609,176 @@ class StockTaking : AppCompatActivity() {
         return batchCodeList
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+//        if (result != null) {
+//            if (result.contents == null) {
+//                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+//            } else {
+//                val vin = result.contents
+//                qr_result_textview.visibility = View.VISIBLE
+//                qr_result_textview.text = vin
+//                VinQr.setText(vin)
+//                fetchVinData(vin)
+//            }
+//        } else {
+//            super.onActivityResult(requestCode, resultCode, data)
+//        }
+//    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                val vin = result.contents
-                qr_result_textview.visibility = View.VISIBLE
-                qr_result_textview.text = vin
-                VinQr.setText(vin)
-                fetchVinData(vin)
+        when (requestCode) {
+
+            BARCODE_REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val file = File(currentBarcodePath)
+                    if (file.exists()) {
+                        Toast.makeText(this, "Reading barcode...", Toast.LENGTH_SHORT).show()
+                        Thread {
+                            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                            if (bitmap != null) {
+                                scanBarcodeWithMlKit(bitmap)
+                            } else {
+                                runOnUiThread {
+                                    Toast.makeText(this, "Could not load image", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }.start()
+                    }
+                }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
+    private fun scanBarcodeWithMlKit(bitmap: Bitmap) {
+        val scanner = BarcodeScanning.getClient(
+            BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(
+                    Barcode.FORMAT_CODE_128,
+                    Barcode.FORMAT_CODE_39,
+                    Barcode.FORMAT_QR_CODE,
+                    Barcode.FORMAT_DATA_MATRIX
+                )
+                .build()
+        )
+
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        scanner.process(image)
+            .addOnSuccessListener { barcodes ->
+                if (barcodes.isEmpty()) {
+                    // No barcode found — try OCR on the text directly as fallback
+                    Log.d("BARCODE_MLKIT", "No barcode found — trying OCR fallback")
+                    runOnUiThread {
+                        Toast.makeText(
+                            this,
+                            "Barcode not detected. Try again closer\nor read text directly.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    return@addOnSuccessListener
+                }
+
+                // Got at least one barcode
+                for (barcode in barcodes) {
+                    val raw = barcode.rawValue ?: continue
+                    val vin = raw
+                        .replace(Regex("[^A-Za-z0-9]"), "")
+                        .uppercase(Locale.US)
+                        .trim()
+
+                    Log.d("BARCODE_MLKIT", "Raw: '$raw' → Cleaned: '$vin' (len=${vin.length})")
+
+                    // Extract VIN — M anchor only
+                    val finalVin = when {
+                        vin.length == 17 && vin[0] == 'M' && VIN_REGEX.matches(vin) -> vin
+                        vin.length == 17 -> vin
+                        vin.length > 17 -> extractVinFromScan(vin)
+                        else -> null
+                    }
+
+                    if (finalVin != null) {
+                        runOnUiThread {
+                            qr_result_textview.visibility = View.VISIBLE
+                            qr_result_textview.text = finalVin
+                            VinQr.setText(finalVin)
+                            Toast.makeText(this, "✓ VIN: $finalVin", Toast.LENGTH_SHORT).show()
+                            fetchVinData(finalVin)
+                        }
+                        return@addOnSuccessListener
+                    }
+                }
+
+                // Barcodes found but none gave a valid VIN
+                val firstRaw = barcodes[0].rawValue ?: ""
+                runOnUiThread {
+                    VinQr.setText(firstRaw)
+                    qr_result_textview.text = firstRaw
+                    qr_result_textview.visibility = View.VISIBLE
+                    Toast.makeText(
+                        this,
+                        "Got: $firstRaw — please verify",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("BARCODE_MLKIT", "Failed: ${e.message}")
+                runOnUiThread {
+                    Toast.makeText(this, "Scan failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun extractVinFromScan(raw: String): String? {
+        val cleaned = raw.replace(Regex("[^A-Z0-9]"), "")
+        var i = 0
+        while (i < cleaned.length) {
+            val mi = cleaned.indexOf('M', i)
+            if (mi < 0) break
+            if (cleaned.length >= mi + 17) {
+                val candidate = cleaned.substring(mi, mi + 17)
+                if (VIN_REGEX.matches(candidate)) return candidate
+            }
+            i = mi + 1
+        }
+        // No regex match — return first M-anchored 17 chars
+        val mIndex = cleaned.indexOf('M')
+        if (mIndex >= 0 && cleaned.length >= mIndex + 17) {
+            return cleaned.substring(mIndex, mIndex + 17)
+        }
+        return null
+    }
+
+    private val VIN_REGEX = Regex("^[A-HJ-NPR-Z0-9]{17}$")
+
+    // M-anchor extraction from longer barcode scan results
+//    private fun extractVinFromScan(raw: String): String? {
+//        val cleaned = raw.replace(Regex("[^A-Z0-9]"), "")
+//
+//        // Find every M — take 17 chars, check if valid VIN
+//        var i = 0
+//        while (i < cleaned.length) {
+//            val mi = cleaned.indexOf('M', i)
+//            if (mi < 0) break
+//            if (cleaned.length >= mi + 17) {
+//                val candidate = cleaned.substring(mi, mi + 17)
+//                if (VIN_REGEX.matches(candidate)) return candidate
+//            }
+//            i = mi + 1
+//        }
+//
+//        // No perfect match — return first M-anchored 17 chars anyway
+//        val mIndex = cleaned.indexOf('M')
+//        if (mIndex >= 0 && cleaned.length >= mIndex + 17) {
+//            return cleaned.substring(mIndex, mIndex + 17)
+//        }
+//
+//        return null
+//    }
 
     private fun resetFields() {
         chassis_no.setText("")
@@ -586,7 +820,7 @@ class StockTaking : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder()
 
-            .url("${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassis_no&ouId=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassis_no&ouId=$ouId")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -619,21 +853,21 @@ class StockTaking : AppCompatActivity() {
                                 LOCATION=stockItem.getString("LOCATION")
                             )
                             runOnUiThread {
-                                    qr_result_textview.text = chassisData.VIN
-                                    qr_result_textview.visibility=View.GONE
-                                    VinQr.setText(qr_result_textview.text.toString())
-                                    refreshButton.visibility=View.GONE
-                                    vintypeSpinner.visibility=View.VISIBLE
-                                    fetchVinData2.visibility=View.VISIBLE
-                                    Toast.makeText(
-                                        this@StockTaking,
-                                        "Details found Successfully \n for Chassis no. $chassis_no",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                qr_result_textview.text = chassisData.VIN
+                                qr_result_textview.visibility=View.GONE
+                                VinQr.setText(qr_result_textview.text.toString())
+                                refreshButton.visibility=View.GONE
+                                vintypeSpinner.visibility=View.VISIBLE
+                                fetchVinData2.visibility=View.VISIBLE
+                                Toast.makeText(
+                                    this@StockTaking,
+                                    "Details found Successfully \n for Chassis no. $chassis_no",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 //                                    fetchVinData(chassisData.VIN)
-                                    val vin = qr_result_textview.text.toString()
-                                    VinQr.setText(chassisData.VIN)
-                                    fetchVehicleStatus(vin)
+                                val vin = qr_result_textview.text.toString()
+                                VinQr.setText(chassisData.VIN)
+                                fetchVehicleStatus(vin)
                             }
                         } else {
                             runOnUiThread {
@@ -678,7 +912,7 @@ class StockTaking : AppCompatActivity() {
     }
 
     private fun resetVintypeSpinner() {
-        val vintypeItems = listOf("Select Batch Name")
+        val vintypeItems = listOf("Select Vin")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, vintypeItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         vintypeSpinner.adapter = adapter
@@ -703,7 +937,7 @@ class StockTaking : AppCompatActivity() {
     }
 
     private fun fetchVehicleStatus(vin: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/vehStatusByVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/vehStatusByVin?vin=$vin"
 
         val request = Request.Builder()
             .url(url)
@@ -752,8 +986,8 @@ class StockTaking : AppCompatActivity() {
 
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
-        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin"
-//        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
+        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=$vin"
+//        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
 
 
         val request = Request.Builder()
@@ -816,9 +1050,9 @@ class StockTaking : AppCompatActivity() {
     private fun fetchVinData2(vin: String) {
         val client = OkHttpClient()
         val vin2=vintypeSpinner.selectedItem.toString()
-//        val url = ApiFile.APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
-        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin2"
-//        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
+//        val url = ApiFile.ERP_APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
+        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=$vin2"
+//        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
         val request = Request.Builder()
             .url(url)
             .build()
@@ -884,7 +1118,7 @@ class StockTaking : AppCompatActivity() {
         intent.putExtra("locId", locId)
         startActivity(intent)
     }
-    
+
     private fun populateFields(vin_data: vinData) {
         variantCdTextView.text = "Chassis No.: ${vin_data.CHASSIS_NUM}"
         dmsInvNoTextView.text = "Fuel Desc: ${vin_data.FUEL_DESC}"
@@ -932,7 +1166,7 @@ class StockTaking : AppCompatActivity() {
         }
 
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/accounts/batchNameScan"
+        val url = ApiFile.ERP_APP_URL + "/accounts/batchNameScan"
         val jsonObject = JSONObject()
 
         val currentDateTime = Calendar.getInstance()
@@ -1039,10 +1273,10 @@ class StockTaking : AppCompatActivity() {
         }
     }
 
-    
+
     private fun saveVinData2(vin: String, batchName: String) {
 
-                var dateTimeToSend: String? = null
+        var dateTimeToSend: String? = null
 
         if (::batchStatus.isInitialized && batchStatus.equals("Closed", ignoreCase = true)||jsonBatchStatus.toInt()==0) {
             val batchCreationDt = cutOffDateSpinner.selectedItem?.toString()
@@ -1077,7 +1311,7 @@ class StockTaking : AppCompatActivity() {
 
 
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/accounts/batchNameManual"
+        val url = ApiFile.ERP_APP_URL + "/accounts/batchNameManual"
         val jsonObject = JSONObject()
 
         val currentDateTime = Calendar.getInstance()

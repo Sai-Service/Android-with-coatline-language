@@ -150,7 +150,7 @@ class ChassisActivity : Activity() {
     private fun fetchChassisData(chassisNo: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
             .build()
         camera.visibility = View.VISIBLE
 
@@ -203,7 +203,7 @@ class ChassisActivity : Activity() {
     private fun fetchDetailsByVin(vin: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/stockDetailsByVin?vin=$vin")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/stockDetailsByVin?vin=$vin")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -293,12 +293,13 @@ class ChassisActivity : Activity() {
         findViewById<EditText>(R.id.GRN_DATE).setText(chassisData.GRN_DATE)
         findViewById<EditText>(R.id.SOBNO).setText(chassisData.SOBNO)
         findViewById<EditText>(R.id.AGEING).setText(chassisData.AGEING)
-        val imageUrl = "${ApiFile.APP_URL}/invstock/Download?vin=${chassisData.VIN}"
+        val imageUrl = "${ApiFile.ERP_APP_URL}/invstock/Download?vin=${chassisData.VIN}"
         Log.d("imageUrl---++++>>",imageUrl)
         Picasso.get().load(imageUrl).into(vehImage)
     }
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this@ChassisActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

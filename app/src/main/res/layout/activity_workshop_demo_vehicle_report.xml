@@ -1,312 +1,523 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@drawable/harshbg"
-    android:layout_height="match_parent">
-
-
-    <LinearLayout
-        android:id="@+id/lineralay"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:src="@drawable/saiservicelogo"
-            android:contentDescription="Logo"
-            android:layout_marginEnd="10dp" />
-
-
-        <ImageView
-            android:id="@+id/logoutBtn"
-            android:layout_width="30dp"
-            android:visibility="gone"
-            android:layout_height="30dp"
-            android:src="@drawable/logout"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/userDetialsLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineralay">
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:text="Username:"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/usernameIntent"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:textColor="#0429F6"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-        <View
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/locationName"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:text="Location:"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/locationIntent"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:textColor="#0429F6"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/spinnerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userDetialsLinearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DEMO VEHICLE REPORT"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-
-        <Spinner
-            android:id="@+id/citySpinner"
-            android:layout_width="268dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="25dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/modern_spinner_background"/>
-
-        <Spinner
-            android:id="@+id/typeSpinner"
-            android:layout_width="268dp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="25dp"
-            android:visibility="gone"
-            android:background="@drawable/modern_spinner_background" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerLayout">
-
-        <Button
-            android:id="@+id/fromDatePicker"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_height="wrap_content"
-            android:text="FROM DATE"/>
-
-        <Button
-            android:id="@+id/toDatePicker"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_height="wrap_content"
-            android:text="TO DATE" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/textViewLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonLayout">
-
-
-        <TextView
-            android:id="@+id/fromDateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext"
-            android:hint="FROM DATE" />
-
-
-        <Button
-            android:id="@+id/fetchData"
-            android:layout_width="157dp"
-            android:layout_marginStart="5dp"
-            android:layout_height="50dp"
-            android:text="VIEW REPORT"/>
-
-
-        <TextView
-            android:id="@+id/toDateLabel"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/edittext"
-            android:hint="TO DATE"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/viewReportLayout"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewLayout">
-
-        <TextView
-            android:id="@+id/rowCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:hint="Row Count"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/tableViewLayout"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical"-->
-    <!--        android:padding="20dp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/viewReportLayout">-->
-
-    <HorizontalScrollView
-        android:id="@+id/headerHorizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@+id/viewReportLayout">
-
-        <TableLayout
-            android:id="@+id/headerTableLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TableLayout>
-    </HorizontalScrollView>
-
-
-    <RelativeLayout
-        android:id="@+id/loadingOverlay"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:background="#F2F4F7">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
+    <!-- ═══════════════════════════════════
+         HEADER — Dark charcoal
+         ═══════════════════════════════════ -->
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:orientation="vertical"
+            android:background="#1C1C1E"
+            android:elevation="8dp">
+
+        <!-- Logo + Live pill -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="10dp">
+
+            <ImageView
+                    android:id="@+id/logoImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/saiservicelogocp"
+                    android:scaleType="fitStart"
+                    android:contentDescription="Logo"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#2A2A2C"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+                <View
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
+                        android:background="#22C55E"
+                        android:layout_marginEnd="6dp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="REPORT"
+                        android:textColor="#22C55E"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Green accent line -->
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#22C55E"/>
+
+        <!-- User info strip -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#2A2A2C"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:gravity="center_vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤 "
+                    android:textSize="13sp"/>
+            <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USER: "
+                    android:textColor="#9A9A9F"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/usernameIntent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="—"
+                    android:textColor="#22C55E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="#444447"
+                    android:layout_marginEnd="12dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 "
+                    android:textSize="13sp"/>
+            <TextView
+                    android:id="@+id/locationName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOC: "
+                    android:textColor="#9A9A9F"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/locationIntent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textColor="#22C55E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ═══════════════════════════════════
+         CONTROL PANEL — White card
+         ═══════════════════════════════════ -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:elevation="3dp">
+
+        <!-- Page title -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="DEMO VEHICLE REPORT"
+                android:textSize="16sp"
+                android:textColor="#1C1C1E"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"/>
 
         <TextView
-            android:id="@+id/TextProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/progressBar"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            android:text="Data is loading....."
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-    <HorizontalScrollView
-        android:id="@+id/dataHorizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerHorizontalScrollView">
-
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp">
-
-            <TableLayout
-                android:id="@+id/tableLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Filter by location, department and date range"
+                android:textSize="11sp"
+                android:textColor="#9A9A9F"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="14dp"/>
 
-            </TableLayout>
-        </ScrollView>
+        <!-- ── CITY SPINNER ── -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+            <View
+                    android:layout_width="3dp"
+                    android:layout_height="16dp"
+                    android:background="#22C55E"
+                    android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT CITY"
+                    android:textColor="#374151"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"/>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E5E7EB"
+                    android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/spinner_border"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="10dp">
+            <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#22C55E"
+                    android:layout_marginEnd="10dp"/>
+            <Spinner
+                    android:id="@+id/citySpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#1C1C1E"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▾"
+                    android:textColor="#22C55E"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- ── DEPT SPINNER (typeSpinner) — hidden by default ── -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"
+                android:id="@+id/deptLabelRow">
+            <View
+                    android:layout_width="3dp"
+                    android:layout_height="16dp"
+                    android:background="#F97316"
+                    android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT DEPARTMENT"
+                    android:textColor="#374151"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"/>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E5E7EB"
+                    android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/deptSpinnerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/spinner_border"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="10dp"
+                android:visibility="gone">
+            <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#F97316"
+                    android:layout_marginEnd="10dp"/>
+            <Spinner
+                    android:id="@+id/typeSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#1C1C1E"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▾"
+                    android:textColor="#F97316"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- ── DATE RANGE ROW ── -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+            <View
+                    android:layout_width="3dp"
+                    android:layout_height="16dp"
+                    android:background="#22C55E"
+                    android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DATE RANGE"
+                    android:textColor="#374151"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"/>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E5E7EB"
+                    android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <!-- FROM + TO date pickers in one row -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+            <!-- FROM DATE block -->
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+
+                <Button
+                        android:id="@+id/fromDatePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="📅  FROM DATE"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.03"
+                        android:background="@drawable/gatepass_textview"
+                        android:textColor="#FFFFFF"/>
+
+                <!-- Selected date display -->
+                <TextView
+                        android:id="@+id/fromDateLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:hint="Not selected"
+                        android:textSize="11sp"
+                        android:textColor="#374151"
+                        android:background="#F8FAFB"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"/>
+            </LinearLayout>
+
+            <!-- Arrow separator -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:text="→"
+                    android:textColor="#22C55E"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            <!-- TO DATE block -->
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                <Button
+                        android:id="@+id/toDatePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="📅  TO DATE"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.03"
+                        android:background="@drawable/gatepass_textview"
+                        android:textColor="#FFFFFF"/>
+
+                <TextView
+                        android:id="@+id/toDateLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:hint="Not selected"
+                        android:textSize="11sp"
+                        android:textColor="#374151"
+                        android:background="#F8FAFB"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- VIEW REPORT button -->
+        <Button
+                android:id="@+id/fetchData"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="📊   VIEW REPORT"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.06"
+                android:background="@drawable/gatepass_textview"/>
+
+        <!-- Row count badge -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+
+            <TextView
+                    android:id="@+id/rowCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="#1C1C1E"
+                    android:textColor="#22C55E"
+                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:letterSpacing="0.05"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Gap -->
+    <View android:layout_width="match_parent" android:layout_height="6dp" android:background="#F2F4F7"/>
+
+    <!-- Loading overlay (shown over everything) -->
+    <LinearLayout
+            android:id="@+id/loadingOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="#FFFFFF"
+            android:visibility="gone">
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:indeterminateTint="#22C55E"
+                android:visibility="gone"/>
+
+        <TextView
+                android:id="@+id/TextProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⏳  Fetching report data…"
+                android:textColor="#9A9A9F"
+                android:textSize="12sp"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- ═══════════════════════════════════
+         TABLE — Sticky header + scrollable body
+         ═══════════════════════════════════ -->
+
+    <!-- Sticky header scroll (synced with data scroll) -->
+    <HorizontalScrollView
+            android:id="@+id/tableHorizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:fillViewport="true">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <!-- Sticky-looking header (scrolls horizontally with data, not vertically) -->
+            <TableLayout
+                    android:id="@+id/headerTableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#1C1C1E"/>
+
+            <!-- Data rows — only this part scrolls vertically -->
+            <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"/>
+
+            </ScrollView>
+
+        </LinearLayout>
+
     </HorizontalScrollView>
-    <!--    </LinearLayout>-->
 
-    <!--        <ProgressBar-->
-    <!--            android:id="@+id/progressBar"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:visibility="gone"-->
-    <!--            app:layout_constraintTop_toTopOf="parent"-->
-    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/TextProgressBar"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="8dp"-->
-    <!--            android:text="Data is loading....."-->
-    <!--            android:visibility="gone"-->
-    <!--            app:layout_constraintBottom_toTopOf="@id/progressBar"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent" />-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

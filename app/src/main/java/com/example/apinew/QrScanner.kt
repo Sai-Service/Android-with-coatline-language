@@ -79,7 +79,7 @@ class QrScanner : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder()
 //            .url("http://10.0.2.2:8081/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
-            .url("${ApiFile.APP_URL}/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
 
             .build()
 
@@ -155,7 +155,7 @@ class QrScanner : AppCompatActivity() {
 
         val request = Request.Builder()
 //            .url("http://10.0.2.2:8081/qrcode/generate")
-            .url("${ApiFile.APP_URL }}/qrcode/generate")
+            .url("${ApiFile.ERP_APP_URL }}/qrcode/generate")
             .post(formBody)
             .build()
 
@@ -192,7 +192,7 @@ class QrScanner : AppCompatActivity() {
 
     private fun fetchQRCodeImage(chassisNo: String) {
 //        val url = "http://10.0.2.2:8081/qrcode/image/$chassisNo"
-        val url ="${ApiFile.APP_URL}/qrcode/image/$chassisNo"
+        val url ="${ApiFile.ERP_APP_URL}/qrcode/image/$chassisNo"
         val request = Request.Builder()
             .url(url)
             .build()
@@ -240,7 +240,7 @@ class QrScanner : AppCompatActivity() {
 
     private fun decodeQRCode(chassisNo: String) {
 //        val url = "http://10.0.2.2:8081/qrcode/decode/$chassisNo"
-        val url = "${ApiFile.APP_URL}/qrcode/decode/$chassisNo"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/decode/$chassisNo"
         val request = Request.Builder()
             .url(url)
             .build()

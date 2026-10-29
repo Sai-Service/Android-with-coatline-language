@@ -207,7 +207,7 @@ class FloorVehicleReport : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -282,9 +282,9 @@ class FloorVehicleReport : AppCompatActivity() {
         val incrementedToDate = getIncrementedDate(toDate)
 
         val url = if (deptName == "SUPERADMIN") {
-            ApiFile.APP_URL + "/VehicleTrack/vehTrackReportByOu?ou=$selectedCityCode&locId=$locId&from_date=$fromDate&to_date=$incrementedToDate"
+            ApiFile.ERP_APP_URL + "/VehicleTrack/vehTrackReportByOu?ou=$selectedCityCode&locId=$locId&from_date=$fromDate&to_date=$incrementedToDate"
         } else {
-            ApiFile.APP_URL + "/VehicleTrack/vehTrackReportByOu?ou=$ouId&loc_code=$locId&from_date=$fromDate&to_date=$incrementedToDate"
+            ApiFile.ERP_APP_URL + "/VehicleTrack/vehTrackReportByOu?ou=$ouId&loc_code=$locId&from_date=$fromDate&to_date=$incrementedToDate"
         }
 
         val request = Request.Builder()

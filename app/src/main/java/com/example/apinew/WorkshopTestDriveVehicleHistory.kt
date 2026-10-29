@@ -128,7 +128,7 @@ class WorkshopTestDriveVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@WorkshopTestDriveVehicleHistory, "Please enter vehicle number...", Toast.LENGTH_SHORT).show()
             return
         }
-        val url = "${ApiFile.APP_URL}/service/wsVehTestDriveHistory?regNo=$vehNo"
+        val url = "${ApiFile.ERP_APP_URL}/service/wsVehTestDriveHistory?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)

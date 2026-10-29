@@ -165,7 +165,7 @@ class TrueValuePendingVehicle : AppCompatActivity() {
 
 
     private fun updateVehicleStatus(inRegNo: String, login_name: String, inStkTfNo: String, toKm: String) {
-        val url = "${ApiFile.APP_URL}/trueValue/tvUpdateStockIn"
+        val url = "${ApiFile.ERP_APP_URL}/trueValue/tvUpdateStockIn"
         val json = JSONObject().apply {
             put("receivedBy", login_name)
             put("regNo",inRegNo)
@@ -219,7 +219,7 @@ class TrueValuePendingVehicle : AppCompatActivity() {
     private fun fetchTransferListData() {
         val client = OkHttpClient()
         val location=location_name
-        val url = "${ApiFile.APP_URL}/trueValue/tvTransferList?to_location=$location"
+        val url = "${ApiFile.ERP_APP_URL}/trueValue/tvTransferList?to_location=$location"
         val request = Request.Builder()
             .url(url)
             .build()

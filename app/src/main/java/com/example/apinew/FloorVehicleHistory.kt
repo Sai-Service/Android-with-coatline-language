@@ -191,7 +191,7 @@ class FloorVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@FloorVehicleHistory, "Please enter vehicle number...", Toast.LENGTH_SHORT).show()
             return
         }
-        val url = "${ApiFile.APP_URL}/VehicleTrack/VehicleHistory?regNo=$vehNo"
+        val url = "${ApiFile.ERP_APP_URL}/VehicleTrack/VehicleHistory?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)

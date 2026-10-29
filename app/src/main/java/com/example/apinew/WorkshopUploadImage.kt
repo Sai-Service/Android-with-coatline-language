@@ -163,7 +163,7 @@ class WorkshopUploadImage : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/servImage/srUpload")
+            .url("${ApiFile.ERP_APP_URL}/servImage/srUpload")
             .post(requestBody)
             .build()
 

@@ -166,7 +166,7 @@ class UploadImage : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/invstock/upload")
+            .url("${ApiFile.ERP_APP_URL}/invstock/upload")
             .post(requestBody)
             .build()
 

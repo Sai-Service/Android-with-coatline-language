@@ -142,7 +142,7 @@ class WorkShopChassisEnquiry : Activity() {
     private fun fetchChassisData(vehicleNo: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/service/srDetailsByRegNo?regNo=$vehicleNo")
+            .url("${ApiFile.ERP_APP_URL}/service/srDetailsByRegNo?regNo=$vehicleNo")
             .build()
         camera.visibility = View.VISIBLE
 
@@ -198,7 +198,7 @@ class WorkShopChassisEnquiry : Activity() {
         val chassisNo=VIN.text.toString()
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/service/srDetailsByJobcardNo?jobCardNo=$chassisNo")
+            .url("${ApiFile.ERP_APP_URL}/service/srDetailsByJobcardNo?jobCardNo=$chassisNo")
 //            .url("http://10.0.2.2:8081/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
             .build()
         camera.visibility = View.VISIBLE
@@ -281,11 +281,12 @@ class WorkShopChassisEnquiry : Activity() {
         findViewById<EditText>(R.id.SOBNO).setText(chassisData.CONTACTNO)
         findViewById<EditText>(R.id.GRN_NO).setText(chassisData.DMSLOCATION)
         findViewById<EditText>(R.id.JOB_C_DATE).setText(chassisData.JOBCARDDATE)
-        val imageUrl = "${ApiFile.APP_URL}/servImage/srDownload?regNo=${chassisData.REGNO}"
+        val imageUrl = "${ApiFile.ERP_APP_URL}/servImage/srDownload?regNo=${chassisData.REGNO}"
         Picasso.get().load(imageUrl).into(vehImage)
     }
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this@WorkShopChassisEnquiry, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

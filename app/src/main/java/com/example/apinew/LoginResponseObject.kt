@@ -1,21 +1,30 @@
 package com.example.apinew
+// com.example.merged.LoginResponseObject.kt
+// Merged from both LoginResponseObject classes — all fields from both
 data class LoginResponseObject(
-    val id: Int,
-    val loginName: String,
-    val password: String,
-    val deptName: String?,
-    val location: String?,
-    val creationDate: String?,
-    val lastUpdateDate: String?,
-    val attribute1: String,
-    val attribute2: String,
-    val attribute3: String?,
-    val attribute4: String?,
-    val userId: Int?,
-    val emailId: String?,
-    val locId: Int?,
-    val dmsLoc: String?,
-    val ouId: Int,
-    val location_name:String,
-    val message:String
+    val id: Int? = null,
+    val loginName: String? = null,
+    val password: String? = null,
+    val deptName: String? = null,
+    val location: String? = null,
+    val creationDate: String? = null,
+    val lastUpdateDate: String? = null,
+    val ouId: Int? = null,
+    val locId: Int? = null,
+    // App 1 specific
+    val attribute1: String? = null,
+    val attribute2: String? = null,
+    val attribute3: String? = null,
+    val attribute4: String? = null,
+    val userId: Int? = null,
+    val emailId: String? = null,
+    val dmsLoc: String? = null,
+    val message: String? = null,
+    // App 1 uses location_name
+    val location_name: String? = null,
+    // App 2 uses locationName (different JSON key!)
+    val locationName: String? = null,
+    // App 2 specific
+    val userContact: String? = null,
+    val userName: String? = null
 )

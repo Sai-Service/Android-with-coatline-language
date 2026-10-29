@@ -162,7 +162,7 @@ class TrueValueUploadImage : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/tvImage/tvUpload")
+            .url("${ApiFile.ERP_APP_URL}/tvImage/tvUpload")
             .post(requestBody)
             .build()
 

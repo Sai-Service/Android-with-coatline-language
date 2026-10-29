@@ -504,7 +504,7 @@ class TrueValueStockTaking : AppCompatActivity() {
         val LocationName = "$location_name"
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/tvAccounts/findTvBatchNameStatus?location=$LocationName")
+            .url("${ApiFile.ERP_APP_URL}/tvAccounts/findTvBatchNameStatus?location=$LocationName")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -544,7 +544,7 @@ class TrueValueStockTaking : AppCompatActivity() {
         val LocationName = "$location_name"
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/tvAccounts/findBatchNameStatus?batchName=$batchName&location=$LocationName")
+            .url("${ApiFile.ERP_APP_URL}/tvAccounts/findBatchNameStatus?batchName=$batchName&location=$LocationName")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -578,7 +578,7 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun fetchBatchData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/tvAccounts/tvBatchNameOpen?location=${location_name}")
+            .url("${ApiFile.ERP_APP_URL}/tvAccounts/tvBatchNameOpen?location=${location_name}")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -696,7 +696,7 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun fetchChassisData() {
         val client = OkHttpClient()
         val chassis=chassis_no.text.toString()
-        val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByChassisNo?chassisNo=$chassis&ouId=$ouId"
+        val url =ApiFile.ERP_APP_URL+"/tvAccounts/tvAccDetailsByChassisNo?chassisNo=$chassis&ouId=$ouId"
 
 
         val request = Request.Builder()
@@ -774,7 +774,7 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun fetchRegNoDataByCamera() {
         val client = OkHttpClient()
 //        val vehicleNo2=vehNoTextView.toString()
-        val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$bestResult2"
+        val url =ApiFile.ERP_APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$bestResult2"
 
         val request = Request.Builder()
             .url(url)
@@ -852,7 +852,7 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun fetchRegNoData() {
         val client = OkHttpClient()
         val vehicleNo=vehNoEditText.text.toString()
-        val url =ApiFile.APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$vehicleNo"
+        val url =ApiFile.ERP_APP_URL+"/tvAccounts/tvAccDetailsByRegNo?regNo=$vehicleNo"
 
         val request = Request.Builder()
             .url(url)
@@ -954,8 +954,8 @@ class TrueValueStockTaking : AppCompatActivity() {
 
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
-        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin"
-//        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
+        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=$vin"
+//        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
 
         val request = Request.Builder()
             .url(url)
@@ -1016,9 +1016,9 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun fetchVinData2(vin: String) {
         val client = OkHttpClient()
         val vin2=vintypeSpinner.selectedItem.toString()
-//        val url = ApiFile.APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
-        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=$vin2"
-//        val url =ApiFile.APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
+//        val url = ApiFile.ERP_APP_URL+"/accounts/vehDetailsByVin?vin=MBJTYKL1SRE240101"
+        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=$vin2"
+//        val url =ApiFile.ERP_APP_URL+"/qrcode/detailsByVin?vin=MBJTYKK1SRE122674"
         val request = Request.Builder()
             .url(url)
             .build()
@@ -1098,7 +1098,7 @@ class TrueValueStockTaking : AppCompatActivity() {
     private fun saveVinData(regNo: String, batchName: String) {
 
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/tvAccounts/tvBatchName"
+        val url = ApiFile.ERP_APP_URL + "/tvAccounts/tvBatchName"
         val jsonObject = JSONObject()
 
         val currentDateTime = Calendar.getInstance()

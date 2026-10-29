@@ -479,7 +479,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/orgDef/getLocation?operating_unit=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/orgDef/getLocation?operating_unit=$ouId")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -606,7 +606,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
     private fun fetchJobCardData() {
         val client = OkHttpClient()
         val jobCardNo=jobCardInputField.text.toString()
-        val url =ApiFile.APP_URL+"/service/wsVehTransDetByJobCardNo?jobCardNo=$jobCardNo"
+        val url =ApiFile.ERP_APP_URL+"/service/wsVehTransDetByJobCardNo?jobCardNo=$jobCardNo"
 
         val request = Request.Builder()
             .url(url)
@@ -623,30 +623,34 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                     val jcData = jobCardDetails(
                         VARIANT_CODE = stockItem.getString("VARIANT_CODE"),
                         JOBCARDNO = stockItem.getString("JOBCARDNO"),
+                        JOBCARDDATE = stockItem.optString("JOBCARDDATE"),
                         MODEL_DESC = stockItem.getString("MODEL_DESC"),
+                        OUID = stockItem.optString("OUID"),
                         VIN = stockItem.getString("VIN"),
                         REGNO = stockItem.getString("REGNO"),
-                        PHYSICALLOCATION = stockItem.getString("PHYSICALLOCATION"),
+//                        PHYSICALLOCATION = stockItem.getString("PHYSICALLOCATION"),
                         ENGINENO = stockItem.getString("ENGINENO"),
                         SERVICEADVISOR = stockItem.getString("SERVICEADVISOR"),
-                        VEH_STATUS = stockItem.getString("VEH_STATUS"),
-                        STATUS = stockItem.getString("STATUS"),
+
+//                        VEH_STATUS = stockItem.getString("VEH_STATUS"),
+//                        STATUS = stockItem.getString("STATUS"),
                         CUSTNAME = stockItem.getString("CUSTNAME"),
-                        ERPACCTNO = stockItem.getString("ERPACCTNO"),
+
+//                        ERPACCTNO = stockItem.getString("ERPACCTNO"),
                         CHASSIS_NO=stockItem.getString("CHASSIS_NO"),
                         TRANSSEGMENT=stockItem.getString("TRANSSEGMENT"),
                         DMSLOCATION=stockItem.getString("DMSLOCATION"),
                     )
                     runOnUiThread {
-                        if (jcData.PHYSICALLOCATION!= location_name) {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Vehicle is not at $location_name",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            populateFields3(jcData)
-                            refreshData.visibility=View.VISIBLE
-                        }
+//                        if (jcData.PHYSICALLOCATION!= location_name) {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle is not at $location_name",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            refreshData.visibility=View.VISIBLE
+//                        }
 //                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
 //                            Toast.makeText(
 //                                this@WorkShopStockTransferWithImages,
@@ -669,10 +673,10 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
 //                            refreshData.visibility=View.VISIBLE
 //                            saveData.visibility=View.VISIBLE
 //                        }
-                        else if (jcData.VEH_STATUS=="STOCK") {
+//                        else if (jcData.VEH_STATUS=="STOCK") {
                             Toast.makeText(
                                 this@WorkShopStockTransferWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
+                                "Vehicle found",
                                 Toast.LENGTH_SHORT
                             ).show()
                             fetchOrganizations()
@@ -680,16 +684,16 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                             populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
                             saveData.visibility=View.VISIBLE
-                        }
-                        else {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Details found Successfully \n for Job Card No: $jobCardNo",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            populateFields3(jcData)
-                            refreshData.visibility=View.VISIBLE
-                        }
+//                        }
+//                        else {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Details found Successfully \n for Job Card No: $jobCardNo",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                            populateFields3(jcData)
+//                            refreshData.visibility=View.VISIBLE
+//                        }
                     }
                 }
             } catch (e: Exception) {
@@ -709,7 +713,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
     private fun fetchRegNoData() {
         val client = OkHttpClient()
         val vehNo=vehNoInputField.text.toString()
-        val url =ApiFile.APP_URL+"/service/wsVehTransDetByRegNo?regNo=$vehNo"
+        val url =ApiFile.ERP_APP_URL+"/service/wsVehTransDetByRegNo?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -726,30 +730,28 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                     val jcData = jobCardDetails(
                         VARIANT_CODE = stockItem.getString("VARIANT_CODE"),
                         JOBCARDNO = stockItem.getString("JOBCARDNO"),
+                        JOBCARDDATE = stockItem.optString("JOBCARDDATE"),
                         MODEL_DESC = stockItem.getString("MODEL_DESC"),
+                        OUID = stockItem.optString("OUID"),
                         VIN = stockItem.getString("VIN"),
                         REGNO = stockItem.getString("REGNO"),
-                        PHYSICALLOCATION = stockItem.getString("PHYSICALLOCATION"),
                         ENGINENO = stockItem.getString("ENGINENO"),
                         SERVICEADVISOR = stockItem.getString("SERVICEADVISOR"),
-                        VEH_STATUS = stockItem.getString("VEH_STATUS"),
-                        STATUS = stockItem.getString("STATUS"),
                         CUSTNAME = stockItem.getString("CUSTNAME"),
-                        ERPACCTNO = stockItem.getString("ERPACCTNO"),
                         CHASSIS_NO=stockItem.getString("CHASSIS_NO"),
                         TRANSSEGMENT=stockItem.getString("TRANSSEGMENT"),
-                        DMSLOCATION=stockItem.getString("DMSLOCATION")
+                        DMSLOCATION=stockItem.getString("DMSLOCATION"),
                     )
                     runOnUiThread {
-                        if (jcData.PHYSICALLOCATION!= location_name) {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Vehicle is not at $location_name",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            populateFields3(jcData)
-                            refreshData.visibility=View.VISIBLE
-                        }
+//                        if (jcData.PHYSICALLOCATION!= location_name) {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Vehicle is not at $location_name",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            refreshData.visibility=View.VISIBLE
+//                        }
 //                        else if (jcData.VEH_STATUS=="STOCK" && jcData.TRANSSEGMENT=="BANDP" && deptName=="DP") {
 //                            Toast.makeText(
 //                                this@WorkShopStockTransferWithImages,
@@ -772,11 +774,10 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
 //                            refreshData.visibility=View.VISIBLE
 //                            saveData.visibility=View.VISIBLE
 //                        }
-
-                        else if (jcData.VEH_STATUS=="STOCK") {
+//                        else if (jcData.VEH_STATUS=="STOCK") {
                             Toast.makeText(
                                 this@WorkShopStockTransferWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
+                                "Vehicle found",
                                 Toast.LENGTH_SHORT
                             ).show()
                             fetchOrganizations()
@@ -784,16 +785,16 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
                             populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
                             saveData.visibility=View.VISIBLE
-                        }
-                        else {
-                            Toast.makeText(
-                                this@WorkShopStockTransferWithImages,
-                                "Details found Successfully \n for Vehicle No: $vehNo",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            populateFields3(jcData)
-                            refreshData.visibility=View.VISIBLE
-                        }
+//                        }
+//                        else {
+//                            Toast.makeText(
+//                                this@WorkShopStockTransferWithImages,
+//                                "Details found Successfully \n for Vehicle No: $vehNo",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                            populateFields3(jcData)
+//                            refreshData.visibility=View.VISIBLE
+//                        }
                     }
                 }
             } catch (e: Exception) {
@@ -816,7 +817,6 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
         val dialogView = inflater.inflate(R.layout.dialog_progress, null)
         builder.setView(dialogView)
         builder.setCancelable(false)
-
         val dialog = builder.create()
         dialog.show()
         return dialog
@@ -868,7 +868,7 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
 //        }
 
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/service/wsVehTransMake"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehTransMake"
 
         if (locId == toLocationID) {
             Toast.makeText(
@@ -999,11 +999,8 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
             "VARIANT CODE" to jcData.VARIANT_CODE,
             "MODEL DESC" to jcData.MODEL_DESC,
             "ENGINE NO" to jcData.ENGINENO,
-            "VEH STATUS" to jcData.VEH_STATUS,
-            "STATUS" to jcData.STATUS,
             "CUSTOMER" to jcData.CUSTNAME,
             "SERVICE ADVISOR" to jcData.SERVICEADVISOR,
-            "LOCATION" to jcData.PHYSICALLOCATION,
             "DMS LOC" to jcData.DMSLOCATION,
             "TRANS SEGMENT" to jcData.TRANSSEGMENT
 
@@ -1099,18 +1096,16 @@ class WorkShopStockTransferWithImages : AppCompatActivity() {
             val VIN:String,
             val JOBCARDNO:String,
             val VARIANT_CODE:String,
-            val PHYSICALLOCATION:String,
             val MODEL_DESC:String,
             val ENGINENO:String,
             val SERVICEADVISOR:String,
-            val VEH_STATUS:String,
             val REGNO:String,
             val CUSTNAME:String,
-            val STATUS:String,
-            val ERPACCTNO:String,
             val CHASSIS_NO:String,
             val TRANSSEGMENT:String,
-        val DMSLOCATION:String
+            val DMSLOCATION:String,
+            val JOBCARDDATE:String,
+            val OUID:String
             )
 
 }

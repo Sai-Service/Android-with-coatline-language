@@ -590,7 +590,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
 //    private fun fetchwashStageNumber() {
 //        val client = OkHttpClient()
 //        val request = Request.Builder()
-////            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
+////            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
 //            .url(WorkshopWashingUrlManager.fetchWashStageNumber())
 //            .build()
 //        GlobalScope.launch(Dispatchers.IO) {
@@ -634,7 +634,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
     private fun fetchwashStageType() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/washingRegisterGa/washStagesGoa")
+            .url("${ApiFile.ERP_APP_URL}/washingRegisterGa/washStagesGoa")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -791,7 +791,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             return
         }
 //        val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
-        val url="${ApiFile.APP_URL}/washingRegisterGa/vehDetailsForWashGa?regNo=$vehNo"
+        val url="${ApiFile.ERP_APP_URL}/washingRegisterGa/vehDetailsForWashGa?regNo=$vehNo"
 
 
         val request = Request.Builder()
@@ -907,7 +907,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingGoa,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/washingRegisterGa/vehDetailsForWashOutGa?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/washingRegisterGa/vehDetailsForWashOutGa?regNo=$vehNo"
 
         val request = Request.Builder().url(url).build()
 
@@ -995,7 +995,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             return
         }
 
-        val url = ApiFile.APP_URL + "/washingRegisterGa/vehWashProceedGa/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegisterGa/vehWashProceedGa/"
         val jsonObject = JSONObject().apply {
             if (::regNo.isInitialized) {
                 if(regNo.isNotEmpty() ) {
@@ -1121,7 +1121,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
 
 
     private fun vehicleOut() {
-        val url = ApiFile.APP_URL + "/washingRegisterGa/vehWashOutGa/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegisterGa/vehWashOutGa/"
         val jsonObject = JSONObject().apply {
             if (::regNo.isInitialized) {
                 if(regNo.isNotEmpty() ) {
@@ -1404,7 +1404,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             return
         }
 
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassisBatch?chassisNo=$chassisNo&ouId=$ouId"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -1455,6 +1455,11 @@ class WorkshopWashingGoa : AppCompatActivity() {
                                 OPERATING_UNIT = stockItem.optString("OPERATING_UNIT")
                             )
                             runOnUiThread {
+                                Toast.makeText(
+                                    this@WorkshopWashingGoa,
+                                    "Details for chassis no : $chassisNo found successfully.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 populateFieldsFromVinData(jcData)
                                 regNoDetails.text="Details found by Chassis Number"
                                 populateFieldsAfterInSearch()
@@ -1498,7 +1503,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
 
     private fun fetchDetailsByVin(vin: String) {
         val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByVin?vin=$vin"
 
         val request = Request.Builder().url(url).build()
 
@@ -1549,6 +1554,11 @@ class WorkshopWashingGoa : AppCompatActivity() {
                         )
 
                         runOnUiThread {
+                            Toast.makeText(
+                                this@WorkshopWashingGoa,
+                                "Details for vin no : $vin found successfully.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             populateFieldsFromVinData(jcData)
                             regNoDetails.text="Details found by Chassis Number"
                             populateFieldsAfterInSearch()
@@ -1606,7 +1616,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
             return
         }
 
-        val url = "${ApiFile.APP_URL}/washingRegisterGa/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
+        val url = "${ApiFile.ERP_APP_URL}/washingRegisterGa/vehDetailsForWashOutSales?chassisNo=$chassisNo&ouId=$ouId"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -1659,6 +1669,11 @@ class WorkshopWashingGoa : AppCompatActivity() {
                             )
 
                             runOnUiThread {
+                                Toast.makeText(
+                                    this@WorkshopWashingGoa,
+                                    "Details for chassis no : $chassisNo found successfully.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 populateFieldsFromVinDataOut(jcData)
                                 regNoDetails.text="Details found by Chassis Number"
                                 populateFieldsAfterOutSearch()
@@ -1712,7 +1727,7 @@ class WorkshopWashingGoa : AppCompatActivity() {
 
     private fun fetchDetailsByVinOut(vin: String) {
         val client = OkHttpClient()
-        val url = "${ApiFile.APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/washingRegister/vehDetailsForWashOutSales?vin=$vin"
 
         val request = Request.Builder().url(url).build()
 
@@ -1768,6 +1783,11 @@ class WorkshopWashingGoa : AppCompatActivity() {
                         when (responseMessage) {
                             "Details for vehicle found in washing table" -> {
                                 runOnUiThread {
+                                    Toast.makeText(
+                                        this@WorkshopWashingGoa,
+                                        "Details for vin no : $vin found successfully.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     populateFieldsFromVinDataOut(jcData)
                                     regNoDetails.text="Details found by Chassis Number"
                                     populateFieldsAfterOutSearch()

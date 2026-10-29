@@ -533,7 +533,7 @@ class TrueValueStk : AppCompatActivity() {
     private fun fetchChassisData() {
         val client = OkHttpClient()
         val chassis=chassis_no.text.toString()
-        val url =ApiFile.APP_URL+"/trueValue/tvDetInByChassis?chassisNo=$chassis&ou=$ouId"
+        val url =ApiFile.ERP_APP_URL+"/trueValue/tvDetInByChassis?chassisNo=$chassis&ou=$ouId"
 
 
         val request = Request.Builder()
@@ -616,7 +616,7 @@ class TrueValueStk : AppCompatActivity() {
     private fun fetchRegNoDataByCamera() {
         val client = OkHttpClient()
         val vehicleNo2=vehNoTextView.text.toString()
-        val url =ApiFile.APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo2"
+        val url =ApiFile.ERP_APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo2"
 
         val request = Request.Builder()
             .url(url)
@@ -700,7 +700,7 @@ class TrueValueStk : AppCompatActivity() {
     private fun fetchVinNoDataByCamera() {
         val client = OkHttpClient()
 //        val vehicleNo2=vehNoTextView.toString()
-        val url =ApiFile.APP_URL+"/trueValue/tvDetailsByVin?vin=$bestResult2"
+        val url =ApiFile.ERP_APP_URL+"/trueValue/tvDetailsByVin?vin=$bestResult2"
 
         val request = Request.Builder()
             .url(url)
@@ -780,7 +780,7 @@ class TrueValueStk : AppCompatActivity() {
     private fun fetchRegNoData() {
         val client = OkHttpClient()
         val vehicleNo=vehNoEditText.text.toString()
-        val url =ApiFile.APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo"
+        val url =ApiFile.ERP_APP_URL+"/trueValue/tvDetInByRegNo?regNo=$vehicleNo"
 
         val request = Request.Builder()
             .url(url)
@@ -871,7 +871,7 @@ class TrueValueStk : AppCompatActivity() {
     }
 
     private fun postData() {
-        val url = "${ApiFile.APP_URL}/trueValue/tvUpdateStockIn"
+        val url = "${ApiFile.ERP_APP_URL}/trueValue/tvUpdateStockIn"
         val toKm=toKmEditText.text.toString()
         val json = JSONObject().apply {
             put("receivedBy", login_name)

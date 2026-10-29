@@ -2,7 +2,6 @@ package com.example.apinew
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -13,979 +12,285 @@ class Controller : AppCompatActivity() {
 
     private var ouId: Int = 0
     private var locId: Int = 0
-    private lateinit var locIdTxt :TextView
-    private lateinit var username:TextView
-    private lateinit var deptIntent:TextView
+    private lateinit var locIdTxt: TextView
+    private lateinit var username: TextView
+    private lateinit var deptIntent: TextView
     private lateinit var login_name: String
-    private lateinit var location_name:String
+    private lateinit var location_name: String
     private lateinit var attribute1: String
+    private lateinit var attribute2: String
+
     private lateinit var location: String
-    private lateinit var logoutButton:ImageView
-    private lateinit var deptName:String
-    private lateinit var emailId:String
-    private lateinit var reports:View
-    private lateinit var security:View
-    private lateinit var vehTrack:View
-    private lateinit var row1:View
-    private lateinit var row2:View
-    private lateinit var row3:View
-    private lateinit var row4:View
-    private lateinit var row5:View
-    private lateinit var row6:View
-    private lateinit var row7:View
-    private lateinit var row8:View
-    private lateinit var row9:View
-    private lateinit var row10:View
-    private lateinit var row11:View
-    private lateinit var row12:View
-    private lateinit var row13:View
-    private lateinit var row14:View
-    private lateinit var row15:View
-    private lateinit var row16:View
-    private lateinit var row17:View
-    private lateinit var row18:View
-    private lateinit var row19:View
-    private lateinit var row20:View
-    private lateinit var row21:View
-    private lateinit var row22:View
-    private lateinit var row23:View
-    private lateinit var row24:View
+    private lateinit var logoutButton: ImageView
+    private lateinit var deptName: String
+    private lateinit var emailId: String
+    private lateinit var source: String
+    private lateinit var role: String
+    private lateinit var dmsLoc:String
 
-    private lateinit var about:ImageButton
 
+    // Delivery-only fields
+    private var userContact: String? = null
+    private var userName: String? = null
+
+    // ERP deptName + Delivery deptName (both needed when source = "both")
+    private lateinit var erpDeptName: String
+    private lateinit var deliveryDeptName: String
+    private lateinit var about: ImageButton
+    private lateinit var row1: View
+    private lateinit var row2: View
+    private lateinit var row3: View
+    private lateinit var row4: View
+    private lateinit var row5: View
+    private lateinit var row6: View
+    private lateinit var row7: View
+    private lateinit var row8: View
+    private lateinit var row9: View
+    private lateinit var row10: View
+    private lateinit var row11: View
+    private lateinit var row12: View
+    private lateinit var row13: View
+    private lateinit var row14: View
+    private lateinit var row15: View
+    private lateinit var row16: View
+    private lateinit var row17: View
+    private lateinit var row18: View
+    private lateinit var row19: View
+    private lateinit var row20: View
+    private lateinit var row21: View
+    private lateinit var row22: View
+    private lateinit var row23: View
+    private lateinit var row24: View
+    private lateinit var rowDelivery1: View
+    private lateinit var rowDelivery2: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_controller)
 
+        // ── Read all intent extras ─────────────────────────────
+        source        = intent.getStringExtra("source") ?: "erp"
+        ouId          = intent.getIntExtra("ouId", 0)
+        locId         = intent.getIntExtra("locId", 0)
+        login_name    = intent.getStringExtra("login_name") ?: ""
+        location_name = intent.getStringExtra("location_name") ?: ""
+        location      = intent.getStringExtra("location") ?: ""
+        deptName      = intent.getStringExtra("deptName") ?: ""
+        attribute1    = intent.getStringExtra("attribute1") ?: ""
+        attribute2    = intent.getStringExtra("attribute2") ?: ""
+        emailId       = intent.getStringExtra("emailId") ?: ""
+        userContact   = intent.getStringExtra("userContact")
+        userName      = intent.getStringExtra("userName")
+        role       = intent.getStringExtra("role") ?: ""
+        dmsLoc       = intent.getStringExtra("dmsLoc") ?: ""
 
-        locIdTxt = findViewById(R.id.locIdTxt)
-        username = findViewById(R.id.username)
-        reports = findViewById(R.id.reports)
-        security = findViewById(R.id.security)
-        vehTrack = findViewById(R.id.vehTrack)
-        deptIntent=findViewById(R.id.deptIntent)
-        about=findViewById(R.id.about)
 
+        erpDeptName      = intent.getStringExtra("erpDeptName") ?: deptName
+// ↓ KEY FIX: for pure delivery login, deliveryDeptName falls back to deptName
+        deliveryDeptName = intent.getStringExtra("deliveryDeptName")
+            ?.takeIf { it.isNotEmpty() } ?: deptName
 
+        // ── Find views ────────────────────────────────────────
+        locIdTxt     = findViewById(R.id.locIdTxt)
+        username     = findViewById(R.id.username)
+        deptIntent   = findViewById(R.id.deptIntent)
+        about        = findViewById(R.id.about)
         logoutButton = findViewById(R.id.logoutButton)
 
-        ouId = intent.getIntExtra("ouId", 0)
-        locId = intent.getIntExtra("locId", 0)
+        row1  = findViewById(R.id.row1)
+        row2  = findViewById(R.id.row2)
+        row3  = findViewById(R.id.row3)
+        row4  = findViewById(R.id.row4)
+        row5  = findViewById(R.id.row5)
+        row6  = findViewById(R.id.row6)
+        row7  = findViewById(R.id.row7)
+        row8  = findViewById(R.id.row8)
+        row9  = findViewById(R.id.row9)
+        row10 = findViewById(R.id.row10)
+        row11 = findViewById(R.id.row11)
+        row12 = findViewById(R.id.row12)
+        row13 = findViewById(R.id.row13)
+        row14 = findViewById(R.id.row14)
+        row15 = findViewById(R.id.row15)
+        row16 = findViewById(R.id.row16)
+        row17 = findViewById(R.id.row17)
+        row18 = findViewById(R.id.row18)
+        row19 = findViewById(R.id.row19)
+        row20 = findViewById(R.id.row20)
+        row21 = findViewById(R.id.row21)
+        row22 = findViewById(R.id.row22)
+        row23 = findViewById(R.id.row23)
+        row24 = findViewById(R.id.row24)
+        rowDelivery1 = findViewById(R.id.rowDelivery1)
+        rowDelivery2 = findViewById(R.id.rowDelivery2)
 
-        attribute1 = intent.getStringExtra("attribute1") ?: ""
-        login_name = intent.getStringExtra("login_name") ?: ""
-        location_name = intent.getStringExtra("location_name") ?: ""
-        location = intent.getStringExtra("location") ?: ""
-        deptName = intent.getStringExtra("deptName") ?: ""
-        emailId = intent.getStringExtra("emailId") ?: ""
-        row1 = findViewById(R.id.row1)
-        row2 = findViewById(R.id.row2)
-        row3 = findViewById(R.id.row3)
-        row4 = findViewById(R.id.row4)
-        row5 = findViewById(R.id.row5)
-        row6=findViewById(R.id.row6)
-        row7=findViewById(R.id.row7)
-        row8=findViewById(R.id.row8)
-        row9=findViewById(R.id.row9)
-        row10=findViewById(R.id.row10)
-        row11=findViewById(R.id.row11)
-        row12=findViewById(R.id.row12)
-        row13=findViewById(R.id.row13)
-        row14=findViewById(R.id.row14)
-        row15=findViewById(R.id.row15)
-        row16=findViewById(R.id.row16)
-        row17=findViewById(R.id.row17)
-        row18=findViewById(R.id.row18)
-        row19=findViewById(R.id.row19)
-        row20=findViewById(R.id.row20)
-        row21=findViewById(R.id.row21)
-        row22=findViewById(R.id.row22)
-        row23=findViewById(R.id.row23)
-        row24=findViewById(R.id.row24)
+        // ── Header ────────────────────────────────────────────
+        locIdTxt.text   = location_name
+        username.text   = login_name
+        deptIntent.text = deptName
 
-        reports = findViewById(R.id.reports)
+        // ── Hide all rows first ───────────────────────────────
+        hideAllRows()
 
-        locIdTxt.text = "$location_name"
-        username.text = "$login_name"
-        deptIntent.text=deptName
-
-
-
-        logoutButton.setOnClickListener {
-            logout()
+        // ── Apply visibility based on source ──────────────────
+        when (source) {
+            "erp"      -> applyErpRoleVisibility(erpDeptName)
+            // ↓ FIX: was using deliveryDeptName which was empty for pure delivery login
+            "delivery" -> applyDeliveryRoleVisibility(deliveryDeptName)
+            "both"     -> {
+                applyErpRoleVisibility(erpDeptName)
+                applyDeliveryRoleVisibility(deliveryDeptName)
+            }
         }
 
-        about.setOnClickListener {
-            aboutActivity()
+        logoutButton.setOnClickListener { logout() }
+        about.setOnClickListener { aboutActivity() }
+    }
+
+    // ── Show helper (clickable) ───────────────────────────────
+    private fun show(vararg views: View) {
+        views.forEach { it.visibility = View.VISIBLE }
+    }
+
+
+    // ── Show helper (visible but disabled/non-clickable) ──────
+    private fun showDisabled(vararg views: View) {
+        views.forEach {
+            it.visibility = View.VISIBLE
+            it.isEnabled = false
+            it.alpha = 0.4f          // grayed-out look so user knows it's inactive
+            it.setOnClickListener(null)   // strip any existing click listener
+            it.isClickable = false
+            it.isFocusable = false
         }
+    }
 
-        when (deptName) {
-            "ACCOUNTS" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.VISIBLE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
+    // ── Hide every row ────────────────────────────────────────
+    private fun hideAllRows() {
+        listOf(
+            row1, row2, row3, row4, row5, row6, row7, row8,
+            row9, row10, row11, row12, row13, row14, row15,
+            row16, row17, row18, row19, row20, row21, row22,
+            row23, row24, rowDelivery1, rowDelivery2
+        ).forEach { it.visibility = View.GONE }
+    }
 
-            "SECURITY" -> {
-                row1.visibility = View.GONE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.VISIBLE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-
-            }
-
-            "SALES" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.VISIBLE
-                row4.visibility = View.VISIBLE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "SUPERADMIN" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.VISIBLE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
+    // ── ERP role → row visibility ─────────────────────────────
+    // Takes deptName as parameter so it works for both single
+    // ERP login AND merged "both" login
+    private fun applyErpRoleVisibility(dept: String) {
+        when (dept) {
+            "ACCOUNTS" -> show(row1, row2)
+            "SECURITY" -> show(row5)
+            "SALES" -> show(row1, row3, row4)
+            "SUPERADMIN" -> show(row1, row4)
             "TRUEVALUE" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.VISIBLE
-                row7.visibility = View.GONE
-                row8.visibility = View.VISIBLE
-                row9.visibility=View.INVISIBLE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
+                show(row1, row6, row8); row9.visibility = View.INVISIBLE
             }
 
             "TVSUPERADMIN" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.VISIBLE
-                row7.visibility = View.GONE
-                row8.visibility = View.VISIBLE
-                row9.visibility=View.INVISIBLE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
+                show(row1, row6, row8); row9.visibility = View.INVISIBLE
             }
 
-            "TVACCOUNTS" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.VISIBLE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "SERVICE" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.VISIBLE
-                row13.visibility=View.GONE
-                row14.visibility=View.VISIBLE
-                row15.visibility=View.VISIBLE
-                row16.visibility=View.VISIBLE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "DP" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.VISIBLE
-                row13.visibility=View.GONE
-                row14.visibility=View.VISIBLE
-                row15.visibility=View.VISIBLE
-                row16.visibility=View.VISIBLE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "SERACCOUNTS" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.VISIBLE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "SALES-SHOWROOM" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.VISIBLE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "ADMINISTRATOR" -> {
-                row1.visibility = View.GONE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.VISIBLE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-            "SECURITYTD" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.VISIBLE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.VISIBLE
-                row24.visibility=View.GONE
-            }
-
-            "SECURITYPARK" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.VISIBLE
-                row24.visibility=View.GONE
-            }
-
-            "SERVICE-PARK" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.VISIBLE
-                row24.visibility=View.GONE
-            }
-
-            "BODYSHOP-PARK" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.VISIBLE
-                row24.visibility=View.GONE
-            }
-
-            "SALES DEMO" -> {
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.VISIBLE
-                row20.visibility=View.VISIBLE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "WASHING" ->{
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.VISIBLE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "VEHWASHGOA" ->{
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.VISIBLE
-            }
-
-            "WM" ->{
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.GONE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
-
-            "WASHSALES" ->{
-                row1.visibility = View.VISIBLE
-                row2.visibility = View.GONE
-                row3.visibility = View.GONE
-                row4.visibility = View.GONE
-                row5.visibility = View.GONE
-                row6.visibility = View.GONE
-                row7.visibility = View.GONE
-                row8.visibility = View.GONE
-                row9.visibility=View.GONE
-                row10.visibility=View.GONE
-                row11.visibility=View.GONE
-                row12.visibility=View.GONE
-                row13.visibility=View.GONE
-                row14.visibility=View.GONE
-                row15.visibility=View.GONE
-                row16.visibility=View.GONE
-                row17.visibility=View.GONE
-                row18.visibility=View.GONE
-                row19.visibility=View.GONE
-                row20.visibility=View.GONE
-                row21.visibility=View.GONE
-                row22.visibility=View.VISIBLE
-                row23.visibility=View.GONE
-                row24.visibility=View.GONE
-            }
+            "TVACCOUNTS" -> show(row1, row9)
+            "SERVICE" -> show(row1, row12, row14, row15, row16)
+            "DP" -> show(row1, row12, row14, row15, row16)
+            "SERACCOUNTS" -> show(row1, row10)
+            "SALES-SHOWROOM" -> show(row1, row4)
+            "ADMINISTRATOR" -> show(row13)
+            "SECURITYTD" -> show(row1, row17, row23)
+            "SECURITYPARK" -> show(row1, row23)
+            "SERVICE-PARK" -> show(row1, row23)
+            "BODYSHOP-PARK" -> show(row1, row23)
+            "SALES DEMO" -> show(row1, row19, row20)
+            "SALESSUPERADMIN" -> show(row1, row19, row20)
+            "WASHING" -> show(row1, row18)
+            "VEHWASHGOA" -> show(row1, row24)
+            "WM" -> show(row1)
+            "WASHSALES" -> show(row1, row22)
+            "SERACCTS" -> show(row1, row10)
         }
     }
-    fun goToCityReport(view: View) {
-        val intent = Intent(this@Controller, StockController::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        intent.putExtra("emailId",emailId)
-        startActivity(intent)
+
+
+
+    // ── Delivery role → row visibility ────────────────────────
+    // Replace deptName strings with your actual Delivery role names
+    private fun applyDeliveryRoleVisibility(dept: String) {
+        when (dept) {
+            "SERVICE"        -> show(rowDelivery1, rowDelivery2)
+            "DELIVERY"       -> show(rowDelivery1, rowDelivery2)
+            "DELIVERY-ADMIN" -> show(rowDelivery1, rowDelivery2)
+//            else             -> if (dept.isNotEmpty()) show(rowDelivery1,rowDelivery2)
+        }
     }
 
-    fun goToChassisReport(view: View) {
-        val intent = Intent(this@Controller, ChassisActivity::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
+    // ── Show helper ───────────────────────────────────────────
+    // Uses VISIBLE not GONE — safe to call multiple times
+    // (calling show() twice on a row just keeps it VISIBLE)
 
 
-    fun goToStockTaking(view: View) {
-        val intent = Intent(this@Controller, StockTaking::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
+    // ── Navigation functions ──────────────────────────────────
 
+    fun goToCityReport(view: View)               { startWithExtras(StockController::class.java) }
+    fun goToChassisReport(view: View)            { startWithExtras(ChassisActivity::class.java) }
+    fun goToStockTaking(view: View)              { startWithExtras(StockTaking::class.java) }
+    fun goToCamera(view: View)                   { startWithExtras(StockTransferNew::class.java) }
+    fun goToTrueValue(view: View)                { startWithExtras(TrueValueStk::class.java) }
+    fun SecurityVehTrans(view: View)             { startWithExtras(SecurityVehicleTrack::class.java) }
+    fun trueValVehEnq(view: View)                { startWithExtras(TrueValVehicleEnquiry::class.java) }
+    fun trueValStockTake(view: View)             { startWithExtras(TrueValueStockTaking2::class.java) }
+    fun workShopStockTake(view: View)            { startWithExtras(WorkshopStockTaking::class.java) }
+    fun workShopStockTransfer(view: View)        { startWithExtras(WorkshopPendingVehicle::class.java) }
+    fun workShopChassisEnquiry(view: View)       { startWithExtras(WorkShopChassisEnquiry::class.java) }
+    fun stockTrfReceive(view: View)              { startWithExtras(WorkShopStockReceiveWithImages::class.java) }
+    fun stockTrfMade(view: View)                 { startWithExtras(WorkShopStockTransferWithImages::class.java) }
+    fun viewVehicleHistory(view: View)           { startWithExtras(WorkshopVehicleHistory::class.java) }
+    fun workshopGatePassEntry(view: View)        { startWithExtras(WorkShopGatepass2::class.java) }
+    fun workshopParking(view: View)              { startWithExtras(WorkshopParkingModule::class.java) }
+    fun workshopWashingModule(view: View)        { startWithExtras(WorkshopWashingModule::class.java) }
+    fun workshopWashingModuleChassis(view: View) { startWithExtras(SalesWashingWithChassis::class.java) }
+    fun workshopDemoVehicle(view: View)          { startWithExtras(WorkshopDemoVehicle::class.java) }
+    fun workshopDemoVehicleAvailability(view: View) { startWithExtras(WorkshopAvailableDemoVehicle::class.java) }
+    fun floorVehicleTracking(view: View)         { startWithExtras(FloorVehicleTracking::class.java) }
+    fun workshopWashingGoa(view: View)           { startWithExtras(WorkshopWashingGoa::class.java) }
+    fun serviceStockTaking(view: View)           { startWithExtras(ServiceStockTaking::class.java) }
+    fun goToVehicleDelivery(view: View)          { startWithExtras(VehicleDelivery::class.java) }
+    fun goToDeliveryReports(view: View)          { startWithExtras(DeliveryReport::class.java) }
+//    fun generateLogins(view: View)               { startWithExtras(GenerateLogins::class.java) }
 
-    fun goToCamera(view: View) {
-//        val intent = Intent(this@Controller, CameraActivity::class.java)
-        val intent = Intent(this@Controller, StockTransferNew::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun goToTrueValue(view: View) {
-//        val intent = Intent(this@Controller, CameraActivity::class.java)
-        val intent = Intent(this@Controller, TrueValueStk::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-
-    fun SecurityVehTrans(view: View) {
-        val intent = Intent(this@Controller, SecurityVehicleTrack::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun trueValVehEnq(view: View) {
-        val intent = Intent(this@Controller, TrueValVehicleEnquiry::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun trueValStockTake(view: View) {
-        val intent = Intent(this@Controller, TrueValueStockTaking2::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workShopStockTake(view: View) {
-        val intent = Intent(this@Controller, WorkshopStockTaking::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-
-    fun workShopStockTransfer(view: View) {
-        val intent = Intent(this@Controller, WorkshopPendingVehicle::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-
-    fun workShopChassisEnquiry(view: View) {
-        val intent = Intent(this@Controller, WorkShopChassisEnquiry::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-
-//    fun generateLogins(view: View) {
-//        val intent = Intent(this@Controller, GenerateLogins::class.java)
-//        intent.putExtra("attribute1", attribute1)
-//        intent.putExtra("login_name", login_name)
-//        intent.putExtra("ouId", ouId)
-//        intent.putExtra("location", location)
-//        intent.putExtra("locId", locId)
-//        intent.putExtra("location_name",location_name)
-//        intent.putExtra("deptName",deptName)
-//        startActivity(intent)
-//    }
-
-    fun stockTrfReceive(view: View) {
-        val intent = Intent(this@Controller, WorkShopStockReceiveWithImages::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun stockTrfMade(view: View) {
-        val intent = Intent(this@Controller, WorkShopStockTransferWithImages::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun viewVehicleHistory(view: View) {
-        val intent = Intent(this@Controller, WorkshopVehicleHistory::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopGatePassEntry(view: View) {
-        val intent = Intent(this@Controller, WorkShopGatepass2::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopParking(view: View) {
-        val intent = Intent(this@Controller, WorkshopParkingModule::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopWashingModule(view: View) {
-        val intent = Intent(this@Controller, WorkshopWashingModule::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopWashingModuleChassis(view: View) {
-        val intent = Intent(this@Controller, SalesWashingWithChassis::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopDemoVehicle(view: View) {
-        val intent = Intent(this@Controller, WorkshopDemoVehicle::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopDemoVehicleAvailability(view: View) {
-        val intent = Intent(this@Controller, WorkshopAvailableDemoVehicle::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun floorVehicleTracking(view: View) {
-        val intent = Intent(this@Controller, FloorVehicleTracking::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
-        startActivity(intent)
-    }
-
-    fun workshopWashingGoa(view: View) {
-        val intent = Intent(this@Controller, WorkshopWashingGoa::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name",location_name)
-        intent.putExtra("deptName",deptName)
+    // ── Single extras helper ──────────────────────────────────
+    private fun startWithExtras(cls: Class<*>) {
+        val intent = Intent(this, cls).apply {
+            putExtra("source",           source)
+            putExtra("attribute1",       attribute1)
+            putExtra("attribute2",       attribute2)
+            putExtra("role",      role)
+            putExtra("login_name",       login_name)
+            putExtra("ouId",             ouId)
+            putExtra("location",         location)
+            putExtra("locId",            locId)
+            putExtra("location_name",    location_name)
+            putExtra("deptName",         deptName)
+            putExtra("emailId",          emailId)
+            putExtra("userContact",      userContact)
+            putExtra("userName",         userName)
+            putExtra("erpDeptName",      erpDeptName)
+            putExtra("deliveryDeptName", deliveryDeptName)
+            putExtra("dmsLoc", dmsLoc)
+        }
         startActivity(intent)
     }
 
     private fun logout() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        SessionManager.clearSession(this)
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
     private fun aboutActivity() {
         val intent = Intent(this, AboutActivity::class.java)
-        intent.putExtra("deptName",deptName)
+        intent.putExtra("deptName", deptName)
         startActivity(intent)
     }
-
 }
-
-

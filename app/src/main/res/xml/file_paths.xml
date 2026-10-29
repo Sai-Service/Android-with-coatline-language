@@ -13,4 +13,10 @@
         name="external"
         path="." />
     <external-path name="images" path="Pictures/" />
+
 </paths>
+
+
+
+
+

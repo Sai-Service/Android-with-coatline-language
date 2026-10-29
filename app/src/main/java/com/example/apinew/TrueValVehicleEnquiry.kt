@@ -140,7 +140,7 @@ class TrueValVehicleEnquiry : Activity() {
     private fun fetchChassisData(vehicleNo: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/trueValue/tvDetailsByRegNo?regNo=$vehicleNo")
+            .url("${ApiFile.ERP_APP_URL}/trueValue/tvDetailsByRegNo?regNo=$vehicleNo")
 //            .url("http://10.0.2.2:8081/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
             .build()
         camera.visibility = View.VISIBLE
@@ -195,7 +195,7 @@ class TrueValVehicleEnquiry : Activity() {
         val chassisNo=VIN.text.toString()
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/trueValue/tvDetailsByChassis?chassisNo=$chassisNo")
+            .url("${ApiFile.ERP_APP_URL}/trueValue/tvDetailsByChassis?chassisNo=$chassisNo")
 //            .url("http://10.0.2.2:8081/fndcom/stockDetailsByChassis?chassis_no=$chassisNo")
             .build()
         camera.visibility = View.VISIBLE
@@ -275,11 +275,12 @@ class TrueValVehicleEnquiry : Activity() {
         findViewById<EditText>(R.id.LOCATION).setText(chassisData.LOCATION)
         findViewById<EditText>(R.id.GRN_DATE).setText(chassisData.VARIANT_CODE)
         findViewById<EditText>(R.id.SOBNO).setText(chassisData.VEH_STATUS)
-        val imageUrl = "${ApiFile.APP_URL}/tvImage/tvDownload?regNo=${chassisData.REG_NO}"
+        val imageUrl = "${ApiFile.ERP_APP_URL}/tvImage/tvDownload?regNo=${chassisData.REG_NO}"
         Picasso.get().load(imageUrl).into(vehImage)
     }
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this@TrueValVehicleEnquiry, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

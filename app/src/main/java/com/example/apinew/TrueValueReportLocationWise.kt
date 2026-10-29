@@ -122,7 +122,7 @@ class TrueValueReportLocationWise : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -182,18 +182,18 @@ class TrueValueReportLocationWise : AppCompatActivity() {
             ).show()
         } else {
             val url = if (deptName == "TVSUPERADMIN") {
-                ApiFile.APP_URL + "/tvReports/tvReportLocationCount?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/tvReports/tvReportLocationCount?ouId=$ouId&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/tvReports/tvReportLocationCount?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/tvReports/tvReportLocationCount?ouId=$ouId&vehType=$selectedType"
             }
 
             val url2 = if (deptName == "TVSUPERADMIN") {
-                ApiFile.APP_URL + "/tvReports/tvReportLocationCountSum?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/tvReports/tvReportLocationCountSum?ouId=$ouId&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/tvReports/tvReportLocationCountSum?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/tvReports/tvReportLocationCountSum?ouId=$ouId&vehType=$selectedType"
             }
-//        val url = ApiFile.APP_URL + "/accounts/reportLocModelCount?ouId=$ouId"
-//        val url2 = ApiFile.APP_URL + "/accounts/reportAllModelCount?ouId=$ouId"
+//        val url = ApiFile.ERP_APP_URL + "/accounts/reportLocModelCount?ouId=$ouId"
+//        val url2 = ApiFile.ERP_APP_URL + "/accounts/reportAllModelCount?ouId=$ouId"
 
             val request = Request.Builder()
                 .url(url)

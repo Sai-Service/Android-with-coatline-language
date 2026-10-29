@@ -1,3 +1,1348 @@
+//package com.example.apinew
+//
+//
+//import android.Manifest
+//import android.annotation.SuppressLint
+//import android.app.Activity
+//import android.app.DatePickerDialog
+//import android.content.Intent
+//import android.content.pm.PackageManager
+//import android.graphics.Bitmap
+//import android.graphics.Color
+//import android.os.Bundle
+//import android.provider.MediaStore
+//import android.util.Log
+//import android.view.LayoutInflater
+//import android.view.View
+//import android.widget.AdapterView
+//import android.widget.ArrayAdapter
+//import android.widget.EditText
+//import android.widget.ImageButton
+//import android.widget.Spinner
+//import android.widget.TableLayout
+//import android.widget.TableRow
+//import android.widget.TextView
+//import android.widget.Toast
+//import androidx.appcompat.app.AppCompatActivity
+//import androidx.core.app.ActivityCompat
+//import androidx.core.content.ContextCompat
+//import com.google.mlkit.vision.common.InputImage
+//import com.google.mlkit.vision.text.TextRecognition
+//import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+//import com.google.zxing.integration.android.IntentIntegrator
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.GlobalScope
+//import kotlinx.coroutines.launch
+//import okhttp3.OkHttpClient
+//import okhttp3.Request
+//import org.json.JSONException
+//import org.json.JSONObject
+//import java.util.concurrent.Executors
+//import kotlin.math.max
+//import kotlin.math.min
+//import android.app.TimePickerDialog
+//import android.media.Image
+//import android.text.InputFilter
+//import android.widget.CheckBox
+//import android.widget.LinearLayout
+//import android.widget.RadioButton
+//import android.widget.RadioGroup
+//import okhttp3.MediaType.Companion.toMediaTypeOrNull
+//import okhttp3.RequestBody.Companion.toRequestBody
+//import java.text.SimpleDateFormat
+//import java.util.Calendar
+//import java.util.Locale
+//
+//
+//class WorkshopWashingModule : AppCompatActivity() {
+//    private lateinit var login_name: String
+//    private lateinit var deptName: String
+//    private lateinit var attribute1: String
+//    private var ouId: Int = 0
+//    private var locId: Int = 0
+//    private lateinit var location_name: String
+//    private lateinit var username:TextView
+//    private lateinit var locIdTxt:TextView
+//    private lateinit var deptIntent:TextView
+//
+//    private lateinit var washingHistory:TextView
+//    private lateinit var washInLL: View
+//    private lateinit var washIn:TextView
+//    private lateinit var washOut:TextView
+//    private lateinit var captureVehNumber:View
+//    private lateinit var captureRegNoCamera:ImageButton
+//    private lateinit var vehNoEnterLL:View
+//    private lateinit var enterVehNumber:EditText
+//    private lateinit var vehWashButtonIn:ImageButton
+//    private lateinit var vehWashButtonOut:ImageButton
+//    private lateinit var regNoDetails:TextView
+//    private lateinit var bestResult2: String
+//    private lateinit var washStageNumber:TextView
+//    private lateinit var washStageNumberLov:Spinner
+//    private lateinit var washStageType:TextView
+//    private lateinit var washStageTypeLov:Spinner
+//    private lateinit var regNo:String
+//    private lateinit var engineNo:String
+//    private lateinit var chassisNo:String
+//    private lateinit var custName:String
+//    private lateinit var model:String
+//    private lateinit var serviceAdvisor:String
+//    private lateinit var vehWashNo:String
+//    private lateinit var resetFields:TextView
+//    private lateinit var submitButton:TextView
+//    private lateinit var dateTimeToSend:String
+//    private lateinit var submitButtonOut:TextView
+//
+//
+//    companion object {
+//        private const val CAMERA_PERMISSION_CODE = 100
+//        private const val CAMERA_REQUEST_CODE = 101
+//        private const val CAMERA_REQUEST_CODE_2 = 103
+//    }
+//    private val recognizer = TextRecognition.getClient(
+//        TextRecognizerOptions.Builder().setExecutor(
+//            Executors.newSingleThreadExecutor()
+//        ).build()
+//    )
+//
+//    @SuppressLint("ClickableViewAccessibility")
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_workshop_washing_module)
+//
+//        username=findViewById(R.id.username)
+//        locIdTxt=findViewById(R.id.locIdTxt)
+//        deptIntent=findViewById(R.id.deptIntent)
+//
+//        locId = intent.getIntExtra("locId", 0)
+//        ouId = intent.getIntExtra("ouId", 0)
+//        deptName = intent.getStringExtra("deptName") ?: ""
+//        location_name = intent.getStringExtra("location_name") ?: ""
+//        login_name = intent.getStringExtra("login_name") ?: ""
+//        attribute1 = intent.getStringExtra("attribute1") ?: ""
+//
+//        username.text=login_name
+//        locIdTxt.text= location_name
+//        deptIntent.text=deptName
+//
+//
+//        washingHistory=findViewById(R.id.washingHistory)
+//        washInLL=findViewById(R.id.washInLL)
+//        washIn=findViewById(R.id.washIn)
+//        washOut=findViewById(R.id.washOut)
+//        captureVehNumber=findViewById(R.id.captureVehNumber)
+//        captureRegNoCamera=findViewById(R.id.captureRegNoCamera)
+//        vehNoEnterLL=findViewById(R.id.vehNoEnterLL)
+//        enterVehNumber=findViewById(R.id.enterVehNumber)
+//        vehWashButtonIn=findViewById(R.id.vehWashButtonIn)
+//        vehWashButtonOut=findViewById(R.id.vehWashButtonOut)
+//        regNoDetails=findViewById(R.id.regNoDetails)
+//        washStageNumber=findViewById(R.id.washStageNumber)
+//        washStageNumberLov=findViewById(R.id.washStageNumberLov)
+//        washStageType=findViewById(R.id.washStageType)
+//        washStageTypeLov=findViewById(R.id.washStageTypeLov)
+//        resetFields=findViewById(R.id.resetFields)
+//        submitButton=findViewById(R.id.submitButton)
+//        submitButtonOut=findViewById(R.id.submitButtonOut)
+//
+//
+//
+//        washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        }
+//
+//
+//        regNoDetails.visibility=View.GONE
+//        captureVehNumber.visibility=View.GONE
+//        vehNoEnterLL.visibility=View.GONE
+//        washStageNumber.visibility=View.GONE
+//        washStageNumberLov.visibility=View.GONE
+//        washStageType.visibility=View.GONE
+//        washStageTypeLov.visibility=View.GONE
+//        resetFields.visibility=View.GONE
+//        submitButton.visibility=View.GONE
+//        vehWashButtonOut.visibility=View.GONE
+//        submitButtonOut.visibility=View.GONE
+//
+//
+////        val noSpaceFilter = InputFilter { source, _, _, _, _, _ ->
+////            if (source.any { it.isWhitespace() }) "" else null
+////        }
+//
+//        val alphaNumericFilter = InputFilter { source, _, _, _, _, _ ->
+//            if (source.all { it.isLetterOrDigit() }) null else ""
+//        }
+//
+//        val lengthFilter = InputFilter.LengthFilter(10)
+//
+//
+//
+//        val enterVehNumber = findViewById<EditText>(R.id.enterVehNumber)
+//        enterVehNumber.filters = arrayOf(alphaNumericFilter,lengthFilter)
+//
+//        resetFields.setOnClickListener{
+//            refreshData()
+//        }
+//
+//        washIn.setOnClickListener{
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.VISIBLE
+//            vehWashButtonOut.visibility=View.GONE
+//        }
+//
+//        washOut.setOnClickListener{
+//            captureVehNumber.visibility=View.VISIBLE
+//            vehNoEnterLL.visibility=View.VISIBLE
+//            enterVehNumber.visibility=View.VISIBLE
+//            vehWashButtonIn.visibility=View.GONE
+//            vehWashButtonOut.visibility=View.VISIBLE
+//        }
+//
+//        vehWashButtonIn.setOnClickListener {
+//            detailsForVehicleInFirstTime()
+//        }
+//
+//        vehWashButtonOut.setOnClickListener {
+//            detailsForVehicleOut()
+//        }
+//
+//
+//
+//        washStageNumberLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//                fetchwashStageType()
+//                if (washStageNumberLov.selectedItem.toString()!="Select Washing Stage") {
+//                    washStageType.visibility = View.VISIBLE
+//                } else {
+//                    washStageType.visibility = View.GONE
+//                }
+//            }
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//            }
+//        }
+//
+//        captureRegNoCamera.setOnClickListener {
+//            if (ContextCompat.checkSelfPermission(
+//                    this,
+//                    Manifest.permission.CAMERA
+//                ) == PackageManager.PERMISSION_GRANTED
+//            ) {
+//                openCamera(CAMERA_REQUEST_CODE_2)
+//            } else {
+//                ActivityCompat.requestPermissions(
+//                    this, arrayOf(Manifest.permission.CAMERA),
+//                    CAMERA_PERMISSION_CODE
+//                )
+//            }
+//        }
+//
+//        submitButton.setOnClickListener{
+//            vehicleIn()
+//        }
+//
+//        submitButtonOut.setOnClickListener {
+//            vehicleOut()
+//        }
+//
+//        washingHistory.setOnClickListener {
+//            workShopTestDriveVehHistory()
+//        }
+//
+//
+//        washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//
+//            }
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//            }
+//        }
+//
+//
+//    }
+//
+//    private fun workShopTestDriveVehHistory() {
+//        val intent = Intent(this@WorkshopWashingModule, WorkshopWashingVehicleHistory::class.java)
+//        intent.putExtra("login_name", login_name)
+//        intent.putExtra("ouId", ouId)
+//        intent.putExtra("locId", locId)
+//        intent.putExtra("location_name",location_name)
+//        intent.putExtra("deptName",deptName)
+//        startActivity(intent)
+//    }
+//
+//    private fun formatDateTime(dateTime: String): String {
+//        return try {
+//            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+//            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+//            val outputTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+//            val date = inputFormat.parse(dateTime)
+//            val formattedDate = date?.let { outputDateFormat.format(it) }
+//            val formattedTime = date?.let { outputTimeFormat.format(it) }
+//            "$formattedDate $formattedTime"
+//        } catch (e: Exception) {
+//            dateTime
+//        }
+//    }
+//
+//
+//    private fun openCamera(requestCode: Int) {
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(intent, requestCode)
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        when (requestCode) {
+//            IntentIntegrator.REQUEST_CODE -> {
+//                val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+//                if (result != null) {
+//                    if (result.contents == null) {
+//                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+//                    } else {
+//                        val vin = result.contents
+//                    }
+//                }
+//            }
+//            CAMERA_REQUEST_CODE, CAMERA_REQUEST_CODE_2 -> {
+//                if (resultCode == Activity.RESULT_OK) {
+//                    val imageBitmap = data?.extras?.get("data") as Bitmap
+//                    when (requestCode) {
+//                        CAMERA_REQUEST_CODE -> {
+//                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
+//                        }
+//                        CAMERA_REQUEST_CODE_2 -> {
+//                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
+//                        }
+//                    }
+//                }
+//            }
+//            else -> {
+//                super.onActivityResult(requestCode, resultCode, data)
+//            }
+//        }
+//    }
+//
+//    private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: TextView) {
+//        val attempts = listOf(
+//            { preprocessImage(originalBitmap) },
+//            { preprocessImage(resizeImage(originalBitmap)) },
+//            { resizeImage(originalBitmap) }
+//        )
+//
+//        val results = mutableListOf<String>()
+//
+//        attempts.forEachIndexed { index, preprocessor ->
+//            val processedBitmap = preprocessor()
+//            val image = InputImage.fromBitmap(processedBitmap, 0)
+//
+//            recognizer.process(image)
+//                .addOnSuccessListener { visionText ->
+//                    results.add(visionText.text)
+//                    if (index == attempts.lastIndex) {
+//                        displayBestResult(results, resultTextView)
+//                    }
+//                }
+//                .addOnFailureListener { e ->
+//                    e.printStackTrace()
+//                    if (index == attempts.lastIndex && results.isEmpty()) {
+//                        Toast.makeText(this, "Text recognition failed", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//        }
+//    }
+//
+//    private fun displayBestResult(results: List<String>, resultTextView: TextView) {
+//        bestResult2 = results.maxByOrNull { it.length }
+//            ?.replace(" ", "")
+//            ?.replace(".", "")
+//            ?.replace("IND","")
+//            ?.replace("IN0","")
+//            ?.replace("UND","")
+//            ?.replace("UN0","")
+//            ?.replace("1N0","")
+//            ?.replace("|","")
+//            ?.replace("-","")
+//            ?.replace(",","")
+//            ?.replace("/","")
+//            ?.replace("$","")
+//            ?.replace("o","")
+//            ?.replace(")","")
+//            ?.replace("(","")
+//            ?.replace("NO","")
+//            ?.replace("F","")
+//            ?.replace("INC","")
+//
+//            ?: ""
+//
+//        Toast.makeText(this, "Result:$bestResult2", Toast.LENGTH_SHORT).show()
+//
+//        val regexVehicleNo  = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
+//        val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]\\d{4}$")
+//        val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
+//        val regexVehicleNo4 = Regex("^\\d{2}\\s?[A-Z]{2}\\s?\\d{4}\\s?[A-Z]$")
+//
+//
+//        var modifiedString = bestResult2
+//        modifiedString = when (bestResult2.length) {
+////            9 -> modifiedString.mapIndexed { index, char ->
+////                when {
+////                    (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
+////                    (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
+////                    (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
+////                    (index == 4) && char == '0' -> 'D'
+////                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
+////                    else -> char
+////                }
+////            }.joinToString("")
+//
+//            9 -> if (regexVehicleNo4.matches(bestResult2)) {
+//                bestResult2.mapIndexed { index, char ->
+//                    when {
+//                        (index == 0 || index == 1) && char == 'Z' -> '2'
+//                        (index == 0 || index == 1) && char == 'S' -> '5'
+//                        (index == 2 || index == 3 || index == 8) && char == '0' -> 'O'
+//                        (index == 4 || index == 5 || index == 6 || index == 7) && char == 'Z' -> '2'
+//                        (index == 4 || index == 5 || index == 6 || index == 7) && char == 'S' -> '5'
+//                        else -> char
+//                    }
+//                }.joinToString("")
+//            } else {
+//                bestResult2.mapIndexed { index, char ->
+//                    when {
+//                        (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
+//                        (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
+//                        (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
+//                        (index == 4) && char == '0' -> 'D'
+//                        (index == 0) && char == 'N' -> 'M'
+//                        else -> char
+//                    }
+//                }.joinToString("")
+//            }
+//
+//            10 -> modifiedString.mapIndexed { index, char ->
+//                when {
+//                    (index == 2 || index == 3 || index >= 6) && char == 'O' -> '0'
+//                    (index == 2 || index == 3 || index >= 6) && char == 'Z' -> '4'
+//                    (index == 2 || index == 3 || index >= 6) && char == 'S' -> '5'
+//                    (index == 4 || index == 5) && char == '0' -> 'D'
+//                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
+//                    else -> char
+//                }
+//            }.joinToString("")
+//
+//            11 -> modifiedString.mapIndexed { index, char ->
+//                when {
+//                    (index == 2 || index == 3 || index >= 7) && char == 'O' -> '0'
+//                    (index == 2 || index == 3 || index >= 7) && char == 'Z' -> '4'
+//                    (index == 2 || index == 3 || index >= 7) && char == 'S' -> '5'
+//                    (index == 4 || index == 5 || index == 6) && char == '0' -> 'D'
+//                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
+//                    else -> char
+//                }
+//            }.joinToString("")
+//
+//            else -> modifiedString
+//        }
+//
+//        modifiedString = modifiedString.trim()
+//
+//        when {
+//            regexVehicleNo.matches(modifiedString) -> {
+//                resultTextView.text = modifiedString
+//                enterVehNumber.setText(modifiedString)
+////                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
+//            }
+//            regexVehicleNo2.matches(modifiedString) -> {
+//                resultTextView.text = modifiedString
+//                enterVehNumber.setText(modifiedString)
+////                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
+//            }
+//            regexVehicleNo3.matches(modifiedString) -> {
+//                resultTextView.text = modifiedString
+//                enterVehNumber.setText(modifiedString)
+////                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
+//            }
+//            regexVehicleNo4.matches(modifiedString) -> {
+//                resultTextView.text = modifiedString
+//                enterVehNumber.setText(modifiedString)
+////                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
+//            }
+//            else -> {
+//                runOnUiThread {
+//                    Toast.makeText(this, "Cant able to read Vehicle Number", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    private fun preprocessImage(bitmap: Bitmap): Bitmap {
+//        val width = bitmap.width
+//        val height = bitmap.height
+//        val processedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//
+//        for (y in 0 until height) {
+//            for (x in 0 until width) {
+//                val pixel = bitmap.getPixel(x, y)
+//                val red = (pixel shr 16) and 0xFF
+//                val green = (pixel shr 8) and 0xFF
+//                val blue = pixel and 0xFF
+//                var gray = (0.299 * red + 0.587 * green + 0.114 * blue).toInt()
+//
+//                gray = if (gray > 128) min(255, gray + 30) else max(0, gray - 30)
+//
+//                processedBitmap.setPixel(x, y, Color.rgb(gray, gray, gray))
+//            }
+//        }
+//
+//        return processedBitmap
+//    }
+//
+//    private fun resizeImage(bitmap: Bitmap, targetWidth: Int = 1000): Bitmap {
+//        val aspectRatio = bitmap.width.toDouble() / bitmap.height.toDouble()
+//        val targetHeight = (targetWidth / aspectRatio).toInt()
+//        return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
+//    }
+//
+//    private fun fetchwashStageNumber() {
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+////            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
+//            .url(WorkshopWashingUrlManager.fetchWashStageNumber())
+//            .build()
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val cities = parsewashStageNumber(it)
+//                    runOnUiThread {
+//                        val adapter = ArrayAdapter(this@WorkshopWashingModule, android.R.layout.simple_spinner_item, cities
+//                        )
+//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                        washStageNumberLov.adapter = adapter
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+//
+//    private fun parsewashStageNumber(jsonData: String): List<String> {
+//        val cities = mutableListOf<String>()
+//        try {
+//            val jsonObject = JSONObject(jsonData)
+//            val jsonArray = jsonObject.getJSONArray("obj")
+//            cities.add("Select Washing Stage")
+//            for (i in 0 until jsonArray.length()) {
+//                val city = jsonArray.getJSONObject(i)
+//                val desc = city.getString("CMNCODE")
+//                cities.add(desc)
+//            }
+//        } catch (e: JSONException) {
+//            e.printStackTrace()
+//        }
+//        return cities
+//    }
+//
+//    private val selectedStages = mutableListOf<String>()
+//    private fun fetchwashStageType() {
+//        val cmnCode = washStageNumberLov.selectedItem.toString()
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+////            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
+//            .url(WorkshopWashingUrlManager.fetchwashStageType(cmnCode))
+//            .build()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val stages = parsewashStageType(it) // Get washing stage list
+//
+//                    runOnUiThread {
+//                        val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
+//                        checkBoxContainer.removeAllViews() // Clear previous checkboxes
+//
+//                        selectedStages.clear() // Reset selected stages
+//
+//                        // Start from index 1 to skip Select Washing Type
+//                        for (i in 1 until stages.size) {
+//                            val stage = stages[i]
+//
+//                            val checkBox = CheckBox(this@WorkshopWashingModule)
+//                            checkBox.text = stage
+//                            checkBox.layoutParams = LinearLayout.LayoutParams(
+//                                LinearLayout.LayoutParams.MATCH_PARENT,
+//                                LinearLayout.LayoutParams.WRAP_CONTENT
+//                            )
+//                            checkBoxContainer.addView(checkBox)
+//
+//                            // Handle selection
+//                            checkBox.setOnCheckedChangeListener { _, isChecked ->
+//                                if (isChecked) {
+//                                    selectedStages.add(stage)
+//                                } else {
+//                                    selectedStages.remove(stage)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+//
+//
+//    private fun parsewashStageType(jsonData: String): List<String> {
+//        val cities = mutableListOf<String>()
+//        try {
+//            val jsonObject = JSONObject(jsonData)
+//            val jsonArray = jsonObject.getJSONArray("obj")
+//            cities.add("Select Washing Type")
+//            for (i in 0 until jsonArray.length()) {
+//                val city = jsonArray.getJSONObject(i)
+//                val desc = city.getString("CMNDESC")
+//                cities.add(desc)
+//            }
+//        } catch (e: JSONException) {
+//            e.printStackTrace()
+//        }
+//        return cities
+//    }
+//
+//
+//    private fun populateFieldsAfterInSearch() {
+//        regNoDetails.visibility=View.VISIBLE
+//        washStageNumber.visibility=View.VISIBLE
+//        washStageNumberLov.visibility=View.VISIBLE
+//        resetFields.visibility=View.VISIBLE
+//        submitButton.visibility=View.VISIBLE
+//    }
+//
+//    private fun populateFieldsAfterOutSearch(){
+//        regNoDetails.visibility=View.VISIBLE
+//        resetFields.visibility=View.VISIBLE
+//        submitButtonOut.visibility=View.VISIBLE
+//    }
+//
+//    private fun refreshData(){
+//        regNoDetails.visibility=View.GONE
+//        washStageNumber.visibility=View.GONE
+//        washStageNumberLov.visibility=View.GONE
+//        washStageNumberLov.setSelection(0)
+//        washStageType.visibility=View.GONE
+//        washStageTypeLov.visibility=View.GONE
+//        washStageTypeLov.setSelection(0)
+//        resetFields.visibility=View.GONE
+//        val tableLayout = findViewById<TableLayout>(R.id.tableLayout2)
+//        tableLayout.removeAllViews()
+//        enterVehNumber.setText("")
+//        vehWashButtonIn.visibility=View.GONE
+//        vehWashButtonOut.visibility=View.GONE
+//        vehNoEnterLL.visibility=View.GONE
+//        captureVehNumber.visibility=View.GONE
+//        resetwashStageNumberLov()
+//        resetwashStageTypeLov()
+//        submitButton.visibility=View.GONE
+//        submitButtonOut.visibility=View.GONE
+//        regNo=""
+//        engineNo=""
+//        chassisNo=""
+//        custName=""
+//        dateTimeToSend=""
+//        model=""
+//        serviceAdvisor=""
+//        vehWashNo=""
+//        val checkBoxContainer = findViewById<LinearLayout>(R.id.checkBoxContainer)
+//        checkBoxContainer.removeAllViews()
+//    }
+//
+//    fun resetwashStageNumberLov() {
+//        val adapter2 = washStageNumberLov.adapter as? ArrayAdapter<String>
+//        if (adapter2 != null) {
+//            adapter2.clear()
+//            adapter2.addAll(emptyList())
+//            adapter2.notifyDataSetChanged()
+//        }
+//        washStageNumberLov.setSelection(0)
+//    }
+//    fun resetwashStageTypeLov() {
+//        val adapter2 = washStageTypeLov.adapter as? ArrayAdapter<String>
+//        if (adapter2 != null) {
+//            adapter2.clear()
+//            adapter2.addAll(emptyList())
+//            adapter2.notifyDataSetChanged()
+//        }
+//        washStageTypeLov.setSelection(0)
+//    }
+//    private fun detailsForVehicleInFirstTime() {
+//        val client = OkHttpClient()
+//        val vehNo = enterVehNumber.text.toString()
+//        if(vehNo.isEmpty()){
+//            Toast.makeText(this@WorkshopWashingModule,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//        val url = WorkshopWashingUrlManager.getdetailsForVehicleInFirstTime(vehNo)
+//
+//        val request = Request.Builder()
+//            .url(url)
+//            .build()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val jsonObject = JSONObject(it)
+//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+//
+//                    val jcData3 = allData(
+//                        INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+//                        CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+//                        ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+//                        ENGINE_NO=stockItem.optString("ENGINE_NO"),
+//                        REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+//                        CUST_NAME=stockItem.optString("CUST_NAME"),
+//
+//                        AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
+//                        ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
+//                        FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
+//                        FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
+//                        FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
+//                        LOC_ID = stockItem.optString("LOC_ID"),
+//                        LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
+//                        MODEL = stockItem.optString("MODEL"),
+//                        OU_ID = stockItem.optString("OU_ID"),
+//                        PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
+//                        REG_NO = stockItem.optString("REG_NO"),
+//                        SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+//                        SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
+//                        STATUS = stockItem.optString("STATUS"),
+//                        UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
+//                        VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
+//                        VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+//                        WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+//
+//                        SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
+//                        DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
+//                        GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
+//                        VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
+//                        VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+//                        REGNO=stockItem.optString("REGNO"),
+//                        UPDATED_BY=stockItem.optString("UPDATED_BY")
+//                    )
+//
+//                    val responseMessage = jsonObject.getString("message")
+//
+//                    when (responseMessage) {
+//                        "Details for vehicle found in washing table" -> {
+//                            runOnUiThread {
+//                                populateFieldsAForThirdStage(jcData3)
+//                                populateFieldsAfterInSearch()
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Details for vehicle : $vehNo found in washing table",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                fetchwashStageNumber()
+//                            }
+//                        }
+//                        "Details Found Successfully in master table" -> {
+//                            runOnUiThread {
+//                                populateFieldsForMastersTable(jcData3)
+//                                populateFieldsAfterInSearch()
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Details Found Successfully in master table for Vehicle No: $vehNo",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                fetchwashStageNumber()
+//                            }
+//                        }
+//                        "New Vehicle" -> {
+//                            runOnUiThread {
+//                                populateFieldsDuringInForNewVehicle(jcData3)
+//                                populateFieldsAfterInSearch()
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "New Vehicle details for Vehicle No: $vehNo",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                fetchwashStageNumber()
+//                            }
+//                        }
+//                        else -> {
+//                            runOnUiThread {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Unexpected response for Vehicle No: $vehNo",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@WorkshopWashingModule,
+//                        "Failed to fetch details for vehicle No: $vehNo",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    private fun detailsForVehicleOut() {
+//        val client = OkHttpClient()
+//        val vehNo = enterVehNumber.text.toString()
+//        if(vehNo.isEmpty()){
+//            Toast.makeText(this@WorkshopWashingModule,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
+//            return
+//        }
+////        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
+//        val url = WorkshopWashingUrlManager.getdetailsForVehicleOutFirstTime(vehNo)
+//
+//        val request = Request.Builder().url(url).build()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val jsonData = response.body?.string()
+//                jsonData?.let {
+//                    val jsonObject = JSONObject(it)
+//                    val stockItem = jsonObject.getJSONArray("obj").getJSONObject(0)
+//
+//                    val jcData3 = allData(
+//                        INSTANCE_NUMBER=stockItem.optString("INSTANCE_NUMBER"),
+//                        CHASSIS_NO=stockItem.optString("CHASSIS_NO"),
+//                        ACCOUNT_NUMBER=stockItem.optString("ACCOUNT_NUMBER"),
+//                        ENGINE_NO=stockItem.optString("ENGINE_NO"),
+//                        REGISTRATION_DATE=stockItem.optString("REGISTRATION_DATE"),
+//                        CUST_NAME=stockItem.optString("CUST_NAME"),
+//                        AIR_BLOW_STN = stockItem.optString("AIR_BLOW_STN"),
+//                        ENGINE_ROOM_STN = stockItem.optString("ENGINE_ROOM_STN"),
+//                        FIRST_STAGE = stockItem.optString("FIRST_STAGE"),
+//                        FS_IN_TIME = stockItem.optString("FS_IN_TIME"),
+//                        FS_OUT_TIME = stockItem.optString("FS_OUT_TIME"),
+//                        LOC_ID = stockItem.optString("LOC_ID"),
+//                        LOOSE_ITEMS_STN = stockItem.optString("LOOSE_ITEMS_STN"),
+//                        MODEL = stockItem.optString("MODEL"),
+//                        OU_ID = stockItem.optString("OU_ID"),
+//                        PROMISED_TIME = stockItem.optString("PROMISED_TIME"),
+//                        REG_NO = stockItem.optString("REG_NO"),
+//                        SERVICE_ADVISOR = stockItem.optString("SERVICE_ADVISOR"),
+//                        SS_IN_TIME = stockItem.optString("SS_IN_TIME"),
+//                        STATUS = stockItem.optString("STATUS"),
+//                        UNDERBODY_STN = stockItem.optString("UNDERBODY_STN"),
+//                        VEH_INTERIOR_STN = stockItem.optString("VEH_INTERIOR_STN"),
+//                        VEH_WASH_NO = stockItem.optString("VEH_WASH_NO"),
+//                        WASHING_SUPERVISOR = stockItem.optString("WASHING_SUPERVISOR"),
+//                        SS_OUT_TIME = stockItem.optString("SS_OUT_TIME"),
+//                        DS_IN_TIME = stockItem.optString("DS_IN_TIME"),
+//                        GLASS_POLISH_STN = stockItem.optString("GLASS_POLISH_STN"),
+//                        VEH_EXTERIOR_STN = stockItem.optString("VEH_EXTERIOR_STN"),
+//                        VEHICLE_DESC=stockItem.optString("VEHICLE_DESC"),
+//                        REGNO=stockItem.optString("REGNO"),
+//                        UPDATED_BY=stockItem.optString("UPDATED_BY")
+//                    )
+//
+//                    val responseMessage = jsonObject.getString("message")
+//
+//                    when (responseMessage) {
+//                        "Details for vehicle found in washing table" -> {
+//                            runOnUiThread {
+//                                populateFieldsAForVehicleOut(jcData3)
+//                                populateFieldsAfterOutSearch()
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Details for vehicle : $vehNo found in washing table",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                fetchwashStageNumber()
+//                            }
+//                        }
+//                        else -> {
+//                            runOnUiThread {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Unexpected response for Vehicle No: $vehNo",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@WorkshopWashingModule,
+//                        "Failed to fetch details for vehicle No: $vehNo",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    private fun vehicleIn() {
+//
+//        if (selectedStages.size<1){
+//            Toast.makeText(this,"Please select at least one washing type.",Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashProceed/"
+//        val jsonObject = JSONObject().apply {
+//            put("regNo", regNo)
+//            if (::chassisNo.isInitialized) {
+//                if(chassisNo.isNotEmpty() ) {
+//                    put("chassisNo", chassisNo)
+//                }
+//            }
+//            if (::vehWashNo.isInitialized) {
+//                if(vehWashNo.isNotEmpty() ) {
+//                    put("vehWashNo",vehWashNo)
+//                }
+//            }
+//            if (::serviceAdvisor.isInitialized) {
+//                if(serviceAdvisor.isNotEmpty() ) {
+//                    put("serviceAdvisor",serviceAdvisor)
+//                }
+//            }
+//            if (::model.isInitialized) {
+//                if(model.isNotEmpty() ) {
+//                    put("model",model)
+//                }
+//            }
+//
+//            put("locId", locId.toString())
+//            put("ouId", ouId.toString())
+//            put("dept", deptName)
+//            put("createdBy", login_name)
+//            put("location", location_name)
+//            put("authorisedBy", login_name)
+//            put("updatedBy", attribute1)
+//            put("washingSupervisor",login_name)
+//            put("attribute1", selectedStages.getOrNull(0) ?: "")
+//            put("attribute2", selectedStages.getOrNull(1) ?: "")
+//            put("attribute3", selectedStages.getOrNull(2) ?: "")
+//        }
+//
+//        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//
+//        val request = Request.Builder()
+//            .url(url)
+//            .post(requestBody)
+//            .build()
+//
+//        val client = OkHttpClient()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val responseCode = response.code
+//                val responseBody = response.body?.string()
+//
+//                runOnUiThread {
+//                    if (responseBody != null) {
+//                        val jsonResponse = JSONObject(responseBody)
+//                        val message = jsonResponse.optString("message", "")
+//
+//                        when {
+//                            message.contains("A stage is already in progress. Please complete the current stage before starting a new one.", ignoreCase = true) -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "A stage is already in progress. Please complete the current stage before starting a new one.",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                            message.contains("One or more selected stages are already marked as OUT. Cannot mark them IN again in the same row.", ignoreCase = true) -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Selected stages are already completed cannot IN again",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                            responseCode==500-> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Vehicle Wash In Failed",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                            responseCode == 200 -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Vehicle in successfully!!!",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                refreshData()
+//                            }
+//                            else -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Failed to save data. Error code: $responseCode",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(
+//                            this@WorkshopWashingModule,
+//                            "No response from server",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@WorkshopWashingModule,
+//                        "Error saving data: ${e.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    private fun vehicleOut() {
+//        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashOut/"
+//        val jsonObject = JSONObject().apply {
+//            put("regNo", regNo)
+//            if (::regNo.isInitialized) {
+//                if(regNo.isNotEmpty() ) {
+//                    put("regNo", regNo)
+//                }
+//            }
+//            put("updatedBy", attribute1)
+//        }
+//
+//        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//
+//        val request = Request.Builder()
+//            .url(url)
+//            .put(requestBody)
+//            .build()
+//
+//        val client = OkHttpClient()
+//
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = client.newCall(request).execute()
+//                val responseCode = response.code
+//                val responseBody = response.body?.string()
+//
+//                runOnUiThread {
+//                    if (responseBody != null) {
+//                        val jsonResponse = JSONObject(responseBody)
+//                        val message = jsonResponse.optString("message", "")
+//
+//                        when {
+//                            message.contains("No stage is marked as IN, cannot process OUT request", ignoreCase = true) -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Vehicle is never in for wash , can't perform out.",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+//                            }
+//                            responseCode == 200 -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Vehicle out successfully!!!",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
+//                                refreshData()
+//                            }
+//                            else -> {
+//                                Toast.makeText(
+//                                    this@WorkshopWashingModule,
+//                                    "Failed to save data. Error code: $responseCode",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                        }
+//                    } else {
+//                        Toast.makeText(
+//                            this@WorkshopWashingModule,
+//                            "No response from server",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                runOnUiThread {
+//                    Toast.makeText(
+//                        this@WorkshopWashingModule,
+//                        "Error saving data: ${e.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    private fun populateFieldsForMastersTable(jcData: allData) {
+//        val table = findViewById<TableLayout>(R.id.tableLayout2)
+//        table.removeAllViews()
+//
+//        val detailsMap = mutableMapOf(
+//            "REG NO" to jcData.INSTANCE_NUMBER,
+//            "CHASSIS NO" to jcData.CHASSIS_NO,
+//            "ENGINE NO" to jcData.ENGINE_NO,
+//            "MODEL" to jcData.VEHICLE_DESC,
+//            "SER ADV" to jcData.SERVICE_ADVISOR
+//        )
+//
+//        regNo=jcData.INSTANCE_NUMBER
+//        engineNo=jcData.ENGINE_NO
+//        chassisNo=jcData.CHASSIS_NO
+//        custName=jcData.CUST_NAME
+//        model=jcData.VEHICLE_DESC
+//        serviceAdvisor=jcData.SERVICE_ADVISOR
+//        chassisNo=jcData.CHASSIS_NO
+//
+//        for ((label, value) in detailsMap) {
+//            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+//            val labelTextView = row.findViewById<TextView>(R.id.label)
+//            val valueTextView = row.findViewById<TextView>(R.id.value)
+//
+//            labelTextView.text = label
+//            valueTextView.text = value
+//
+//            table.addView(row)
+//        }
+//
+//        if (table.childCount > 0) {
+//            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+//            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+//            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+//        }
+//    }
+//
+//    private fun populateFieldsAForThirdStage(jcData: allData) {
+//        val table = findViewById<TableLayout>(R.id.tableLayout2)
+//        table.removeAllViews()
+//
+//        val detailsMap = mutableMapOf(
+//            "REG NO" to jcData.REG_NO,
+//            "CHASSIS NO" to jcData.CHASSIS_NO,
+//            "SERVICE ADVISOR" to jcData.SERVICE_ADVISOR,
+//            "PROMISED TIME" to jcData.PROMISED_TIME,
+//            "WASHING SUPERVISOR" to jcData.WASHING_SUPERVISOR,
+//            "1ST STAGE IN TIME" to jcData.FS_IN_TIME,
+//            "1ST STAGE OUT TIME" to jcData.FS_OUT_TIME,
+//            "SS IN TIME" to jcData.SS_IN_TIME,
+//            "SS_OUT_TIME" to jcData.SS_OUT_TIME,
+//            "DS_IN_TIME" to jcData.DS_IN_TIME,
+//            "VEH EXTERIOR STN" to jcData.VEH_EXTERIOR_STN,
+//            "GLASS POLISH STN" to jcData.GLASS_POLISH_STN
+//        )
+//
+//        regNo=jcData.REG_NO
+//        chassisNo=jcData.CHASSIS_NO
+//        vehWashNo=jcData.VEH_WASH_NO
+//        serviceAdvisor=jcData.SERVICE_ADVISOR
+//
+//        for ((label, value) in detailsMap) {
+//            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+//            val labelTextView = row.findViewById<TextView>(R.id.label)
+//            val valueTextView = row.findViewById<TextView>(R.id.value)
+//
+//            labelTextView.text = label
+//            valueTextView.text = value
+//
+//            table.addView(row)
+//        }
+//
+//        if (table.childCount > 0) {
+//            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+//            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+//            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+//        }
+//    }
+//
+//
+//    private fun populateFieldsAForVehicleOut(jcData: allData) {
+//        val table = findViewById<TableLayout>(R.id.tableLayout2)
+//        table.removeAllViews()
+//
+//        val washSuperVisor="${jcData.WASHING_SUPERVISOR}-${jcData.UPDATED_BY}"
+//
+//        val detailsMap = mutableMapOf(
+//            "REG NO" to jcData.REG_NO,
+//            "CHASSIS NO" to jcData.CHASSIS_NO,
+//            "MODEL" to jcData.MODEL,
+//            "SERVICE ADVISOR" to jcData.SERVICE_ADVISOR,
+//            "PROMISED TIME" to jcData.PROMISED_TIME,
+//            "WASHING SUPERVISOR" to washSuperVisor,
+//            "1ST STAGE IN" to jcData.FS_IN_TIME,
+//            "AIR BLOW STN" to jcData.AIR_BLOW_STN,
+//            "UNDER BODY STN" to jcData.UNDERBODY_STN,
+//            "ENGINE ROOM STN" to jcData.ENGINE_ROOM_STN,
+//            "1ST STAGE OUT" to jcData.FS_OUT_TIME,
+//            "2ND STAGE IN" to jcData.SS_IN_TIME,
+//            "LOOSE ITEMS STN" to jcData.LOOSE_ITEMS_STN,
+//            "VEH INTERIOR STN" to jcData.VEH_INTERIOR_STN,
+//            "2ND STAGE OUT" to jcData.SS_OUT_TIME,
+//            "DS_IN_TIME" to jcData.DS_IN_TIME,
+//            "VEH EXTERIOR STN" to jcData.VEH_EXTERIOR_STN,
+//            "GLASS POLISH STN" to jcData.GLASS_POLISH_STN
+//        )
+//
+//        regNo = jcData.REG_NO
+//        chassisNo = jcData.CHASSIS_NO
+//        vehWashNo = jcData.VEH_WASH_NO
+//
+//        for ((label, value) in detailsMap) {
+//            if (value != null && value!= "-") {
+//                val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+//                val labelTextView = row.findViewById<TextView>(R.id.label)
+//                val valueTextView = row.findViewById<TextView>(R.id.value)
+//
+//                labelTextView.text = label
+//                valueTextView.text = value
+//
+//                table.addView(row)
+//            }
+//        }
+//
+//        if (table.childCount > 0) {
+//            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+//            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+//            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+//        }
+//    }
+//
+//
+//    private fun populateFieldsDuringInForNewVehicle(jcData: allData) {
+//        val table = findViewById<TableLayout>(R.id.tableLayout2)
+//        table.removeAllViews()
+//
+//        val detailsMap = mutableMapOf(
+//            "REG NO" to jcData.REGNO,
+//            "MESSAGE" to "This is new vehicle."
+//        )
+//
+//        regNo=jcData.REGNO
+//        chassisNo=jcData.CHASSIS_NO
+//        vehWashNo=jcData.VEH_WASH_NO
+//
+//        for ((label, value) in detailsMap) {
+//            val row = LayoutInflater.from(this).inflate(R.layout.table_row_gate_pass, null) as TableRow
+//            val labelTextView = row.findViewById<TextView>(R.id.label)
+//            val valueTextView = row.findViewById<TextView>(R.id.value)
+//
+//            labelTextView.text = label
+//            valueTextView.text = value
+//
+//            table.addView(row)
+//        }
+//
+//        if (table.childCount > 0) {
+//            val lastRow = table.getChildAt(table.childCount - 1) as TableRow
+//            lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
+//            lastRow.findViewById<View>(R.id.valueDivider).visibility = View.GONE
+//        }
+//    }
+//
+//    data class allData(
+//        val ACCOUNT_NUMBER:String,
+//        val ENGINE_NO:String,
+//        val REGISTRATION_DATE:String,
+//        val CUST_NAME:String,
+//        val INSTANCE_NUMBER:String,
+//        val CHASSIS_NO:String,
+//
+//
+//
+//        val OU_ID:String,
+//        val AIR_BLOW_STN:String,
+//        val ENGINE_ROOM_STN:String,
+//        val VEH_INTERIOR_STN:String,
+//        val VEH_WASH_NO:String,
+//        val PROMISED_TIME:String,
+//        val FS_IN_TIME:String,
+//        val FIRST_STAGE:String,
+//        val LOC_ID:String,
+//        val SERVICE_ADVISOR:String,
+//        val REG_NO:String,
+//        val SS_IN_TIME:String,
+//        val FS_OUT_TIME:String,
+//        val LOOSE_ITEMS_STN:String,
+//        val WASHING_SUPERVISOR:String,
+//        val MODEL:String,
+//        val STATUS:String,
+//        val UNDERBODY_STN:String,
+//
+//        val SS_OUT_TIME:String,
+//        val VEH_EXTERIOR_STN:String,
+//        val GLASS_POLISH_STN:String,
+//        val DS_IN_TIME:String,
+//        val VEHICLE_DESC:String,
+//        val REGNO:String,
+//
+//        val UPDATED_BY:String
+//    )
+//
+//    data class WashStageType(
+//        val name: String,
+//        var isSelected: Boolean = false
+//    )
+//
+//
+//}
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 package com.example.apinew
 
 
@@ -41,16 +1386,23 @@ import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 import android.app.TimePickerDialog
+import android.graphics.BitmapFactory
 import android.media.Image
+import android.net.Uri
+import android.os.Environment
 import android.text.InputFilter
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.core.content.FileProvider
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -93,6 +1445,9 @@ class WorkshopWashingModule : AppCompatActivity() {
     private lateinit var dateTimeToSend:String
     private lateinit var submitButtonOut:TextView
 
+
+    private lateinit var currentPhotoPath: String
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -144,7 +1499,6 @@ class WorkshopWashingModule : AppCompatActivity() {
         resetFields=findViewById(R.id.resetFields)
         submitButton=findViewById(R.id.submitButton)
         submitButtonOut=findViewById(R.id.submitButtonOut)
-
 
 
         washStageTypeLov.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -231,7 +1585,7 @@ class WorkshopWashingModule : AppCompatActivity() {
                     Manifest.permission.CAMERA
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                openCamera(CAMERA_REQUEST_CODE_2)
+                dispatchTakePictureIntent()
             } else {
                 ActivityCompat.requestPermissions(
                     this, arrayOf(Manifest.permission.CAMERA),
@@ -239,6 +1593,10 @@ class WorkshopWashingModule : AppCompatActivity() {
                 )
             }
         }
+
+//        captureRegNoCamera.setOnClickListener {
+//            dispatchTakePictureIntent()
+//        }
 
         submitButton.setOnClickListener{
             vehicleIn()
@@ -288,102 +1646,114 @@ class WorkshopWashingModule : AppCompatActivity() {
         }
     }
 
-    private fun showTimePicker(textView: TextView) {
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-
-        val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
-            val updatedCalendar = Calendar.getInstance()
-            updatedCalendar.set(Calendar.HOUR_OF_DAY, selectedHour)
-            updatedCalendar.set(Calendar.MINUTE, selectedMinute)
-
-            val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-
-            val currentDate = updatedCalendar.time
-
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val formattedDateTime = dateFormat.format(currentDate)
-
-            val dateFormat2 = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val formattedDateTime2 = dateFormat2.format(currentDate)
-
-            textView.text = formattedDateTime2
-
-            dateTimeToSend = formattedDateTime
-
-        }, hour, minute, true)
-
-        timePickerDialog.show()
-    }
-
-
-
 
     private fun openCamera(requestCode: Int) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, requestCode)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            IntentIntegrator.REQUEST_CODE -> {
-                val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                if (result != null) {
-                    if (result.contents == null) {
-                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-                    } else {
-                        val vin = result.contents
-                    }
-                }
-            }
-            CAMERA_REQUEST_CODE, CAMERA_REQUEST_CODE_2 -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    when (requestCode) {
-                        CAMERA_REQUEST_CODE -> {
-                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
-                        }
-                        CAMERA_REQUEST_CODE_2 -> {
-                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
-                        }
-                    }
-                }
-            }
-            else -> {
-                super.onActivityResult(requestCode, resultCode, data)
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        when (requestCode) {
+//            IntentIntegrator.REQUEST_CODE -> {
+//                val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+//                if (result != null) {
+//                    if (result.contents == null) {
+//                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+//                    } else {
+//                        val vin = result.contents
+//                    }
+//                }
+//            }
+//            CAMERA_REQUEST_CODE, CAMERA_REQUEST_CODE_2 -> {
+//                if (resultCode == Activity.RESULT_OK) {
+//                    val imageBitmap = data?.extras?.get("data") as Bitmap
+//                    when (requestCode) {
+//                        CAMERA_REQUEST_CODE -> {
+//                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
+//                        }
+//                        CAMERA_REQUEST_CODE_2 -> {
+//                            processImageWithMultipleAttempts(imageBitmap, enterVehNumber)
+//                        }
+//                    }
+//                }
+//            }
+//            else -> {
+//                super.onActivityResult(requestCode, resultCode, data)
+//            }
+//        }
+//    }
+//
+//    private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: TextView) {
+//        // create a list of bitmaps to try: original, resized, thresholded and rotated variants
+//        val bitmapsToTry = mutableListOf<Bitmap>()
+//        bitmapsToTry.add(originalBitmap)
+//        bitmapsToTry.add(resizeKeepAspect(originalBitmap, 1000))
+//        bitmapsToTry.add(adaptiveThreshold(resizeKeepAspect(originalBitmap, 1000)))
+//        // add small rotations of the original and thresholded variations
+//        val angles = listOf(-6f, -3f, 0f, 3f, 6f)
+//        val initialList = bitmapsToTry.toList()
+//        for (bm in initialList) {
+//            for (ang in angles) {
+//                bitmapsToTry.add(rotateBitmap(bm, ang))
+//            }
+//        }
+//
+//        val results = mutableListOf<String>()
+//        var foundValid = false
+//
+//        // process sequentially to short-circuit once we find a valid plate
+//        fun processNext(index: Int) {
+//            if (index >= bitmapsToTry.size) {
+//                // nothing matched
+//                if (!foundValid) {
+//                    runOnUiThread {
+//                        Toast.makeText(this, "Cant able to read Vehicle Number", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//                return
+//            }
+//            val image = InputImage.fromBitmap(bitmapsToTry[index], 0)
+//            recognizer.process(image)
+//                .addOnSuccessListener { visionText ->
+//                    // extract candidates from structured blocks/lines (better than single text blob)
+//                    val candidates = extractPlateCandidates(visionText)
+//                    // try each candidate with position-aware correction
+//                    for (cand in candidates) {
+//                        val corrected = correctByPosition(cand)
+//                        // check using your regexes (unchanged)
+//                        val regexVehicleNo  = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
+//                        val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]\\d{4}$")
+//                        val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
+//                        val regexVehicleNo4 = Regex("^\\d{2}\\s?[A-Z]{2}\\s?\\d{4}\\s?[A-Z]$")
+//
+//                        val cleaned = corrected.replace("\\s+".toRegex(), "")
+//                        if (regexVehicleNo.matches(cleaned) || regexVehicleNo2.matches(cleaned) || regexVehicleNo3.matches(cleaned) || regexVehicleNo4.matches(cleaned)) {
+//                            // success: set UI and short-circuit remaining attempts
+//                            runOnUiThread {
+//                                resultTextView.text = cleaned
+//                                enterVehNumber.setText(cleaned)
+//                                Toast.makeText(this, "Result: $cleaned", Toast.LENGTH_SHORT).show()
+//                            }
+//                            foundValid = true
+//                            return@addOnSuccessListener
+//                        } else {
+//                            // keep track for best-effort fallback
+//                            results.add(corrected)
+//                        }
+//                    }
+//                    // if nothing valid found, continue to next bitmap
+//                    if (!foundValid) processNext(index + 1)
+//                }
+//                .addOnFailureListener { e ->
+//                    e.printStackTrace()
+//                    if (!foundValid) processNext(index + 1)
+//                }
+//        }
+//
+//        // start chain
+//        processNext(0)
+//    }
 
-    private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: TextView) {
-        val attempts = listOf(
-            { preprocessImage(originalBitmap) },
-            { preprocessImage(resizeImage(originalBitmap)) },
-            { resizeImage(originalBitmap) }
-        )
-
-        val results = mutableListOf<String>()
-
-        attempts.forEachIndexed { index, preprocessor ->
-            val processedBitmap = preprocessor()
-            val image = InputImage.fromBitmap(processedBitmap, 0)
-
-            recognizer.process(image)
-                .addOnSuccessListener { visionText ->
-                    results.add(visionText.text)
-                    if (index == attempts.lastIndex) {
-                        displayBestResult(results, resultTextView)
-                    }
-                }
-                .addOnFailureListener { e ->
-                    e.printStackTrace()
-                    if (index == attempts.lastIndex && results.isEmpty()) {
-                        Toast.makeText(this, "Text recognition failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
-    }
 
     private fun displayBestResult(results: List<String>, resultTextView: TextView) {
         bestResult2 = results.maxByOrNull { it.length }
@@ -403,6 +1773,9 @@ class WorkshopWashingModule : AppCompatActivity() {
             ?.replace(")","")
             ?.replace("(","")
             ?.replace("NO","")
+            ?.replace("F","")
+            ?.replace("INC","")
+
             ?: ""
 
         Toast.makeText(this, "Result:$bestResult2", Toast.LENGTH_SHORT).show()
@@ -410,19 +1783,45 @@ class WorkshopWashingModule : AppCompatActivity() {
         val regexVehicleNo  = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
         val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]\\d{4}$")
         val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
+        val regexVehicleNo4 = Regex("^\\d{2}\\s?[A-Z]{2}\\s?\\d{4}\\s?[A-Z]$")
+
 
         var modifiedString = bestResult2
         modifiedString = when (bestResult2.length) {
-            9 -> modifiedString.mapIndexed { index, char ->
-                when {
-                    (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
-                    (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
-                    (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
-                    (index == 4) && char == '0' -> 'D'
-                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
-                    else -> char
-                }
-            }.joinToString("")
+//            9 -> modifiedString.mapIndexed { index, char ->
+//                when {
+//                    (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
+//                    (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
+//                    (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
+//                    (index == 4) && char == '0' -> 'D'
+//                    (index == 0) && char == 'N' -> 'M'//Added on 16-05-2025
+//                    else -> char
+//                }
+//            }.joinToString("")
+
+            9 -> if (regexVehicleNo4.matches(bestResult2)) {
+                bestResult2.mapIndexed { index, char ->
+                    when {
+                        (index == 0 || index == 1) && char == 'Z' -> '2'
+                        (index == 0 || index == 1) && char == 'S' -> '5'
+                        (index == 2 || index == 3 || index == 8) && char == '0' -> 'O'
+                        (index == 4 || index == 5 || index == 6 || index == 7) && char == 'Z' -> '2'
+                        (index == 4 || index == 5 || index == 6 || index == 7) && char == 'S' -> '5'
+                        else -> char
+                    }
+                }.joinToString("")
+            } else {
+                bestResult2.mapIndexed { index, char ->
+                    when {
+                        (index == 2 || index == 3 || index >= 5) && char == 'O' -> '0'
+                        (index == 2 || index == 3 || index >= 5) && char == 'Z' -> '4'
+                        (index == 2 || index == 3 || index >= 5) && char == 'S' -> '5'
+                        (index == 4) && char == '0' -> 'D'
+                        (index == 0) && char == 'N' -> 'M'
+                        else -> char
+                    }
+                }.joinToString("")
+            }
 
             10 -> modifiedString.mapIndexed { index, char ->
                 when {
@@ -467,6 +1866,11 @@ class WorkshopWashingModule : AppCompatActivity() {
                 enterVehNumber.setText(modifiedString)
 //                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
             }
+            regexVehicleNo4.matches(modifiedString) -> {
+                resultTextView.text = modifiedString
+                enterVehNumber.setText(modifiedString)
+//                Toast.makeText(this, "Text recognized: $modifiedString", Toast.LENGTH_SHORT).show()
+            }
             else -> {
                 runOnUiThread {
                     Toast.makeText(this, "Cant able to read Vehicle Number", Toast.LENGTH_SHORT).show()
@@ -507,7 +1911,7 @@ class WorkshopWashingModule : AppCompatActivity() {
     private fun fetchwashStageNumber() {
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
+//            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageByCmnType?cmnType=$cmnType")
             .url(WorkshopWashingUrlManager.fetchWashStageNumber())
             .build()
         GlobalScope.launch(Dispatchers.IO) {
@@ -551,7 +1955,7 @@ class WorkshopWashingModule : AppCompatActivity() {
         val cmnCode = washStageNumberLov.selectedItem.toString()
         val client = OkHttpClient()
         val request = Request.Builder()
-//            .url("${ApiFile.APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
+//            .url("${ApiFile.ERP_APP_URL}/washingRegister/washStageTypeByCmnCode?cmnCode=$cmnCode")
             .url(WorkshopWashingUrlManager.fetchwashStageType(cmnCode))
             .build()
 
@@ -808,7 +2212,7 @@ class WorkshopWashingModule : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingModule,"Please enter the vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = ApiFile.APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
+//        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehDetailsForWashOut?regNo=$vehNo"
         val url = WorkshopWashingUrlManager.getdetailsForVehicleOutFirstTime(vehNo)
 
         val request = Request.Builder().url(url).build()
@@ -902,7 +2306,7 @@ class WorkshopWashingModule : AppCompatActivity() {
             return
         }
 
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashProceed/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashProceed/"
         val jsonObject = JSONObject().apply {
             put("regNo", regNo)
             if (::chassisNo.isInitialized) {
@@ -1020,7 +2424,7 @@ class WorkshopWashingModule : AppCompatActivity() {
 
 
     private fun vehicleOut() {
-        val url = ApiFile.APP_URL + "/washingRegister/vehWashOut/"
+        val url = ApiFile.ERP_APP_URL + "/washingRegister/vehWashOut/"
         val jsonObject = JSONObject().apply {
             put("regNo", regNo)
             if (::regNo.isInitialized) {
@@ -1300,10 +2704,261 @@ class WorkshopWashingModule : AppCompatActivity() {
         val UPDATED_BY:String
     )
 
-    data class WashStageType(
-        val name: String,
-        var isSelected: Boolean = false
-    )
+
+        // ---------- Camera full-resolution ----------
+        private fun dispatchTakePictureIntent() {
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureIntent.resolveActivity(packageManager) != null) {
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    null
+                }
+                if (photoFile != null) {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "${applicationContext.packageName}.provider",
+                        photoFile
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+
+        @Throws(IOException::class)
+        private fun createImageFile(): File {
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            return File.createTempFile(
+                "JPEG_${timeStamp}_", ".jpg", storageDir
+            ).apply { currentPhotoPath = absolutePath }
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+                val file = File(currentPhotoPath)
+                if (file.exists()) {
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                    processImageWithMultipleAttempts(bitmap, enterVehNumber)
+                }
+            }
+        }
+
+        // ---------- OCR Pipeline ----------
+        private fun processImageWithMultipleAttempts(originalBitmap: Bitmap, resultTextView: TextView) {
+            val bitmapsToTry = mutableListOf<Bitmap>()
+            bitmapsToTry.add(originalBitmap)
+            bitmapsToTry.add(resizeKeepAspect(originalBitmap, 1000))
+            bitmapsToTry.add(adaptiveThreshold(resizeKeepAspect(originalBitmap, 1000)))
+
+            val angles = listOf(-6f, -3f, 0f, 3f, 6f)
+            val initialList = bitmapsToTry.toList()
+            for (bm in initialList) {
+                for (ang in angles) {
+                    bitmapsToTry.add(rotateBitmap(bm, ang))
+                }
+            }
+
+            var foundValid = false
+
+            fun processNext(index: Int) {
+                if (index >= bitmapsToTry.size) {
+                    if (!foundValid) {
+                        runOnUiThread {
+                            Toast.makeText(this, "Cant able to read Vehicle Number", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    return
+                }
+                val image = InputImage.fromBitmap(bitmapsToTry[index], 0)
+                recognizer.process(image)
+                    .addOnSuccessListener { visionText ->
+                        val candidates = extractPlateCandidates(visionText)
+                        for (cand in candidates) {
+                            val corrected = correctByPosition(cand)
+                            val cleaned = corrected.replace("\\s+".toRegex(), "")
+                            val regexVehicleNo  = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
+                            val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]\\d{4}$")
+                            val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
+                            val regexVehicleNo4 = Regex("^\\d{2}\\s?[A-Z]{2}\\s?\\d{4}\\s?[A-Z]$")
+
+                            if (regexVehicleNo.matches(cleaned) ||
+                                regexVehicleNo2.matches(cleaned) ||
+                                regexVehicleNo3.matches(cleaned) ||
+                                regexVehicleNo4.matches(cleaned)) {
+
+                                runOnUiThread {
+                                    resultTextView.text = cleaned
+                                    enterVehNumber.setText(cleaned)
+                                    Toast.makeText(this, "Result: $cleaned", Toast.LENGTH_SHORT).show()
+                                }
+                                foundValid = true
+                                return@addOnSuccessListener
+                            }
+                        }
+                        if (!foundValid) processNext(index + 1)
+                    }
+                    .addOnFailureListener {
+                        if (!foundValid) processNext(index + 1)
+                    }
+            }
+            processNext(0)
+        }
+
+        // ---------- Helpers ----------
+        private fun rotateBitmap(src: Bitmap, angle: Float): Bitmap {
+            val matrix = android.graphics.Matrix()
+            matrix.postRotate(angle)
+            return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
+        }
+
+        private fun adaptiveThreshold(bitmap: Bitmap): Bitmap {
+            val w = bitmap.width
+            val h = bitmap.height
+            val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            val pixels = IntArray(w * h)
+            bitmap.getPixels(pixels, 0, w, 0, 0, w, h)
+            val gray = IntArray(w * h)
+            for (i in pixels.indices) {
+                val p = pixels[i]
+                val r = (p shr 16) and 0xFF
+                val g = (p shr 8) and 0xFF
+                val b = p and 0xFF
+                gray[i] = ((0.299 * r + 0.587 * g + 0.114 * b).toInt())
+            }
+            val outGray = IntArray(w * h)
+            val radius = 3
+            for (y in 0 until h) {
+                for (x in 0 until w) {
+                    var sum = 0
+                    var count = 0
+                    val y0 = maxOf(0, y - radius)
+                    val y1 = minOf(h - 1, y + radius)
+                    val x0 = maxOf(0, x - radius)
+                    val x1 = minOf(w - 1, x + radius)
+                    for (yy in y0..y1) {
+                        val base = yy * w
+                        for (xx in x0..x1) {
+                            sum += gray[base + xx]
+                            count++
+                        }
+                    }
+                    val mean = if (count > 0) sum / count else gray[y * w + x]
+                    val value = if (gray[y * w + x] > mean - 10) 255 else 0
+                    outGray[y * w + x] = value
+                }
+            }
+            for (i in outGray.indices) {
+                val v = outGray[i]
+                out.setPixel(i % w, i / w, Color.rgb(v, v, v))
+            }
+            return out
+        }
+
+        private fun resizeKeepAspect(bitmap: Bitmap, targetWidth: Int): Bitmap {
+            val aspect = bitmap.width.toDouble() / bitmap.height.toDouble()
+            val targetHeight = (targetWidth / aspect).toInt()
+            return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
+        }
+
+        private fun extractPlateCandidates(visionText: com.google.mlkit.vision.text.Text): List<String> {
+            val candidateRegex = Regex("[A-Z0-9\\s]{8,12}")
+            val results = mutableListOf<String>()
+            for (block in visionText.textBlocks) {
+                for (line in block.lines) {
+                    val lineText = line.text.replace("[^A-Za-z0-9\\s]".toRegex(), "").uppercase(Locale.US)
+                    candidateRegex.findAll(lineText).forEach {
+                        val token = it.value.replace("\\s+".toRegex(), "")
+                        if (token.length >= 8) results.add(token)
+                    }
+                    for (elem in line.elements) {
+                        val e = elem.text.replace("[^A-Za-z0-9]".toRegex(), "").uppercase(Locale.US)
+                        if (e.length in 6..12) {
+                            if (candidateRegex.matches(e) || e.length >= 8)
+                                results.add(e.replace("\\s+".toRegex(), ""))
+                        }
+                    }
+                }
+            }
+            val whole = visionText.text.replace("[^A-Za-z0-9\\s]".toRegex(), "").replace("\\s+".toRegex(), "").uppercase(Locale.US)
+            if (whole.length in 8..12) results.add(whole)
+            return results.distinct()
+        }
+
+        private fun correctByPosition(candidate: String): String {
+            val s = candidate.uppercase(Locale.US).trim()
+            val regexVehicleNo  = Regex("^[A-Z]{2}\\d{2}[A-Z]{2}\\d{4}$")
+            val regexVehicleNo2 = Regex("^[A-Z]{2}\\d{2}[A-Z]\\d{4}$")
+            val regexVehicleNo3 = Regex("^[A-Z]{2}\\d{2}[A-Z]{3}\\d{4}$")
+            val regexVehicleNo4 = Regex("^\\d{2}\\s?[A-Z]{2}\\s?\\d{4}\\s?[A-Z]$")
+
+            fun applyMask(original: String, digitMask: BooleanArray): String {
+                val arr = original.toCharArray()
+                for (i in arr.indices) {
+                    if (i >= digitMask.size) break
+                    if (digitMask[i]) {
+                        when (arr[i]) {
+                            'O','Q','D' -> arr[i] = '0'
+                            'I','L' -> arr[i] = '1'
+                            'S' -> arr[i] = '5'
+                            'Z' -> arr[i] = '2'
+                            'B' -> arr[i] = '8'
+                        }
+                    } else {
+                        if (!arr[i].isLetter()) {
+                            when (arr[i]) {
+                                '0' -> arr[i] = 'O'
+                                '1' -> arr[i] = 'I'
+                                '8' -> arr[i] = 'B'
+                            }
+                        }
+                    }
+                }
+                return String(arr)
+            }
+
+            val possibleCorrections = mutableListOf<String>()
+            val len = s.length
+
+            if (len == 10) {
+                val mask = BooleanArray(len)
+                mask[2] = true; mask[3] = true; mask[6] = true; mask[7] = true; mask[8] = true; mask[9] = true
+                possibleCorrections.add(applyMask(s, mask))
+            }
+            if (len == 9) {
+                val mask = BooleanArray(len)
+                mask[2] = true; mask[3] = true
+                for (i in 5 until len) mask[i] = true
+                possibleCorrections.add(applyMask(s, mask))
+            }
+            if (len == 11) {
+                val mask = BooleanArray(len)
+                mask[2] = true; mask[3] = true
+                for (i in 7 until len) mask[i] = true
+                possibleCorrections.add(applyMask(s, mask))
+            }
+            if (len in 8..12) {
+                val mask = BooleanArray(len)
+                if (len >= 6) {
+                    for (i in (len - 4) until len) mask[i] = true
+                    if (len > 3) { mask[2] = true; mask[3] = true }
+                }
+                possibleCorrections.add(applyMask(s, mask))
+            }
+
+            val allTests = possibleCorrections.distinct()
+            for (test in allTests) {
+                val cleaned = test.replace("\\s+".toRegex(), "")
+                if (regexVehicleNo.matches(cleaned) || regexVehicleNo2.matches(cleaned) ||
+                    regexVehicleNo3.matches(cleaned) || regexVehicleNo4.matches(cleaned)) {
+                    return cleaned
+                }
+            }
+            return s.replace("\\s+".toRegex(), "")
+        }
+
 
 
 }

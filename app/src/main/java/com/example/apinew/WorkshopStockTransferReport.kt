@@ -185,7 +185,7 @@ class WorkshopStockTransferReport : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -267,9 +267,9 @@ class WorkshopStockTransferReport : AppCompatActivity() {
             val incrementedToDate = getIncrementedDate(toDate)
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/srAccounts/wsStkTransDetailsByOu?ou=$selectedCityCode&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.ERP_APP_URL + "/srAccounts/wsStkTransDetailsByOu?ou=$selectedCityCode&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
             } else {
-                ApiFile.APP_URL + "/srAccounts/wsStkTransDetailsByOu?ou=$ouId&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
+                ApiFile.ERP_APP_URL + "/srAccounts/wsStkTransDetailsByOu?ou=$ouId&dept=$selectedType&fromDate=$fromDate&toDate=$incrementedToDate"
             }
 
             val request = Request.Builder()

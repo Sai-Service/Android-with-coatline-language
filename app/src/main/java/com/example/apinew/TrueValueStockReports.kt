@@ -74,7 +74,7 @@ class TrueValueStockReports : AppCompatActivity() {
 
     private fun fetchSpinnerData() {
         val loc=locId.toString()
-        val url = ApiFile.APP_URL +"/tvAccounts/tvBatchNameByLocation?locationId=$loc&createdBy=$login_name"
+        val url = ApiFile.ERP_APP_URL +"/tvAccounts/tvBatchNameByLocation?locationId=$loc&createdBy=$login_name"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -131,7 +131,7 @@ class TrueValueStockReports : AppCompatActivity() {
     }
 
     private fun fetchReports(batchName: String) {
-        val url = ApiFile.APP_URL + "/tvAccounts/tvVehDetailsByBatchName?batchName=$batchName"
+        val url = ApiFile.ERP_APP_URL + "/tvAccounts/tvVehDetailsByBatchName?batchName=$batchName"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -156,7 +156,9 @@ class TrueValueStockReports : AppCompatActivity() {
                             REG_NO = obj.getString("REG_NO"),
                             ENGINE_NO = obj.getString("ENGINE_NO"),
                             LOCATIONNAME=obj.getString("LOCATIONNAME"),
-                            UPDATEDBY=obj.getString("UPDATEDBY")
+                            UPDATEDBY=obj.getString("UPDATEDBY") ,
+                            SCAN_BY=obj.optString("SCAN_BY","")
+
                         )
                         reportsList.add(reportItem)
                     }
@@ -192,7 +194,7 @@ class TrueValueStockReports : AppCompatActivity() {
         tableLayout.removeAllViews()
         headerTableLayout.removeAllViews()
 
-        val headers = listOf("Sr.No.","Location","Vehicle No", "Vin","Chassis No","Engine No", "Fuel Desc", "Model Desc", "Colour","Updated By")
+        val headers = listOf("Sr.No.","Location","Vehicle No", "Vin","Chassis No","Engine No", "Fuel Desc", "Model Desc", "Colour","Updated By","Scan By")
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2
 
@@ -205,7 +207,7 @@ class TrueValueStockReports : AppCompatActivity() {
         for (report in reportsList) {
             val dataRow = listOf(
                 report.SRNO,report.LOCATIONNAME,report.REG_NO,report.VIN, report.CHASSIS_NO,report.ENGINE_NO,
-                report.FUEL_DESC, report.MODEL_DESC, report.COLOUR,report.UPDATEDBY
+                report.FUEL_DESC, report.MODEL_DESC, report.COLOUR,report.UPDATEDBY,report.SCAN_BY
             )
             for ((index, data) in dataRow.withIndex()) {
                 val dataTextView = createTextView(data.toString(), false)
@@ -226,7 +228,7 @@ class TrueValueStockReports : AppCompatActivity() {
             val dataRow = TableRow(this)
             val reportData = listOf(
                 report.SRNO,report.LOCATIONNAME,report.REG_NO,report.VIN, report.CHASSIS_NO,report.ENGINE_NO,
-                report.FUEL_DESC, report.MODEL_DESC, report.COLOUR,report.UPDATEDBY
+                report.FUEL_DESC, report.MODEL_DESC, report.COLOUR,report.UPDATEDBY,report.SCAN_BY
             )
             for ((index, data) in reportData.withIndex()) {
                 val dataText = createTextView(data.toString(), false)
@@ -269,5 +271,6 @@ data class ReportItem2(
     val CHASSIS_NO: String,
     val FUEL_DESC:String,
     val LOCATIONNAME:String,
-    val UPDATEDBY:String
+    val UPDATEDBY:String,
+    val SCAN_BY:String
 )

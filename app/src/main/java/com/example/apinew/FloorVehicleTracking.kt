@@ -453,7 +453,7 @@ class FloorVehicleTracking : AppCompatActivity() {
             Toast.makeText(this@FloorVehicleTracking,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -544,7 +544,7 @@ class FloorVehicleTracking : AppCompatActivity() {
             Toast.makeText(this@FloorVehicleTracking,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/VehicleTrack/VehicleInAndOut?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/VehicleTrack/VehicleInAndOut?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -677,7 +677,7 @@ class FloorVehicleTracking : AppCompatActivity() {
         val labours=laboursCount.text.toString()
         val remarksField=remarksEnter.text.toString()
 
-        val url = ApiFile.APP_URL + "/VehicleTrack/VehicleIn/"
+        val url = ApiFile.ERP_APP_URL + "/VehicleTrack/VehicleIn/"
         val jsonObject = JSONObject().apply {
             put("regNo", regNo)
             if (::vinNo.isInitialized) {
@@ -777,7 +777,7 @@ class FloorVehicleTracking : AppCompatActivity() {
     private fun vehicleOut() {
         val remarksField=remarksEnter.text.toString()
         var transferId=trfId
-        val url = ApiFile.APP_URL + "/VehicleTrack/VehicleOUT/$transferId"
+        val url = ApiFile.ERP_APP_URL + "/VehicleTrack/VehicleOUT/$transferId"
         val jsonObject = JSONObject().apply {
             put("updatedBy",login_name)
             put("attribute2",remarksField)

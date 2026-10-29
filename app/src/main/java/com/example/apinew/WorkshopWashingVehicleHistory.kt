@@ -221,7 +221,7 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingVehicleHistory, "Please enter vehicle number...", Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = "${ApiFile.APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
+//        val url = "${ApiFile.ERP_APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
         val url=WorkshopWashingUrlManager.getWashingVehicleHistory(vehNo)
 
         val request = Request.Builder()
@@ -296,7 +296,7 @@ class WorkshopWashingVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@WorkshopWashingVehicleHistory, "Please enter chassis number...", Toast.LENGTH_SHORT).show()
             return
         }
-//        val url = "${ApiFile.APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
+//        val url = "${ApiFile.ERP_APP_URL}/vehWashingReport/vehWashHistoryByRegNo?regNo=$vehNo"
         val url=WorkshopWashingUrlManager.getWashingVehicleHistoryByChassisNumber(chassisNo,ou)
 
         val request = Request.Builder()

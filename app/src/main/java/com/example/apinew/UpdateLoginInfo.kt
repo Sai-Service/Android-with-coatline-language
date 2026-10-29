@@ -110,7 +110,7 @@ class UpdateLoginInfo : AppCompatActivity() {
 
     private fun updateLoginInfo() {
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/admin/updateUser"
+        val url = ApiFile.ERP_APP_URL + "/admin/updateUser"
 
         val jsonObject = JSONObject().apply {
             put("loginName", etLoginName.text.toString())
@@ -210,7 +210,7 @@ class UpdateLoginInfo : AppCompatActivity() {
     private fun fetchLoginData() {
         val loginName=etLoginName.text.toString()
         val client = OkHttpClient()
-        val url =ApiFile.APP_URL+"/admin/detailsByLoginName?loginName=$loginName"
+        val url =ApiFile.ERP_APP_URL+"/admin/detailsByLoginName?loginName=$loginName"
 
         val request = Request.Builder()
             .url(url)

@@ -448,7 +448,7 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
     private fun fetchJobCardData() {
         val client = OkHttpClient()
         val jobCardNo=jobCardInputField.text.toString()
-        val url =ApiFile.APP_URL+"/service/wsVehReceiveDetByJobCardNo?jobCardNo=$jobCardNo"
+        val url =ApiFile.ERP_APP_URL+"/service/wsVehReceiveDetByJobCardNo?jobCardNo=$jobCardNo"
 
         val request = Request.Builder()
             .url(url)
@@ -471,19 +471,18 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                         FROM_LOCATION = stockItem.getString("FROM_LOCATION"),
                         ENGINENO = stockItem.getString("ENGINENO"),
                         SERVICEADVISOR = stockItem.getString("SERVICEADVISOR"),
-                        VEH_STATUS = stockItem.getString("VEH_STATUS"),
-                        STATUS = stockItem.getString("STATUS"),
                         CUSTNAME = stockItem.getString("CUSTNAME"),
-                        ERPACCTNO = stockItem.getString("ERPACCTNO"),
                         FROM_KM = stockItem.getInt("FROM_KM"),
                         MADE_BY = stockItem.getString("MADE_BY"),
                         STOCK_TRF_NO = stockItem.getString("STOCK_TRF_NO"),
                         STOCK_TRF_DATE = stockItem.getString("STOCK_TRF_DATE"),
                         TO_LOCATION = stockItem.getString("TO_LOCATION"),
-                        CHASSIS_NO=stockItem.getString("CHASSIS_NO"),
-                        DRIVER_NAME=stockItem.getString("DRIVER_NAME"),
-                        FROM_LOC_CODE=stockItem.getString("FROM_LOC_CODE"),
-                        DEPT=stockItem.getString("DEPT")
+                        CHASSIS_NO = stockItem.getString("CHASSIS_NO"),
+                        DRIVER_NAME = stockItem.getString("DRIVER_NAME"),
+                        FROM_LOC_CODE = stockItem.getString("FROM_LOC_CODE"),
+                        DEPT = stockItem.getString("DEPT"),
+                        AUTHORISED_BY = stockItem.getString("AUTHORISED_BY"),
+                        OU = stockItem.getString("OU")
                     )
                     runOnUiThread {
                         if (jcData.TO_LOCATION!= location_name) {
@@ -496,18 +495,18 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                             refreshData.visibility=View.VISIBLE
                             redirectImages.visibility=View.VISIBLE
                         }
-                        else if (jcData.VEH_STATUS=="Stock Transfer In-Transit" && jcData.DEPT==deptName) {
-                            Toast.makeText(
-                                this@WorkShopStockReceiveWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            populateFields3(jcData)
-                            populateFieldsAfterJobCNoSearch()
-                            refreshData.visibility=View.VISIBLE
-                            saveData.visibility=View.VISIBLE
-                            redirectImages.visibility=View.VISIBLE
-                        }
+//                        else if (jcData.VEH_STATUS=="Stock Transfer In-Transit" && jcData.DEPT==deptName) {
+//                            Toast.makeText(
+//                                this@WorkShopStockReceiveWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                            redirectImages.visibility=View.VISIBLE
+//                        }
                         else {
                             Toast.makeText(
                                 this@WorkShopStockReceiveWithImages,
@@ -515,7 +514,9 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                             populateFields3(jcData)
+                            populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
+                            saveData.visibility=View.VISIBLE
                             redirectImages.visibility=View.VISIBLE
                         }
                     }
@@ -537,7 +538,7 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
     private fun fetchRegNoData() {
         val client = OkHttpClient()
         val vehNo=vehNoInputField.text.toString()
-        val url =ApiFile.APP_URL+"/service/wsVehReceiveDetByRegNo?regNo=$vehNo"
+        val url =ApiFile.ERP_APP_URL+"/service/wsVehReceiveDetByRegNo?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -560,19 +561,19 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                         FROM_LOCATION = stockItem.getString("FROM_LOCATION"),
                         ENGINENO = stockItem.getString("ENGINENO"),
                         SERVICEADVISOR = stockItem.getString("SERVICEADVISOR"),
-                        VEH_STATUS = stockItem.getString("VEH_STATUS"),
-                        STATUS = stockItem.getString("STATUS"),
                         CUSTNAME = stockItem.getString("CUSTNAME"),
-                        ERPACCTNO = stockItem.getString("ERPACCTNO"),
                         FROM_KM = stockItem.getInt("FROM_KM"),
                         MADE_BY = stockItem.getString("MADE_BY"),
                         STOCK_TRF_NO = stockItem.getString("STOCK_TRF_NO"),
                         STOCK_TRF_DATE = stockItem.getString("STOCK_TRF_DATE"),
                         TO_LOCATION = stockItem.getString("TO_LOCATION"),
-                        CHASSIS_NO=stockItem.getString("CHASSIS_NO"),
-                        DRIVER_NAME=stockItem.getString("DRIVER_NAME"),
-                        FROM_LOC_CODE=stockItem.getString("FROM_LOC_CODE"),
-                        DEPT=stockItem.getString("DEPT")
+                        CHASSIS_NO = stockItem.getString("CHASSIS_NO"),
+                        DRIVER_NAME = stockItem.getString("DRIVER_NAME"),
+                        FROM_LOC_CODE = stockItem.getString("FROM_LOC_CODE"),
+                        DEPT = stockItem.getString("DEPT"),
+                        AUTHORISED_BY = stockItem.getString("AUTHORISED_BY"),
+                        OU = stockItem.getString("OU")
+
                     )
                     runOnUiThread {
                         if (jcData.TO_LOCATION!= location_name) {
@@ -586,19 +587,19 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                             redirectImages.visibility=View.VISIBLE
 
                         }
-                        else if (jcData.VEH_STATUS=="Stock Transfer In-Transit"&& jcData.DEPT==deptName) {
-                            Toast.makeText(
-                                this@WorkShopStockReceiveWithImages,
-                                "Vehicle status is ${jcData.VEH_STATUS}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            populateFields3(jcData)
-                            populateFieldsAfterJobCNoSearch()
-                            refreshData.visibility=View.VISIBLE
-                            saveData.visibility=View.VISIBLE
-                            redirectImages.visibility=View.VISIBLE
-
-                        }
+//                        else if (jcData.VEH_STATUS=="Stock Transfer In-Transit"&& jcData.DEPT==deptName) {
+//                            Toast.makeText(
+//                                this@WorkShopStockReceiveWithImages,
+//                                "Vehicle status is ${jcData.VEH_STATUS}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            populateFields3(jcData)
+//                            populateFieldsAfterJobCNoSearch()
+//                            refreshData.visibility=View.VISIBLE
+//                            saveData.visibility=View.VISIBLE
+//                            redirectImages.visibility=View.VISIBLE
+//
+//                        }
                         else {
                             Toast.makeText(
                                 this@WorkShopStockReceiveWithImages,
@@ -606,9 +607,10 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                             populateFields3(jcData)
+                            populateFieldsAfterJobCNoSearch()
                             refreshData.visibility=View.VISIBLE
+                            saveData.visibility=View.VISIBLE
                             redirectImages.visibility=View.VISIBLE
-
                         }
                     }
                 }
@@ -681,7 +683,7 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         }
 
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/service/wsVehTransReceive"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehTransReceive"
 
 
         val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -854,8 +856,6 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
             "VARIANT CODE" to jcData.VARIANT_CODE,
             "MODEL DESC" to jcData.MODEL_DESC,
             "ENGINE NO" to jcData.ENGINENO,
-            "VEH STATUS" to jcData.VEH_STATUS,
-            "STATUS" to jcData.STATUS,
             "CUSTOMER" to jcData.CUSTNAME,
             "SERVICE ADVISOR" to jcData.SERVICEADVISOR,
             "FROM LOCATION" to jcData.FROM_LOCATION,
@@ -1003,11 +1003,8 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         val MODEL_DESC:String,
         val ENGINENO:String,
         val SERVICEADVISOR:String,
-        val VEH_STATUS:String,
         val REG_NO:String,
         val CUSTNAME:String,
-        val STATUS:String,
-        val ERPACCTNO:String,
         val FROM_KM:Int,
         val TO_LOCATION:String,
         val MADE_BY:String,
@@ -1016,7 +1013,9 @@ class WorkShopStockReceiveWithImages : AppCompatActivity() {
         val CHASSIS_NO:String,
         val DRIVER_NAME:String,
         val FROM_LOC_CODE:String,
-        val DEPT:String
+        val DEPT:String,
+        val AUTHORISED_BY:String,
+        val OU:String
     )
 
 }

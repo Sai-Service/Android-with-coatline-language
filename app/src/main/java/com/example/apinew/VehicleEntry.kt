@@ -33,7 +33,7 @@ class VehicleEntry : AppCompatActivity() {
     }
 
     private fun fetchDataFromApi(vin: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/detailsByVin?vin=$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/detailsByVin?vin=$vin"
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -98,7 +98,7 @@ class VehicleEntry : AppCompatActivity() {
     }
 
     private fun updateVehicleDetails(vin: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/updateVehicle/$vin"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/updateVehicle/$vin"
 
         val client = OkHttpClient()
 

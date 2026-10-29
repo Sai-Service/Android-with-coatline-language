@@ -130,7 +130,7 @@ class PhysicallyInActivity : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -194,13 +194,13 @@ class PhysicallyInActivity : AppCompatActivity() {
         } else {
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/accounts/reportPhysicallyIn?ouId=$selectedCityCode&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportPhysicallyIn?ouId=$selectedCityCode&vehType=$selectedType"
             } else {
-                ApiFile.APP_URL + "/accounts/reportPhysicallyIn?ouId=$ouId&vehType=$selectedType"
+                ApiFile.ERP_APP_URL + "/accounts/reportPhysicallyIn?ouId=$ouId&vehType=$selectedType"
             }
 
             val todayDate = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(Date())
-//        val url = ApiFile.APP_URL + "/accounts/reportPhysicallyIn?ouId=$ouId"
+//        val url = ApiFile.ERP_APP_URL + "/accounts/reportPhysicallyIn?ouId=$ouId"
             val request = Request.Builder()
                 .url(url)
                 .get()

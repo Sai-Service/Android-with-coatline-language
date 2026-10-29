@@ -639,7 +639,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         val cmnType="TESTDRIVE"
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/testDriveType?cmnType=$cmnType")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/testDriveType?cmnType=$cmnType")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -681,7 +681,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
     private fun fetchGateNo() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/gateTypeMaster/gateDetailsByLocId?locId=$locId")
+            .url("${ApiFile.ERP_APP_URL}/gateTypeMaster/gateDetailsByLocId?locId=$locId")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -731,7 +731,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             return
         } else {
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/gateTypeMaster/gateTypeByLocIdAndGateNo?locId=$locId&gateNo=$gateNo")
+            .url("${ApiFile.ERP_APP_URL}/gateTypeMaster/gateTypeByLocIdAndGateNo?locId=$locId&gateNo=$gateNo")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -776,7 +776,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
     private fun fetchOrgIds() {
         val client = OkHttpClient()
             val request = Request.Builder()
-                .url("${ApiFile.APP_URL}/orgDef/getLocation?operating_unit=$ouId")
+                .url("${ApiFile.ERP_APP_URL}/orgDef/getLocation?operating_unit=$ouId")
                 .build()
             GlobalScope.launch(Dispatchers.IO) {
                 try {
@@ -890,7 +890,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehDetForTestDriveIn?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -1018,7 +1018,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             Toast.makeText(this@WorkShopGatepass2,"Please enter vehicle number.",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/service/wsVehDetForTestDriveOut?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehDetForTestDriveOut?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -1154,7 +1154,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             Toast.makeText(this@WorkShopGatepass2, "Please enter vehicle number.", Toast.LENGTH_SHORT).show()
             return
         }
-        val url = ApiFile.APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehDetTestDriveDelivered?regNo=$vehNo"
 
         val request = Request.Builder()
             .url(url)
@@ -1280,7 +1280,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             }
         }
 
-        val url = ApiFile.APP_URL + "/service/wsVehTdIn/"
+        val url = ApiFile.ERP_APP_URL + "/service/wsVehTdIn/"
         val jsonObject = JSONObject().apply {
             put("regNo", regNo)
             if (::vinNo.isInitialized) {
@@ -1461,7 +1461,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             }
         }
 
-        val url = "${ApiFile.APP_URL}/service/wsVehTdOut"
+        val url = "${ApiFile.ERP_APP_URL}/service/wsVehTdOut"
         val json = JSONObject().apply {
             put("updatedBy", login_name)
             put("regNo",regNo)
@@ -1595,7 +1595,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
             return
         }
 
-        val url = "${ApiFile.APP_URL}/service/wsVehTdDeliver"
+        val url = "${ApiFile.ERP_APP_URL}/service/wsVehTdDeliver"
         val json = JSONObject().apply {
             put("updatedBy", login_name)
             put("regNo",regNo)
@@ -1733,7 +1733,6 @@ class WorkShopGatepass2 : AppCompatActivity() {
 
             table.addView(row)
         }
-
         if (table.childCount > 0) {
             val lastRow = table.getChildAt(table.childCount - 1) as TableRow
             lastRow.findViewById<View>(R.id.labelDivider).visibility = View.GONE
@@ -1892,7 +1891,7 @@ class WorkShopGatepass2 : AppCompatActivity() {
         }
     }
 
-    private fun resetFields(){
+    private fun resetFields() {
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout2)
         tableLayout.removeAllViews()
         kmTxt.visibility=View.GONE

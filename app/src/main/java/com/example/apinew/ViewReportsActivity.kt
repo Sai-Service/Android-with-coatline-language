@@ -71,7 +71,7 @@ class ViewReportsActivity : AppCompatActivity() {
     }
 
     private fun fetchSpinnerData() {
-        val url = ApiFile.APP_URL + "/accounts/batchNameByLocation?locationId=$locId&createdBy=$login_name"
+        val url = ApiFile.ERP_APP_URL + "/accounts/batchNameByLocation?locationId=$locId&createdBy=$login_name"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -128,7 +128,7 @@ class ViewReportsActivity : AppCompatActivity() {
     }
 
     private fun fetchReports(batchName: String) {
-        val url = ApiFile.APP_URL + "/accounts/vehDetailsByBatchName?batchName=$batchName"
+        val url = ApiFile.ERP_APP_URL + "/accounts/vehDetailsByBatchName?batchName=$batchName"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {

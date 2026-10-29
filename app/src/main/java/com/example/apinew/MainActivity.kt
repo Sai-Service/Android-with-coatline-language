@@ -1,72 +1,114 @@
 package com.example.apinew
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.StrictMode
+import androidx.core.app.ActivityCompat
 import android.text.InputFilter
 import android.text.TextUtils
-import android.text.method.PasswordTransformationMethod
+import android.net.Uri
 import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.google.android.datatransport.BuildConfig
+import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.Properties
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import android.net.Network
+import android.net.NetworkRequest
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var loginName: EditText
     private lateinit var password: EditText
     private lateinit var btnLogin: Button
+    private lateinit var tvVersion: TextView
+    private lateinit var tvBuildDateTime: TextView
     private var isPasswordVisible: Boolean = false
+    private val authManager = AuthManager()
     private lateinit var appversion:String
     private var buildVersion: Int = 0
-    private  var hardCodedVersion:Double=0.0
+    private  var hardCodedVersion:Double=2.5 // updated on 15-09-2026
     private lateinit var versionCheck:TextView
-    private lateinit var downloadBtn:Button
-    private lateinit var apkLink:String
+    private lateinit var downloadBtn:MaterialButton
+//    private lateinit var apkLink:String
+private var apkLink: String = ""
     private lateinit var linkTextView:TextView
-
+    private lateinit var connectivityManager: ConnectivityManager
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
+    private var versionCheckCompleted = false   // avoids repeated calls once we succeed
+    private lateinit var notificationPermissionLauncher: ActivityResultLauncher<String>
+    private var pendingControllerSession: UserSession? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        hardCodedVersion=1.2
-
-//        if (isEmulator()) {
-//            Toast.makeText(this, "App cannot run on emulator", Toast.LENGTH_LONG).show()
-//            finishAffinity()
-//            return
-//        }
-
-        if (isThreatDetected()) {
-            Toast.makeText(this, "Security Threat Detected!", Toast.LENGTH_LONG).show()
-            finishAffinity()
+        // Must register before STARTED — do this before any early return.
+        notificationPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { _ ->
+            pendingControllerSession?.let { proceedToController(it) }
+            pendingControllerSession = null
         }
 
-        loginName = findViewById(R.id.usernameEditText)
-        password = findViewById(R.id.passwordEditText)
-        btnLogin = findViewById(R.id.loginButton)
+        // Stay logged in until the user explicitly taps Logout.
+        SessionManager.getSession(this)?.let { savedSession ->
+            navigateToController(savedSession)
+            return
+        }
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+
+        if (!BuildConfig.DEBUG) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        }
+
+        setContentView(R.layout.activity_main)
+        Log.d("DEBUG", "downloadBtn view: ${findViewById<View>(R.id.downloadBtn)}")
+        Log.d("DEBUG", "linkTextView view: ${findViewById<View>(R.id.linkTextView)}")
+        Log.d("DEBUG", "versionCheck view: ${findViewById<View>(R.id.versionCheck)}")
+
+
+        loginName       = findViewById(R.id.usernameEditText)
+        password        = findViewById(R.id.passwordEditText)
+        btnLogin        = findViewById(R.id.loginButton)
+        tvVersion       = findViewById(R.id.tvVersion)
+        tvBuildDateTime = findViewById(R.id.tvBuildDateTime)
         versionCheck = findViewById(R.id.versionCheck)
         downloadBtn = findViewById(R.id.downloadBtn)
         linkTextView = findViewById(R.id.linkTextView)
@@ -74,50 +116,28 @@ class MainActivity : AppCompatActivity() {
         linkTextView.visibility= View.GONE
         downloadBtn.visibility=View.GONE
 
-
-
-        val tvVersion = findViewById<TextView>(R.id.tvVersion)
-        val tvBuildDateTime = findViewById<TextView>(R.id.tvBuildDateTime)
-
-        val version = when (ApiFile.APP_URL) {
-            "http://182.72.0.216:7485/ErpAndroid" ->  "PRODUCTION"
-            "http://172.16.21.149:6101/ErpAndroid" -> "CLONE"
-            "http://10.0.2.2:8081" -> "LOCALHOST"
-            else -> "UNKNOWN"
-        }
-
-//        buildVersion = BuildConfig.VERSION_CODE
-//        Log.d("buildVersion->FromOnCreate",buildVersion.toString())
-//        val versionName = BuildConfig.VERSION_NAME
-
-        val buildDateTime = getBuildDateTime()
-
-        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+        // ── Input filter ──────────────────────────────────────
+        val inputFilter = InputFilter { source, start, end, dest, _, _ ->
             for (i in start until end) {
                 val char = source[i]
-
-                if (!char.isLetterOrDigit() && char != '-') {
-                    return@InputFilter ""
-                }
-
-                if (char == '-' && dest.contains("-")) {
-                    return@InputFilter ""
-                }
+                if (!char.isLetterOrDigit() && char != '-') return@InputFilter ""
+                if (char == '-' && dest.contains("-"))       return@InputFilter ""
             }
             null
         }
 
-        loginName.filters = arrayOf(filter)
-        password.filters = arrayOf(filter)
+        loginName.filters = arrayOf(inputFilter)
+        password.filters  = arrayOf(inputFilter)
 
+        // ── Version + build info ──────────────────────────────
+        tvVersion.text       = "INSTANCE - ${resolveInstance()}"
+        tvBuildDateTime.text = "RELEASE  - ${getBuildDateTime()}"
 
-        tvVersion.text = "INSTANCE - $version"
-        tvBuildDateTime.text = "RELEASE - $buildDateTime"
-
+        // ── Password toggle ───────────────────────────────────
         password.setOnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= (password.right - password.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
+            val drawableRight = password.compoundDrawables[2]
+            if (event.action == MotionEvent.ACTION_UP && drawableRight != null) {
+                if (event.rawX >= password.right - drawableRight.bounds.width()) {
                     togglePasswordVisibility()
                     return@setOnTouchListener true
                 }
@@ -125,21 +145,30 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+        // ── Login button ──────────────────────────────────────
         btnLogin.setOnClickListener {
-            if (TextUtils.isEmpty(loginName.text.toString()) || TextUtils.isEmpty(password.text.toString())) {
-                Toast.makeText(this@MainActivity, "Username/password Required", Toast.LENGTH_LONG)
-                    .show()
+            val user = loginName.text.toString().trim()
+            val pass = password.text.toString().trim()
+            if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass)) {
+                Toast.makeText(this, "Username/password Required", Toast.LENGTH_LONG).show()
             } else {
-                login()
+                performLogin(user, pass)
             }
         }
 
-//        fetchLatestVersion()
+        fetchLatestVersion()
 
-//        Handler(Looper.getMainLooper()).postDelayed({
+        setupNetworkCallback()
+
+//                Handler(Looper.getMainLooper()).postDelayed({
 //            linkTextView.text=apkLink
 //        }, 3000)
 
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (apkLink.isNotEmpty()) {
+                linkTextView.text = apkLink
+            }
+        }, 3000)
 
 
 
@@ -150,251 +179,224 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ── Login ─────────────────────────────────────────────────
+//    private fun performLogin(username: String, pass: String) {
+//        btnLogin.isEnabled = false
+//        btnLogin.text      = "Logging in..."
+//
+//        lifecycleScope.launch {
+//            when (val result = authManager.login(username, pass)) {
+//
+//                is AuthManager.AuthResult.Success -> {
+//                    Log.d("Login", "Success via ${result.session.source}")
+//                    Toast.makeText(
+//                        this@MainActivity, "Login successful", Toast.LENGTH_SHORT
+//                    ).show()
+//                    navigateToController(result.session)
+//                }
+//
+//                // No dialog — merged session goes straight to Controller
+//                // Controller will show rows from BOTH apps combined
+//                is AuthManager.AuthResult.MergedSuccess -> {
+//                    Log.d("Login", "Merged success — ERP + Delivery combined")
+//                    Toast.makeText(
+//                        this@MainActivity, "Login successful", Toast.LENGTH_SHORT
+//                    ).show()
+//                    navigateToController(result.session)
+//                }
+//
+//                is AuthManager.AuthResult.Failure -> {
+//                    Log.e("Login", "Failed: ${result.message}")
+//                    Toast.makeText(
+//                        this@MainActivity, result.message, Toast.LENGTH_LONG
+//                    ).show()
+//                    btnLogin.isEnabled = true
+//                    btnLogin.text      = "LOGIN"
+//                }
+//            }
+//        }
+//    }
+
+
+    private fun setupNetworkCallback() {
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()   // ⚠️ removed NET_CAPABILITY_VALIDATED from the request itself
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                Log.d("NetworkCallback", "onAvailable: $network")
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                val isValidated = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                Log.d("NetworkCallback", "onCapabilitiesChanged: validated=$isValidated, versionCheckCompleted=$versionCheckCompleted")
+
+                if (isValidated && !versionCheckCompleted) {
+                    runOnUiThread {
+                        Log.d("NetworkCallback", "Triggering fetchLatestVersion()")
+                        fetchLatestVersion()
+                    }
+                }
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                Log.d("NetworkCallback", "onLost: $network")
+            }
+        }
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback!!)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkCallback?.let {
+            connectivityManager.unregisterNetworkCallback(it)
+        }
+    }
+
+    private fun performLogin(username: String, pass: String) {
+        btnLogin.isEnabled = false
+        btnLogin.text      = "Logging in..."
+
+        lifecycleScope.launch {
+            when (val result = authManager.login(username, pass)) {
+
+                is AuthManager.AuthResult.Success -> {
+                    Log.d("Login", "Success via ${result.session.source}")
+                    Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                    SessionManager.saveSession(this@MainActivity, result.session)
+                    navigateToController(result.session)
+                }
+
+                is AuthManager.AuthResult.MergedSuccess -> {
+                    Log.d("Login", "Merged success — ERP + Delivery combined")
+                    Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                    SessionManager.saveSession(this@MainActivity, result.session)
+                    navigateToController(result.session)
+                }
+
+                // ── ERP 429 rate limit — restore original behaviour ──
+                is AuthManager.AuthResult.RateLimited -> {
+                    Log.w("Login", "Rate limited: ${result.message}")
+                    Toast.makeText(
+                        this@MainActivity,
+                        result.message,         // shows the server's message e.g. "Too many attempts"
+                        Toast.LENGTH_LONG
+                    ).show()
+                    btnLogin.isEnabled = true
+                    btnLogin.text      = "LOGIN"
+                }
+
+                is AuthManager.AuthResult.Failure -> {
+                    Log.e("Login", "Failed: ${result.message}")
+                    Toast.makeText(
+                        this@MainActivity,
+                        result.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    btnLogin.isEnabled = true
+                    btnLogin.text      = "LOGIN"
+                }
+            }
+        }
+    }
+    // ── Navigate — now includes erpDeptName + deliveryDeptName ─
+    private fun navigateToController(session: UserSession) {
+        if (Build.VERSION.SDK_INT >= 33 &&
+            ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingControllerSession = session
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+        proceedToController(session)
+    }
+
+    private fun proceedToController(session: UserSession) {
+        DemoVehicleAlertScheduler.scheduleIfTeamLeader(this, session)
+
+        val intent = Intent(this, Controller::class.java).apply {
+            putExtra("source",           session.source)
+            putExtra("login_name",       session.loginName)
+            putExtra("ouId",             session.ouId)
+            putExtra("location",         session.location)
+            putExtra("locId",            session.locId)
+            putExtra("location_name",    session.locationName)
+            putExtra("deptName",         session.deptName)
+            putExtra("attribute1",       session.attribute1)
+            putExtra("attribute2",       session.attribute2)
+            putExtra("emailId",          session.emailId)
+            putExtra("userContact",      session.userContact)
+            putExtra("role",      session.role)
+            putExtra("dmsLoc",      session.dmsLoc)
+            putExtra("userName",         session.userName)
+            putExtra("erpDeptName",      session.erpDeptName)
+            // ↓ FIX: for pure delivery, erpDeptName = "" and deliveryDeptName = deptName
+            putExtra("deliveryDeptName", session.deliveryDeptName
+                .takeIf { it.isNotEmpty() } ?: session.deptName)
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    // ── Password show/hide ────────────────────────────────────
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
             password.transformationMethod = PasswordTransformationMethod.getInstance()
-            password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0)
+            password.setCompoundDrawablesWithIntrinsicBounds(
+                0, 0, R.drawable.ic_visibility_off, 0
+            )
         } else {
             password.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility, 0)
+            password.setCompoundDrawablesWithIntrinsicBounds(
+                0, 0, R.drawable.ic_visibility, 0
+            )
         }
         password.setSelection(password.text.length)
         isPasswordVisible = !isPasswordVisible
     }
 
-//    private fun login() {
-//        val loginRequest = LoginRequest().apply {
-//            loginName = this@MainActivity.loginName.text.toString()
-//            password = this@MainActivity.password.text.toString()
-//        }
-//
-//        val loginResponseCall = ApiClient.getUserService().userLogin(loginRequest)
-//        loginResponseCall.enqueue(object : Callback<LoginResponse> {
-//            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-//                if (response.isSuccessful) {
-//                    val loginResponse = response.body()
-//
-//                    if (loginResponse != null && loginResponse.code == 200) {
-//                        val attribute1 = loginResponse.attribute1
-//                        val ouId = loginResponse.ouId
-//                        val login_name = loginResponse.loginName
-//                        val location = loginResponse.location
-//                        val locId = loginResponse.locId
-//                        val location_name=loginResponse.location_name
-//                        val deptName=loginResponse.deptName
-//                        val emailId=loginResponse.emailId
-//
-//                        Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_LONG)
-//                            .show()
-//                        if (attribute1 != null && ouId != null &&location!=null&&locId!=null&&location_name!=null&&deptName!=null) {
-//                            navigateToHomeActivity(attribute1, ouId,login_name,location,locId,location_name,deptName,emailId)
-////                            navigateToHomeActivity(attribute1, ouId,login_name)
-//                        } else {
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Missing attributes",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
-//                    } else if (loginResponse != null && loginResponse.code == 400) {
-//                        Toast.makeText(
-//                            this@MainActivity,
-//                            loginResponse.obj.toString(),
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    } else {
-//                        Toast.makeText(this@MainActivity, "Unexpected response", Toast.LENGTH_LONG)
-//                            .show()
-//                    }
-//                } else {
-//                    val errorResponse = response.errorBody()?.string()
-//                    if (response.code() == 400) {
-//                        Toast.makeText(
-//                            this@MainActivity,
-//                            "Invalid credentials: $errorResponse",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    } else {
-//                        Toast.makeText(
-//                            this@MainActivity,
-//                            "Unexpected error: ${response.code()}",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-//                Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_LONG).show()
-//                Log.d("Throwable", t.printStackTrace().toString())
-//                Log.d("Throwable", t.message.toString())
-//
-//            }
-//        })
-//    }
-
-
-    private fun login() {
-        val loginRequest = LoginRequest().apply {
-            loginName = this@MainActivity.loginName.text.toString()
-            password = this@MainActivity.password.text.toString()
+    // ── Instance label ────────────────────────────────────────
+    private fun resolveInstance(): String {
+        return when (ApiFile.ERP_APP_URL.trimEnd('/')) {
+            "http://182.72.0.216:7485/ErpAndroid"  -> "PRODUCTION NEW"
+            "https://nexgenapp.saihorizon.org:7585/ErpAndroid" -> "PRODUCTION"
+            "http://172.16.21.149:6101/ErpAndroid" -> "CLONE"
+            "http://10.0.2.2:8081"                 -> "LOCALHOST"
+            else                                   -> "UNKNOWN"
         }
-
-        val loginResponseCall = ApiClient.getUserService().userLogin(loginRequest)
-        loginResponseCall.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful) {
-                    val loginResponse = response.body()
-
-                    if (loginResponse != null) {
-                        when (loginResponse.code) {
-                            200 -> {
-                                val attribute1 = loginResponse.attribute1
-                                val ouId = loginResponse.ouId
-                                val login_name = loginResponse.loginName
-                                val location = loginResponse.location
-                                val locId = loginResponse.locId
-                                val location_name = loginResponse.location_name
-                                val deptName = loginResponse.deptName
-                                val emailId = loginResponse.emailId
-
-                                Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_LONG).show()
-
-                                if (attribute1 != null && ouId != null && location != null && locId != null &&
-                                    location_name != null && deptName != null) {
-                                    navigateToHomeActivity(attribute1, ouId, login_name, location, locId, location_name, deptName, emailId)
-                                } else {
-                                    Toast.makeText(this@MainActivity, "Missing attributes", Toast.LENGTH_LONG).show()
-                                }
-                            }
-
-                            400 -> {
-                                Toast.makeText(this@MainActivity, loginResponse.obj.toString(), Toast.LENGTH_LONG).show()
-                            }
-
-                            429 -> {
-                                Toast.makeText(this@MainActivity, loginResponse.obj.toString(), Toast.LENGTH_LONG).show()
-                                Log.d("LoginDebug", "Response code from body: ${loginResponse.code}, message: ${loginResponse.message}")
-                            }
-
-                            else -> {
-                                Toast.makeText(this@MainActivity, "Unexpected code: ${loginResponse.code}", Toast.LENGTH_LONG).show()
-                                Log.d("LoginDebug", "Response code from body: ${loginResponse.code}, message: ${loginResponse.message}")
-                            }
-                        }
-                    } else {
-                        Toast.makeText(this@MainActivity, "Empty response body", Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    Toast.makeText(this@MainActivity, "HTTP Error: ${response.code()} $errorBody", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_LONG).show()
-                Log.e("LoginFailure", "Throwable: ${t.message}", t)
-            }
-        })
     }
 
-
-    private fun navigateToHomeActivity(attribute1: String, ouId: Int,login_name:String,location:String,locId:Int,location_name:String,deptName:String,emailId:String?=null) {
-//        private fun navigateToHomeActivity(attribute1: String, ouId: Int,login_name:String)
-        val intent = Intent(this@MainActivity, Controller::class.java)
-        intent.putExtra("attribute1", attribute1)
-        intent.putExtra("login_name", login_name)
-        intent.putExtra("ouId", ouId)
-        intent.putExtra("location", location)
-        intent.putExtra("locId", locId)
-        intent.putExtra("location_name", location_name)
-        intent.putExtra("deptName", deptName)
-        intent.putExtra("emailId",emailId)
-
-
-        startActivity(intent)
-        finish()
-    }
+    // ── Build time ────────────────────────────────────────────
     private fun getBuildDateTime(): String {
-        val buildTimeMillis = getBuildTimeFromProperties()
-        val buildDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(buildTimeMillis))
-        val buildTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(buildTimeMillis))
-        return "$buildDate - $buildTime"
+        val millis = getBuildTimeFromProperties()
+        val fmt    = SimpleDateFormat("dd-MM-yyyy - HH:mm:ss", Locale.getDefault())
+        return fmt.format(Date(millis))
     }
 
     private fun getBuildTimeFromProperties(): Long {
-        val properties = Properties()
-        try {
-            val inputStream = assets.open("app_config.properties")
-            properties.load(inputStream)
-            return properties.getProperty("BUILD_TIME")?.toLong() ?: System.currentTimeMillis()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return System.currentTimeMillis()
-        }
-    }
-
-    fun isDeviceRooted(): Boolean {
-        return checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
-    }
-
-    fun isThreatDetected(): Boolean {
-        return isDeviceRooted() || isFridaDetected() || isXposedDetected()
-    }
-
-
-    private fun checkRootMethod1(): Boolean {
-        val paths = arrayOf(
-            "/system/app/Superuser.apk",
-            "/sbin/su",
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/data/local/xbin/su",
-            "/data/local/bin/su",
-            "/system/sd/xbin/su",
-            "/system/bin/failsafe/su",
-            "/data/local/su"
-        )
-        return paths.any { File(it).exists() }
-    }
-
-    private fun checkRootMethod2(): Boolean {
         return try {
-            Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
-                .inputStream.bufferedReader().readLine() != null
+            val props = Properties()
+            props.load(assets.open("app_config.properties"))
+            props.getProperty("BUILD_TIME")?.toLong() ?: System.currentTimeMillis()
         } catch (e: Exception) {
-            false
+            Log.e("MainActivity", "Could not read BUILD_TIME: ${e.message}")
+            System.currentTimeMillis()
         }
     }
 
-    private fun checkRootMethod3(): Boolean {
-        return Build.TAGS?.contains("test-keys") == true
-    }
-
-    fun isFridaDetected(): Boolean {
-        return try {
-            val fridaLibs = listOf("frida", "frida-agent", "gum-js-loop")
-            val maps = File("/proc/${android.os.Process.myPid()}/maps").readText()
-            fridaLibs.any { maps.contains(it, ignoreCase = true) }
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    fun isXposedDetected(): Boolean {
-        val xposedClasses = listOf(
-            "de.robv.android.xposed.XposedBridge",
-            "de.robv.android.xposed.XposedHelpers"
-        )
-        return xposedClasses.any {
-            try {
-                Class.forName(it)
-                true
-            } catch (e: ClassNotFoundException) {
-                false
-            }
-        }
-    }
 
     data class AppVersion(
         val versionName: String,
@@ -403,58 +405,70 @@ class MainActivity : AppCompatActivity() {
         val releaseDate: String
     )
 
-    @SuppressLint("SuspiciousIndentation")
-    fun fetchLatestVersion(): AppVersion? {
-        Log.d("function reached","success")
-        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-
-        val apiUrl = "${ApiFile.APP_URL}/appVer/latest"
-
-        try {
-            val url = URL(apiUrl)
-            Log.d("URL->",url.toString())
-            val connection = url.openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 5000
-            connection.readTimeout = 5000
-
-            if (connection.responseCode == 200) {
-                val response = connection.inputStream.bufferedReader().use { it.readText() }
-                val jsonResponse = JSONObject(response)
-                val obj = jsonResponse.getJSONObject("obj")
-
-                appversion=obj.getString("versionCode")
-                apkLink=obj.optString("downloadUrl")
-                Log.d("downloadUrl",apkLink)
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    if(appversion.toDouble()==hardCodedVersion){
-            btnLogin.isEnabled=true
-                        linkTextView.visibility= View.GONE
-                        downloadBtn.visibility=View.GONE
-                        Toast.makeText(this@MainActivity,"You have the latest app version you can proceed",Toast.LENGTH_LONG).show()
-                    } else if (appversion.toDouble()<hardCodedVersion) {
-            btnLogin.isEnabled=false
-                        linkTextView.visibility= View.VISIBLE
-                        downloadBtn.visibility=View.VISIBLE
-                        versionCheck.text="The new version is available kindly contact your IT-Admin"
-}
-        }, 1000)
-
-//                return AppVersion(
-//                    versionName = obj.getString("versionName"),
-//                    versionCode = obj.getString("versionCode"),
-//                    downloadUrl = obj.getString("downloadUrl"),
-//                    releaseDate = obj.getString("releaseDate")
-//                )
-            } else {
-                println("Error: ${connection.responseCode}")
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = cm.activeNetwork ?: return false
+        val capabilities = cm.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 
+    @SuppressLint("SuspiciousIndentation")
+    private fun fetchLatestVersion() {
+        if (!isNetworkAvailable()) {
+            Log.w("fetchLatestVersion", "No network connection — skipping version check")
+            btnLogin.isEnabled = true
+            linkTextView.visibility = View.GONE
+            downloadBtn.visibility = View.GONE
+            Toast.makeText(this, "You are offline.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val apiUrl = "${ApiFile.ERP_APP_URL}/appVer/latest"
+            try {
+                val url = URL(apiUrl)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+
+                if (connection.responseCode == 200) {
+                    val response = connection.inputStream.bufferedReader().use { it.readText() }
+                    val jsonResponse = JSONObject(response)
+                    val obj = jsonResponse.getJSONObject("obj")
+
+                    appversion = obj.getString("versionCode")
+                    apkLink = obj.optString("downloadUrl")
+
+                    withContext(Dispatchers.Main) {
+                        versionCheckCompleted = true   // ✅ mark done so callback stops re-firing
+
+                        if (appversion.toDouble() == hardCodedVersion) {
+                            btnLogin.isEnabled = true
+                            linkTextView.visibility = View.GONE
+                            downloadBtn.visibility = View.GONE
+                        } else if (appversion.toDouble() > hardCodedVersion) {
+                            btnLogin.isEnabled = false
+                            linkTextView.visibility = View.VISIBLE
+                            downloadBtn.visibility = View.VISIBLE
+                            versionCheck.text = "The new version is available kindly contact your IT-Admin/Download app from below."
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        btnLogin.isEnabled = true
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    btnLogin.isEnabled = true
+                    linkTextView.visibility = View.GONE
+                    downloadBtn.visibility = View.GONE
+                    // no toast here either — internet may still be flaky, callback will retry
+                }
+            }
+        }
+    }
 }

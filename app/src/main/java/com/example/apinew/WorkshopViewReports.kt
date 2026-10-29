@@ -75,7 +75,7 @@ class WorkshopViewReports : AppCompatActivity() {
 
     private fun fetchSpinnerData() {
         val loc=locId.toString()
-        val url = ApiFile.APP_URL +"/srAccounts/srBatchNameByLocation?locationId=$loc&createdBy=$login_name"
+        val url = ApiFile.ERP_APP_URL +"/srAccounts/srBatchNameByLocation?locationId=$loc&createdBy=$login_name"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -132,7 +132,7 @@ class WorkshopViewReports : AppCompatActivity() {
     }
 
     private fun fetchReports(batchName: String) {
-        val url = ApiFile.APP_URL + "/srAccounts/srVehDetailsByBatchName?batchName=$batchName"
+        val url = ApiFile.ERP_APP_URL + "/srAccounts/srVehDetailsByBatchName?batchName=$batchName"
         val request = Request.Builder().url(url).build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -151,7 +151,7 @@ class WorkshopViewReports : AppCompatActivity() {
                             BATCHNAME = obj.getString("BATCHNAME"),
                             VIN = obj.getString("VIN"),
                             CHASSIS_NO = obj.getString("CHASSIS_NO"),
-                            FUEL_DESC = obj.getString("FUEL_DESC"),
+//                            FUEL_DESC = obj.getString("FUEL_DESC"),
                             MODEL_DESC = obj.getString("MODEL_DESC"),
                             COLOUR = obj.getString("COLOUR"),
                             REG_NO = obj.getString("REG_NO"),
@@ -194,7 +194,7 @@ class WorkshopViewReports : AppCompatActivity() {
         tableLayout.removeAllViews()
         headerTableLayout.removeAllViews()
 
-        val headers = listOf("Sr.No.","Location","Job Card No","Vehicle No", "Vin","Chassis No","Engine No", "Model Desc", "Colour","Fuel Desc","Updated By")
+        val headers = listOf("Sr.No.","Location","Job Card No","Vehicle No", "Vin","Chassis No","Engine No", "Model Desc", "Ser Adv.","Updated By")
         val maxWidths = MutableList(headers.size) { 0 }
         val textViewPadding = 24 * 2
 
@@ -207,7 +207,7 @@ class WorkshopViewReports : AppCompatActivity() {
         for (report in reportsList) {
             val dataRow = listOf(
                 report.SRNO,report.LOCATIONNAME,report.JOBCARDNO,report.REG_NO,report.VIN, report.CHASSIS_NO,report.ENGINE_NO,
-                 report.MODEL_DESC, report.COLOUR,report.FUEL_DESC,report.UPDATEDBY
+                 report.MODEL_DESC, report.COLOUR,report.UPDATEDBY
             )
             for ((index, data) in dataRow.withIndex()) {
                 val dataTextView = createTextView(data.toString(), false)
@@ -228,7 +228,7 @@ class WorkshopViewReports : AppCompatActivity() {
             val dataRow = TableRow(this)
             val reportData = listOf(
                 report.SRNO,report.LOCATIONNAME,report.JOBCARDNO,report.REG_NO,report.VIN, report.CHASSIS_NO,report.ENGINE_NO,
-                report.MODEL_DESC, report.COLOUR,report.FUEL_DESC,report.UPDATEDBY
+                report.MODEL_DESC, report.COLOUR,report.UPDATEDBY
             )
             for ((index, data) in reportData.withIndex()) {
                 val dataText = createTextView(data.toString(), false)
@@ -269,7 +269,6 @@ data class ReportItem3(
     val COLOUR: String,
     val MODEL_DESC: String,
     val CHASSIS_NO: String,
-    val FUEL_DESC:String,
     val LOCATIONNAME:String,
     val UPDATEDBY:String,
     val JOBCARDNO:String

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera.flash" />
@@ -23,6 +24,7 @@
         android:anyDensity="true" />
 
     <application
+            android:name=".MyApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"
@@ -364,6 +366,21 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"/>
 
+        <activity android:name=".ServiceStockTaking"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="false"/>
+
+        <activity android:name=".VehicleDelivery"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="false"/>
+
+        <activity android:name=".DeliveryReport"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:exported="false"/>
+
+        <activity android:name=".VinScannerActivity"
+                android:screenOrientation="portrait"/>
+
 
         <activity
             android:name=".MainActivity"
@@ -383,7 +400,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
     </application>
 

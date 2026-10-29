@@ -27,6 +27,104 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+
+            <!-- App Name Header -->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp">
+
+                <!-- Top decorative line with brand label -->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                    <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/lavender" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SAI SERVICE"
+                            android:textSize="9sp"
+                            android:textColor="@color/lavender"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.2"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp" />
+
+                    <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/lavender" />
+                </LinearLayout>
+
+                <!-- Line 1: Chassis Enquiry -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chassis Enquiry"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple_700"
+                        android:letterSpacing="-0.01"
+                        android:layout_gravity="center" />
+
+                <!-- Divider with ampersand -->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp">
+
+                    <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:alpha="0.4"
+                            android:background="@color/lavender" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="&amp;"
+                            android:textSize="10sp"
+                            android:textColor="@color/purple_200"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp" />
+
+                    <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:alpha="0.4"
+                            android:background="@color/lavender" />
+                </LinearLayout>
+
+                <!-- Line 2: OTP Vehicle Delivery -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OTP Vehicle Delivery"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple_700"
+                        android:letterSpacing="-0.01"
+                        android:layout_gravity="center" />
+
+            </LinearLayout>
+
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -147,16 +245,28 @@
             android:textSize="16sp"
             android:padding="10dp" />
 
-        <Button
-            android:id="@+id/downloadBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/lavender"
-            android:padding="12dp"
-            android:textSize="16sp"
-            app:cornerRadius="8dp"
-            android:text="Download App" />
+<!--        <Button-->
+<!--            android:id="@+id/downloadBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:backgroundTint="@color/lavender"-->
+<!--            android:padding="12dp"-->
+<!--            android:textSize="16sp"-->
+<!--            app:cornerRadius="8dp"-->
+<!--            android:text="Download App" />-->
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/downloadBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/lavender"
+                android:padding="12dp"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:text="Download App" />
 </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

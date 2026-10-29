@@ -126,7 +126,7 @@ class WorkshopStkIntransitReport : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -192,9 +192,9 @@ class WorkshopStkIntransitReport : AppCompatActivity() {
         } else {
 
             val url = if (deptName == "SUPERADMIN") {
-                ApiFile.APP_URL + "/srAccounts/srStkTrfDetailsByOu?ouId=$selectedCityCode&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srStkTrfDetailsByOu?ouId=$selectedCityCode&dept=$selectedType"
             } else {
-                ApiFile.APP_URL + "/srAccounts/srStkTrfDetailsByOu?ouId=$ouId&dept=$selectedType"
+                ApiFile.ERP_APP_URL + "/srAccounts/srStkTrfDetailsByOu?ouId=$ouId&dept=$selectedType"
             }
 
             val request = Request.Builder()

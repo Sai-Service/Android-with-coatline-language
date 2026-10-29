@@ -168,7 +168,7 @@ class WorkshopPendingVehicle : AppCompatActivity() {
     private fun fetchTransferListData() {
         val client = OkHttpClient()
         val location=location_name
-        val url = "${ApiFile.APP_URL}/service/srTransferList?to_location=$location&dept=$deptName"
+        val url = "${ApiFile.ERP_APP_URL}/service/srTransferList?to_location=$location&dept=$deptName"
 
         val request = Request.Builder()
             .url(url)

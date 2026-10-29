@@ -1,0 +1,1395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:background="@drawable/veh_delv_gradient">-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/lineralay"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="20dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/logoImageView"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:src="@drawable/sslogo"-->
+<!--            android:contentDescription="Logo"-->
+<!--            android:layout_marginEnd="10dp" />-->
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/logoutBtn"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:src="@drawable/logout"/>-->
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/line1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@drawable/rounded_bg"-->
+<!--        android:padding="8dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/lineralay">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="USERNAME: "-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/username"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="username"-->
+<!--            android:textColor="#0429F6"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:text="LOCATION: "-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/locIdTxt"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="locId"-->
+<!--            android:textColor="#0429F6"-->
+<!--            android:textStyle="bold" />-->
+<!--    </LinearLayout>-->
+
+<!--    &lt;!&ndash; Scrollable Content Section &ndash;&gt;-->
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:fillViewport="true"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/line1"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/veh2_gradient"-->
+<!--            android:orientation="vertical"-->
+<!--            android:padding="24dp"-->
+<!--            android:elevation="6dp"-->
+<!--            android:layout_margin="16dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="SELECT SEARCH"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_gravity="center_horizontal"/>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:background="@drawable/veh2_gradient">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/forVehicleNo"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="By Vehicle No"-->
+<!--                    android:backgroundTint="#032633"-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:elevation="4dp" />-->
+
+<!--                <View-->
+<!--                    android:layout_width="90dp"-->
+<!--                    android:layout_height="2dp"/>-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/forGatePassNo"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="By Gate Pass"-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:backgroundTint="#032633"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:elevation="4dp" />-->
+
+
+
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; Invoice Number Input &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/noShowingTextView"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:text="Gate Pass Number"-->
+<!--                android:textColor="#05081C"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/invoiceNumberField"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Enter Gate Pass/Vehicle No"-->
+<!--                android:inputType="textCapCharacters"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/edittext_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            &lt;!&ndash; Search Button &ndash;&gt;-->
+<!--            <Button-->
+<!--                android:id="@+id/searchButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Search"-->
+<!--                android:backgroundTint="#264653"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="12dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:elevation="4dp" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/searchButton2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Search"-->
+<!--                android:backgroundTint="#264653"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="12dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:elevation="4dp" />-->
+
+<!--            &lt;!&ndash; TextView for Invoice Data &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/invoiceNumberTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/vehicleNumberTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/gatePassNumberTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/nameTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/transactionNoTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/transactionNoDateTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:visibility="gone"-->
+<!--                android:text="You can edit the contact no for OTP"-->
+<!--                android:textColor="#05081C"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/contactNoTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/partyId"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/amountRemainingTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/serviceExecutive"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/modelTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/addressTxtView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="14sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="#040303"-->
+<!--                android:padding="12dp"-->
+<!--                android:background="@drawable/textview_background"-->
+<!--                android:elevation="2dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/invoiceDataLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="16dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="Payment Mode"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/paymentModeSpinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/modern_spinner_background"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:padding="12dp" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="Select Payment Method"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/paymentIdSpinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/modern_spinner_background"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:padding="12dp" />-->
+
+
+<!--                <Button-->
+<!--                    android:id="@+id/sendOTP"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:backgroundTint="#61A5C2"-->
+<!--                    android:elevation="4dp"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:text="Generate OTP"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="Enter OTP"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/otpInputField"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:background="@drawable/edittext_background"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:hint="Enter OTP from the user"-->
+<!--                    android:inputType="number"-->
+<!--                    android:padding="12dp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/verifyOTPButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:backgroundTint="#61A5C2"-->
+<!--                    android:elevation="4dp"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:text="Verify OTP"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="Enter customer paying amount"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/amountPaidTxtField"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:background="@drawable/edittext_background"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:hint="Enter Amount Paid By User"-->
+<!--                    android:inputType="textCapCharacters"-->
+<!--                    android:padding="12dp" />-->
+
+
+<!--                <TextView-->
+<!--                    android:id="@+id/upiText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="Enter Transaction Number"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/upiInputTextField"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:background="@drawable/edittext_background"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:hint="Enter UPI Transaction Number"-->
+<!--                    android:inputType="text"-->
+<!--                    android:padding="12dp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/imageText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:text="IMAGE OF UPI DETAILS"-->
+<!--                    android:textColor="#05081C"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:visibility="gone" />-->
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="276dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginEnd="0dp"-->
+<!--                    android:background="@color/semi_transparent_white"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:src="@drawable/imagehint"-->
+<!--                    android:visibility="gone" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/line2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="60dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/imageView">-->
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/captureImage"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginBottom="20dp"-->
+<!--                        android:background="@drawable/camera"-->
+<!--                        android:elevation="4dp"-->
+<!--                        android:padding="12dp"-->
+<!--                        android:textColor="#FFFFFF"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/deleteImage"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginStart="70dp"-->
+<!--                        android:layout_marginBottom="20dp"-->
+<!--                        android:background="@drawable/trash"-->
+<!--                        android:elevation="4dp"-->
+<!--                        android:padding="12dp"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                </LinearLayout>-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <View-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/detailsSubmit"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Submit Details"-->
+<!--                    android:backgroundTint="#047E10"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:elevation="4dp" />-->
+
+<!--                <View-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/clearFields"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="REFRESH"-->
+<!--                android:backgroundTint="#2A9D8F"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="12dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:elevation="4dp" />-->
+
+
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
+
+
+<!--    </ScrollView>-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@drawable/veh_delv_gradient">
+
+    <LinearLayout
+            android:id="@+id/headerBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/veh_delv_gradient"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+                android:id="@+id/logoImageView"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:src="@drawable/sslogo"
+                android:contentDescription="Logo"
+                android:scaleType="fitStart"
+                android:adjustViewBounds="true" />
+
+        <ImageView
+                android:id="@+id/logoutBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logout"
+                android:contentDescription="Logout"
+                android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/userInfoBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="#1A000000"
+            app:layout_constraintTop_toBottomOf="@id/headerBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USERNAME: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+
+        <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="#0429F6"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+
+        <View
+                android:layout_width="1dp"
+                android:layout_height="14dp"
+                android:background="#88000000"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOCATION: "
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+
+        <TextView
+                android:id="@+id/locIdTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="locId"
+                android:textColor="#0429F6"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+    </LinearLayout>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintTop_toBottomOf="@id/userInfoBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp">
+
+            <!-- ─────────────────────────────────────
+                 CARD 1: SEARCH TYPE SELECTION
+            ───────────────────────────────────── -->
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔍  SEARCH VEHICLE"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#0A2647"
+                            android:letterSpacing="0.05"
+                            android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                        <Button
+                                android:id="@+id/forVehicleNo"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="6dp"
+                                android:text="By Vehicle No"
+                                android:textSize="13sp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:backgroundTint="#0A2647"
+                                android:stateListAnimator="@null" />
+
+                        <Button
+                                android:id="@+id/forGatePassNo"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="6dp"
+                                android:text="By Gate Pass"
+                                android:textSize="13sp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:backgroundTint="#144272"
+                                android:stateListAnimator="@null" />
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/noShowingTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#144272"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="6dp"
+                            android:visibility="gone" />
+
+                    <EditText
+                            android:id="@+id/invoiceNumberField"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="Enter Gate Pass / Vehicle No"
+                            android:inputType="textCapCharacters"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textSize="14sp"
+                            android:background="@drawable/edittext_background"
+                            android:visibility="gone" />
+
+                    <Button
+                            android:id="@+id/searchButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Search"
+                            android:textSize="14sp"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#264653"
+                            android:stateListAnimator="@null"
+                            android:visibility="gone" />
+
+                    <Button
+                            android:id="@+id/searchButton2"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Search"
+                            android:textSize="14sp"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#264653"
+                            android:stateListAnimator="@null"
+                            android:visibility="gone" />
+
+                    <Button
+                            android:id="@+id/clearFields"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="8dp"
+                            android:text="REFRESH"
+                            android:textSize="13sp"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:backgroundTint="#2A9D8F"
+                            android:stateListAnimator="@null"
+                            android:visibility="gone" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ─────────────────────────────────────
+                 CARD 2: VEHICLE / CUSTOMER DETAILS
+            ───────────────────────────────────── -->
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🚗  VEHICLE &amp; CUSTOMER DETAILS"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#0A2647"
+                            android:layout_marginBottom="12dp" />
+
+                    <TextView
+                            android:id="@+id/invoiceNumberTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/vehicleNumberTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/gatePassNumberTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/nameTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/transactionNoTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/transactionNoDateTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <!-- Customer Mobile — READ-ONLY TextView (changed from EditText) -->
+                    <TextView
+                            android:id="@+id/contactNoTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/partyId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/amountRemainingTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/serviceExecutive"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/modelTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/addressTxtView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#040303"
+                            android:background="@drawable/textview_background"
+                            android:elevation="2dp"
+                            android:layout_marginBottom="4dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ─────────────────────────────────────
+                 CARD 3: ALTERNATE CONTACT
+            ───────────────────────────────────── -->
+            <LinearLayout
+                    android:id="@+id/alternateMobileLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="14dp">
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#FFF8E1">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📲  ALTERNATE CONTACT"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#7B5800"
+                                android:layout_marginBottom="6dp" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="If the customer is unavailable, enter the family member's mobile number below. OTP will be sent to this number instead."
+                                android:textSize="12sp"
+                                android:textColor="#8D6E63"
+                                android:layout_marginBottom="12dp" />
+
+                        <EditText
+                                android:id="@+id/alternateMobileField"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Alternate mobile number (optional)"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="14sp"
+                                android:background="@drawable/edittext_background" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- ─────────────────────────────────────
+                 CARD 4: PAYMENT & OTP
+            ───────────────────────────────────── -->
+            <LinearLayout
+                    android:id="@+id/invoiceDataLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="14dp">
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="💳  PAYMENT DETAILS"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#0A2647"
+                                android:layout_marginBottom="14dp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Payment Mode"
+                                android:textSize="13sp"
+                                android:textColor="#555555"
+                                android:layout_marginBottom="6dp" />
+
+                        <Spinner
+                                android:id="@+id/paymentModeSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:background="@drawable/modern_spinner_background"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:layout_marginBottom="14dp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Payment Method"
+                                android:textSize="13sp"
+                                android:textColor="#555555"
+                                android:layout_marginBottom="6dp" />
+
+                        <Spinner
+                                android:id="@+id/paymentIdSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:background="@drawable/modern_spinner_background"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:layout_marginBottom="14dp" />
+
+                        <TextView
+                                android:id="@+id/upiText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="UPI / Transaction Reference No."
+                                android:textSize="13sp"
+                                android:textColor="#555555"
+                                android:layout_marginBottom="6dp"
+                                android:visibility="gone" />
+
+                        <EditText
+                                android:id="@+id/upiInputTextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Auto-filled from UPI screenshot"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="14sp"
+                                android:background="@drawable/edittext_background"
+                                android:layout_marginBottom="14dp"
+                                android:visibility="gone" />
+
+                        <!-- UPI Image Capture Section -->
+                        <LinearLayout
+                                android:id="@+id/upiImageSection"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone"
+                                android:background="#F0F7FF"
+                                android:padding="12dp"
+                                android:layout_marginBottom="14dp">
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginBottom="8dp">
+
+                                <TextView
+                                        android:id="@+id/imageText"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="📷  UPI Payment Screenshot"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        android:textColor="#0A2647" />
+
+                                <TextView
+                                        android:id="@+id/upiImageMandatoryNote"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="★ Not Compulsory"
+                                        android:textSize="11sp"
+                                        android:textColor="#C0392B"
+                                        android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Capture the UPI payment confirmation screen. Transaction ID will be auto-detected."
+                                    android:textSize="12sp"
+                                    android:textColor="#666666"
+                                    android:layout_marginBottom="10dp" />
+
+                            <ImageView
+                                    android:id="@+id/imageView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="276dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/imagehint"
+                                    android:background="@color/semi_transparent_white"
+                                    android:layout_marginBottom="10dp"
+                                    android:visibility="gone" />
+
+                            <!-- Replace the existing 2-button row with this 3-button row -->
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                <Button
+                                        android:id="@+id/captureImageBtn"
+                                        android:layout_width="0dp"
+                                        android:layout_height="44dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginEnd="4dp"
+                                        android:text="📷 Camera"
+                                        android:textSize="12sp"
+                                        android:textColor="#FFFFFF"
+                                        android:backgroundTint="#205295"
+                                        android:stateListAnimator="@null" />
+
+                                <Button
+                                        android:id="@+id/uploadImageBtn"
+                                        android:layout_width="0dp"
+                                        android:layout_height="44dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="4dp"
+                                        android:layout_marginEnd="4dp"
+                                        android:text="🖼 Gallery"
+                                        android:textSize="12sp"
+                                        android:textColor="#FFFFFF"
+                                        android:backgroundTint="#6A0DAD"
+                                        android:stateListAnimator="@null" />
+
+                                <Button
+                                        android:id="@+id/deleteImageBtn"
+                                        android:layout_width="0dp"
+                                        android:layout_height="44dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="4dp"
+                                        android:text="🗑 Delete"
+                                        android:textSize="12sp"
+                                        android:textColor="#FFFFFF"
+                                        android:backgroundTint="#E74C3C"
+                                        android:stateListAnimator="@null" />
+                            </LinearLayout>
+
+                            <!-- Hidden legacy ImageButtons -->
+                            <ImageButton
+                                    android:id="@+id/captureImage"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:visibility="gone" />
+
+                            <ImageButton
+                                    android:id="@+id/deleteImage"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:visibility="gone" />
+
+                        </LinearLayout>
+
+                        <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#E0E0E0"
+                                android:layout_marginBottom="14dp" />
+
+                        <Button
+                                android:id="@+id/sendOTP"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="Generate OTP"
+                                android:textSize="14sp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:backgroundTint="@color/secondary_text_color"
+                                android:stateListAnimator="@null"
+                                android:layout_marginBottom="14dp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enter OTP"
+                                android:textSize="13sp"
+                                android:textColor="#555555"
+                                android:layout_marginBottom="6dp" />
+
+                        <EditText
+                                android:id="@+id/otpInputField"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Enter OTP from the user"
+                                android:inputType="number"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="14sp"
+                                android:background="@drawable/edittext_background"
+                                android:layout_marginBottom="10dp" />
+
+                        <Button
+                                android:id="@+id/verifyOTPButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="Verify OTP"
+                                android:textSize="14sp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:backgroundTint="@color/secondary_text_color"
+                                android:stateListAnimator="@null"
+                                android:layout_marginBottom="14dp" />
+
+                        <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#E0E0E0"
+                                android:layout_marginBottom="14dp" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enter customer paying amount"
+                                android:textSize="13sp"
+                                android:textColor="#555555"
+                                android:layout_marginBottom="6dp" />
+
+                        <EditText
+                                android:id="@+id/amountPaidTxtField"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Enter Amount Paid By User"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="14sp"
+                                android:background="@drawable/edittext_background"
+                                android:layout_marginBottom="14dp"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Submit Button -->
+            <Button
+                    android:id="@+id/detailsSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="✅  Submit Payment"
+                    android:textSize="16sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:backgroundTint="#047E10"
+                    android:stateListAnimator="@null"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="6dp"
+                    android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

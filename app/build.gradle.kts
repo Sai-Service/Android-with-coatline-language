@@ -30,20 +30,23 @@ android {
 //            )
 //        }
 
+
         release {
             isDebuggable= false
-            isMinifyEnabled= true
-            isShrinkResources= true
+            isMinifyEnabled= false
+            isShrinkResources= false
             proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
         }
 
-        debug {
-           isMinifyEnabled= true
-           isMinifyEnabled= true
-            isShrinkResources= true
-            isDebuggable=true
-            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
-        }
+
+
+//        debug {
+//           isMinifyEnabled= true
+//           isMinifyEnabled= true
+//            isShrinkResources= true
+//            isDebuggable=true
+//            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
+//        }
 
 //FOR GETTING THE TIME AND DATE OF GENERATED APK
         
@@ -62,6 +65,7 @@ android {
                     }
                 }
         }
+
 
     }
     compileOptions {
@@ -92,16 +96,26 @@ dependencies {
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
+    implementation(libs.play.services.mlkit.barcode.scanning)
     testImplementation(libs.junit)
+    implementation("com.scottyab:rootbeer-lib:0.1.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
     implementation (libs.picasso)
     implementation ("com.google.zxing:core:3.4.1")
+//    implementation ("com.google.mlkit:barcode-scanning:17.3.0")
+    implementation ("com.google.android.gms:play-services-code-scanner:16.1.0")
     implementation ("com.journeyapps:zxing-android-embedded:4.2.0")
     implementation (libs.core)
     implementation (libs.okhttp.v490)
     implementation (libs.gson)
     implementation ("com.google.mlkit:text-recognition:16.0.1")
+    implementation (libs.androidx.work.runtime.ktx)
+    implementation ("androidx.camera:camera-core:1.3.0")
+    implementation ("androidx.camera:camera-camera2:1.3.0")
+    implementation ("androidx.camera:camera-lifecycle:1.3.0")
+    implementation ("androidx.camera:camera-view:1.3.0")
+//    implementation 'com.google.mlkit:text-recognition:16.0.0'
 }

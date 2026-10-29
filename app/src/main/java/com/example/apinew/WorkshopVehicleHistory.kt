@@ -242,7 +242,7 @@ class WorkshopVehicleHistory : AppCompatActivity() {
     }
 
     private fun updateVehicleStatus_1(vin: String, location_name: String) {
-        val url = "${ApiFile.APP_URL}/qrcode/updateVehicleIntransit?vin=$vin&location=$location_name"
+        val url = "${ApiFile.ERP_APP_URL}/qrcode/updateVehicleIntransit?vin=$vin&location=$location_name"
         val json = JSONObject().apply {
             put("vin", vin)
             put("location", location_name)
@@ -295,7 +295,7 @@ class WorkshopVehicleHistory : AppCompatActivity() {
             Toast.makeText(this@WorkshopVehicleHistory, "Please enter vehicle number...", Toast.LENGTH_SHORT).show()
             return
         }
-        val url = "${ApiFile.APP_URL}/service/wsVehTransHist?regNo=$vehNo"
+        val url = "${ApiFile.ERP_APP_URL}/service/wsVehTransHist?regNo=$vehNo"
 
 
         val request = Request.Builder()

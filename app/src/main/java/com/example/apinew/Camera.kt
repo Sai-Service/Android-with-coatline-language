@@ -320,7 +320,7 @@ class CameraActivity : AppCompatActivity() {
     private fun fetchChassisData(chassis_no: String) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/qrcode/qrDetailsByChassis?chassisNo=$chassis_no&ouId=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/qrcode/qrDetailsByChassis?chassisNo=$chassis_no&ouId=$ouId")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -485,7 +485,7 @@ class CameraActivity : AppCompatActivity() {
             return
         }
 
-        val url = ApiFile.APP_URL+"/qrcode/vehTrackingByVin/"
+        val url = ApiFile.ERP_APP_URL+"/qrcode/vehTrackingByVin/"
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -590,7 +590,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun fetchVinData(vin: String) {
         val client = OkHttpClient()
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVin?vin=$vin"
 
         val request = Request.Builder()
             .url(url)
@@ -682,7 +682,7 @@ class CameraActivity : AppCompatActivity() {
     private fun fetchVinData2(vin: String) {
         val client = OkHttpClient()
         val vin2=vintypeSpinner.selectedItem.toString()
-        val url = ApiFile.APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
+        val url = ApiFile.ERP_APP_URL + "/qrcode/qrDetailsByVin?vin=$vin2"
 
         val request = Request.Builder()
             .url(url)
@@ -869,7 +869,7 @@ class CameraActivity : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/orgDef/getLocation?operating_unit=$ouId")
+            .url("${ApiFile.ERP_APP_URL}/orgDef/getLocation?operating_unit=$ouId")
             .build()
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -1012,6 +1012,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun logout() {
+        SessionManager.clearSession(this)
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

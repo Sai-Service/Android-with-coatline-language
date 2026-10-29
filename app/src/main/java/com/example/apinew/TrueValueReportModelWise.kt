@@ -128,7 +128,7 @@ class TrueValueReportModelWise : AppCompatActivity() {
     private fun fetchCityData() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("${ApiFile.APP_URL}/fndcom/cmnType?cmnType=City")
+            .url("${ApiFile.ERP_APP_URL}/fndcom/cmnType?cmnType=City")
             .build()
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -181,15 +181,15 @@ class TrueValueReportModelWise : AppCompatActivity() {
         }
 
         val url = if (deptName == "TVSUPERADMIN") {
-            ApiFile.APP_URL + "/accounts/reportModelCount?ouId=$selectedCityCode"
+            ApiFile.ERP_APP_URL + "/accounts/reportModelCount?ouId=$selectedCityCode"
         } else {
-            ApiFile.APP_URL + "/accounts/reportModelCount?ouId=$ouId"
+            ApiFile.ERP_APP_URL + "/accounts/reportModelCount?ouId=$ouId"
         }
 
         val url2 = if (deptName == "TVSUPERADMIN") {
-            ApiFile.APP_URL + "/accounts/reportAllLocationCount?ouId=$selectedCityCode"
+            ApiFile.ERP_APP_URL + "/accounts/reportAllLocationCount?ouId=$selectedCityCode"
         } else {
-            ApiFile.APP_URL + "/accounts/reportAllLocationCount?ouId=$ouId"
+            ApiFile.ERP_APP_URL + "/accounts/reportAllLocationCount?ouId=$ouId"
         }
 
         val request = Request.Builder()
